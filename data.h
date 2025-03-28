@@ -17,3 +17,12 @@ typedef	struct	s_lines_list
 	t_lines	*next;
 	int		size;
 }	t_lines;
+
+typedef struct s_cmd
+{
+	int	in_fd;
+	int	out_fd;
+	char	*cmd;
+	char	**cmd_args;
+	int	status;
+}	t_cmd;
