@@ -1,6 +1,7 @@
 # MINISHELL
 
-1.  [Recomendaciones](../minishell%202/manual.md#recomendaciones)
+1.  Recomendaciones
+  
     a.  [Leer y entender el subject](#1-lee-bien-el-subject)
 
     b.  [Divide el proyectos](#2-divide-el-proyecto-en-módulos)
@@ -15,7 +16,7 @@
     
     g.  [Pruebas constantes](#7-prueba-constantemente)
 
-2.  [Subject](#subject)
+2.  Subject
     
     a.  [Funciones autorizadas](#funciones-autorizadas)
     
