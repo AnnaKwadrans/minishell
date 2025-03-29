@@ -1,8 +1,19 @@
 # MINISHELL
 
-## RECOMENDACIONES:
+1.  [Recomendaciones](../minishell%202/manual.md#recomendaciones)
+    a.  [Leer y entender el subject](#1-lee-bien-el-subject)
+    b.  [Divide el proyectos](#2-divide-el-proyecto-en-módulos)
+    c.  [Crea la estructura](#3-define-una-buena-estructura-de-datos)
+    d.  [Usar readline y termios](#4-usa-readline-y-termios)
+    e.  [Buen uso de la memoria](#5-maneja-bien-la-memoria)
+    f.  [Empieza con lo básico](#6-empieza-con-lo-básico)
+    g.  [Pruebas constantes](#7-prueba-constantemente)
+2.  [Subject](#subject)
+    a.  [Funciones autorizadas](#funciones-autorizadas)
+    b.  [Requerimientos](#requerimientos)
+    c.  [Resumen](#resumen)
 
----
+## RECOMENDACIONES:
 
 ### 1. Lee bien el subject
 
@@ -176,7 +187,7 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 ⸻
 
-🔹 Redirección y duplicación de fds
+#### Redirección y duplicación de fds
 
 ✅ dup(fd) → Duplica un descriptor de archivo y devuelve uno nuevo.
 
@@ -396,3 +407,13 @@ Debe permitir comandos encadenados como ls | grep txt | wc -l.
 
 -	No validar argumentos (cd sin ruta, export sin =).
 -	No manejar exit con números grandes.
+
+### Resumen:
+
+1️⃣ Empieza con el prompt y lectura de comandos.
+
+2️⃣ Haz un parser básico para detectar pipes y redirecciones.
+
+3️⃣ Implementa ejecución de comandos externos (execve).
+
+4️⃣ Añade built-ins y expansión de variables.
