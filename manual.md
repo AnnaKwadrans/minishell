@@ -2,15 +2,25 @@
 
 1.  [Recomendaciones](../minishell%202/manual.md#recomendaciones)
     a.  [Leer y entender el subject](#1-lee-bien-el-subject)
+
     b.  [Divide el proyectos](#2-divide-el-proyecto-en-módulos)
+    
     c.  [Crea la estructura](#3-define-una-buena-estructura-de-datos)
+    
     d.  [Usar readline y termios](#4-usa-readline-y-termios)
+    
     e.  [Buen uso de la memoria](#5-maneja-bien-la-memoria)
+    
     f.  [Empieza con lo básico](#6-empieza-con-lo-básico)
+    
     g.  [Pruebas constantes](#7-prueba-constantemente)
+
 2.  [Subject](#subject)
+    
     a.  [Funciones autorizadas](#funciones-autorizadas)
+    
     b.  [Requerimientos](#requerimientos)
+    
     c.  [Resumen](#resumen)
 
 ## RECOMENDACIONES:
