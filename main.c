@@ -1,6 +1,4 @@
-#include <termios.h>
-#include <unistd.h>
-#include <stdio.h>
+#include "data.h"
 
 void	set_raw_mode(void)
 {
@@ -19,16 +17,37 @@ void	reset_terminal_mode(void)
 	term.c_lflag |= (ICANON | ECHO); // Restaurar modo normal
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
+void	write_Minihistory(char *line, int fd_history)
+{
+	if (!fd_history)
+		ft_strjoin(fd_history, "/t1");
+	ft_strjoin(fd_history, "/t");
+	// AÑADIR NUMERACIÓN 
+			// LEER NÚMERO Y +1
+	ft_strjoin(fd_history, "/t");
+	ft_strjoin(fd_history, line);
+	ft_strjoin(fd_history, "/n");
+
+}
 
 int	main(void)
 {
-	char *str;
-	int i = 0;
+	char *input;
+	int fd_history;
 
-	set_raw_mode();
-	printf("Presiona una tecla (Ctrl+D para salir):\n");
-	while (read(STDIN_FILENO, &str, 2) > 0)
-		printf("Tecla presionada[%d]: %s\n", i++, str);
-	reset_terminal_mode();
-	return (0);
+	fd_history = open(".minihistory", O_WRONLY, O_RDONLY, O_CREAT);
+	while (1)
+	{
+		input = readline("minishell$ ");
+		if (!input) // Ctrl+D
+		{
+			printf("exit\n");
+			break;
+		}
+		add_history(input); // Guardar en historial
+		write_Minihistory(input, fd_history);
+		free(input);
+	}
 }
+
+// PARA COMPILAR, APLICAR "-readline"

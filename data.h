@@ -1,17 +1,28 @@
-typedef struct s_data
+#include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <stdio.h>
+
+typedef struct s_cdm
 {
-	char	**line;
+	char 	**args;
 	char	**env;
-}	t_minishell;
+	char 	*infile;
+	int		fd_in;
+	char 	*outfile;
+	int		fd_out;
+	int 	append;
+	pid_t 	pid;
+	int		p_status;
+	struct s_cdm *next;
+}	t_cdm;
 
-typedef struct s_lines
-{
-	char			*line;
-	int				status;
-	struct s_lines	*next;
-}	t_lines;
-
-typedef	struct	s_lines_list
+typedef struct s_data
 {
 	t_lines	*top;
 	t_lines	*next;
