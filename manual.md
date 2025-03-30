@@ -1,28 +1,28 @@
 # MINISHELL
 
 1.  Recomendaciones
-  
-    a.  [Leer y entender el subject](#1-lee-bien-el-subject)
 
-    b.  [Divide el proyectos](#2-divide-el-proyecto-en-módulos)
-    
-    c.  [Crea la estructura](#3-define-una-buena-estructura-de-datos)
-    
-    d.  [Usar readline y termios](#4-usa-readline-y-termios)
-    
-    e.  [Buen uso de la memoria](#5-maneja-bien-la-memoria)
-    
-    f.  [Empieza con lo básico](#6-empieza-con-lo-básico)
-    
-    g.  [Pruebas constantes](#7-prueba-constantemente)
+    a. [Leer y entender el subject](#1-lee-bien-el-subject)
+
+    b. [Divide el proyectos](#2-divide-el-proyecto-en-módulos)
+
+    c. [Crea la estructura](#3-define-una-buena-estructura-de-datos)
+
+    d. [Usar readline y termios](#4-usa-readline-y-termios)
+
+    e. [Buen uso de la memoria](#5-maneja-bien-la-memoria)
+
+    f. [Empieza con lo básico](#6-empieza-con-lo-básico)
+
+    g. [Pruebas constantes](#7-prueba-constantemente)
 
 2.  Subject
-    
-    a.  [Funciones autorizadas](#funciones-autorizadas)
-    
-    b.  [Requerimientos](#requerimientos)
-    
-    c.  [Resumen](#resumen)
+
+    a. [Funciones autorizadas](#funciones-autorizadas)
+
+    b. [Requerimientos](#requerimientos)
+
+    c. [Resumen](#resumen)
 
 ## RECOMENDACIONES:
 
@@ -40,7 +40,7 @@ Minishell puede parecer abrumador si intentas hacer todo de golpe. Te recomiendo
 
 ✅ Parser → Organiza los tokens en una estructura válida (árbol de ejecución o lista).
 
-✅ Expansiones → Maneja variables de entorno ($VAR), *, ~, etc.
+✅ Expansiones → Maneja variables de entorno ($VAR), \*, ~, etc.
 
 ✅ Ejecutor → Ejecuta comandos y gestiona pipes/redirecciones.
 
@@ -66,21 +66,22 @@ Tener una estructura clara te ayudará mucho. Algo como:
         struct s_cmd *next;
     } t_cmd;
 ```
+
 Podría ser útil para representar los comandos en una lista encadenada.
 
 ---
 
 ### 4. Usa readline y termios
 
--	readline() → Para capturar la entrada del usuario y manejar el historial.
--	termios → Para desactivar el echo de CTRL+C y CTRL+D.
+- readline() → Para capturar la entrada del usuario y manejar el historial.
+- termios → Para desactivar el echo de CTRL+C y CTRL+D.
 
 ---
 
 ### 5. Maneja bien la memoria
 
--	Minishell usa muchas listas y asignaciones dinámicas, así que usa valgrind con frecuencia.
--	Libera bien la memoria en cada ejecución.
+- Minishell usa muchas listas y asignaciones dinámicas, así que usa valgrind con frecuencia.
+- Libera bien la memoria en cada ejecución.
 
 ---
 
@@ -144,11 +145,11 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 ✅ unlink(path) → Elimina un archivo.
 
-✅ stat(path, struct stat *buf) → Obtiene información sobre un archivo (tamaño, permisos, etc.).
+✅ stat(path, struct stat \*buf) → Obtiene información sobre un archivo (tamaño, permisos, etc.).
 
-✅ lstat(path, struct stat *buf) → Igual que stat(), pero si es un enlace simbólico, obtiene info del enlace en sí.
+✅ lstat(path, struct stat \*buf) → Igual que stat(), pero si es un enlace simbólico, obtiene info del enlace en sí.
 
-✅ fstat(fd, struct stat *buf) → Igual que stat(), pero usa un descriptor de archivo en lugar de una ruta.
+✅ fstat(fd, struct stat \*buf) → Igual que stat(), pero usa un descriptor de archivo en lugar de una ruta.
 
 ⸻
 
@@ -162,9 +163,9 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 ✅ waitpid(pid, &status, options) → Similar a wait(), pero espera a un proceso específico (pid).
 
-✅ wait3(&status, options, struct rusage *rusage) → Como waitpid(), pero con info sobre uso de recursos.
+✅ wait3(&status, options, struct rusage \*rusage) → Como waitpid(), pero con info sobre uso de recursos.
 
-✅ wait4(pid, &status, options, struct rusage *rusage) → Igual que wait3(), pero puede esperar a un PID específico.
+✅ wait4(pid, &status, options, struct rusage \*rusage) → Igual que wait3(), pero puede esperar a un PID específico.
 
 ⸻
 
@@ -182,9 +183,9 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 ✅ opendir(path) → Abre un directorio para leer su contenido.
 
-✅ readdir(DIR *dirp) → Lee una entrada del directorio abierto.
+✅ readdir(DIR \*dirp) → Lee una entrada del directorio abierto.
 
-✅ closedir(DIR *dirp) → Cierra el directorio.
+✅ closedir(DIR \*dirp) → Cierra el directorio.
 
 ⸻
 
@@ -218,9 +219,9 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 ✅ ioctl(fd, request, …) → Controla dispositivos de entrada/salida (usado para terminales).
 
-✅ tcgetattr(fd, struct termios *termios_p) → Obtiene atributos de la terminal.
+✅ tcgetattr(fd, struct termios \*termios_p) → Obtiene atributos de la terminal.
 
-✅ tcsetattr(fd, optional_actions, const struct termios *termios_p) → Modifica atributos de la terminal.
+✅ tcsetattr(fd, optional_actions, const struct termios \*termios_p) → Modifica atributos de la terminal.
 
 ⸻
 
@@ -238,17 +239,17 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 📌 ¿Qué significa?
 
--   Tu Minishell debe mostrar un prompt (ejemplo: minishell$ ) y esperar a que el usuario ingrese un comando.
+- Tu Minishell debe mostrar un prompt (ejemplo: minishell$ ) y esperar a que el usuario ingrese un comando.
 
 🛠️ Implementación
 
--	Usa readline("minishell$ ") para obtener la entrada del usuario.
--	Si el usuario no escribe nada y presiona Enter, el prompt debe reaparecer sin hacer nada.
+- Usa readline("minishell$ ") para obtener la entrada del usuario.
+- Si el usuario no escribe nada y presiona Enter, el prompt debe reaparecer sin hacer nada.
 
 ⚠️ Errores comunes
 
--	No mostrar el prompt correctamente (ejemplo: si readline() no se ejecuta dentro de un bucle).
--	No manejar EOF (Ctrl+D) → Si readline() devuelve NULL, debes terminar el shell limpiamente.
+- No mostrar el prompt correctamente (ejemplo: si readline() no se ejecuta dentro de un bucle).
+- No manejar EOF (Ctrl+D) → Si readline() devuelve NULL, debes terminar el shell limpiamente.
 
 ---
 
@@ -256,17 +257,17 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 📌 ¿Qué significa?
 
--   El shell debe recordar los comandos previos para que el usuario pueda navegar con las flechas ↑ y ↓.
+- El shell debe recordar los comandos previos para que el usuario pueda navegar con las flechas ↑ y ↓.
 
 🛠️ Implementación
 
--	Usa add_history(input) para agregar cada comando ingresado al historial.
--	Usa rl_clear_history() si quieres resetear el historial en algún punto.
+- Usa add_history(input) para agregar cada comando ingresado al historial.
+- Usa rl_clear_history() si quieres resetear el historial en algún punto.
 
 ⚠️ Errores comunes
 
--	No guardar los comandos porque add_history() no se llama correctamente.
--	Historial perdido al reiniciar el shell → readline() no guarda el historial en un archivo por defecto.
+- No guardar los comandos porque add_history() no se llama correctamente.
+- Historial perdido al reiniciar el shell → readline() no guarda el historial en un archivo por defecto.
 
 ---
 
@@ -274,19 +275,19 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 📌 ¿Qué significa?
 
--   Debes buscar comandos en la variable PATH o aceptar rutas absolutas (/bin/ls) y relativas (./a.out).
+- Debes buscar comandos en la variable PATH o aceptar rutas absolutas (/bin/ls) y relativas (./a.out).
 
 🛠️ Implementación
 
--	Usa getenv("PATH") para obtener los directorios donde buscar los ejecutables.
--	Divide PATH en rutas y prueba cada una con access(path, X_OK).
--	Usa execve(path, args, envp) para ejecutar el programa.
+- Usa getenv("PATH") para obtener los directorios donde buscar los ejecutables.
+- Divide PATH en rutas y prueba cada una con access(path, X_OK).
+- Usa execve(path, args, envp) para ejecutar el programa.
 
 ⚠️ Errores comunes
 
--	No manejar PATH vacío → Si getenv("PATH") es NULL, solo puedes ejecutar con rutas absolutas.
--	No mostrar error si el comando no existe (command not found).
--	Olvidar liberar memoria tras dividir PATH.
+- No manejar PATH vacío → Si getenv("PATH") es NULL, solo puedes ejecutar con rutas absolutas.
+- No mostrar error si el comando no existe (command not found).
+- Olvidar liberar memoria tras dividir PATH.
 
 ---
 
@@ -294,18 +295,18 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 📌 ¿Qué significa?
 
--   Solo puedes usar una variable global para manejar señales, y solo para guardar el número de la señal recibida.
+- Solo puedes usar una variable global para manejar señales, y solo para guardar el número de la señal recibida.
 
 🛠️ Implementación
 
--	Declara volatile sig_atomic_t g_signal = 0;
--	Usa signal(SIGINT, handler), donde handler solo modifica g_signal.
--	Maneja la señal en el loop principal sin acceder a estructuras globales.
+- Declara volatile sig_atomic_t g_signal = 0;
+- Usa signal(SIGINT, handler), donde handler solo modifica g_signal.
+- Maneja la señal en el loop principal sin acceder a estructuras globales.
 
 ⚠️ Errores comunes
 
--	Intentar acceder a estructuras en el handler, lo cual puede romper el programa.
--	Modificar g_signal en lugares innecesarios.
+- Intentar acceder a estructuras en el handler, lo cual puede romper el programa.
+- Modificar g_signal en lugares innecesarios.
 
 ---
 
@@ -313,37 +314,37 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 📌 ¿Qué significa?
 
--   Si el usuario escribe echo "hola, Minishell no debe intentar ejecutarlo, sino mostrar un error.
+- Si el usuario escribe echo "hola, Minishell no debe intentar ejecutarlo, sino mostrar un error.
 
 🛠️ Implementación
 
--	Lleva un contador de comillas (' y ").
--	Si hay un número impar de comillas al final de la línea, muestra syntax error: unclosed quotes.
--	Ignora ; y \, ya que no son metacaracteres permitidos.
+- Lleva un contador de comillas (' y ").
+- Si hay un número impar de comillas al final de la línea, muestra syntax error: unclosed quotes.
+- Ignora ; y \, ya que no son metacaracteres permitidos.
 
 ⚠️ Errores comunes
 
--	No detectar comillas sin cerrar.
--	Interpretar ; o \ como válidos, lo cual no es necesario.
+- No detectar comillas sin cerrar.
+- Interpretar ; o \ como válidos, lo cual no es necesario.
 
 ⸻
 
-####  6. Manejo de comillas
+#### 6. Manejo de comillas
 
 📌 ¿Qué significa?
 
--	Comillas simples ' ' → Todo dentro se trata como texto literal, sin expansión de variables.
--	Comillas dobles " " → Se expande $VAR, pero otros caracteres (*, |) se tratan como texto.
+- Comillas simples ' ' → Todo dentro se trata como texto literal, sin expansión de variables.
+- Comillas dobles " " → Se expande $VAR, pero otros caracteres (\*, |) se tratan como texto.
 
 🛠️ Implementación
 
--	Cuando parses el input, detecta las comillas y elimina las correctas según su tipo.
--	Expande variables dentro de comillas dobles pero no simples.
+- Cuando parses el input, detecta las comillas y elimina las correctas según su tipo.
+- Expande variables dentro de comillas dobles pero no simples.
 
 ⚠️ Errores comunes
 
--	Expandir $VAR dentro de ' ', lo cual es incorrecto.
--	No cerrar comillas correctamente al ejecutar el comando.
+- Expandir $VAR dentro de ' ', lo cual es incorrecto.
+- No cerrar comillas correctamente al ejecutar el comando.
 
 ⸻
 
@@ -351,26 +352,26 @@ Estas funciones son útiles para capturar y gestionar la entrada del usuario.
 
 📌 Qué significa
 
--	'<' → Redirige la entrada desde un archivo.
--	'>' → Redirige la salida a un archivo (sobreescribe).
--	'>>' → Redirige la salida en modo append.
--	'<<' (heredoc) → Lee input hasta un delimitador.
+- '<' → Redirige la entrada desde un archivo.
+- '>' → Redirige la salida a un archivo (sobreescribe).
+- '>>' → Redirige la salida en modo append.
+- '<<' (heredoc) → Lee input hasta un delimitador.
 
 🛠️ Implementación
 
--	Usa open(filename, O_RDONLY) para <.
--	Usa open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644) para >.
--	Usa open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644) para >>.
--	Para heredoc, lee el input en un loop hasta encontrar el delimitador.
+- Usa open(filename, O_RDONLY) para <.
+- Usa open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644) para >.
+- Usa open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644) para >>.
+- Para heredoc, lee el input en un loop hasta encontrar el delimitador.
 
 ⚠️ Errores comunes
 
--	No cerrar fds después de redirigir.
--	No manejar archivos inexistentes con <.
+- No cerrar fds después de redirigir.
+- No manejar archivos inexistentes con <.
 
 ⸻
 
-####  8. Implementar pipes
+#### 8. Implementar pipes
 
 📌 ¿Qué significa?
 
@@ -378,46 +379,46 @@ Debe permitir comandos encadenados como ls | grep txt | wc -l.
 
 🛠️ Implementación
 
--	Usa pipe(fd).
--	Redirige la salida del primer comando (dup2(fd[1], STDOUT_FILENO)).
--	Redirige la entrada del segundo comando (dup2(fd[0], STDIN_FILENO)).
--	Usa fork() y execve() para cada proceso.
+- Usa pipe(fd).
+- Redirige la salida del primer comando (dup2(fd[1], STDOUT_FILENO)).
+- Redirige la entrada del segundo comando (dup2(fd[0], STDIN_FILENO)).
+- Usa fork() y execve() para cada proceso.
 
 ⚠️ Errores comunes
 
--	No cerrar correctamente fd, causando fugas de descriptores.
--	No esperar a que todos los procesos terminen (waitpid()).
+- No cerrar correctamente fd, causando fugas de descriptores.
+- No esperar a que todos los procesos terminen (waitpid()).
 
 ---
 
-####  9. Manejo de variables de entorno
+#### 9. Manejo de variables de entorno
 
 📌 Qué significa
 
--	$VAR debe expandirse a su valor.
--	$? debe expandirse al código de salida del último comando.
+- $VAR debe expandirse a su valor.
+- $? debe expandirse al código de salida del último comando.
 
 🛠️ Implementación
 
--	Usa getenv(var) para obtener el valor de $VAR.
--	Usa itoa(WEXITSTATUS(status)) para $?.
+- Usa getenv(var) para obtener el valor de $VAR.
+- Usa itoa(WEXITSTATUS(status)) para $?.
 
 ⚠️ Errores comunes
 
--	No expandir correctamente $VAR si está pegado a otro texto (echo "$USERhome").
+- No expandir correctamente $VAR si está pegado a otro texto (echo "$USERhome").
 
-    ---
+  ***
 
 #### 10. Built-ins
 
 📌 Qué significa
 
--   Debes implementar echo, cd, pwd, export, unset, env, exit.
+- Debes implementar echo, cd, pwd, export, unset, env, exit.
 
 ⚠️ Errores comunes
 
--	No validar argumentos (cd sin ruta, export sin =).
--	No manejar exit con números grandes.
+- No validar argumentos (cd sin ruta, export sin =).
+- No manejar exit con números grandes.
 
 ### Resumen:
 
