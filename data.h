@@ -24,7 +24,16 @@ typedef struct s_cdm
 
 typedef struct s_data
 {
-	struct t_cmd	**cmd;
-	int		*pipes;
-	int		total_pipes;
-} t_data;
+	t_lines	*top;
+	t_lines	*next;
+	int		size;
+}	t_lines;
+
+typedef struct s_cmd
+{
+	int	in_fd;
+	int	out_fd;
+	char	*cmd;
+	char	**cmd_args;
+	int	status;
+}	t_cmd;
