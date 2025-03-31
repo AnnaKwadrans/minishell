@@ -59,7 +59,7 @@ char	*ft_strdup_set(const char *s, char *set)
 	int		len;
 	char	*ptr;
 
-	len = ft_strlen_char(s, set) + 1;
+	len = ft_strlen_set(s, set) + 1;
 	ptr = malloc(sizeof(char) * len);
 	if (!ptr)
 		return (ptr);

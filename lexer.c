@@ -1,7 +1,63 @@
+
 #include "lexer.h"
 
-t_lex	**get_tokens(char *line)
+
+int	count_pipes(char *line)
 {
+	int	pipes;
+	int	i;
+
+	pipes = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '|')
+			pipes++;
+		i++;
+	}
+	return (pipes);
+}
+
+bool	count_comas(char *line)
+{
+	int	single_com;
+	int	double_com;
+	int	i;
+
+	single_com = 0;
+	double_com = 0;
+	while (line[i])
+	{
+		if (line[i] == '\'')
+			single_com++;
+		else if (line[i] == '\"')
+			double_com++;
+		i++;
+	}
+	if ((single_com % 2 != 0) || (double_com % 2 != 0))
+	{
+		// err invalid syntax
+		return (0);
+	}
+	return (1);
+}
+
+char	*get_var(char *line)
+{
+	char	*name;
+	char	*var;
+
+	name = ft_strdup_set(line, " \t\n\v\r\f");
+	printf("%s\n", name);
+	var = getenv(name);
+	free(name);
+	return(var);
+}
+
+t_lex	*get_tokens(char *line)
+{
+	
+	
 	t_lex	*lex;
 	int	i;
 
@@ -64,3 +120,4 @@ char	*get_infile(char *line, int *index)
 		}
 	}
 }
+*/

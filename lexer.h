@@ -10,9 +10,11 @@ typedef struct s_lex
 	char	*outfile;
 }	t_lex;
 
+char	*get_var(char *line);
+/*
 char	**get_tokens(char *line, t_lex *lex);
 char	*get_infile(char *line);
-
+*/
 bool	is_set(char c, char const *set);
 size_t	ft_strlen_set(const char *s, char *set);
 char	*ft_strdup_set(const char *s, char *set);
