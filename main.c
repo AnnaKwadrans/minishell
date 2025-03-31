@@ -19,15 +19,15 @@ void	reset_terminal_mode(void)
 }
 void	write_Minihistory(char *line, int fd_history)
 {
-	if (!fd_history)
-		ft_strjoin(fd_history, "/t1");
-	ft_strjoin(fd_history, "/t");
-	// AÑADIR NUMERACIÓN 
-			// LEER NÚMERO Y +1
-	ft_strjoin(fd_history, "/t");
-	ft_strjoin(fd_history, line);
-	ft_strjoin(fd_history, "/n");
 
+}
+
+void miniHistory(void *arg)
+{
+	t_data	*data_program;
+	
+	data_program = (t_data *)arg;
+	ft_printer_lines(data_program->history_lines);
 }
 
 int	main(void)

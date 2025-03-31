@@ -8,32 +8,31 @@
 #include <sys/wait.h>
 #include <stdio.h>
 
-typedef struct s_cdm
+typedef struct s_cmd
 {
-	char 	**args;
-	char	**env;
-	char 	*infile;
-	int		fd_in;
-	char 	*outfile;
-	int		fd_out;
-	int 	append;
-	pid_t 	pid;
-	int		p_status;
-	struct s_cdm *next;
-}	t_cdm;
+	char			**args;
+	char			**env;
+	char			*infile;
+	int				fd_in;
+	char			*outfile;
+	int				fd_out;
+	int				append;
+	pid_t			pid;
+	int				p_status;
+	struct s_cdm	*next;
+}	t_cmd;
+
+typedef struct s_lines
+{
+	char	*line;
+	t_lines	*next;
+	int		index;
+}	t_lines;
 
 typedef struct s_data
 {
-	t_lines	*top;
-	t_lines	*next;
-	int		size;
-}	t_lines;
-
-typedef struct s_cmd
-{
-	int	in_fd;
-	int	out_fd;
-	char	*cmd;
-	char	**cmd_args;
-	int	status;
-}	t_cmd;
+	t_lines	*line;
+	t_cmd	**cmds;
+	t_lines	*history_lines;
+	int		pipes;
+}	t_data;
