@@ -1,3 +1,5 @@
+#include "data.h"
+
 void ft_echo(char **str)
 {
 	if (str[1][0] != '-' && str[1][1] != 'n')

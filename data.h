@@ -32,8 +32,8 @@ typedef struct s_lines
 
 typedef struct s_data
 {
-	t_cmd	*cmds;
-	int	pipes;
-	//char	*ret;
-	t_lines	*history;
+	t_lines	*line;
+	t_cmd	**cmds;
+	t_lines	*history_lines;
+	int		pipes;
 }	t_data;
