@@ -1,4 +1,5 @@
 #include "data.h"
+#include "lexer.h"
 
 void	set_raw_mode(void)
 {
@@ -34,7 +35,9 @@ int	main(void)
 {
 	char *input;
 	int fd_history;
+	t_data	data;
 
+	init_data(&data);
 	fd_history = open(".minihistory", O_WRONLY, O_RDONLY, O_CREAT);
 	while (1)
 	{
@@ -46,7 +49,10 @@ int	main(void)
 		}
 		add_history(input); // Guardar en historial
 		write_Minihistory(input, fd_history);
+		parse_data(input, &data);
 		free(input);
+		ft_printer_lines(data.history_lines);
+		printf("**********\n");
 	}
 }
 

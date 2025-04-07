@@ -2,14 +2,16 @@
 # define LEXER_H 
 # include <stdlib.h>
 # include <stdbool.h>
+# include "data.h"
 
+/*
 typedef struct s_lex
 {
 	char	**cmds;
 	char	*infile;
 	char	*outfile;
 }	t_lex;
-
+*/
 char	*get_var(char *line);
 /*
 char	**get_tokens(char *line, t_lex *lex);
@@ -23,5 +25,13 @@ char	*ft_strdup_set(const char *s, char *set);
 int	ft_isspace(int c);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+
+int	count_pipes(char *line);
+bool	count_comas(char *line);
+char	*get_var(char *line);
+void	free_data(t_data *data);
+t_lines	*last_line(t_lines *history_lines);
+void	init_data(t_data *data);
+void	parse_data(char *input, t_data *data);
 
 #endif
