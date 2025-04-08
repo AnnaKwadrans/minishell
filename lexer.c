@@ -1,5 +1,7 @@
 
 #include "lexer.h"
+#include "data.h"
+#include "libft/libft.h"
 
 
 int	count_pipes(char *line)
@@ -54,6 +56,59 @@ char	*get_var(char *line)
 	return(var);
 }
 
+void	init_data(t_data *data)
+{
+	data->line = NULL;
+	data->cmds = NULL;
+	data->history_lines = NULL;
+	data->pipes = 0;
+}
+
+void	parse_data(char *input, t_data *data)
+{
+	t_lines	*history_last;
+
+	data->line = malloc(sizeof(t_lines));
+	data->line->line = ft_strdup(input);
+	data->line->next = NULL;
+	history_last = last_line(data->history_lines);
+	if (!history_last)
+		data->line->index = 0;
+	else
+		data->line->index = history_last->index + 1;
+	data->cmds = malloc(sizeof(t_cmd));
+	if (data->history_lines)
+		history_last->next = data->line;
+	else
+		data->history_lines = data->line;
+	data->pipes = count_pipes(input);
+	if (!data->line || !data->cmds || !data->history_lines)
+		free_data(data);
+}
+
+void	free_data(t_data *data)
+{
+	if (data->line)
+		free(data->line);
+	if (data->cmds)
+		free(data->cmds);
+}
+
+t_lines	*last_line(t_lines *history_lines)
+{
+	t_lines	*last;
+
+	if (!history_lines)
+		return (NULL);
+	last = history_lines;
+	while (last->next)
+		last = last->next;
+	return (last);
+}
+
+//t_cmd	*parse_cmds()
+
+/*
 t_lex	*get_tokens(char *line)
 {
 	

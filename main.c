@@ -1,4 +1,5 @@
 #include "data.h"
+#include "lexer.h"
 
 // void	set_raw_mode(void)
 // {
@@ -62,7 +63,7 @@ int	main(void)
 	static t_data	*data_program;
 
 	data_program = malloc(sizeof(t_data));
-	while (1)
+while (1)
 	{
 		input = readline("minishell > ");
 		if (!input) // Ctrl+D
@@ -71,7 +72,10 @@ int	main(void)
 			break;
 		}
 		get_data_program(input, data_program); // Configuración inicial
+
 		free(input);
+		ft_printer_lines(data.history_lines);
+		printf("**********\n");
 	}
 }
 
