@@ -10,6 +10,7 @@
 # include <sys/wait.h>
 # include <stdio.h>
 
+// Estructura para almacenar los comandos y ejecutarlos
 typedef struct s_cmd
 {
 	char 	**args;
@@ -23,21 +24,25 @@ typedef struct s_cmd
 	pid_t 	pid;
 	int		p_status;
 	struct s_cmd *next;
+	t_data	*data;
 }	t_cmd;
 
+// Estructura para almacenar las lineas de entrada (historial)
 typedef struct s_lines
 {
-	char	*line;
-	int		index;
-	struct s_lines	*next;
+	char	*line; // Linea de entrada
+	int		index; // Indice de la linea
+	t_lines	*next; // Siguiente linea
+	t_data	*data; // Datos del programa
 }	t_lines;
 
+// Estructura para almacenar los datos del programa
 typedef struct s_data
 {
-	t_lines	*line;
-	t_cmd	*cmds;
-	t_lines	*history_lines;
-	int		pipes;
+	t_lines	*line; // Lineas de entrada
+	t_cmd	**cmds; // Comandos para ejecutar
+	t_lines	*history_lines; // Historial de comandos ejecutados
+	int		pipes; // Contador de pipes
 }	t_data;
 
 void	ft_printer_lines(t_lines *lines);
