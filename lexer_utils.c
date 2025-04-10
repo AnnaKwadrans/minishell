@@ -1,5 +1,5 @@
 #include "lexer.h"
-
+/*
 int	ft_isspace(int c)
 {
 	if (c == ' ' || (c >= '\t' && c <= '\r'))
@@ -32,7 +32,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	dst[i] = '\0';
 	return (ft_strlen(src));
 }
-
+*/
 bool	is_set(char c, char const *set)
 {
 	while (*set)
@@ -65,4 +65,31 @@ char	*ft_strdup_set(const char *s, char *set)
 		return (ptr);
 	ft_strlcpy(ptr, s, sizeof(char) * len);
 	return (ptr);
+}
+
+void	free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+	array = NULL;
+}
+
+void	print_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
 }
