@@ -5,7 +5,7 @@ NAME = minishell
 LIBFT_DIR = libft
 LIBFT = libft/libft.a
 
-SRC = main.c printer.c lexer.c lexer_utils.c
+SRC = main.c printer.c lexer.c lexer_utils.c pipes_split.c
 
 OBJ = $(SRC:.c=.o)
 
