@@ -1,5 +1,6 @@
 #ifndef DATA_H
 # define DATA_H
+
 # include <termios.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -9,6 +10,21 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdio.h>
+# include "libft/libft.h"
+# include "lexer.h"
+# include "aux/aux.h"
+
+
+
+// Estructura para almacenar los datos del programa
+
+typedef struct s_data
+{
+	struct	s_lines	*line; // Lineas de entrada
+	struct	s_cmd	**cmds; // Comandos para ejecutar
+	struct	s_lines	*history_lines; // Historial de comandos ejecutados
+	int		pipes; // Contador de pipes
+}	t_data;
 
 // Estructura para almacenar los comandos y ejecutarlos
 typedef struct s_cmd
@@ -23,7 +39,7 @@ typedef struct s_cmd
 	char	*delimit;
 	pid_t 	pid;
 	int		p_status;
-	struct s_cmd *next;
+	struct	s_cmd *next;
 	t_data	*data;
 }	t_cmd;
 
@@ -32,18 +48,10 @@ typedef struct s_lines
 {
 	char	*line; // Linea de entrada
 	int		index; // Indice de la linea
-	t_lines	*next; // Siguiente linea
+	struct	s_lines	*next; // Siguiente linea
 	t_data	*data; // Datos del programa
 }	t_lines;
 
-// Estructura para almacenar los datos del programa
-typedef struct s_data
-{
-	t_lines	*line; // Lineas de entrada
-	t_cmd	**cmds; // Comandos para ejecutar
-	t_lines	*history_lines; // Historial de comandos ejecutados
-	int		pipes; // Contador de pipes
-}	t_data;
 
 void	ft_printer_lines(t_lines *lines);
 

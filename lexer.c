@@ -114,11 +114,11 @@ t_lines	*last_line(t_lines *history_lines)
 	return (last);
 }
 
-t_cmd	*parse_line(char *input, int pipes)
+t_cmd	**parse_line(char *input, int pipes)
 {
 	int	i;
 	char	**cmd_aux;
-	t_cmd	*cmds;
+	t_cmd	**cmds;
 	t_cmd	*head;
 
 	cmd_aux = split_pipes(input, '|');
@@ -127,16 +127,15 @@ t_cmd	*parse_line(char *input, int pipes)
 	i = 0;
 	while (i <= pipes)
 	{
-		cmds = get_cmd(cmd_aux[i]);
-		cmds->infile = get_infile();
-		cmds->outfile = get_outfile();
+		cmds[i] = get_cmd(cmd_aux[i]);
+		cmds[i]->infile = get_infile(input, cmds[i]->delimit);
+		cmds[i]->outfile = get_outfile(input, cmds[i]->append);
 		if (i == 0)
-			head = cmds;
+			head = cmds[i];
 		i++;
-		cmds = cmds->next;
 	}
 	free_array(cmd_aux);
-	return (head);
+	return (cmds);
 }
 
 char	*get_inflile(char *aux, char *delimit)
@@ -180,7 +179,7 @@ char	*get_inflile(char *aux, char *delimit)
 	return (NULL);
 }
 
-char	*get_outflile(char *aux, int *append)
+char	*get_outflile(char *aux, int append)
 {
 	int	i;
 	int	start;
@@ -193,7 +192,7 @@ char	*get_outflile(char *aux, int *append)
 		{
 			if (aux[i + 1] == '>')
 			{
-				*append = 1;
+				append = 1;
 				i++;
 			}
 			while (ft_isspace(aux[i]))

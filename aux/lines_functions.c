@@ -1,8 +1,9 @@
 #include "../data.h"
+#include "aux.h"
 
-t_lines	*last_line_history(t_cmd *cmd)
+t_lines	*last_line_history(t_lines *cmd)
 {
-	t_cmd	*tmp;
+	t_lines	*tmp;
 
 	tmp = cmd;
 	if (tmp == NULL)
@@ -26,13 +27,13 @@ t_lines	*new_line(char *line, t_data *data_program)
 	return (new);
 }
 
-t_lines	*new_line_history(t_lines *line)
+void	*new_line_history(t_lines *line, void *args)
 {
 	t_data	*data_program;
 	t_lines	*tmp;
 
-	data_program = line->data;
-	if (data_program->history_lines == NULL)
+	data_program = (t_data *)args;
+	if (line == NULL)
 	{
 		data_program->history_lines = line;
 		data_program->history_lines->index = 1;
