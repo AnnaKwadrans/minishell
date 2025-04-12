@@ -1,9 +1,13 @@
 #ifndef LEXER_H
 # define LEXER_H 
+
 # include <stdlib.h>
 # include <stdbool.h>
-# include "data.h"
 # include "libft/libft.h"
+
+typedef struct s_data t_data;
+typedef struct s_lines t_lines;
+typedef struct s_cmd t_cmd;
 
 typedef struct s_lex
 {
@@ -33,12 +37,15 @@ void	free_data(t_data *data);
 t_lines	*last_line(t_lines *history_lines);
 void	init_data(t_data *data);
 void	parse_data(char *input, t_data *data);
-t_cmd	*parse_line(char *input, int pipes);
+t_cmd	**parse_line(char *input, int pipes);
 
 char	**split_pipes(char const *s, char c);
 void	print_array(char **array);
 t_cmd	*get_cmd(char *aux);
 void	free_array(char **array);
 int	close_quotes(char const *s);
+
+char	*get_infile(char *aux, char *delimit);
+char	*get_outfile(char *aux, int append);
 
 #endif

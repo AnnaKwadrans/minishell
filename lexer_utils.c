@@ -1,4 +1,6 @@
 #include "lexer.h"
+#include "data.h"
+
 /*
 int	ft_isspace(int c)
 {

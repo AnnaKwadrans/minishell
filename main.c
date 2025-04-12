@@ -35,35 +35,38 @@ int	count_pipes(char *input)
 	return (count);
 }
 
-void	get_data_program(char *input, t_data *data_program)
+// void	get_data_program(char *input, t_data *data_program)
+// {
+// 	t_lines	*line;
+// 	t_cmd	**cmd;
+
+// 	line = new_line(input, data_program); // Crear nueva linea
+// 	if (line == NULL)
+// 	{
+// 		perror("Error allocating memory for new line");
+// 		return ;
+// 	}
+// 	data_program->pipes = count_pipes(input); // Contar pipes
+// 	cmd = malloc(sizeof(t_cmd *) * (data_program->pipes + 2)); // Crear array de comandos
+// 	cmd = lexer(input); // Llamar al lexer
+// 	// EJECUTAR COMANDOS
+// 	// AÑADIR VERIFICADOR SI ES UN COMANDO QUE SE LOGRÓ EJECUTAR, SINO NO SE GUARDA
+// 	// SI SE USA PIPES, ¿SE GUARDAN SÓLO LOS COMANDO QUE SE PUDIERON EJECUTAR?
+// 	// ¿O SIMPLEMENTE NO SE GUARDA NADA?
+// 	new_line_history(line); // Guardar en historial
+
+// }
+
+int	main(int argc, char **argv, char **envp)
 {
-	t_lines	*line;
-	t_cmd	**cmd;
-
-	line = new_line(input, data_program); // Crear nueva linea
-	if (line == NULL)
-	{
-		perror("Error allocating memory for new line");
-		return ;
-	}
-	data_program->pipes = count_pipes(input); // Contar pipes
-	cmd = malloc(sizeof(t_cmd *) * (data_program->pipes + 2)); // Crear array de comandos
-	cmd = lexer(input); // Llamar al lexer
-	// EJECUTAR COMANDOS
-	// AÑADIR VERIFICADOR SI ES UN COMANDO QUE SE LOGRÓ EJECUTAR, SINO NO SE GUARDA
-	// SI SE USA PIPES, ¿SE GUARDAN SÓLO LOS COMANDO QUE SE PUDIERON EJECUTAR?
-	// ¿O SIMPLEMENTE NO SE GUARDA NADA?
-	new_line_history(line); // Guardar en historial
-
-}
-
-int	main(void)
-{
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	char			*input;
 	static t_data	*data_program;
 
 	data_program = malloc(sizeof(t_data));
-while (1)
+	while (1)
 	{
 		input = readline("minishell > ");
 		if (!input) // Ctrl+D
@@ -71,10 +74,10 @@ while (1)
 			printf("exit\n");
 			break;
 		}
-		get_data_program(input, data_program); // Configuración inicial
+		// get_data_program(input, data_program); // Configuración inicial
 
 		free(input);
-		ft_printer_lines(data.history_lines);
+		ft_printer_lines(data_program->history_lines);
 		printf("**********\n");
 	}
 }
