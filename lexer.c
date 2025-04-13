@@ -3,7 +3,7 @@
 #include "data.h"
 #include "libft/libft.h"
 
-int	count_pipes(char *line)
+int	count_pipe(char *line)
 {
 	int	pipes;
 	int	i;
@@ -85,7 +85,7 @@ void	parse_data(char *input, t_data *data)
 		history_last->next = data->line;
 	else
 		data->history_lines = data->line;
-	data->pipes = count_pipes(input);
+	data->pipes = count_pipe(input);
 	data->cmds = parse_line(input, data->pipes);
 	if (!data->line || !data->cmds || !data->cmds)
 		free_data(data);
@@ -114,6 +114,27 @@ t_lines	*last_line(t_lines *history_lines)
 	return (last);
 }
 
+t_cmd        *init_cmd()
+{
+        t_cmd        *cmd;
+        cmd = malloc(sizeof(t_cmd));
+        if (!cmd)
+                return (NULL);
+        cmd->args = NULL;
+        //cmd->env = envp;
+        cmd->infile = NULL;
+        cmd->fd_in = STDIN_FILENO;
+        cmd->outfile = NULL;
+        cmd->fd_out = STDOUT_FILENO;
+        cmd->append = 0;
+        cmd->delimit = NULL;
+        //pid_t         pid;
+        //int                p_status;
+        //struct s_cmd *next;
+        //t_data        *data;
+	return (cmd);
+}
+
 t_cmd	**parse_line(char *input, int pipes)
 {
 	int	i;
@@ -128,17 +149,42 @@ t_cmd	**parse_line(char *input, int pipes)
 	while (i <= pipes)
 	{
 		cmds[i] = get_cmd(cmd_aux[i]);
-		cmds[i]->infile = get_infile(input, cmds[i]->delimit);
-		cmds[i]->outfile = get_outfile(input, cmds[i]->append);
-		if (i == 0)
-			head = cmds[i];
+		//cmds[i]->infile = get_infile(input, cmds[i]->delimit);
+		//cmds[i]->outfile = get_outfile(input, cmds[i]->append);
+		//if (i == 0)
+		//	head = cmds[i];
 		i++;
 	}
 	free_array(cmd_aux);
 	return (cmds);
 }
 
-char	*get_inflile(char *aux, char *delimit)
+t_cmd        *get_cmd(char *aux)
+{
+        t_cmd        *cmd;
+        int        i;
+        cmd = init_cmd();
+        if (!cmd)
+                return (NULL);
+        i = 0;
+        while (aux[i])
+        {
+                if (ft_isspace(aux[i]))
+                        i++;
+                else if (aux[i] == '<')
+                        cmd->infile = get_inflile(&aux[i], cmd->delimit, &i);
+                else if (aux[i] == '>')
+                        cmd->outfile = get_outfile(&aux[i], &cmd->append, &i);
+                else if (!cmd->args)
+                        cmd->args = get_args(&aux[i], &i);
+                else
+                        cmd->args = append_args(cmd->args, &aux[i], &i);
+                //i++;
+        }
+        return (cmd);
+}
+
+char	*get_infile(char *aux, char *delimit, int *index)
 {
 	int	i;
 	char	*infile;
@@ -147,176 +193,83 @@ char	*get_inflile(char *aux, char *delimit)
 	int	heredoc;
 
 	i = 0;
-	while (aux[i])
+	if (aux[i + 1] == '<')
 	{
-		if (aux[i] == '<')
-		{
-			if (aux[i + 1] == '<')
-				heredoc = 1;
-			else
-			heredoc = 0;
-			while (ft_isspace(aux[i]))
-				i++;
-			start = i;
-			while (!ft_isspace(aux[i]))
-			{
-				if (aux[i] == '\'' || aux[i] == '\"')
-					i += close_quotes(&aux[i]);
-				i++;
-			}
-			len = i - start + 1;
-			if (heredoc)
-			{
-				delimit = ft_substr(aux, start, len);
-				return (NULL);
-			}
-			delimit = NULL;
-			return (ft_substr(aux, start, len));
-		}
+		heredoc = 1;
 		i++;
 	}
-	delimit = NULL;
-	return (NULL);
+	else
+		heredoc = 0;
+	while (ft_isspace(aux[i]))
+		i++;
+	start = i;
+	while (!ft_isspace(aux[i]))
+	{
+		if (aux[i] == '\'' || aux[i] == '\"')
+			i += close_quotes(&aux[i]);
+		i++;
+	}
+	len = i - start + 1;
+	*index += i;
+	if (heredoc)
+	{
+		delimit = ft_substr(aux, start, len);
+		return (NULL);
+	}
+	return (ft_substr(aux, start, len));
 }
 
-char	*get_outflile(char *aux, int append)
+char	*get_outfile(char *aux, int *append, int *index)
 {
 	int	i;
 	int	start;
 	int	len;
 
 	i = 0;
-	while (aux[i])
+	if (aux[i + 1] == '>')
 	{
-		if (aux[i] == '>')
-		{
-			if (aux[i + 1] == '>')
-			{
-				append = 1;
-				i++;
-			}
-			while (ft_isspace(aux[i]))
-				i++;
-			start = i;
-			while (!ft_isspace(aux[i]))
-			{
-				if (aux[i] == '\'' || aux[i] == '\"')
-					i += close_quotes(&aux[i]);
-				i++;
-			}
-			len = i - start + 1;
-			return (ft_substr(aux, start, len));
-		}
+		*append = 1;
 		i++;
 	}
-	return (NULL);
-}
-
-/*
-t_cmd	*get_cmd(char *aux)
-{
-	t_cmd	*cmd;
-	int	i;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	i = 0;
-	while (aux[i])
+	while (ft_isspace(aux[i]))
+		i++;
+	start = i;
+	while (!ft_isspace(aux[i]))
 	{
-		if (ft_isspace(aux[i]))
-			i++;
-		else if (aux[i] == '<')
-		{
-			if (aux[i + 1] == '<')
-			{
-				cmd->append = 1;
-				i++;
-			}
-			cmd->infile = get_infile(&aux[i], &i);
-		}
-		else if (aux[i] == '>')
-		{
-			if (aux[i + 1] == '>')
-			{
-				cmd->delimit = get_outfile();
-			}
-			cmd->outfile = get_outfile(&aux[i]);
-		}
-		else if (aux[i] == '|')
-			get_command(&aux[i]);
-		else
-			get_command(&aux[i]);
+		if (aux[i] == '\'' || aux[i] == '\"')
+			i += close_quotes(&aux[i]);
 		i++;
 	}
+	len = i - start + 1;
+	*index += i;
+	return (ft_substr(aux, start, len));
 }
-*/
-/*
-t_lex	*get_tokens(char *line)
-{
-	
-	
-	t_lex	*lex;
-	int	i;
 
-	lex = malloc(sizeof(t_lex));
-	if (!lex)
-		return (NULL);
-	i = 0;
-	while (line[i])
-	{
-		if (ft_isspace(line[i]))
-			i++;
-		else if (line[i] == '<')
-			lex->infile = get_infile(&line[i], &i);
-		else if (line[i] == '>')
-			lex->outfile = get_outfile(&line[i]);
-		else if (line[i] == '|')
-			get_command(&line[i]);
-		else
-			get_command(&line[i]);
-		i++;
-	}
-	return (lex);
-}
-*/
-/*
-char	*get_infile(char *line, int *index)
+char	**get_args(char *aux, int *index)
 {
-	int	i;
+	int	len;
+	char	*cmd_line;
+	char	**args;
 
-	i = 0;
-	if (line[i + 1] == '<')
-	{
-		// <<
-	}
-	else
-	{
-		// <
-		while (ft_isspace(line[i]))
-			i++;
-		*index += i;
-		while (line[i])
-		{
-			if (line[i] == '\'')
-			{
-				//cpy hasta '\''
-				ft_strdup_set(&line[i], "\'");
-				*index += ft_strlen_set(&line[i], "\'");
-			}
-			else if (line[i] == '\"')
-			{
-				//cpy hasta '\"'
-				ft_strdup_set(&line[i], "\"");
-				*index += ft_strlen_set(&line[i], "\"");
-			}
-			else
-			{
-				// cpy hasta ft_isspace(line[i])
-				ft_strdup_set(&line[i], " \t\n\v\r\f");
-				*index += ft_strlen_set();
-			}
-		}
-	}
+	len = 0;
+	while (aux[len] && aux[len] != '<' && aux[len] != '>')
+		len++;
+	cmd_line = ft_substr(aux, 0, len);
+	args = ft_split(cmd_line, ' ');
+	free(cmd_line);
+	*index += len;
+	return (args);
 }
-*/
+
+char	**append_args(char **args, char *aux, int *i)
+{
+	char	**add;
+	char	**joined;
+
+	add = get_args(aux, i);
+	joined = join_arrays(args, add);
+	free_array(add);
+	free_array(args);
+	return (joined);
+}
+
