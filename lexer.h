@@ -46,12 +46,13 @@ void	free_array(char **array);
 int	close_quotes(char const *s);
 
 t_cmd	*init_cmd();
-char	*get_inflile(char *aux, char *delimit, int *index);
+char	*get_infile(char *aux, char *delimit, int *index);
 char	*get_outfile(char *aux, int *append, int *index);
 char	**get_args(char *aux, int *index);
 char	**append_args(char **args, char *aux, int *i);
 
 size_t	array_size(char **array);
 char	**join_arrays(char **array, char **add);
+
 
 #endif

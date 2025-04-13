@@ -184,7 +184,7 @@ t_cmd        *get_cmd(char *aux)
         return (cmd);
 }
 
-char	*get_inflile(char *aux, char *delimit, int *index)
+char	*get_infile(char *aux, char *delimit, int *index)
 {
 	int	i;
 	char	*infile;
