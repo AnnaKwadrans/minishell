@@ -39,7 +39,7 @@ typedef struct s_cmd
 	char	*delimit;
 	pid_t 	pid;
 	int		p_status;
-	struct	s_cmd *next;
+	//struct	s_cmd *next; // esto creo que no lo necesitamos si no es una lista
 	t_data	*data;
 }	t_cmd;
 
@@ -51,7 +51,6 @@ typedef struct s_lines
 	struct	s_lines	*next; // Siguiente linea
 	t_data	*data; // Datos del programa
 }	t_lines;
-
 
 void	ft_printer_lines(t_lines *lines);
 
