@@ -19,7 +19,7 @@
 // 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 // }
 
-int	count_pipes(char *input)
+int	count_pipes(char *input) // <- MEJOR LA FUNCION int count_pipe(char *line) PQ ESTA NO TIENE EN CUENTA COMILLAS
 {
 	int		i;
 	int		count;
@@ -48,7 +48,7 @@ int	count_pipes(char *input)
 // 	}
 // 	data_program->pipes = count_pipes(input); // Contar pipes
 // 	cmd = malloc(sizeof(t_cmd *) * (data_program->pipes + 2)); // Crear array de comandos
-// 	cmd = lexer(input); // Llamar al lexer
+// 	cmd = lexer(input); // Llamar al lexer		<- ESTO SERA LA FUNCION t_cmd	**parse_line(char *input, int pipes)
 // 	// EJECUTAR COMANDOS
 // 	// AÑADIR VERIFICADOR SI ES UN COMANDO QUE SE LOGRÓ EJECUTAR, SINO NO SE GUARDA
 // 	// SI SE USA PIPES, ¿SE GUARDAN SÓLO LOS COMANDO QUE SE PUDIERON EJECUTAR?
@@ -66,6 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	static t_data	*data_program;
 
 	data_program = malloc(sizeof(t_data));
+	init_data(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 	while (1)
 	{
 		input = readline("minishell > ");
@@ -74,10 +75,12 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			break;
 		}
-		// get_data_program(input, data_program); // Configuración inicial
-
+		//get_data_program(input, data_program); // Configuración inicial
+		
+		parse_data(input, data_program); // lo he puesto temporalmente para poder trabajar en el lexer
+		clean_data_program(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 		free(input);
-		ft_printer_lines(data_program->history_lines);
+		//ft_printer_lines(data_program->history_lines);
 		printf("**********\n");
 	}
 }

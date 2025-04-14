@@ -18,3 +18,6 @@
 // 	printf("pathvar=%s",pathvar);
 // 	return (0);
 // }
+
+t_data  *data;
+

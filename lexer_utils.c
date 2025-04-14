@@ -69,65 +69,26 @@ char	*ft_strdup_set(const char *s, char *set)
 	return (ptr);
 }
 
-void	free_array(char **array)
+char	*get_var(char *line)
 {
-	int	i;
+	char	*name;
+	char	*var;
 
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		array[i] = NULL;
-		i++;
-	}
-	free(array);
-	array = NULL;
+	name = ft_strdup_set(line, " \t\n\v\r\f");
+	printf("%s\n", name);
+	var = getenv(name);
+	free(name);
+	return(var);
 }
 
-void	print_array(char **array)
+t_lines	*last_line(t_lines *history_lines)
 {
-	int	i;
+	t_lines	*last;
 
-	i = 0;
-	while (array[i])
-	{
-		printf("%s\n", array[i]);
-		i++;
-	}
-}
-
-size_t	array_size(char **array)
-{
-	size_t	size;
-
-	size = 0;
-	while (array[size])
-		size++;
-	return (size);
-}
-
-char	**join_arrays(char **array, char **add)
-{
-	int	i;
-	int	j;
-	char	**joined;
-
-	joined = malloc(sizeof(char **) * (array_size(array) + array_size(add) + 1));
-	if (!joined)
+	if (!history_lines)
 		return (NULL);
-	i = 0;
-	while (array[i])
-	{
-		joined[i] = ft_strdup(array[i]);
-		i++;
-	}
-	j = 0;
-	while (add[j])
-	{
-		joined[i] = ft_strdup(add[j]);
-		i++;
-		j++;
-	}
-	joined[i] = NULL;
-	return (joined);
+	last = history_lines;
+	while (last->next)
+		last = last->next;
+	return (last);
 }
