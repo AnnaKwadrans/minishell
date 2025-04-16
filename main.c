@@ -59,24 +59,26 @@ int	count_pipes(char *input) // <- MEJOR LA FUNCION int count_pipe(char *line) P
 
 int	main(int argc, char **argv, char **envp)
 {
+	char			*input;
+	static t_data	*data_program;
+
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	char			*input;
-	static t_data	*data_program;
 
 	data_program = malloc(sizeof(t_data));
 	init_data(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 	while (1)
 	{
 		input = readline("minishell > ");
-		if (!input) // Ctrl+D
+		if (!input || !input[0]) // Ctrl+D o línea vacía
 		{
-			printf("exit\n");
-			break;
+			free(input);
+			continue;
 		}
 		//get_data_program(input, data_program); // Configuración inicial
-		
+		// add_history(input); // Añadir al historial
+		add_mhistory(data_program, input); // Añadir al historial propio
 		parse_data(input, data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 		clean_data_program(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 		free(input);

@@ -53,5 +53,7 @@ typedef struct s_lines
 }	t_lines;
 
 void	ft_printer_lines(t_lines *lines);
+void	add_mhistory(t_data *data_program, char *input);
+void	show_history(void *arg);
 
 #endif

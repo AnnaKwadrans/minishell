@@ -1,5 +1,5 @@
-#include "lexer.h"
-#include "data.h"
+#include "../lexer.h"
+#include "../data.h"
 #include "aux.h"
 
 void	free_array(char **array)

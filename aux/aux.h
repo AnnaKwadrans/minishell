@@ -10,7 +10,7 @@ typedef struct s_lines t_lines;
 
 t_lines *last_line_history(t_lines *cmd);
 t_lines *new_line(char *line, t_data *data_program);
-void 	*new_line_history(t_lines *line, void *args);
+void 	new_line_history(t_lines *line, void *args);
 
 // ARRAY FUNCTIONS
 
