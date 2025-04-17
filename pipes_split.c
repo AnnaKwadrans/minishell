@@ -1,6 +1,7 @@
 //#include "data.h"
 //#include "libft/libft.h"
 #include "lexer.h"
+#include <stdio.h>
 
 int	close_quotes(char const *s)
 {
@@ -47,16 +48,16 @@ static int	split_count(char const *s, char c)
 	i = 0;
 	while (s[i] != '\0')
 	{
+		if (s[i] == '\'' || s[i] == '\"')
+			i += close_quotes(&s[i]);
 		if (s[i] == c)
 			new_string = 0;
-		else if (s[i] == '\'' || s[i] == '\"')
-			i += close_quotes(&s[i]);
-		else if (*s != c && new_string == 0)
+		else if (s[i] != c && new_string == 0)
 		{
 			new_string = 1;
 			count++;
 		}
-		s++;
+		i++;
 	}
 	return (count);
 }
@@ -110,11 +111,7 @@ char	**split_pipes(char const *s, char c)
 	while (array[i] != NULL)
 	{
 		while (s[j] != '\0' && s[j] == c)
-		{
-			//if (s[j] == '\'' || s[j] == '\"')
-			//	j += close_quotes(&s[j]);
 			j++;
-		}
 		ft_strlcpy(array[i], &s[j], split_strlen(c, &s[j]) + 1);
 		while (s[j] != '\0' && s[j] != c)
 		{
@@ -124,5 +121,6 @@ char	**split_pipes(char const *s, char c)
 		}
 		i++;
 	}
+	print_array(array);
 	return (array);
 }

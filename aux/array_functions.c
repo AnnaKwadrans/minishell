@@ -6,6 +6,8 @@ void	free_array(char **array)
 {
 	int	i;
 
+	if (!array)
+		return ;
 	i = 0;
 	while (array[i])
 	{
@@ -21,6 +23,8 @@ void	print_array(char **array)
 {
 	int	i;
 
+	if (!array)
+		return ;
 	i = 0;
 	while (array[i])
 	{
@@ -45,6 +49,12 @@ char	**join_arrays(char **array, char **add)
 	int	j;
 	char	**joined;
 
+	if (!array && !add)
+		return (NULL);
+	if (!array)
+		return (add);
+	if (!add)
+		return (array);
 	joined = malloc(sizeof(char **) * (array_size(array) + array_size(add) + 1));
 	if (!joined)
 		return (NULL);
