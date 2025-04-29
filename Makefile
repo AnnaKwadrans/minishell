@@ -1,7 +1,7 @@
 NAME = minishell
 RM = rm -f
 CC = cc
-FLAGS = -Werror -Wextra -Wall -fsanitize=address
+FLAGS = -Werror -Wextra -Wall -fsanitize=address -g3
 LIBFT_DIR = libft
 LIBFT = libft/libft.a
 
@@ -16,6 +16,7 @@ OBJ = $(SRC_ALL:.c=.o)
 $(NAME): $(OBJ)
 	make -C libft
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -Llibft -lft -lreadline
+	touch .history
 
 .PHONY:
 	all re clean fclean

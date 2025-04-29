@@ -4,20 +4,22 @@
  
 /* Where the environment variable 'PATH' is set to a value. */
 
-// int main(void)
-// {
-//    char *pathvar;
+int main(int agrc, char **argv, char **envp)
+{
+    char *pathvar;
  
-//    //pathvar = getenv("PATH");
-//    //printf("pathvar=%s",pathvar);
+    //pathvar = getenv("PATH");
+    //printf("pathvar=%s",pathvar);
+    char *name;
+ 	
+        name = get_var("PATH sdhgbsdk egaea");
+        printf("name: %s\n", name);
+         
+ 	//free(name);
 
-//    char *name;
-// 	name = get_var("PATH sdhgbsdk egaea");
-// 	pathvar = getenv(name);
-// 	free(name);
-// 	printf("pathvar=%s",pathvar);
-// 	return (0);
-// }
+ 	
+        return (0);
+ }
 
 t_data  *data;
 
