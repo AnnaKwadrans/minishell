@@ -75,7 +75,7 @@ char	*get_var(char *line)
 	char	*var;
 
 	name = ft_strdup_set(line, " \t\n\v\r\f");
-	printf("%s\n", name);
+	//printf("%s\n", name);
 	var = getenv(name);
 	free(name);
 	return(var);

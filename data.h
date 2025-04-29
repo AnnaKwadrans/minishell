@@ -23,6 +23,7 @@ typedef struct s_data
 	struct	s_lines	*line; // Lineas de entrada
 	struct	s_cmd	**cmds; // Comandos para ejecutar
 	struct	s_lines	*history_lines; // Historial de comandos ejecutados
+	char		*tokens; // split por ;
 	int		pipes; // Contador de pipes
 }	t_data;
 
