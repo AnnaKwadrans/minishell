@@ -23,9 +23,20 @@ typedef struct s_data
 	struct	s_lines	*line; // Lineas de entrada
 	struct	s_cmd	**cmds; // Comandos para ejecutar
 	struct	s_lines	*history_lines; // Historial de comandos ejecutados
-	char		*tokens; // split por ;
-	int		pipes; // Contador de pipes
+	char			*tokens; // split por ;
+	struct	s_vars	*vars; // Variables de entorno
+	int				pipes; // Contador de pipes
+	int				is_interactive; // Si es interactivo o no
 }	t_data;
+
+// Estructura para almacenar las variables de entorno "locales"
+typedef struct s_vars
+{
+	char			*name; // Nombre de la variable
+	char			*value; // Valor de la variable
+	struct	s_vars	*next; // Siguiente variable
+	int				is_exportable; // Si es exportable o no
+} t_vars;
 
 // Estructura para almacenar los comandos y ejecutarlos
 typedef struct s_cmd
