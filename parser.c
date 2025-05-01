@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "parser.h"
 #include "data.h"
 #include "libft/libft.h"
 
@@ -11,7 +11,8 @@ t_cmd	**parse_line(char *input, int pipes)
 	if (!input || input[0] == '\0')
 		return (NULL);
 	cmd_aux = split_pipes(input, '|');
-	print_array(cmd_aux); // para testear
+	print_array(cmd_aux);
+	//print_array(cmd_aux); // para testear
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	i = 0;
 	while (i <= pipes)
@@ -35,21 +36,42 @@ t_cmd        *get_cmd(char *aux)
         while (aux[i])
         {
                 if (ft_isspace(aux[i]))
-                        i++;
-                else if (aux[i] == '<')
-                        cmd->infile = get_infile(&aux[i], &cmd->delimit, &i);
-                else if (aux[i] == '>')
+		{
+			//printf("%d space ", i);
+			i++;
+		}
+		//printf("%d\n", i);
+		else if (aux[i] == '<')
+		{
+                        //printf("%d infille ", i);
+			cmd->infile = get_infile(&aux[i], &cmd->delimit, &i);
+			//printf("%d\n", i);
+		}
+		else if (aux[i] == '>')
+		{
+			//printf("%d outfile ", i);
                         cmd->outfile = get_outfile(&aux[i], &cmd->append, &i);
-                else if (!cmd->args)
+			//printf("%d\n", i);
+		}
+		else if (!cmd->args)
+		{
+			//printf("%d args1 ", i);
                         cmd->args = get_args(&aux[i], &i);
-                else
+			//printf("%d\n", i);
+		}
+		else
+		{
+			//printf("%d args2 ", i);
                         cmd->args = append_args(cmd->args, &aux[i], &i);
-        }
+			//printf("%d\n", i);
+		}
+	}
 	printf("%s %s %s %d\n", cmd->infile, cmd->delimit, cmd->outfile, cmd->append); // para testear
 	print_array(cmd->args);
+	printf("END PIPE\n");
         return (cmd);
 }
-
+//VAR=abc | ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile
 t_cmd        *init_cmd()
 {
         t_cmd        *cmd;
@@ -152,7 +174,7 @@ char	*get_file_str(const char *aux, int *index)
 	while (ft_isspace(aux[i]))
 		i++;
 	start = i;
-	while (!ft_isspace(aux[i]))
+	while (aux[i] && !ft_isspace(aux[i]))
 	{
 		if (aux[i] == '\'' || aux[i] == '\"')
 			i += close_quotes(&aux[i]);
@@ -160,6 +182,7 @@ char	*get_file_str(const char *aux, int *index)
 	}
 	len = i - start;
 	*index += i;
+	//printf("index get_file_str: %d\n", *index);
 	return (ft_substr(aux, start, len));
 }
 
@@ -174,8 +197,8 @@ char	**get_args(char *aux, int *index)
 		len++;
 	cmd_line = ft_substr(aux, 0, len);
 	args = split_pipes(cmd_line, ' ');
-	printf("desp del split:\n");
-	print_array(args);
+	//printf("desp del split:\n");
+	//print_array(args);
 	free(cmd_line);
 	*index += len;
 	return (args);

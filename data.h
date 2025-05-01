@@ -11,7 +11,7 @@
 # include <sys/wait.h>
 # include <stdio.h>
 # include "libft/libft.h"
-# include "lexer.h"
+# include "parser.h"
 # include "aux/aux.h"
 
 
@@ -23,7 +23,7 @@ typedef struct s_data
 	struct	s_lines	*line; // Lineas de entrada
 	struct	s_cmd	**cmds; // Comandos para ejecutar
 	struct	s_lines	*history_lines; // Historial de comandos ejecutados
-	char			*tokens; // split por ;
+	char			**tokens; // split por ;
 	struct	s_vars	*vars; // Variables de entorno
 	int				pipes; // Contador de pipes
 	int				is_interactive; // Si es interactivo o no
