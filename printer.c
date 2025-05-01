@@ -2,14 +2,7 @@
 
 void	ft_printer_lines(t_lines *lines)
 {
-	t_lines	*temp;
-
-	temp = lines;
-	while (temp)
-	{
-		printf("\t%d\t%s\n", temp->index, temp->line);
-		temp = temp->next;
-	}
+	printf("\t%d\t%s\n", lines->index, lines->line);
 }
 
 // void	ft_printer_data(t_data *data)

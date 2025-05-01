@@ -14,6 +14,11 @@ void	parse_data(char *input, t_data *data)
 {
 	//t_lines	*history_last;
 
+	if (ft_strncmp(input, "mhistory", 8) == 0)
+	{
+		show_history(data);
+		return ;
+	}
 	printf("input: %s\n", input);
 	if (!even_quotes(input))
 	{}
