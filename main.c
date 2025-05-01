@@ -1,5 +1,5 @@
 #include "data.h"
-#include "lexer.h"
+#include "parser.h"
 
 // void	set_raw_mode(void)
 // {
@@ -78,6 +78,7 @@ int	main(int argc, char **argv, char **envp)
 		//get_data_program(input, data_program); // Configuración inicial
 		
 		parse_data(input, data_program); // lo he puesto temporalmente para poder trabajar en el lexer
+		
 		clean_data_program(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 		free(input);
 		//ft_printer_lines(data_program->history_lines);

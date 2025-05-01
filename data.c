@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "parser.h"
 #include "data.h"
 #include "libft/libft.h"
 
@@ -37,10 +37,15 @@ void	parse_data(char *input, t_data *data)
 	printf("last history line: %s\n", data->history_lines->line);
 	*/
 	data->pipes = count_pipe(input);
+	data->tokens = split_pipes(input, ';');
+	/*
 	data->cmds = parse_line(input, data->pipes);
 	if (!data->line || !data->cmds || !data->cmds)
 		free_data(data);
+	*/
 }
+
+
 
 int	count_pipe(char *line)
 {

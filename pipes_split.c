@@ -1,6 +1,6 @@
 //#include "data.h"
 //#include "libft/libft.h"
-#include "lexer.h"
+#include "parser.h"
 #include <stdio.h>
 
 int	close_quotes(char const *s)
@@ -121,6 +121,6 @@ char	**split_pipes(char const *s, char c)
 		}
 		i++;
 	}
-	print_array(array);
+	//print_array(array);
 	return (array);
 }

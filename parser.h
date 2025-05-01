@@ -1,5 +1,5 @@
-#ifndef LEXER_H
-# define LEXER_H 
+#ifndef PARSER_H
+# define PARSER_H 
 
 # include <stdlib.h>
 # include <stdbool.h>
