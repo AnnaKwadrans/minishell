@@ -37,33 +37,23 @@ t_cmd        *get_cmd(char *aux)
         {
                 if (ft_isspace(aux[i]))
 		{
-			//printf("%d space ", i);
 			i++;
 		}
-		//printf("%d\n", i);
 		else if (aux[i] == '<')
 		{
-                        //printf("%d infille ", i);
 			cmd->infile = get_infile(&aux[i], &cmd->delimit, &i);
-			//printf("%d\n", i);
 		}
 		else if (aux[i] == '>')
 		{
-			//printf("%d outfile ", i);
                         cmd->outfile = get_outfile(&aux[i], &cmd->append, &i);
-			//printf("%d\n", i);
 		}
 		else if (!cmd->args)
 		{
-			//printf("%d args1 ", i);
                         cmd->args = get_args(&aux[i], &i);
-			//printf("%d\n", i);
 		}
 		else
 		{
-			//printf("%d args2 ", i);
                         cmd->args = append_args(cmd->args, &aux[i], &i);
-			//printf("%d\n", i);
 		}
 	}
 	printf("%s %s %s %d\n", cmd->infile, cmd->delimit, cmd->outfile, cmd->append); // para testear
@@ -71,7 +61,7 @@ t_cmd        *get_cmd(char *aux)
 	printf("END PIPE\n");
         return (cmd);
 }
-//VAR=abc | ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile
+//VAR=abc ; ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile
 t_cmd        *init_cmd()
 {
         t_cmd        *cmd;

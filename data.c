@@ -13,6 +13,8 @@ void	init_data(t_data *data)
 void	parse_data(char *input, t_data *data)
 {
 	//t_lines	*history_last;
+	char	**part_lines;
+	int		i;
 
 	if (ft_strncmp(input, "mhistory", 8) == 0)
 	{
@@ -41,16 +43,46 @@ void	parse_data(char *input, t_data *data)
 	history_last = last_line(data->history_lines);
 	printf("last history line: %s\n", data->history_lines->line);
 	*/
-	data->pipes = count_pipe(input);
-	data->tokens = split_pipes(input, ';');
-	/*
-	data->cmds = parse_line(input, data->pipes);
-	if (!data->line || !data->cmds || !data->cmds)
-		free_data(data);
-	*/
+	part_lines = split_pipes(input, ';');
+	print_array(part_lines);
+	data->pipes = get_pipes(part_lines, array_size(part_lines));
+	data->cmds = malloc(sizeof(t_cmd **) * array_size(part_lines));
+	if (!data->cmds)
+	{
+		free(data);
+		return ;
+	}
+	i = 0;
+	while (part_lines[i])
+	{
+		data->cmds[i] = parse_line(part_lines[i], data->pipes[i]);
+		if (!data->line || !data->cmds || !data->cmds)
+		{
+			free_data(data);
+			return ;
+		}
+		i++;
+	}
+	data->cmds[i] = NULL;
 }
 
+int	*get_pipes(char **part_lines, size_t size)
+{
+	int	*pipes;
+	int	i;
 
+	pipes = (int *)malloc(sizeof(int) * (size + 1));
+	if (!pipes)
+		return (NULL);
+	i = 0;
+	while (part_lines[i])
+	{
+		pipes[i] = count_pipe(part_lines[i]);
+		i++;
+	}
+	pipes[size] = -1;
+	return (pipes);
+}
 
 int	count_pipe(char *line)
 {

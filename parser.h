@@ -10,7 +10,7 @@ typedef struct s_data t_data;
 typedef struct s_lines t_lines;
 typedef struct s_cmd t_cmd;
 
-// lexer.c
+// parser.c
 t_cmd	**parse_line(char *input, int pipes); // devuelve array de comandos
 t_cmd	*get_cmd(char *aux); // se le pasa como parametro una parte del input que corresponde a un pipe
 t_cmd	*init_cmd(); // inicializa la estructura
@@ -19,6 +19,7 @@ char	*get_outfile(char *aux, int *append, int *index); // para obtener el outfil
 char	*get_file_str(const char *aux, int *index); // funcion auxiliar para obtener el string outfile, infile o delimit
 char	**get_args(char *aux, int *index); // para obtener el array con el comando y argumentos
 char	**append_args(char **args, char *aux, int *i); // para añadir los argumentos al array con el comando
+int     *get_pipes(char **part_lines, size_t size);
 
 // pipe_split.c
 int	close_quotes(char const *s); // devuelve el index donde terminan las comillas
