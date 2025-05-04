@@ -5,6 +5,7 @@
 void	clean_data_program(t_data *data)
 {
 	int	i;
+	int	j;
 
 	free_line(data->line);
 	data->line = NULL;
@@ -13,13 +14,23 @@ void	clean_data_program(t_data *data)
 	{
 		while (data->cmds[i])
 		{
-			free_cmd(data->cmds[i]);
+			while(data->cmds[i][j])
+			{
+				free_cmd(data->cmds[i][j]);
+				j++;
+			}
+			free(data->cmds[i]);
 			i++;
 		}
 		free(data->cmds);
 		data->cmds = NULL;
 	}
-	data->pipes = 0;
+	//free_array(data->part_lines); <- ver por qué da segfault
+	if (data->pipes)
+	{
+		free(data->pipes);
+		data->pipes = NULL;
+	}
 }
 
 void	free_data(t_data *data)
