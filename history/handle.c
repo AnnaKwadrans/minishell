@@ -43,14 +43,15 @@ void	clear_history(void)
 
 int main(void)
 {
-	char	*command[3];
+	char	*line[2];
 
-	command[0] = "ls";
-	command[1] = "pwd";
-	command[2] = NULL;
 
-	// add_mhistory_file(command);
-	clear_history();
+	line[0] = "cat -e | grep -v '^$' | cut -d ' ' -f 1 | sort | uniq -c | sort -nr";
+	// command[1] = "pwd";
+	line[1] = NULL;
+
+	add_mhistory_file(line);
+	// clear_history();
 	return (0);
 }
 
