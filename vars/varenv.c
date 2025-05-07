@@ -1,6 +1,7 @@
 #include "../data.h"
 #include "../aux/aux.h"
 #include "../libft/libft.h"
+#include "varenv.h"
 
 void	free_vars(void *args)
 {
@@ -59,6 +60,7 @@ t_vars	*new_var(char *name, char *value, int is_exportable)
 	}
 	new->is_exportable = is_exportable;
 	new->next = NULL;
+	printf("New variable created: %s = %s\n", new->name, new->value);
 	return (new);
 }
 
@@ -66,6 +68,7 @@ void	add_var(t_data *data_program, t_vars *new)
 {
 	t_vars	*tmp;
 
+	printf("Adding variable: %s = %s\n", new->name, new->value);
 	if (!data_program->vars)
 	{
 		data_program->vars = new;
@@ -191,41 +194,41 @@ void example_new_vars(t_data *data_program)
 	add_var(data_program, new_var5);
 }
 
-int main(int argc, char **argv, char **env)
-{
-	t_data	*data_program;
-	t_vars	*var;
-	t_vars	**exported_vars;
+// int main(int argc, char **argv, char **env)
+// {
+// 	t_data	*data_program;
+// 	t_vars	*var;
+// 	t_vars	**exported_vars;
 
-	data_program = malloc(sizeof(t_data));
-	if (!data_program)
-		return (1);
-	data_program->vars = NULL;
-	init_env(data_program, env);
-	example_new_vars(data_program);
-	show_vars(data_program);
-	printf("\n<<------------------ exportable vars ------------------>>\n\n");
-	exported_vars = export_vars(data_program);
-	if (!exported_vars)
-	{
-		printf("Error al exportar las variables\n");
-		return (1);
-	}
-	for (int i = 0; exported_vars[i]; i++)
-	{
-		printf("Variable exportable %d:\n", i + 1);
-		printf("\tname: %s\n", exported_vars[i]->name);
-		printf("\tvalue: %s\n ", exported_vars[i]->value);
-	}
-	// var = search_var(data_program, "PWD");
-	// if (var)
-	// 	printf("Variable encontrada: %s=%s\n", var->name, var->value);
-	// else
-	// 	printf("Variable no encontrada\n");
-	free_vars(data_program);
-	free(data_program);
-	return (0);
-}
+// 	data_program = malloc(sizeof(t_data));
+// 	if (!data_program)
+// 		return (1);
+// 	data_program->vars = NULL;
+// 	init_env(data_program, env);
+// 	example_new_vars(data_program);
+// 	show_vars(data_program);
+// 	printf("\n<<------------------ exportable vars ------------------>>\n\n");
+// 	exported_vars = export_vars(data_program);
+// 	if (!exported_vars)
+// 	{
+// 		printf("Error al exportar las variables\n");
+// 		return (1);
+// 	}
+// 	for (int i = 0; exported_vars[i]; i++)
+// 	{
+// 		printf("Variable exportable %d:\n", i + 1);
+// 		printf("\tname: %s\n", exported_vars[i]->name);
+// 		printf("\tvalue: %s\n ", exported_vars[i]->value);
+// 	}
+// 	// var = search_var(data_program, "PWD");
+// 	// if (var)
+// 	// 	printf("Variable encontrada: %s=%s\n", var->name, var->value);
+// 	// else
+// 	// 	printf("Variable no encontrada\n");
+// 	free_vars(data_program);
+// 	free(data_program);
+// 	return (0);
+// }
 
 // PARA PROBAR ESTAS FUNCIONES CON LIBFT
 // cc libft/libft.a vars/*.c
