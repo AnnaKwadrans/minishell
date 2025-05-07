@@ -1,6 +1,7 @@
 #include "../data.h"
 #include "../aux/aux.h"
 #include "../libft/libft.h"
+#include "../parser.h"
 #include "varenv.h"
 
 void	free_vars(void *args)
@@ -137,6 +138,22 @@ int	count_exportable_vars(t_data *data_program)
 	t_vars	*tmp;
 	int		count;
 
+<<<<<<< HEAD
+	data_program = malloc(sizeof(t_data));
+	if (!data_program)
+		return (1);
+	data_program->vars = NULL;
+	init_env(data_program, env);
+	 show_vars(data_program);
+	var = search_var(data_program, "PWD");
+	if (var)
+		printf("Variable encontrada: %s=%s\n", var->name, var->value);
+	else
+		printf("Variable no encontrada\n");
+	free_vars(data_program);
+	free(data_program);
+	return (0);
+=======
 	tmp = data_program->vars;
 	count = 0;
 	while (tmp)
@@ -146,6 +163,7 @@ int	count_exportable_vars(t_data *data_program)
 		tmp = tmp->next;
 	}
 	return (count);
+>>>>>>> main
 }
 
 t_vars	**export_vars(t_data *data_program)

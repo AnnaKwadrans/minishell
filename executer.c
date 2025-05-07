@@ -1,0 +1,207 @@
+#include "data.h"
+#include "parser.h"
+
+int	exec_line(t_cmd ***cmds, int *pipes)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (cmds[i])
+	{
+		j = 0;
+		while (cmds[i][j])
+		{
+			exec_cmd(cmds[i][j]);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	execute_line(t_cmd ***cmds, int *pipes)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (cmds[i])
+	{
+		while (cmds[i][j])
+		{
+			execute_pipes(cmds[i][j], pipes[j], j);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	execute_pipes(t_cmd *cmd, int pipes, int index)
+{
+	int	fds[2];
+
+	if (pipe(fds) < 0)
+	{
+		// err pipe
+	}
+	cmd->pid = fork();
+	if (cmd->pid < 0)
+	{
+		// err fork
+	}
+	else if (cmd->pid == 0)
+	{
+		// child
+		if (index == 0 && index == pipes)
+		{
+			// no pipes
+			if (cmd->infile)
+				cmd->fd_in = handle_infile(cmd->infile, cmd->delimit);
+			if (cmd->outfile)
+				handle_outfile(cmd->outfile, cmd->append);
+			cmd->p_status = exec_cmd(cmd);
+			
+		}
+		else if (index == 0 && index != pipes)
+		{
+			// first pipe
+			if (cmd->infile)
+				handle_infile(cmd->infile, cmd->delimit);
+			if (cmd->outfile)
+				handle_outfile(cmd->outfile, cmd->append);
+			else
+				dup2(fds[1], STDOUT_FILENO);
+			cmd->p_status = exec_cmd(cmd);
+		}
+		else if (index != 0 && index == pipes)
+		{
+			// last pipe
+			if (cmd->infile)
+				handle_infile(cmd->infile, cmd->delimit);
+			else
+				dup2(fds[0], STDIN_FILENO);
+			if (cmd->outfile)
+				handle_outfile(cmd->outfile, cmd->append);
+			cmd->p_status = exec_cmd(cmd);
+		}
+		else
+		{
+			// middle pipe
+			if (cmd->infile)
+				handle_infile(cmd->infile, cmd->delimit);
+			else
+				dup2(fds[0], STDIN_FILENO);
+			if (cmd->outfile)
+				handle_outfile(cmd->outfile, cmd->append);
+			else
+				dup2(fds[1], STDOUT_FILENO);
+			cmd->p_status = exec_cmd(cmd);
+		}
+	}
+	else if (cmd->pid > 0)
+	{
+		// parent
+		waitpid(cmd->pid, NULL, 0);
+	}
+	return (0);
+}
+
+int	handle_infile(char *infile, char *delimit)
+{
+	int	fd;
+
+	if (delimit)
+	{
+		// heredoc
+		return (0);
+	}
+	else
+	{
+		fd = open(infile, O_RDONLY | O_CREAT, 666); // check permisos
+		return (fd);
+	}
+}
+
+int	handle_outfile(char *outfile, int append)
+{
+	int	fd;
+
+	if (append)
+		fd = open(outfile, O_WRONLY, 666); // check permisos
+	else
+		fd = open(outfile, O_RDONLY | O_TRUNC, 666); // check permisos
+	if (fd < 0)
+	{
+		// err open
+	}
+	return (fd);
+}
+
+int	exec_cmd(t_cmd *cmd)
+{
+	//char	**path_tab;
+	char	*path;
+
+	//path_tab = parse_path_var(cmd->env);
+	//path = get_path(cmd->args, path_tab);
+	path = getenv("PATH");
+	printf("PATH:: %s\n", path);
+	print_array(cmd->args);
+	print_array(cmd->env);
+	execve(path, cmd->args, cmd->env);
+	printf("CHECK\n");
+	return (-1);
+}
+/*
+char	**parse_path_var(char **envp)
+{
+	int		i;
+	char	**path_tab;
+
+	if (envp == NULL)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		if (strncmp(envp[i], "PATH=", 5) == 0 && envp[i][5])
+		{
+			path_tab = ft_split(envp[i] + 5, ':');
+			if (path_tab)
+				return (path_tab);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*get_path(char **cmd_tab, char **path_tab)
+{
+	int		i;
+	char	*aux;
+	char	*path;
+
+	if (path_tab == NULL || cmd_tab == NULL)
+		return (NULL);
+	if (!cmd_tab[0])
+		cmd_tab[0] = ft_strdup("cat");
+	i = 0;
+	while (path_tab[i] != NULL)
+	{
+		if (ft_strncmp(cmd_tab[0], path_tab[i], ft_strlen(path_tab[i])) == 0)
+			path = ft_strdup(cmd_tab[0]);
+		else
+		{
+			aux = ft_strjoin(path_tab[i], "/");
+			path = ft_strjoin(aux, cmd_tab[0]);
+			free(aux);
+		}
+		if (access(path, X_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	return (NULL);
+}
+*/

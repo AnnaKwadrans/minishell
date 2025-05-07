@@ -2,7 +2,7 @@
 #include "data.h"
 #include "libft/libft.h"
 
-t_cmd	**parse_line(char *input, int pipes)
+t_cmd	**parse_line(char *input, int pipes, char **envp)
 {
 	int	i;
 	char	**cmd_aux;
@@ -18,6 +18,7 @@ t_cmd	**parse_line(char *input, int pipes)
 	while (i <= pipes)
 	{
 		cmds[i] = get_cmd(cmd_aux[i]);
+		cmds[i]->env = envp;
 		i++;
 	}
 	cmds[i] = NULL;

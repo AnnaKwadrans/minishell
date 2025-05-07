@@ -11,7 +11,7 @@ typedef struct s_lines t_lines;
 typedef struct s_cmd t_cmd;
 
 // parser.c
-t_cmd	**parse_line(char *input, int pipes); // devuelve array de comandos
+t_cmd	**parse_line(char *input, int pipes, char **envp); // devuelve array de comandos
 t_cmd	*get_cmd(char *aux); // se le pasa como parametro una parte del input que corresponde a un pipe
 t_cmd	*init_cmd(); // inicializa la estructura
 char	*get_infile(char *aux, char **delimit, int *index); // para obtener el infile (<) o delimitador (<<)
@@ -33,15 +33,24 @@ void	free_line(t_lines *line);
 
 //data.c - esto lo tenemos duplicado, probablemente para borrar
 void	init_data(t_data *data);
-void	parse_data(char *input, t_data *data);
+void	parse_data(char *input, t_data *data, char **envp);
 int	count_pipe(char *line);
 bool	even_quotes(char *line);
 
 // lexer_utils.c
-char	*get_var(char *line); // para obtener el valor de la variable de entorno pero no funciona
+char	*get_var(char *line); // para obtener el valor de la variable de entorno
 //estas tres probablemente para borrar
 bool	is_set(char c, char const *set);
 size_t	ft_strlen_set(const char *s, char *set);
 char	*ft_strdup_set(const char *s, char *set);
+
+// executer.c
+int     execute_line(t_cmd ***cmds, int *pipes);
+int     execute_pipes(t_cmd *cmd, int pipes, int index);
+int	    exec_cmd(t_cmd *cmd);
+int     handle_infile(char *infile, char *delimit);
+int     handle_outfile(char *outfile, int append);
+int	exec_line(t_cmd ***cmds, int *pipes);
+
 
 #endif
