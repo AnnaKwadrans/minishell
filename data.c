@@ -10,7 +10,7 @@ void	init_data(t_data *data)
 	data->pipes = 0;
 }
 
-void	parse_data(char *input, t_data *data)
+void	parse_data(char *input, t_data *data, char **envp)
 {
 	//t_lines	*history_last;
 	char	**part_lines;
@@ -55,7 +55,7 @@ void	parse_data(char *input, t_data *data)
 	i = 0;
 	while (part_lines[i])
 	{
-		data->cmds[i] = parse_line(part_lines[i], data->pipes[i]);
+		data->cmds[i] = parse_line(part_lines[i], data->pipes[i], envp);
 		if (!data->line || !data->cmds || !data->cmds)
 		{
 			free_data(data);

@@ -9,11 +9,12 @@ void	clean_data_program(t_data *data)
 
 	free_line(data->line);
 	data->line = NULL;
-	i = 0;
 	if (data->cmds)
 	{
+		i = 0;
 		while (data->cmds[i])
 		{
+			j = 0;
 			while(data->cmds[i][j])
 			{
 				free_cmd(data->cmds[i][j]);

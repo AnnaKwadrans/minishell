@@ -1,7 +1,7 @@
 #include "../data.h"
 #include "../aux/aux.h"
 #include "../libft/libft.h"
-#include "../lexer.h"
+#include "../parser.h"
 
 void	free_vars(void *args)
 {
@@ -140,7 +140,7 @@ int main(int argc, char **argv, char **env)
 		return (1);
 	data_program->vars = NULL;
 	init_env(data_program, env);
-	// show_vars(data_program);
+	 show_vars(data_program);
 	var = search_var(data_program, "PWD");
 	if (var)
 		printf("Variable encontrada: %s=%s\n", var->name, var->value);
