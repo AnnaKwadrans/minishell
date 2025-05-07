@@ -70,11 +70,14 @@ int	main(int argc, char **argv, char **envp)
 	init_data(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 	while (1)
 	{
-		input = readline("minishell > ");
+		if (data_program->is_interactive)
+			input = readline("minishell > ");
+		else
+			input = get_next_line(STDIN_FILENO); // Cambiar por la función que lee del archivo
 		if (!input || !input[0]) // Ctrl+D o línea vacía
 		{
 			free(input);
-			continue;
+			break;
 		}
 		//get_data_program(input, data_program); // Configuración inicial
 		// add_history(input); // Añadir al historial
