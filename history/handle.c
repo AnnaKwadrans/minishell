@@ -1,10 +1,10 @@
 #include "../data.h"
 
-void	add_mhistory_file(char **command)
+void	add_mhistory_file(t_lines *history_lines)
 {
 	int		fd;
-	int		i;
-	char	*tmp;
+	char	*index;
+	t_lines	*tmp;
 
 	fd = open(".history", O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
@@ -12,18 +12,19 @@ void	add_mhistory_file(char **command)
 		perror("Error opening history file");
 		return ;
 	}
-	if (command[0] == NULL)
+	tmp = history_lines;
+	if (!tmp)
 	{
 		close(fd);
 		return ;
 	}
-	i = 0;
-	while (command[i])
+	while (tmp)
 	{
-		tmp = ft_strjoin(command[i], "\n");
-		write(fd, tmp, ft_strlen(tmp));
-		free(tmp);
-		i++;
+		index = ft_itoa(tmp->index);
+		write(fd, index, ft_strlen(index));
+		write(fd, ' ', 1);
+		write(fd, tmp->line, ft_strlen(tmp->line));
+		write(fd, '\n', 1);
 	}
 	close(fd);
 }
@@ -36,21 +37,25 @@ void	clear_history(void)
 	if (fd == -1)
 	{
 		perror("Error al limpiar el historial");
-		return;
+		return ;
 	}
 	close(fd);
 }
 
-int main(void)
+int	main(void)
 {
-	char	*line[2];
+	t_data	*data_program;
+	t_lines	*history_lines;
 
-
-	line[0] = "cat -e | grep -v '^$' | cut -d ' ' -f 1 | sort | uniq -c | sort -nr";
-	// command[1] = "pwd";
-	line[1] = NULL;
-
-	add_mhistory_file(line);
+	data_program = (t_data *)malloc(sizeof(t_data));
+	history_lines = (t_lines *)malloc(sizeof(t_lines));
+	add_mhistory(data_program, "cmd01 test");
+	add_mhistory(data_program, "cmd02 test");
+	printf("cmdt tester added\n");
+	show_history(data_program);
+	printf("history_lines created\n");
+	add_mhistory_file(history_lines);
+	printf("lines added to .history\n");
 	// clear_history();
 	return (0);
 }
