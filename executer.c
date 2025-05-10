@@ -144,7 +144,14 @@ int	handle_infile(char *infile, char *delimit)
 	}
 	else
 	{
-		fd = open(infile, O_RDONLY | O_CREAT, 666); // check permisos
+		if (access(infile, F_OK) == -1 || access(infile, R_OK) == -1)
+		{
+			perror("Cannot access infile");
+			return (-1);
+		}
+		fd = open(infile, O_RDONLY);
+		if (fd == -1)
+			perror("Open failed");
 		return (fd);
 	}
 }
@@ -153,14 +160,17 @@ int	handle_outfile(char *outfile, int append)
 {
 	int	fd;
 
-	if (append)
-		fd = open(outfile, O_WRONLY, 666); // check permisos
-	else
-		fd = open(outfile, O_RDONLY | O_TRUNC, 666); // check permisos
-	if (fd < 0)
+	if (access(outfile, F_OK) == 0 && access(outfile, W_OK) == -1)
 	{
-		// err open
+		perror("Cannot access outfile");
+		return (-1);
 	}
+	if (append)
+		fd = open(outfile, O_WRONLY, 0666); // check permisos
+	else
+		fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0666); // check permisos
+	if (fd == -1)
+		perror("Open failed");
 	return (fd);
 }
 

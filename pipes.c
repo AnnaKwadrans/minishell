@@ -34,6 +34,7 @@ void    close_fds(int *fds, int pipes, int wr, int rd)
                 i++;
         }
 }
+
 /*
 void    create_process(t_cmd *cmd, int pipes, int *fds)
 {
@@ -66,9 +67,31 @@ void    exec_all_lines(t_data *data)
 
 int	execute_line(t_cmd **cmds, int pipes, int *fds)
 {
+        int i;
+
+        printf("pipes: %d\n", pipes);
+        if (pipes > 0)
+                fds = create_pipes(pipes);
+	i = 0;
+        while (cmds[i])
+        {
+                child(cmds[i], pipes, fds, i);
+                i++;
+        }
+        close_fds(fds, pipes, -1, -1);
+        if (fds)
+                free(fds);
+        parent(cmds, pipes, fds);
+        return (0);
+}
+
+/*
+int	execute_line(t_cmd **cmds, int pipes, int *fds)
+{
 	int	i;
 
-	if (pipes == 0)
+	printf("pipes: %d\n", pipes);
+        if (pipes == 0)
                 single_child(cmds[0]);
         else
         {
@@ -77,33 +100,144 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds)
 	        i = 1;
 	        while (cmds[i] && i < pipes)
 	        {
-		        //new_child(cmds[i], pipes, fds);
+		        new_child(cmds[i], pipes, fds, i);
 		        i++;
 	        }
-	        if (i == pipes)
-                {
-		        //last_child(cmds[i], fds);
-                }
+                if (i == pipes)
+        		last_child(cmds[i], pipes, fds);
+                close_fds(fds, pipes);
                 free(fds);
         }
+        parent(cmds, pipes);
         return (0);
 }
+*/
+void    redirect(t_cmd *cmd, int pipes, int *fds, int i)
+{
+        if (cmd->infile)
+        {
+                if (i != 0)
+                        close(fds[(i - 1) * 2]);
+                cmd->fd_in = handle_infile(cmd->infile, cmd->delimit);
+                dup2(cmd->fd_in, STDIN_FILENO);
+                close(cmd->fd_in);
+        }
+        else if (i != 0)
+        {
+                dup2(fds[(i - 1) * 2], STDIN_FILENO); // 0:-2 1:0, 2:2, 3:4 
+                                                        //0: 
+                close(fds[(i - 1) * 2]);
+        }
+        if (cmd->outfile)
+        {
+                if (i != pipes)
+                        close(fds[(i * 2) + 1]); // 0:1 1:3 2:5 3:7
+                cmd->fd_out = handle_outfile(cmd->outfile, cmd->append);
+                dup2(cmd->fd_out, STDOUT_FILENO);
+                close(cmd->fd_out);
+        }
+        else if (i != pipes)
+        {
+                dup2(fds[(i * 2) + 1], STDOUT_FILENO);
+                close(fds[(i * 2) + 1]);
+        }
+}
 
-void    parent(t_cmd **cmds, int pipes)
+void    last_child(t_cmd *cmd, int pipes, int *fds)
+{
+        // pipe i, fds[i]
+        printf("check last 1");
+        cmd->pid = fork();
+        if (cmd->pid < 0)
+        {
+        // err
+        }
+        if (cmd->pid == 0)
+        {       
+                if (cmd->outfile)
+                {
+                        cmd->fd_out = handle_outfile(cmd->outfile, cmd->append);
+                        dup2(cmd->fd_out, STDOUT_FILENO);
+                        }
+                        else
+                        {
+                                dup2(fds[(pipes - 1) * 2], STDIN_FILENO); //2
+                                
+                        }
+                        //close_fds(fds, pipes);
+                        exec_cmd(cmd);
+                        printf("check last 2");
+        }
+        if (cmd->pid > 0)
+        {
+                //parent
+        }
+}
+
+void    new_child(t_cmd *cmd, int pipes, int *fds, int i)
+{
+                // pipe i, fds[i]
+                printf("check new 1");
+                cmd->pid = fork();
+                if (cmd->pid < 0)
+                {
+                        // err
+                }
+                if (cmd->pid == 0)
+                {       
+                        dup2(fds[(i - 1) * 2], STDIN_FILENO); //1: 0 
+                        if (cmd->outfile)
+                        {
+                                cmd->fd_out = handle_outfile(cmd->outfile, cmd->append);
+                                dup2(cmd->fd_out, STDOUT_FILENO);
+                        }
+                        else
+                                dup2(fds[(i * 2) + 1], STDOUT_FILENO); //1: 3
+                        
+                        
+                        // i = 1
+                        //dup2(fds[0], STDIN_FILENO);
+                        //dup2(fds[3], STDOUT_FILENO); // i * 2 + 1
+                        // i = 2
+                        //dup2(fds[2], STDIN_FILENO); // (i - 1) * 2
+                        //dup2(fds[5], STDOUT_FILENO); // i * 2 + 1
+                        // i = 3
+                        //dup2(fds[4], STDIN_FILENO); // (i - 1) * 2
+                        //dup2(fds[7], STDOUT_FILENO); // (i * 2) + 1
+                        // i = 4 = pipes
+                        //dup2(fds[6], STDIN_FILENO); // (i - 1) * 2
+                        //close_fds(fds, pipes);
+                        exec_cmd(cmd);
+                        printf("check new 2");
+                }
+                if (cmd->pid > 0)
+                {
+                        //parent
+                }
+}
+
+void    parent(t_cmd **cmds, int pipes, int *fds)
 {
         int     i;
         
+        //close_fds(fds, pipes, -1, -1);
         i = 0;
+        
         while (i <= pipes)
         {
-                waitpid(cmds[i]->pid, NULL, 0);
+                //wait(NULL);
+                waitpid(cmds[i]->pid, NULL, WNOHANG);
                 i++;
         }
+        
+       //while (wait(NULL) > 0)
+        //        ;
 }
 
 void    first_child(t_cmd *cmd, int pipes, int *fds)
 {
         // pipe 1, fds[0]
+        printf("check first 1");
         cmd->pid = fork();
         if (cmd->pid < 0)
         {
@@ -111,9 +245,10 @@ void    first_child(t_cmd *cmd, int pipes, int *fds)
         }
         if (cmd->pid == 0)
         {
-                dup2(fds[1], STDOUT_FILENO);
-                close_fds(fds, pipes, 1, -1);
+                dup2(fds[1], STDOUT_FILENO); // (i * 2) + 1
+                //close_fds(fds, pipes);
                 exec_cmd(cmd);
+                printf("check first 2");
         }
         if (cmd->pid > 0)
         {
@@ -125,17 +260,45 @@ void    single_child(t_cmd *cmd)
 {
         cmd->pid = fork();
         if (cmd->pid < 0)
+                return (perror("fork failed"));
+        else if (cmd->pid == 0)
+        {
+                if (cmd->infile)
+                {
+                        cmd->fd_in = handle_infile(cmd->infile, cmd->delimit);
+                        dup2(cmd->fd_in, STDIN_FILENO);
+                }
+                if (cmd->outfile)
+                {
+                        cmd->fd_out = handle_outfile(cmd->outfile, cmd->append);
+                        dup2(cmd->fd_out, STDOUT_FILENO);
+                }
+                exec_cmd(cmd);
+        }
+}
+
+void    child(t_cmd *cmd, int pipes, int *fds, int i)
+{
+        printf("check new %d", i);
+        cmd->pid = fork();
+        if (cmd->pid < 0)
         {
                 // err
         }
-        else if (cmd->pid == 0)
+        if (cmd->pid == 0)
         {
-                // in/out files
+                close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+                redirect(cmd, pipes, fds, i);
                 exec_cmd(cmd);
+                printf("check new 2");
         }
-        else 
-                waitpid(cmd->pid, NULL, 0);
+        if (cmd->pid > 0)
+        {
+                //parent
+        }
 }
+
+
 /*
 int     main(int argc, char **argv, char **envp)
 {
