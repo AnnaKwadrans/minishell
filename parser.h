@@ -44,13 +44,7 @@ bool	is_set(char c, char const *set);
 size_t	ft_strlen_set(const char *s, char *set);
 char	*ft_strdup_set(const char *s, char *set);
 
-// executer.c
-int     execute_line(t_cmd ***cmds, int *pipes);
-int     execute_pipes(t_cmd *cmd, int pipes, int index);
-int	    exec_cmd(t_cmd *cmd);
-int     handle_infile(char *infile, char *delimit);
-int     handle_outfile(char *outfile, int append);
-int	exec_line(t_cmd ***cmds, int *pipes);
+
 
 
 #endif

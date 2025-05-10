@@ -1,6 +1,6 @@
-#include "parser.h"
-#include "data.h"
-#include "libft/libft.h"
+#include "../parser.h"
+#include "../data.h"
+#include "../libft/libft.h"
 #include <readline/readline.h>
 
 void rl_replace_line(const char *text, int clear_undo);
@@ -36,6 +36,7 @@ void	init_data(t_data *data)
 		signal(SIGINT, SIG_IGN); // Ignorar Ctrl+C
 		signal(SIGQUIT, SIG_IGN); // Ignorar Ctrl+\;
 	}
+	data->fds = NULL;
 }
 
 void	parse_data(char *input, t_data *data, char **envp)

@@ -1,6 +1,6 @@
-#include "parser.h"
-#include "data.h"
-#include "libft/libft.h"
+#include "../parser.h"
+#include "../data.h"
+#include "../libft/libft.h"
 
 void	clean_data_program(t_data *data)
 {

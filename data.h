@@ -28,6 +28,7 @@ typedef struct s_data
 	int				*pipes; // Contador de pipes
 	int				is_interactive; // Si es interactivo o no
 	t_cmd			*last_cmd;
+	int			*fds;
 }	t_data;
 
 // Estructura para almacenar las variables de entorno "locales"
