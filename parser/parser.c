@@ -1,6 +1,6 @@
-#include "parser.h"
-#include "data.h"
-#include "libft/libft.h"
+#include "../parser.h"
+#include "../data.h"
+#include "../libft/libft.h"
 
 t_cmd	**parse_line(char *input, int pipes, char **envp)
 {

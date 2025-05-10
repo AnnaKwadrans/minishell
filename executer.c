@@ -1,10 +1,12 @@
 #include "data.h"
 #include "parser.h"
-
+#include "executer.h"
+/*
 int	exec_line(t_cmd ***cmds, int *pipes)
 {
 	int	i;
 	int	j;
+	int	fds[2];
 
 	i = 0;
 	while (cmds[i])
@@ -12,15 +14,33 @@ int	exec_line(t_cmd ***cmds, int *pipes)
 		j = 0;
 		while (cmds[i][j])
 		{
-			exec_cmd(cmds[i][j]);
+			if (pipe(fds) < 0)
+			{
+				// err pipe
+			}
+			cmds[i][j]->pid = fork();
+			if (cmds[i][j]->pid < 0)
+			{
+				// err fork
+			}
+			else if (cmds[i][j]->pid == 0)
+			{
+				exec_cmd(cmds[i][j]);
+			}
+			else if (cmds[i][j]->pid > 0)
+			{
+				// parent
+				waitpid(cmds[i][j]->pid, NULL, 0);
+			}
 			j++;
 		}
 		i++;
 	}
 	return (0);
 }
-
-int	execute_line(t_cmd ***cmds, int *pipes)
+*/
+/*
+int	execute_line(t_cmd ***cmds, int *pipes, int **fds)
 {
 	int	i;
 	int	j;
@@ -28,20 +48,25 @@ int	execute_line(t_cmd ***cmds, int *pipes)
 	i = 0;
 	while (cmds[i])
 	{
-		while (cmds[i][j])
+		fds = create_pipes(pipes[i]);
+		first_child(cmds[i][j], j, fds);
+		j = 1;
+		while (cmds[i][j] && j < pipes[i])
 		{
-			execute_pipes(cmds[i][j], pipes[j], j);
+			new_child(cmds[i][j], pipes[i], j, fds[i]);
 			j++;
 		}
+		if (j = pipes[i])
+			last_child(cmds[i][j], j, fds[i]);
+		free_fds(fds, pipes[i]);
 		i++;
 	}
 	return (0);
 }
-
-int	execute_pipes(t_cmd *cmd, int pipes, int index)
+*/
+/*
+int	new_child(t_cmd *cmd, int pipes, int process, int *fds)
 {
-	int	fds[2];
-
 	if (pipe(fds) < 0)
 	{
 		// err pipe
@@ -107,7 +132,7 @@ int	execute_pipes(t_cmd *cmd, int pipes, int index)
 	}
 	return (0);
 }
-
+*/
 int	handle_infile(char *infile, char *delimit)
 {
 	int	fd;
@@ -139,20 +164,19 @@ int	handle_outfile(char *outfile, int append)
 	return (fd);
 }
 
-int	exec_cmd(t_cmd *cmd)
+void	exec_cmd(t_cmd *cmd)
 {
-	//char	**path_tab;
+	char	*path_var;
+	char	**path_tab;
 	char	*path;
 
-	//path_tab = parse_path_var(cmd->env);
-	//path = get_path(cmd->args, path_tab);
-	path = getenv("PATH");
-	printf("PATH:: %s\n", path);
-	print_array(cmd->args);
-	print_array(cmd->env);
+	path_var = getenv("PATH");
+	path_tab = ft_split(path_var + 5, ':');
+	path = get_path(cmd->args, path_tab);
+	free_array(path_tab);
 	execve(path, cmd->args, cmd->env);
 	printf("CHECK\n");
-	return (-1);
+	return ;
 }
 /*
 char	**parse_path_var(char **envp)
@@ -175,7 +199,7 @@ char	**parse_path_var(char **envp)
 	}
 	return (NULL);
 }
-
+*/
 char	*get_path(char **cmd_tab, char **path_tab)
 {
 	int		i;
@@ -204,4 +228,4 @@ char	*get_path(char **cmd_tab, char **path_tab)
 	}
 	return (NULL);
 }
-*/
+
