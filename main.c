@@ -92,4 +92,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 }
 
-// PARA COMPILAR, APLICAR "-readline"
+// PARA COMPILAR, APLICAR "-lreadline"

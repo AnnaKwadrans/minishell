@@ -12,6 +12,24 @@ t_vars **export_vars(t_data *data_program);
 void example_new_vars(t_data *data_program);
 int ft_strcmp(const char *s1, const char *s2);
 
+void ft_cd(t_data *data_program);
+void ft_export(t_data *data_program);
+void ft_unset(t_data *data_program);
+void ft_exit(t_data *data_program);
+
+void	ft_pwd(t_data *data_program)
+{
+	t_vars	*tmp;
+
+	tmp = search_var(data_program, "PWD");
+	if (!tmp)
+	{
+		printf("Variable PWD not found\n");
+		return ;
+	}
+	printf("%s\n", tmp->value);
+}
+
 char *pre_echo(char *var)
 {
 	char *name;
@@ -76,12 +94,42 @@ void	make_function(t_data *data_program, char *var)
 			ft_echo(data_program, args[i + 1]);
 			break;
 		}
+		// if (ft_strcmp(args[i], "cd") == 0)
+		// {
+		// 	printf("cd found\n");
+		// 	ft_cd(data_program);
+		// 	break;
+		// }
 		if (ft_strcmp(args[i], "pwd") == 0)
 		{
 			printf("pwd found\n");
 			ft_pwd(data_program);
 			break;
 		}
+		// if (ft_strcmp(args[i], "export") == 0)
+		// {
+		// 	printf("export found\n");
+		// 	ft_export(data_program);
+		// 	break;
+		// }
+		// if (ft_strcmp(args[i], "unset") == 0)
+		// {
+		// 	printf("unset found\n");
+		// 	ft_unset(data_program);
+		// 	break;
+		// }
+		// if (ft_strcmp(args[i], "env") == 0)
+		// {
+		// 	printf("env found\n");
+		// 	show_vars(data_program);
+		// 	break;
+		// }
+		// if (ft_strcmp(args[i], "exit") == 0)
+		// {
+		// 	printf("exit found\n");
+		// 	ft_exit(data_program);
+		// 	break;
+		// }
 		i++;
 	}
 	free(args);
@@ -90,21 +138,28 @@ void	make_function(t_data *data_program, char *var)
 int main(void)
 {
 	t_data *data_program;
-	char *line;
+	char *line1, *line2;
 
 	data_program = malloc(sizeof(t_data));
 	if (!data_program)
 		return (1);
 	add_var(data_program, new_var("MY_VAR", "Hello World", 1));
+	add_var(data_program, new_var("PWD", "/home/user", 1));
 	printf("<<------------------ Variables ------------------>>\n");
 	show_vars(data_program);
 	printf("\n<<-------------- end var's list --------------->>\n");
-	line = ft_strdup("echo $MY_VAR");
-	make_function(data_program, line);
-	free(line);
+	line1 = ft_strdup("echo $MY_VAR");
+	make_function(data_program, line1);
+	free(line1);
+	line2 = ft_strdup("pwd");
+	make_function(data_program, line2);
+	free(line2);
 	free(data_program);
 	return (0);
 }
+
+// PARA COMPILAR:
+// cc libft/libft.a vars/*.c buildins/*.c 
 
 // str = "echo -n hola mundo esto es 42"
 // 		0	1	2
