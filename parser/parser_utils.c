@@ -1,5 +1,5 @@
-#include "parser.h"
-#include "data.h"
+#include "../parser.h"
+#include "../data.h"
 
 /*
 int	ft_isspace(int c)

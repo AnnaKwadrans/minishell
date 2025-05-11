@@ -1,6 +1,6 @@
 //#include "data.h"
 //#include "libft/libft.h"
-#include "parser.h"
+#include "../parser.h"
 #include <stdio.h>
 
 int	close_quotes(char const *s)

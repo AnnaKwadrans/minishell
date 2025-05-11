@@ -8,10 +8,16 @@ LIBFT = libft/libft.a
 # Include readline library for macOS
 
 UNAME_S := $(shell uname -s)
+WHO := $(shell whoami)
 
 ifeq ($(UNAME_S),Darwin)
-	READLINE_INC = -I/opt/homebrew/opt/readline/include
-	READLINE_LIB = -L/opt/homebrew/opt/readline/lib
+	ifeq ($(WHO),annakwadrans)
+		READLINE_INC = -I/usr/local/opt/readline/include
+		READLINE_LIB = -L/usr/local/opt/readline/lib
+	else 
+		READLINE_INC = -I/opt/homebrew/opt/readline/include
+		READLINE_LIB = -L/opt/homebrew/opt/readline/lib
+	endif
 else
 	READLINE_INC =
 	READLINE_LIB =
@@ -21,7 +27,9 @@ endif
 SRC = $(wildcard *.c)
 SRC_AUX = ${wildcard aux/*.c}
 SRC_LIBFT = ${wildcard libft/*.c}
-SRC_ALL = $(SRC_AUX) $(SRC_LIBFT) $(SRC)
+SRC_PARS = ${wildcard parser/*.c}
+
+SRC_ALL = $(SRC_AUX) $(SRC_LIBFT) $(SRC_PARS) $(SRC)
 
 OBJ = $(SRC_ALL:.c=.o)
 

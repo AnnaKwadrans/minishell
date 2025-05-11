@@ -1,6 +1,6 @@
-#include "parser.h"
-#include "data.h"
-#include "libft/libft.h"
+#include "../parser.h"
+#include "../data.h"
+#include "../libft/libft.h"
 
 void	clean_data_program(t_data *data)
 {
@@ -9,11 +9,12 @@ void	clean_data_program(t_data *data)
 
 	free_line(data->line);
 	data->line = NULL;
-	i = 0;
 	if (data->cmds)
 	{
+		i = 0;
 		while (data->cmds[i])
 		{
+			j = 0;
 			while(data->cmds[i][j])
 			{
 				free_cmd(data->cmds[i][j]);
