@@ -2,14 +2,16 @@
 #include "../data.h"
 #include "../libft/libft.h"
 
-t_cmd	**parse_line(char *input, int pipes, char **envp)
+t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 {
 	int	i;
 	char	**cmd_aux;
 	t_cmd	**cmds;
 
-	if (!input || input[0] == '\0')
-		return (NULL);
+	if (!input || input[0] == '\0' || !valid_pipes(input))
+		return (ft_putendl_fd("Parse error", 2), NULL);
+	if (is_var(input))
+		return (handle_var(input, data), NULL);
 	cmd_aux = split_pipes(input, '|');
 	print_array(cmd_aux);
 	//print_array(cmd_aux); // para testear
@@ -30,6 +32,7 @@ t_cmd        *get_cmd(char *aux)
 {
         t_cmd        *cmd;
         int        i;
+
         cmd = init_cmd();
         if (!cmd)
                 return (NULL);
@@ -37,29 +40,24 @@ t_cmd        *get_cmd(char *aux)
         while (aux[i])
         {
                 if (ft_isspace(aux[i]))
-		{
 			i++;
-		}
 		else if (aux[i] == '<')
-		{
 			cmd->infile = get_infile(&aux[i], &cmd->delimit, &i);
-		}
 		else if (aux[i] == '>')
-		{
                         cmd->outfile = get_outfile(&aux[i], &cmd->append, &i);
-		}
 		else if (!cmd->args)
-		{
                         cmd->args = get_args(&aux[i], &i);
-		}
 		else
-		{
                         cmd->args = append_args(cmd->args, &aux[i], &i);
-		}
 	}
-	printf("%s %s %s %d\n", cmd->infile, cmd->delimit, cmd->outfile, cmd->append); // para testear
-	print_array(cmd->args);
-	printf("END PIPE\n");
+	if (cmd->args == NULL)
+	{
+		cmd->args = malloc(sizeof(char *));
+		cmd->args[0] = ft_strdup("cat");
+	}
+	//printf("%s %s %s %d\n", cmd->infile, cmd->delimit, cmd->outfile, cmd->append); // para testear
+	//print_array(cmd->args);
+	//printf("END PIPE\n");
         return (cmd);
 }
 //VAR=abc ; ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile

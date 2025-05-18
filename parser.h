@@ -11,7 +11,7 @@ typedef struct s_lines t_lines;
 typedef struct s_cmd t_cmd;
 
 // parser.c
-t_cmd	**parse_line(char *input, int pipes, char **envp); // devuelve array de comandos
+t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data); // devuelve array de comandos
 t_cmd	*get_cmd(char *aux); // se le pasa como parametro una parte del input que corresponde a un pipe
 t_cmd	*init_cmd(); // inicializa la estructura
 char	*get_infile(char *aux, char **delimit, int *index); // para obtener el infile (<) o delimitador (<<)
@@ -44,7 +44,10 @@ bool	is_set(char c, char const *set);
 size_t	ft_strlen_set(const char *s, char *set);
 char	*ft_strdup_set(const char *s, char *set);
 
-
+//validator.c
+bool    valid_pipes(char *line);
+bool    is_var(char *line);
+void    handle_var(char *input, t_data *data);
 
 
 #endif

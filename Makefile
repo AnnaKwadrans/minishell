@@ -28,8 +28,9 @@ SRC = $(wildcard *.c)
 SRC_AUX = ${wildcard aux/*.c}
 SRC_LIBFT = ${wildcard libft/*.c}
 SRC_PARS = ${wildcard parser/*.c}
+SRC_VARS = ${wildcard vars/*.c}
 
-SRC_ALL = $(SRC_AUX) $(SRC_LIBFT) $(SRC_PARS) $(SRC)
+SRC_ALL = $(SRC_AUX) $(SRC_LIBFT) $(SRC_PARS) $(SRC_VARS) $(SRC)
 
 OBJ = $(SRC_ALL:.c=.o)
 
