@@ -31,7 +31,9 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds)
         close_fds(fds, pipes, -1, -1);
         if (fds)
                 free(fds);
-        parent(cmds, pipes, fds);
+        while (wait(NULL) > 0)
+                ;
+        //parent(cmds, pipes, fds);
         return (0);
 }
 
@@ -68,15 +70,12 @@ void    child(t_cmd *cmd, int pipes, int *fds, int i)
         //printf("check new %d", i);
         cmd->pid = fork();
         if (cmd->pid < 0)
-        {
-                // err
-        }
+                return (perror("Fork failed"));
         else if (cmd->pid == 0)
         {
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
                 redirect(cmd, pipes, fds, i);
                 exec_cmd(cmd);
-                //printf("check new 2");
         }
         else if (cmd->pid > 0)
                 return ;
@@ -173,7 +172,7 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds)
 }
 */
 
-
+/*
 void    last_child(t_cmd *cmd, int pipes, int *fds)
 {
         // pipe i, fds[i]
@@ -252,7 +251,7 @@ void    parent(t_cmd **cmds, int pipes, int *fds)
         int     i;
         
         //close_fds(fds, pipes, -1, -1);
-        /*
+        
         i = 0;
         
         while (i < pipes)
@@ -261,11 +260,11 @@ void    parent(t_cmd **cmds, int pipes, int *fds)
                 //waitpid(cmds[i]->pid, NULL, WNOHANG);
                 i++;
         }
-        */
+        
        while (wait(NULL) > 0)
         ;
 }
-
+/*
 void    first_child(t_cmd *cmd, int pipes, int *fds)
 {
         // pipe 1, fds[0]
@@ -308,7 +307,7 @@ void    single_child(t_cmd *cmd)
                 exec_cmd(cmd);
         }
 }
-
+*/
 
 
 

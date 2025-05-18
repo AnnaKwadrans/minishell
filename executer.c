@@ -166,7 +166,7 @@ int	handle_outfile(char *outfile, int append)
 		return (-1);
 	}
 	if (append)
-		fd = open(outfile, O_WRONLY, 0666); // check permisos
+		fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0666); // check permisos
 	else
 		fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0666); // check permisos
 	if (fd == -1)
@@ -183,9 +183,19 @@ void	exec_cmd(t_cmd *cmd)
 	path_var = getenv("PATH");
 	path_tab = ft_split(path_var + 5, ':');
 	path = get_path(cmd->args, path_tab);
-	free_array(path_tab);
-	execve(path, cmd->args, cmd->env);
-	printf("CHECK\n");
+	if (path_tab)
+		free_array(path_tab);
+	if (path)
+	{
+		cmd->p_status = execve(path, cmd->args, cmd->env);
+		free(path);
+		perror("Execve failed");
+	}
+	else
+	{
+		ft_putendl_fd("Command not found", 2);
+		cmd->p_status = 127;
+	}
 	return ;
 }
 /*

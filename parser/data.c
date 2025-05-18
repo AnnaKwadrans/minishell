@@ -84,7 +84,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 	i = 0;
 	while (part_lines[i])
 	{
-		data->cmds[i] = parse_line(part_lines[i], data->pipes[i], envp);
+		data->cmds[i] = parse_line(part_lines[i], data->pipes[i], envp, data);
 		if (!data->line || !data->cmds || !data->cmds)
 		{
 			free_data(data);
