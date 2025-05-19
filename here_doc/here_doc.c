@@ -92,6 +92,26 @@ char *remove_trailing_newline(char *str)
 	return (new_str);
 }
 
+void here_doc_error(t_heredoc *here_doc, char *error_msg)
+{
+	if (error_msg)
+	{
+		if (ft_strcmp(error_msg, "EOF") == 0)
+			printf("EOF detected\n");
+		else if (ft_strcmp(error_msg, "SIGINT") == 0)
+			printf("SIGINT detected\n");
+		else if (ft_strcmp(error_msg, "MALLOC") == 0)
+			printf("MALLOC ERROR\n");
+		else if (ft_strcmp(error_msg, "PARSE") == 0)
+			printf("Parse error near `\\n`\n");
+	}
+	else
+		printf("EOF detected\n");
+	printf("<<----- \t HERE_DOC MODE STOPPED \t ----->>\n");
+	free_here_doc(here_doc);
+	restore_signals();
+}
+
 char **add_buffer(char **buffer, char *line)
 {
 	int		count = 0;
@@ -148,11 +168,13 @@ char	*aux_get_delimiter(char *line)
 	int		end;
 	char	*temp;
 
-	while (line[start] == ' ' || line[start] == '\'' || line[start] == '\"' || line[start] == ' ')
+	while (line[start] != '\0' && (line[start] == '\'' || line[start] == '\"' || line[start] == ' '))
 		start++;
 	end = ft_strlen(line) - 1;
 	while (end > start && (line[end] == ' ' || line[end] == '\'' || line[end] == '\"'))
 		end--;
+	if (end < start)
+		return (free(line), NULL);
 	temp = malloc(sizeof(char) * (end - start + 2));
 	if (!temp)
 		return (NULL);
@@ -181,6 +203,8 @@ void get_delimiter(char *line, t_heredoc *here_doc)
 			ft_strlcpy(temp, &line[i + 2], start - i);
 			printf(">> temp is:%s\n", temp);
 			here_doc->delimiter = aux_get_delimiter(temp);
+			if (!here_doc->delimiter)
+				return ;
 			here_doc->is_expandable = check_is_expandable(temp);
 			free(temp);
 			return ;
@@ -193,32 +217,12 @@ void	here_doc_init(char *line, t_heredoc *here_doc)
 {
 	setup_heredoc_signals();
 	get_delimiter(line, here_doc);
-	if (!here_doc->delimiter || *here_doc->delimiter == '\0')
-	{
-		printf("Parse error near `\\n`\n");
-		free_here_doc(here_doc);
-		restore_signals();
-	}
+	if (!here_doc->delimiter)
+		here_doc_error(here_doc, "PARSE");
 	if (here_doc->delimiter)
 		printf("delimeter is: %s\n", here_doc->delimiter);
 }
-void here_doc_error(t_heredoc *here_doc, char *error_msg)
-{
-	if (error_msg)
-	{
-		if (ft_strcmp(error_msg, "EOF") == 0)
-			printf("EOF detected\n");
-		else if (ft_strcmp(error_msg, "SIGINT") == 0)
-			printf("SIGINT detected\n");
-		else if (ft_strcmp(error_msg, "MALLOC") == 0)
-			printf("MALLOC ERROR\n");
-	}
-	else
-		printf("EOF detected\n");
-	printf("<<----- \t HERE_DOC MODE STOPPED \t ----->>\n");
-	free_here_doc(here_doc);
-	restore_signals();
-}
+
 
 t_heredoc	*here_doc_mode(char *line)
 {
@@ -231,7 +235,7 @@ t_heredoc	*here_doc_mode(char *line)
 	if (!here_doc)
 		return (here_doc_error(here_doc, "MALLOC"), NULL);
 	here_doc_init(line, here_doc);
-	while (1)
+	while (here_doc->delimiter)
 	{
 		write(1, "heredoc >", 10);
 		new_line = remove_trailing_newline(get_next_line(STDIN_FILENO));
@@ -245,7 +249,8 @@ t_heredoc	*here_doc_mode(char *line)
 		if (!here_doc->buffer)
 			return (here_doc_error(here_doc, "MALLOC"), NULL);
 	}
-	free(new_line);
+	if (new_line)
+		free(new_line);
 	return(here_doc);
 }
 	
