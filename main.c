@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 
 	data_program = malloc(sizeof(t_data));
 	init_data(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
+	
 	while (1)
 	{
 		if (data_program->is_interactive)
