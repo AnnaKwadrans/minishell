@@ -38,6 +38,7 @@ typedef struct s_vars
 	char			*value; // Valor de la variable
 	struct	s_vars	*next; // Siguiente variable
 	int				is_exportable; // Si es exportable o no
+	t_data	*data;
 } t_vars;
 
 // Estructura para almacenar los comandos y ejecutarlos

@@ -1,6 +1,6 @@
 #include "data.h"
 #include "parser.h"
-#include "executer.h"
+#include "executor.h"
 
 // void	set_raw_mode(void)
 // {
