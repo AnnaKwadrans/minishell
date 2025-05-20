@@ -58,10 +58,10 @@ typedef struct s_cmd
 	char 	*outfile;
 	int		fd_out;
 	int 	append;
+	t_heredoc	*heredoc;
 	char	*delimit;
 	pid_t 	pid;
 	int		p_status;
-	//struct	s_cmd *next; // esto creo que no lo necesitamos si no es una lista
 	t_data	*data;
 }	t_cmd;
 

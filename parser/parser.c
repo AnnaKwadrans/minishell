@@ -8,19 +8,22 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	char	**cmd_aux;
 	t_cmd	**cmds;
 
+	printf("%s\n", input);
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
 	//if (is_var(input))
 	//	return (handle_var(input, data), NULL);		DESCOMENTAR
 	cmd_aux = split_pipes(input, '|');
-	print_array(cmd_aux);
-	//print_array(cmd_aux); // para testear
+	print_array(cmd_aux); // para testear
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
+	if (!cmds)
+		return (perror("malloc failed"), NULL);
 	i = 0;
 	while (i <= pipes)
 	{
 		cmds[i] = get_cmd(cmd_aux[i]);
 		cmds[i]->env = envp;
+		cmds[i]->data = data;
 		i++;
 	}
 	cmds[i] = NULL;
@@ -53,6 +56,8 @@ t_cmd        *get_cmd(char *aux)
 	if (cmd->args == NULL)
 	{
 		cmd->args = malloc(sizeof(char *));
+		if (!cmd->args)
+			return (free_cmd(cmd), NULL);
 		cmd->args[0] = ft_strdup("cat");
 	}
 	//printf("%s %s %s %d\n", cmd->infile, cmd->delimit, cmd->outfile, cmd->append); // para testear
@@ -68,17 +73,15 @@ t_cmd        *init_cmd()
         if (!cmd)
                 return (NULL);
         cmd->args = NULL;
-        //cmd->env = envp;
+        cmd->env = NULL;
         cmd->infile = NULL;
         cmd->fd_in = STDIN_FILENO;
         cmd->outfile = NULL;
         cmd->fd_out = STDOUT_FILENO;
         cmd->append = 0;
         cmd->delimit = NULL;
-        //pid_t         pid;
-        //int                p_status;
-        //struct s_cmd *next;
-        //t_data        *data;
+	cmd->heredoc = NULL;
+        cmd->data = NULL;
 	return (cmd);
 }
 /*
