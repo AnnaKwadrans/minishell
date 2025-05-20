@@ -36,6 +36,7 @@ void	init_data(t_data *data);
 void	parse_data(char *input, t_data *data, char **envp);
 int	count_pipe(char *line);
 bool	even_quotes(char *line);
+t_lines	*get_line(t_data *data, char *input);
 
 // lexer_utils.c
 char	*get_var(char *line); // para obtener el valor de la variable de entorno

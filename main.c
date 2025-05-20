@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		clean_data_program(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 		free(input);
 		//ft_printer_lines(data_program->history_lines);
-		printf("**********\n");
+		//printf("**********\n");
 	}
 }
 
