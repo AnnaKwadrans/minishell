@@ -272,6 +272,8 @@ int is_here_doc(char *line)
 	return (0);
 }
 
+
+
 int main(void)
 {
 	char		*token; // LO QUE HAY ENTRE PIPES
@@ -296,6 +298,7 @@ int main(void)
 				i = 0;
 				while (here_doc->buffer[i] != NULL)
 				{
+
 					printf("buffer[%d]: %s\n", i, here_doc->buffer[i]);
 					i++;
 				}
