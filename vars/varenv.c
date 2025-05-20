@@ -1,30 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   varenv.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
+/*   Updated: 2025/05/21 00:45:27 by kegonza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../data.h"
 #include "../aux/aux.h"
 #include "../libft/libft.h"
 #include "../parser.h"
 #include "varenv.h"
 
-void	free_vars(void *args)
-{
-	t_vars	*var;
-	t_data	*data_program;
-
-	data_program = (t_data *)args;
-	var = data_program->vars;
-	while (var)
-	{
-		free(var->name);
-		free(var->value);
-		free(var);
-		var = var->next;
-	}
-}
-
 void	show_vars(void *args)
 {
 	t_vars	*var;
 	t_data	*data_program;
-	int i;
+	int		i;
 
 	i = 1;
 	data_program = (t_data *)args;
@@ -39,77 +35,9 @@ void	show_vars(void *args)
 	}
 }
 
-t_vars	*new_var(char *name, char *value, int is_exportable)
+void	init_env(t_data *data_program, char **env)
 {
-	t_vars	*new;
-
-	new = malloc(sizeof(t_vars));
-	if (!new)
-		return (NULL);
-	new->name = ft_strdup(name);
-	if (!new->name)
-	{
-		free(new);
-		return (NULL);
-	}
-	new->value = ft_strdup(value);
-	if (!new->value)
-	{
-		free(new->name);
-		free(new);
-		return (NULL);
-	}
-	new->is_exportable = is_exportable;
-	new->next = NULL;
-	printf("New variable created: %s = %s\n", new->name, new->value);
-	return (new);
-}
-
-void	add_var(t_data *data_program, t_vars *new)
-{
-	t_vars	*tmp;
-
-	printf("Adding variable: %s = %s\n", new->name, new->value);
-	if (!data_program->vars)
-	{
-		data_program->vars = new;
-		return ;
-	}
-	tmp = data_program->vars;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
-
-
-int ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
-}
-
-t_vars	*search_var(t_data *data_program, char *name)
-{
-	t_vars	*tmp;
-
-	tmp = data_program->vars;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, name) == 0)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-
-void init_env(t_data *data_program, char **env)
-{
-	int 	i;
+	int		i;
 	char	**split;
 	t_vars	*vars;
 	t_vars	*new;
@@ -118,99 +46,90 @@ void init_env(t_data *data_program, char **env)
 	i = 0;
 	while (env[i])
 	{
-		split = ft_split(env[i], '='); // Divide la variable en nombre y valor
-		// printf("Variable de entorno: %s = %s\n", split[0], split[1]);
+		split = ft_split(env[i], '=');
 		new = malloc(sizeof(t_vars));
-		new->name = ft_strdup(split[0]); // Asigna el nombre de la variable
+		new->name = ft_strdup(split[0]);
 		if (split[1])
-			new->value = ft_strdup(split[1]); // Asigna el valor de la variable
-		new->is_exportable = 1; // viene del entorno, así que está exportada
-		add_var(data_program, new); // Si ya hay variables, añade la nueva al final
-		free(split[0]);
-		free(split[1]);
-		free(split);
+			new->value = ft_strdup(split[1]);
+		new->is_exportable = 1;
+		add_var(data_program, new);
+		free_array(split);
 		i++;
 	}
 }
 
-int	count_exportable_vars(t_data *data_program)
+static char	*handle_quotes(char *result, char *line, int *i)
 {
-	t_vars	*tmp;
-	int		count;
+	char	quote;
 
-<<<<<<< HEAD
-	data_program = malloc(sizeof(t_data));
-	if (!data_program)
-		return (1);
-	data_program->vars = NULL;
-	init_env(data_program, env);
-	 show_vars(data_program);
-	var = search_var(data_program, "PWD");
-	if (var)
-		printf("Variable encontrada: %s=%s\n", var->name, var->value);
-	else
-		printf("Variable no encontrada\n");
-	free_vars(data_program);
-	free(data_program);
-	return (0);
-=======
-	tmp = data_program->vars;
-	count = 0;
-	while (tmp)
-	{
-		if (tmp->is_exportable)
-			count++;
-		tmp = tmp->next;
-	}
-	return (count);
->>>>>>> main
+	quote = line[(*i)++];
+	result = ft_strjoin_free(result, (char []){quote, '\0'});
+	while (line[*i] && line[*i] != quote)
+		result = ft_strjoin_free(result, (char []){line[(*i)++], '\0'});
+	if (line[*i] == quote)
+		result = ft_strjoin_free(result, (char []){line[(*i)++], '\0'});
+	return (result);
 }
 
-t_vars	**export_vars(t_data *data_program)
+static char	*handle_expansion(t_data *data, char *line, char **vars)
 {
-	t_vars	*tmp;
-	t_vars	**exported_vars;
+	char	*result;
 	int		i;
+	int		j;
 
-	tmp = data_program->vars;
+	result = ft_strdup("");
 	i = 0;
-	exported_vars = malloc(sizeof(t_vars *) * (count_exportable_vars(data_program) + 1));
-	if (!exported_vars)
-		return (NULL);
-	while (tmp)
+	j = 0;
+	while (line[i])
 	{
-		if (tmp->is_exportable)
+		if (line[i] == '$' && line[i + 1] && line[i + 1] != '$')
 		{
-			exported_vars[i] = tmp;
 			i++;
+			result = ft_strjoin_free(result, vars[j++]);
+			i = skip_var(line, i - 1);
 		}
-		tmp = tmp->next;
+		else if (line[i] == '\'' || line[i] == '\"')
+			result = handle_quotes(result, line, &i);
+		else if (line[i] == '\\' && line[i + 1])
+			result = ft_strjoin_free(result, (char []){line[i++], '\0'});
+		else
+			result = ft_strjoin_free(result, (char []){line[i++], '\0'});
 	}
-	exported_vars[i] = NULL; // Termina la lista con NULL
-	return (exported_vars);
+	return (result);
 }
 
-
-
-void example_new_vars(t_data *data_program)
+char	*expand_vars(t_data *data_program, char *line)
 {
-	t_vars	*new_var1;
-	t_vars	*new_var2;
-	t_vars	*new_var3;
-	t_vars	*new_var4;
-	t_vars	*new_var5;
+	char	**vars;
+	int		count;
+	char	*result;
 
-	new_var1 = new_var("MY_VAR", "Hello World", 1);
-	new_var2 = new_var("MY_VAR2", "42", 0);
-	new_var3 = new_var("MY_VAR3", "Hello", 1);
-	new_var4 = new_var("MY_VAR4", "World", 0);
-	new_var5 = new_var("MY_VAR5", "!", 1);
-	add_var(data_program, new_var1);
-	add_var(data_program, new_var2);
-	add_var(data_program, new_var3);
-	add_var(data_program, new_var4);
-	add_var(data_program, new_var5);
+	count = count_vars(line);
+	vars = multi_search(data_program, line, count);
+	result = handle_expansion(data_program, line, vars);
+	free_array(vars);
+	return (result);
 }
+
+// static void example_new_vars(t_data *data_program)
+// {
+// 	t_vars	*new_var1;
+// 	t_vars	*new_var2;
+// 	t_vars	*new_var3;
+// 	t_vars	*new_var4;
+// 	t_vars	*new_var5;
+
+// 	new_var1 = new_var("MY_VAR", "Hello World", 1);
+// 	new_var2 = new_var("MY_VAR2", "42", 0);
+// 	new_var3 = new_var("MY_VAR3", "Hello", 1);
+// 	new_var4 = new_var("MY_VAR4", "World", 0);
+// 	new_var5 = new_var("MY_VAR5", "!", 1);
+// 	add_var(data_program, new_var1);
+// 	add_var(data_program, new_var2);
+// 	add_var(data_program, new_var3);
+// 	add_var(data_program, new_var4);
+// 	add_var(data_program, new_var5);
+// }
 
 // int main(int argc, char **argv, char **env)
 // {
@@ -224,29 +143,41 @@ void example_new_vars(t_data *data_program)
 // 	data_program->vars = NULL;
 // 	init_env(data_program, env);
 // 	example_new_vars(data_program);
-// 	show_vars(data_program);
-// 	printf("\n<<------------------ exportable vars ------------------>>\n\n");
-// 	exported_vars = export_vars(data_program);
-// 	if (!exported_vars)
-// 	{
-// 		printf("Error al exportar las variables\n");
-// 		return (1);
-// 	}
-// 	for (int i = 0; exported_vars[i]; i++)
-// 	{
-// 		printf("Variable exportable %d:\n", i + 1);
-// 		printf("\tname: %s\n", exported_vars[i]->name);
-// 		printf("\tvalue: %s\n ", exported_vars[i]->value);
-// 	}
-// 	// var = search_var(data_program, "PWD");
-// 	// if (var)
-// 	// 	printf("Variable encontrada: %s=%s\n", var->name, var->value);
-// 	// else
-// 	// 	printf("Variable no encontrada\n");
-// 	free_vars(data_program);
-// 	free(data_program);
-// 	return (0);
-// }
+// 	// show_vars(data_program);
+// printf("\n<<------------------ exportable");
+// printf("vars-- -- -- -- -- -- -- -- -->>\n\n ");
+	// 	// exported_vars = export_vars(data_program);
+	// 	// if (!exported_vars)
+	// 	// {
+	// 	// 	printf("Error al exportar las variables\n");
+	// 	// 	return (1);
+	// 	// }
+	// 	// for (int i = 0; exported_vars[i]; i++)
+	// 	// {
+	// 	// 	printf("Variable exportable %d:\n", i + 1);
+	// 	// 	printf("\tname: %s\n", exported_vars[i]->name);
+	// 	// 	printf("\tvalue: %s\n ", exported_vars[i]->value);
+	// 	// }
+	// 	printf("\n<<------------------ expand vars ------------------>>\n\n");
+	// 	char *line = "expanding -$MY_VAR3-, -$MY_VAR4-, -$MY_VAR5-";
+	// 	char *expanded_line = expand_vars(data_program, line);
 
-// PARA PROBAR ESTAS FUNCIONES CON LIBFT
-// cc libft/libft.a vars/*.c
+	// 	if (expanded_line)
+	// 	{
+	// 		printf("Linea expandida: %s\n", expanded_line);
+	// 		free(expanded_line);
+	// 	}
+	// 	else
+	// 		printf("Error al expandir la linea\n");
+	// 	// var = search_var(data_program, "PWD");
+	// 	// if (var)
+	// 	// 	printf("Variable encontrada: %s=%s\n", var->name, var->value);
+	// 	// else
+	// 	// 	printf("Variable no encontrada\n");
+	// 	free_vars(data_program);
+	// 	free(data_program);
+	// 	return (0);
+	// }
+
+	// PARA PROBAR ESTAS FUNCIONES CON LIBFT
+	// cc libft/libft.a vars/*.c
