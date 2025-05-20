@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   search.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/21 00:17:33 by kegonza           #+#    #+#             */
+/*   Updated: 2025/05/21 00:36:36 by kegonza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "varenv.h"
 
 t_vars	*search_var(t_data *data_program, char *name)
@@ -14,7 +26,7 @@ t_vars	*search_var(t_data *data_program, char *name)
 	return (NULL);
 }
 
-char *get_var_value(t_data *data_program, char *name)
+char	*get_var_value(t_data *data_program, char *name)
 {
 	t_vars	*tmp;
 
@@ -28,7 +40,7 @@ char *get_var_value(t_data *data_program, char *name)
 	return (NULL);
 }
 
-char *fill_var_name(char *line, int start, int size)
+char	*fill_var_name(char *line, int start, int size)
 {
 	char	*var_name;
 	int		i;
@@ -47,12 +59,12 @@ char *fill_var_name(char *line, int start, int size)
 	return (var_name);
 }
 
-char *fill_var_values(t_data *data_program, char *line, int start)
+char	*fill_var_values(t_data *data_program, char *line, int start)
 {
-	int var_size;
-	char *var_name;
-	char *var_value;
-	
+	int		var_size;
+	char	*var_name;
+	char	*var_value;
+
 	var_size = get_var_size(line, start);
 	var_name = fill_var_name(line, start, var_size);
 	if (!var_name)
@@ -61,43 +73,34 @@ char *fill_var_values(t_data *data_program, char *line, int start)
 	free(var_name);
 	if (!var_value)
 		return (NULL);
-	return (var_value);
+	return (ft_strdup(var_value));
 }
 
-char **multi_search(t_data *data_program, char *line, int count)
+char	**multi_search(t_data *data_program, char *line, int count)
 {
 	char	**temp;
 	int		i;
 	int		j;
 
-	printf("making multi_search\n");
 	i = 0;
 	j = 0;
 	temp = malloc(sizeof(char *) * (count + 1));
 	if (!temp)
 		return (NULL);
-	while (line[i] != '\0')
+	while (line[i])
 	{
-		if (line[i] == '$' && (line[i + 1] != '\0' || line [i + 1] != '$'))
+		if (line[i] == '$' && line[i + 1] && line[i + 1] != '$')
 		{
-			i++;
-			temp [j++] = fill_var_values(data_program, line, i);
-			printf("we got temp[%d]: %s\n", j - 1, temp[j - 1]);
-			while (line[i] && (line[i] == '_' || ft_isalnum(line[i])))
-				i++;
+			temp[j++] = fill_var_values(data_program, line, i + 1);
+			i = skip_var(line, i);
 		}
 		else if (line[i] == '\"' || line[i] == '\'')
-		{
-			i++;
-			while (line[i] && line[i] != line[i - 1])
-				i++;
-		}
+			i = skip_quote(line, i);
 		else if (line[i] == '\\')
 			i += 2;
 		else
 			i++;
 	}
 	temp[j] = NULL;
-	printf("multi_search finished\n");
 	return (temp);
 }

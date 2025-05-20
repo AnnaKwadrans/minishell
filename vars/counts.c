@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   counts.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/21 00:04:02 by kegonza           #+#    #+#             */
+/*   Updated: 2025/05/21 00:12:39 by kegonza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "varenv.h"
 
 int	get_var_size(char *line, int start)
 {
-	int size;
-	int i;	
+	int	size;
+	int	i;	
 
 	size = 0;
 	i = start;
@@ -34,26 +46,32 @@ int	count_exportable_vars(t_data *data_program)
 	return (count);
 }
 
+int	mtrx_size(char **mtrx)
+{
+	int	i;
+
+	i = 0;
+	while (mtrx[i])
+		i++;
+	return (i);
+}
+
 int	count_vars(char *line)
 {
-	int count = 0;
-	int i = 0;
+	int	i;
+	int	count;
 
-	while (line[i] != '\0')
+	count = 0;
+	i = 0;
+	while (line[i])
 	{
-		if (line[i] == '$' && (line[i + 1] != '\0' || line [i + 1] != '$'))
+		if (line[i] == '$' && (line[i + 1] != '\0' && line[i + 1] != '$'))
 		{
 			count++;
-			i++;
-			while (line[i] && (line[i] == '_' || ft_isalnum(line[i])))
-				i++;
+			i = skip_var(line, i);
 		}
 		else if (line[i] == '\"' || line[i] == '\'')
-		{
-			i++;
-			while (line[i] && line[i] != line[i - 1])
-				i++;
-		}
+			i = skip_quote(line, i);
 		else if (line[i] == '\\')
 			i += 2;
 		else
@@ -62,28 +80,24 @@ int	count_vars(char *line)
 	return (count);
 }
 
-int size_total(char *line, char **values)
+int	size_total(char *line, char **values)
 {
-	int result;
-	int i;
-	int j;
-	
-	j = 0;
+	int	result;
+	int	i;
+	int	j;
+
 	result = 0;
 	i = 0;
-	while (line[i] != '\0')
+	j = 0;
+	while (line[i])
 	{
 		if (line[i] == '$')
 		{
 			result += ft_strlen(values[j++]);
-			while (line[i] && (line[i] == '$' || line[i] == '_' || ft_isalnum(line[i])))
-				i++;
+			i = skip_var(line, i);
 		}
 		else if (line[i] == '\"' || line[i] == '\'')
-		{
-			while (line[++i] && line[i] != line[i - 1])
-				i++;
-		}
+			i = skip_quote(line, i);
 		else if (line[i] == '\\')
 			i += 2;
 		else
