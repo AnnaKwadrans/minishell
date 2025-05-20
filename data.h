@@ -14,7 +14,14 @@
 # include "parser.h"
 # include "aux/aux.h"
 
+// Estructura para here_doc
 
+typedef struct s_heredoc
+{
+	char	*delimiter; // Delimitador
+	int		is_expandable; // Si es expandible o no
+	char	**buffer; // Buffer para almacenar las lineas
+}	t_heredoc;
 
 // Estructura para almacenar los datos del programa
 

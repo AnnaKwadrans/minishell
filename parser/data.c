@@ -50,6 +50,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 		show_history(data);
 		return ;
 	}
+	printf("<<<-------------- NEW CMD -------------->>>\n");
 	printf("input: %s\n", input);
 	if (!even_quotes(input))
 	{}
