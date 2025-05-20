@@ -10,8 +10,8 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
-	if (is_var(input))
-		return (handle_var(input, data), NULL);
+	//if (is_var(input))
+	//	return (handle_var(input, data), NULL);		DESCOMENTAR
 	cmd_aux = split_pipes(input, '|');
 	print_array(cmd_aux);
 	//print_array(cmd_aux); // para testear
