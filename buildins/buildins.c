@@ -73,7 +73,7 @@ void ft_echo(t_data *data_program, char *var)
 	else
 	{
 		printf("Variable %s is empty\n", var);
-	}	
+	}
 }
 
 void	make_function(t_data *data_program, char *var)
