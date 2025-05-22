@@ -37,6 +37,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		cmds[i]->data = data;
 		if (is_here_doc(cmd_aux[i]))
 			cmds[i]->heredoc = here_doc_mode(cmd_aux[i]);
+		printf("CHECK AFTER HD\n");
 		i++;
 	}
 	cmds[i] = NULL;
