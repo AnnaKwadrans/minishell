@@ -1,6 +1,7 @@
 #include "../parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
+#include "../vars/varenv.h"
 #include <readline/readline.h>
 
 void rl_replace_line(const char *text, int clear_undo);
@@ -30,67 +31,52 @@ void	init_data(t_data *data)
 	data->pipes = 0;
 	data->is_interactive = isatty(STDIN_FILENO);
 	if (data->is_interactive)
-    	setup_interactive_signals();
+    		setup_interactive_signals();
 	else
 	{
 		signal(SIGINT, SIG_IGN); // Ignorar Ctrl+C
 		signal(SIGQUIT, SIG_IGN); // Ignorar Ctrl+\;
 	}
+	data->last_cmd = NULL;
 	data->fds = NULL;
+}
+
+t_lines	*get_line(t_data *data, char *input)
+{
+	t_lines	*line;
+	
+	line = malloc(sizeof(t_lines));
+	if (!line)
+		return (perror("malloc failed"), NULL);
+	line->line = ft_strdup(input);
+	line->next = NULL;
+	line->data = data;
+	data->part_lines = split_pipes(input, ';');
+	return (line);
 }
 
 void	parse_data(char *input, t_data *data, char **envp)
 {
-	//t_lines	*history_last;
 	char	**part_lines;
 	int		i;
 
-	if (ft_strncmp(input, "mhistory", 8) == 0)
-	{
-		show_history(data);
-		return ;
-	}
 	printf("<<<-------------- NEW CMD -------------->>>\n");
-	printf("input: %s\n", input);
 	if (!even_quotes(input))
 	{}
 		// err invalid syntax
-	data->line = malloc(sizeof(t_lines));
-	data->line->line = ft_strdup(input);
-	printf("line: %s\n", data->line->line);
-	data->line->next = NULL;
-	/*
-	ESTO ESTA MAL
-	history_last = last_line(data->history_lines);
-	if (!history_last)
-		data->line->index = 0;
-	else
-		data->line->index = history_last->index + 1;
-	if (data->history_lines)
-		history_last->next = data->line;
-	else
-		data->history_lines = data->line;
-	history_last = last_line(data->history_lines);
-	printf("last history line: %s\n", data->history_lines->line);
-	*/
-	part_lines = split_pipes(input, ';');
-	print_array(part_lines);
-	data->pipes = get_pipes(part_lines, array_size(part_lines));
-	data->cmds = malloc(sizeof(t_cmd **) * array_size(part_lines));
+	data->line = get_line(data, input);
+	print_array(data->part_lines);
+	//init_env(data, envp);
+	data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
+	data->cmds = malloc(sizeof(t_cmd **) * array_size(data->part_lines));
 	if (!data->cmds)
-	{
-		free(data);
-		return ;
-	}
+		return (free_data(data));
 	i = 0;
-	while (part_lines[i])
+	while (data->part_lines[i])
 	{
-		data->cmds[i] = parse_line(part_lines[i], data->pipes[i], envp, data);
-		if (!data->line || !data->cmds || !data->cmds)
-		{
-			free_data(data);
-			return ;
-		}
+		data->cmds[i] = parse_line(data->part_lines[i], data->pipes[i], envp, data);
+		if (!data->cmds[i])
+			return (free_data(data));
 		i++;
 	}
 	data->cmds[i] = NULL;

@@ -46,6 +46,7 @@ typedef struct s_vars
 	char			*value; // Valor de la variable
 	struct	s_vars	*next; // Siguiente variable
 	int				is_exportable; // Si es exportable o no
+	t_data	*data;
 } t_vars;
 
 // Estructura para almacenar los comandos y ejecutarlos
@@ -58,10 +59,10 @@ typedef struct s_cmd
 	char 	*outfile;
 	int		fd_out;
 	int 	append;
+	t_heredoc	*heredoc;
 	char	*delimit;
 	pid_t 	pid;
 	int		p_status;
-	//struct	s_cmd *next; // esto creo que no lo necesitamos si no es una lista
 	t_data	*data;
 }	t_cmd;
 

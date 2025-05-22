@@ -1,6 +1,6 @@
-#include "data.h"
-#include "parser.h"
-#include "executer.h"
+#include "../data.h"
+#include "../parser.h"
+#include "../executor.h"
 /*
 int	exec_line(t_cmd ***cmds, int *pipes)
 {

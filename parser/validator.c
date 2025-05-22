@@ -1,7 +1,7 @@
-#include "data.h"
-#include "parser.h"
-#include "executer.h"
-#include "vars/varenv.h"
+#include "../data.h"
+#include "../parser.h"
+#include "../executor.h"
+#include "../vars/varenv.h"
 
 bool    valid_pipes(char *line)
 {
@@ -16,11 +16,9 @@ bool    valid_pipes(char *line)
                 {
                         i++;
                         while (ft_isspace(line[i]))
-                        {
-                                if (line[i + 1] == '|')
-                                        return (0);
                                 i++;
-                        }
+                        if (line[i] == '|')
+                                return (0);
                 }
                 i++;
         }
@@ -39,7 +37,7 @@ bool    is_var(char *line)
         }
         return (0);
 }
-
+/*
 void    handle_var(char *input, t_data *data)
 {
         t_vars	*var;
@@ -57,3 +55,4 @@ void    handle_var(char *input, t_data *data)
         var = new_var(name, value, 0);
         add_var(data, var);
 }
+*/
