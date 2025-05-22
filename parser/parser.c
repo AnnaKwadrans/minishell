@@ -1,19 +1,31 @@
 #include "../parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
+#include "../here_doc/here_doc.h"
+#include "../vars/varenv.h"
 
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 {
 	int	i;
 	char	**cmd_aux;
 	t_cmd	**cmds;
+	char	*input_exp;
 
 	printf("%s\n", input);
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
-	//if (is_var(input))
-	//	return (handle_var(input, data), NULL);		DESCOMENTAR
-	cmd_aux = split_pipes(input, '|');
+	input_exp = expand_vars(data, input);
+	//free(input);
+	printf("despu'es de expand: %s\n", input_exp);
+	cmd_aux = split_pipes(input_exp, '|');
+	/*
+	while (cmd_aux[i])
+	{
+		cmd_aux[i] = expand_vars(data, cmd_aux[i]);
+		i++;
+	}*/
+	free(input_exp);
+	printf("ARRAY\n");
 	print_array(cmd_aux); // para testear
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
@@ -24,6 +36,8 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		cmds[i] = get_cmd(cmd_aux[i]);
 		cmds[i]->env = envp;
 		cmds[i]->data = data;
+		if (is_here_doc(cmd_aux[i]))
+			cmds[i]->heredoc = here_doc_mode(cmd_aux[i]);
 		i++;
 	}
 	cmds[i] = NULL;

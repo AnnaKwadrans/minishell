@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/21 00:39:41 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:13:11 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,6 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	joined = ft_strjoin(s1, s2);
 	free(s1);
 	return (joined);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
 }
 
 void	free_vars(void *args)

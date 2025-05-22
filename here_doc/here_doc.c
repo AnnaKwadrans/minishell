@@ -221,6 +221,7 @@ void	here_doc_init(char *line, t_heredoc *here_doc)
 		here_doc_error(here_doc, "PARSE");
 	if (here_doc->delimiter)
 		printf("delimeter is: %s\n", here_doc->delimiter);
+	here_doc->buffer = NULL; // por el sg en add_buffer
 }
 
 
@@ -272,7 +273,7 @@ int is_here_doc(char *line)
 	return (0);
 }
 
-
+/*
 
 int main(void)
 {
@@ -315,7 +316,7 @@ int main(void)
 		}
 	}
 }
-
+*/
 // PARA COMPILAR:
 // cc aux/ft_full_split.c aux/array_functions.c libft/libft.a here_doc/here_doc.c -lreadline
 

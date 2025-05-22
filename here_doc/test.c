@@ -20,7 +20,7 @@ char *without_last_spaces(char *str)
 	new_str[i] = '\0';
 	return (new_str);
 }
-
+/*
 int main(void)
 {
 	char *line;
@@ -30,3 +30,4 @@ int main(void)
 	printf("Original line: '%s'\n", line);
 	printf("New line: '%s'\n", new_line);
 }
+*/
