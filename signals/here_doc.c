@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 21:08:57 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 00:09:39 by kegonza          ###   ########.fr       */
+/*   Created: 2025/05/23 00:09:43 by kegonza           #+#    #+#             */
+/*   Updated: 2025/05/23 00:29:00 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
 
-void	setup_signals(void)
+void	sigint_handler_heredoc(int sig)
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	(void)sig;
+	g_heredoc_interrupted = 1;
+	write(1, "\n", 1);
 }
 
-void	setup_interactive_signals(void)
+void	setup_heredoc_signals(void)
 {
-	disable_echoctl();
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN); // Ignorar Ctrl+\;
-}
+	struct sigaction	sa;
 
-void	restore_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	sa.sa_handler = sigint_handler_heredoc;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }

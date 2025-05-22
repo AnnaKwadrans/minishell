@@ -1,4 +1,3 @@
-#include "../data.h"
 #include "aux.h"
 
 t_lines	*last_line_history(t_lines *cmd)

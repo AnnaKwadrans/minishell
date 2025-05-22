@@ -1,32 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 21:08:57 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 00:09:39 by kegonza          ###   ########.fr       */
+/*   Created: 2025/05/23 00:18:04 by kegonza           #+#    #+#             */
+/*   Updated: 2025/05/23 01:43:39 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
+#include "here_doc.h"
 
-void	setup_signals(void)
+int	is_here_doc(char *line)
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	int	i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '<')
+		{
+			if (line[i + 1] == '<' && line[i + 2] != '<')
+				return (1);
+			else
+				return (0);
+		}
+		i++;
+	}
+	return (0);
 }
 
-void	setup_interactive_signals(void)
+int	check_is_expandable(char *line)
 {
-	disable_echoctl();
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN); // Ignorar Ctrl+\;
-}
+	int	i;
 
-void	restore_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\'' || line[i] == '\"')
+			return (0);
+		i++;
+	}
+	return (1);
 }

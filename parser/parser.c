@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
+/*   Updated: 2025/05/23 00:37:34 by kegonza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
@@ -6,7 +18,7 @@
 
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 {
-	int	i;
+	int		i;
 	char	**cmd_aux;
 	t_cmd	**cmds;
 	char	*input_exp;
@@ -15,14 +27,13 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
 	input_exp = expand_vars(data, input);
-	printf("despu'es de expand: %s\n", input_exp);
+	printf("después de expand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
-	/*
-	while (cmd_aux[i])
-	{
-		cmd_aux[i] = expand_vars(data, cmd_aux[i]);
-		i++;
-	}*/
+	// while (cmd_aux[i])
+	// {
+	// 	cmd_aux[i] = expand_vars(data, cmd_aux[i]);
+	// 	i++;
+	// }
 	free(input_exp);
 	printf("ARRAY\n");
 	print_array(cmd_aux); // para testear
@@ -36,7 +47,13 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		cmds[i]->env = envp;
 		cmds[i]->data = data;
 		if (is_here_doc(cmd_aux[i]))
-			cmds[i]->heredoc = here_doc_mode(cmd_aux[i]);
+		{
+			cmds[i]->heredoc = here_doc_mode(data, cmd_aux[i]);
+			printf("heredoc got it\n");
+			if (!cmds[i]->heredoc)
+				return (free_cmd(cmds[i]), free_array(cmd_aux), NULL);
+			
+		}
 		i++;
 	}
 	cmds[i] = NULL;
@@ -44,27 +61,27 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	return (cmds);
 }
 
-t_cmd        *get_cmd(char *aux)
+t_cmd	*get_cmd(char *aux)
 {
-        t_cmd        *cmd;
-        int        i;
+	t_cmd	*cmd;
+	int		i;
 
-        cmd = init_cmd();
-        if (!cmd)
-                return (NULL);
-        i = 0;
-        while (aux[i])
-        {
-                if (ft_isspace(aux[i]))
+	cmd = init_cmd();
+	if (!cmd)
+		return (NULL);
+	i = 0;
+	while (aux[i])
+	{
+		if (ft_isspace(aux[i]))
 			i++;
 		else if (aux[i] == '<')
 			cmd->infile = get_infile(&aux[i], &cmd->delimit, &i);
 		else if (aux[i] == '>')
-                        cmd->outfile = get_outfile(&aux[i], &cmd->append, &i);
+			cmd->outfile = get_outfile(&aux[i], &cmd->append, &i);
 		else if (!cmd->args)
-                        cmd->args = get_args(&aux[i], &i);
+			cmd->args = get_args(&aux[i], &i);
 		else
-                        cmd->args = append_args(cmd->args, &aux[i], &i);
+			cmd->args = append_args(cmd->args, &aux[i], &i);
 	}
 	if (cmd->args == NULL)
 	{
@@ -76,25 +93,27 @@ t_cmd        *get_cmd(char *aux)
 	//printf("%s %s %s %d\n", cmd->infile, cmd->delimit, cmd->outfile, cmd->append); // para testear
 	//print_array(cmd->args);
 	//printf("END PIPE\n");
-        return (cmd);
+	return (cmd);
 }
+
 //VAR=abc ; ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile
-t_cmd        *init_cmd()
+t_cmd	*init_cmd(void)
 {
-        t_cmd        *cmd;
-        cmd = malloc(sizeof(t_cmd));
-        if (!cmd)
-                return (NULL);
-        cmd->args = NULL;
-        cmd->env = NULL;
-        cmd->infile = NULL;
-        cmd->fd_in = STDIN_FILENO;
-        cmd->outfile = NULL;
-        cmd->fd_out = STDOUT_FILENO;
-        cmd->append = 0;
-        cmd->delimit = NULL;
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->args = NULL;
+	cmd->env = NULL;
+	cmd->infile = NULL;
+	cmd->fd_in = STDIN_FILENO;
+	cmd->outfile = NULL;
+	cmd->fd_out = STDOUT_FILENO;
+	cmd->append = 0;
+	cmd->delimit = NULL;
 	cmd->heredoc = NULL;
-        cmd->data = NULL;
+	cmd->data = NULL;
 	return (cmd);
 }
 /*
@@ -134,7 +153,7 @@ char	*get_infile(char *aux, char **delimit, int *index)
 */
 char	*get_infile(char *aux, char **delimit, int *index)
 {
-	int	i;
+	int		i;
 	char	*infile;
 
 	i = 1;
@@ -155,7 +174,7 @@ char	*get_infile(char *aux, char **delimit, int *index)
 
 char	*get_outfile(char *aux, int *append, int *index)
 {
-	int	i;
+	int		i;
 	char	*outfile;
 
 	i = 1;
@@ -193,7 +212,7 @@ char	*get_file_str(const char *aux, int *index)
 
 char	**get_args(char *aux, int *index)
 {
-	int	len;
+	int		len;
 	char	*cmd_line;
 	char	**args;
 
