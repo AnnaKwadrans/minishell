@@ -38,27 +38,39 @@ t_lines	*get_line(t_data *data, char *input)
 void	parse_data(char *input, t_data *data, char **envp)
 {
 	char	**part_lines;
-	int		i;
+	int		l;
+	int		c;
 
 	printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!even_quotes(input))
 	{}
 		// err invalid syntax
 	data->line = get_line(data, input);
-	print_array(data->part_lines);
+	//print_array(data->part_lines);
 	data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
 	data->cmds = malloc(sizeof(t_cmd **) * array_size(data->part_lines));
 	if (!data->cmds)
 		return (free_data(data));
-	i = 0;
-	while (data->part_lines[i])
+	l = 0;
+	c = 0;
+	while (data->part_lines[l])
 	{
-		data->cmds[i] = parse_line(data->part_lines[i], data->pipes[i], envp, data);
-		if (!data->cmds[i])
-			return (free_data(data));
-		i++;
+		if (is_var(data->part_lines[l]))
+		{
+			handle_var(data->part_lines[l], data);
+			l++;
+		}
+		else
+		{
+			data->cmds[c] = parse_line(data->part_lines[l], data->pipes[c], envp, data);
+			if (!data->cmds[c])
+				return (free_data(data));
+			l++;
+			c++;
+		}
+		
 	}
-	data->cmds[i] = NULL;
+	data->cmds[c] = NULL;
 }
 
 int	*get_pipes(char **part_lines, size_t size)

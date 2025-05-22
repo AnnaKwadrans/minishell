@@ -2,6 +2,7 @@
 #include "../parser.h"
 #include "../executor.h"
 #include "../vars/varenv.h"
+#include <stdbool.h>
 
 bool    valid_pipes(char *line)
 {
@@ -34,10 +35,11 @@ bool    is_var(char *line)
         {
                 if (line[i]== '=')
                         return (1);
+                i++;
         }
         return (0);
 }
-/*
+
 void    handle_var(char *input, t_data *data)
 {
         t_vars	*var;
@@ -55,4 +57,3 @@ void    handle_var(char *input, t_data *data)
         var = new_var(name, value, 0);
         add_var(data, var);
 }
-*/
