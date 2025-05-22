@@ -14,8 +14,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	printf("%s\n", input);
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
-	//input_exp = expand_vars(data, input);
-	input_exp = input;
+	input_exp = expand_vars(data, input);
 	printf("despu'es de expand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	/*
@@ -38,6 +37,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		cmds[i]->data = data;
 		if (is_here_doc(cmd_aux[i]))
 			cmds[i]->heredoc = here_doc_mode(cmd_aux[i]);
+		printf("CHECK AFTER HD\n");
 		i++;
 	}
 	cmds[i] = NULL;
