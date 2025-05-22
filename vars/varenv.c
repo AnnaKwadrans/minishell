@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/22 20:46:14 by akwadran         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/22 20:51:30 by kegonza          ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +43,24 @@ void	init_env(t_data *data_program, char **env)
 {
 	int		i;
 	char	**split;
-	t_vars	*vars;
 	t_vars	*new;
 
-	vars = data_program->vars;
 	i = 0;
 	while (env[i])
 	{
 		split = ft_split(env[i], '=');
+		if (!split)
+			return ;
 		new = malloc(sizeof(t_vars));
+		if (!new)
+		{
+			free_array(split);
+			return ;
+		}
 		new->name = ft_strdup(split[0]);
-		if (split[1])
-			new->value = ft_strdup(split[1]);
+		new->value = split[1] ? ft_strdup(split[1]) : NULL;
 		new->is_exportable = 1;
+		new->next = NULL;
 		add_var(data_program, new);
 		free_array(split);
 		i++;
@@ -107,7 +116,6 @@ char	*expand_vars(t_data *data_program, char *line)
 	count = count_vars(line);
 	vars = multi_search(data_program, line, count);
 	result = handle_expansion(data_program, line, vars);
-	printf("result %s\n", result);
 	free_array(vars);
 	return (result);
 }

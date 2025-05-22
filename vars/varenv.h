@@ -6,9 +6,12 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/21 00:26:19 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:41:53 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef VARENV_H
+# define VARENV_H
 
 #include "../data.h"
 
@@ -42,3 +45,5 @@ char	**multi_search(t_data *data_program, char *line, int count);
 void	show_vars(void *args);
 void	init_env(t_data *data_program, char **env);
 char	*expand_vars(t_data *data_program, char *line);
+
+#endif
