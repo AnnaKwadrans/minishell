@@ -34,6 +34,7 @@ typedef struct s_data
 	struct	s_vars	*vars; // Variables de entorno
 	int				*pipes; // Contador de pipes
 	int				is_interactive; // Si es interactivo o no
+	int				is_expandable; // Si es expandible o no
 	t_cmd			*last_cmd;
 	int			*fds;
 }	t_data;
