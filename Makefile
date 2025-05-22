@@ -29,10 +29,11 @@ SRC_AUX = ${wildcard aux/*.c}
 SRC_LIBFT = ${wildcard libft/*.c}
 SRC_PARS = ${wildcard parser/*.c}
 SRC_VARS = ${wildcard vars/*.c}
+SRC_SIGNALS = ${wildcard signals/*.c}
 SRC_EXEC = ${wildcard executor/*.c}
 SRC_HERE_DOC = ${wildcard here_doc/*.c}
 
-SRC_ALL = $(SRC_AUX) $(SRC_LIBFT) $(SRC_PARS) $(SRC_VARS) $(SRC_EXEC) $(SRC_HERE_DOC) $(SRC)
+SRC_ALL = $(SRC_AUX) $(SRC_LIBFT) $(SRC_PARS) $(SRC_VARS) $(SRC_SIGNALS) $(SRC_EXEC) $(SRC_HERE_DOC) $(SRC)
 
 OBJ = $(SRC_ALL:.c=.o)
 

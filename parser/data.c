@@ -4,23 +4,6 @@
 #include "../vars/varenv.h"
 #include <readline/readline.h>
 
-void rl_replace_line(const char *text, int clear_undo);
-
-void	sigint_handler(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0); // Limpiar la línea actual
-	rl_on_new_line(); // Mover el cursor a la nueva línea
-	rl_redisplay(); // Redibujar la línea
-}
-
-void	setup_interactive_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN); // Ignorar Ctrl+\;
-}
-
 void	init_data(t_data *data)
 {
 	data->line = NULL;
@@ -31,12 +14,9 @@ void	init_data(t_data *data)
 	data->pipes = 0;
 	data->is_interactive = isatty(STDIN_FILENO);
 	if (data->is_interactive)
-    		setup_interactive_signals();
+    	setup_interactive_signals();
 	else
-	{
-		signal(SIGINT, SIG_IGN); // Ignorar Ctrl+C
-		signal(SIGQUIT, SIG_IGN); // Ignorar Ctrl+\;
-	}
+		setup_signals();
 	data->last_cmd = NULL;
 	data->fds = NULL;
 }
