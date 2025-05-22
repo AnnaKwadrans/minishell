@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/21 19:55:42 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:24:52 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char	*expand_vars(t_data *data_program, char *line)
 	count = count_vars(line);
 	vars = multi_search(data_program, line, count);
 	result = handle_expansion(data_program, line, vars);
+	printf("result %s\n", result);
 	free_array(vars);
 	return (result);
 }

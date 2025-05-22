@@ -1,6 +1,7 @@
 #include "../data.h"
 #include "../parser.h"
 #include "../executor.h"
+#include "../here_doc/here_doc.h"
 
 void    exec_all_lines(t_data *data)
 {

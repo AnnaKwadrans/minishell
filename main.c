@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 			input = readline("minishell > ");
 		else
 			input = get_next_line(STDIN_FILENO); // Cambiar por la función que lee del archivo
-		if (!input || !input[0]) // Ctrl+D o línea vacía
+		if (!input) // Ctrl+D o línea vacía
 		{
 			free(input);
 			break;
