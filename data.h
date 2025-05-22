@@ -13,6 +13,7 @@
 # include "libft/libft.h"
 # include "parser.h"
 # include "aux/aux.h"
+# include "signals/signals.h"
 
 // Estructura para here_doc
 
