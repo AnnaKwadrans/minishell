@@ -70,11 +70,7 @@ int	main(int argc, char **argv, char **envp)
 
 	data_program = malloc(sizeof(t_data));
 	init_data(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
-<<<<<<< HEAD
-	//init_env(data_program, envp);
-=======
 	init_env(data_program, envp);
->>>>>>> main
 	while (1)
 	{
 		if (data_program->is_interactive)
