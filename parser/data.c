@@ -4,6 +4,8 @@
 #include "../vars/varenv.h"
 #include <readline/readline.h>
 
+//leaks --atExit -- ./minishell 
+
 void rl_replace_line(const char *text, int clear_undo);
 
 void	sigint_handler(int sig)
