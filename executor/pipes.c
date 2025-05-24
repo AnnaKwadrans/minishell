@@ -26,6 +26,7 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds)
 	i = 0;
         while (cmds[i])
         {
+                cmds[i]->data->last_cmd = cmds[i];
                 child(cmds[i], pipes, fds, i);
                 i++;
         }
