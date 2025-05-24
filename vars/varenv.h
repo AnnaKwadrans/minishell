@@ -6,14 +6,15 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/22 20:41:53 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/23 01:12:15 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VARENV_H
 # define VARENV_H
 
-#include "../data.h"
+# include "../data.h"
+# include "../libft/libft.h"
 
 // AUX.C
 char	*ft_strjoin_free(char *s1, char *s2);

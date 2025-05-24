@@ -1,6 +1,9 @@
 #ifndef AUX_H
 # define AUX_H
 
+# include "../data.h"
+# include "../libft/libft.h"
+
 // 👇 Forward declaration
 typedef struct s_cmd t_cmd;
 typedef struct s_data t_data;

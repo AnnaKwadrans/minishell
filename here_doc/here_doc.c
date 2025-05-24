@@ -1,16 +1,21 @@
-#include "../data.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <signal.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
+/*   Updated: 2025/05/23 01:37:27 by kegonza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "here_doc.h"
+
+char	*expand_vars(t_data *data_program, char *str);
 char	**ft_full_split(char *s, char c);
 int		ft_strcmp(const char *s1, const char *s2);
-void rl_replace_line(const char *text, int clear_undo);
-
+void	rl_replace_line(const char *text, int clear_undo);
 
 volatile sig_atomic_t g_heredoc_interrupted = 0;
 
@@ -33,105 +38,24 @@ volatile sig_atomic_t g_heredoc_interrupted = 0;
 // while (1) { /* hacer algo... */ }
 // PERO, si otra parte del programa modifica running, entonces esa optimización crearía un bucle infinito.
 
-
-
-void sigint_handler_heredoc(int sig)
+char	**add_buffer(char **buffer, char *line)
 {
-	(void)sig;
-	g_heredoc_interrupted = 1;
-	write(1, "\n", 1);
-}
-
-void setup_heredoc_signals(void)
-{
-	struct sigaction sa;
-
-	sa.sa_handler = sigint_handler_heredoc;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void restore_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-void free_here_doc(t_heredoc *here_doc)
-{
-	if (here_doc)
-	{
-		if (here_doc->delimiter)
-			free(here_doc->delimiter);
-		if (here_doc->buffer)
-			free_array(here_doc->buffer);
-		free(here_doc);
-	}
-}
-
-char *remove_trailing_newline(char *str)
-{
-	int		len;
-	char	*new_str;
-
-	if (!str)
-		return (NULL);
-	len = ft_strlen(str);
-	if (len > 0 && str[len - 1] == '\n')
-		len--;
-	new_str = malloc(len + 1);
-	if (!new_str)
-	{
-		free(str);
-		return (NULL);
-	}
-	ft_strlcpy(new_str, str, len + 1);
-	free(str);
-	return (new_str);
-}
-
-void here_doc_error(t_heredoc *here_doc, char *error_msg)
-{
-	if (error_msg)
-	{
-		if (ft_strcmp(error_msg, "EOF") == 0)
-			printf("EOF detected\n");
-		else if (ft_strcmp(error_msg, "SIGINT") == 0)
-			printf("SIGINT detected\n");
-		else if (ft_strcmp(error_msg, "MALLOC") == 0)
-			printf("MALLOC ERROR\n");
-		else if (ft_strcmp(error_msg, "PARSE") == 0)
-			printf("Parse error near `\\n`\n");
-	}
-	else
-		printf("EOF detected\n");
-	printf("<<----- \t HERE_DOC MODE STOPPED \t ----->>\n");
-	free_here_doc(here_doc);
-	restore_signals();
-}
-
-char **add_buffer(char **buffer, char *line)
-{
-	int		count = 0;
-	int		i = 0;
+	int		count;
+	int		i;
 	char	**temp;
 
-	printf("add_buffer: %s\n", line);
+	count = 0;
+	i = 0;
 	while (buffer && buffer[count])
 		count++;
 	temp = malloc(sizeof(char *) * (count + 2));
 	if (!temp)
 		return (NULL);
-	while(i < count)
+	while (i < count)
 	{
 		temp[i] = ft_strdup(buffer[i]);
 		if (!temp[i])
-		{
-			free_array(temp);
-			return (NULL);
-		}
+			return (free_array(temp), NULL);
 		i++;
 	}
 	temp[count] = ft_strdup(line);
@@ -139,78 +63,6 @@ char **add_buffer(char **buffer, char *line)
 	if (buffer)
 		free_array(buffer);
 	return (temp);
-}
-
-int check_is_expandable(char *line)
-{
-	int i = 0;
-	int is_expandable = 0;
-
-	while (line[i] != '\0')
-	{
-		if (line[i] == '\"' || line[i] == '\'')
-		{
-			is_expandable = 1;
-			i++;
-			while (line[i] && line[i] != line[i - 1])
-				i++;
-		}
-		else if (line[i] == '$')
-			return (1);
-		i++;
-	}
-	return (is_expandable);
-}
-
-char	*aux_get_delimiter(char *line)
-{
-	int		start = 0;
-	int		end;
-	char	*temp;
-
-	while (line[start] != '\0' && (line[start] == '\'' || line[start] == '\"' || line[start] == ' '))
-		start++;
-	end = ft_strlen(line) - 1;
-	while (end > start && (line[end] == ' ' || line[end] == '\'' || line[end] == '\"'))
-		end--;
-	if (end < start)
-		return (free(line), NULL);
-	temp = malloc(sizeof(char) * (end - start + 2));
-	if (!temp)
-		return (NULL);
-	ft_strlcpy(temp, &line[start], end - start + 2);
-	return (temp);
-}
-
-void get_delimiter(char *line, t_heredoc *here_doc)
-{
-	int i = 0;
-	int start = 0;
-	char *temp;
-	
-	while (line[i] != '\0')
-	{
-		if (line[i] == '<' && line[i + 1] == '<')
-		{
-			start = i + 2;
-			while (line[start] == ' ')
-				start++;
-			while (line[start] && line[start] != ' ' && line[start] != '\n')
-				start++;
-			temp = malloc(sizeof(char) * (start - i + 1));
-			if (!temp)
-				return ;
-			ft_strlcpy(temp, &line[i + 2], start - i);
-			printf(">> temp is:%s\n", temp);
-			here_doc->delimiter = aux_get_delimiter(temp);
-			if (!here_doc->delimiter)
-				return ;
-			here_doc->is_expandable = check_is_expandable(temp);
-			free(temp);
-			return ;
-		}
-		i++;
-	}
 }
 
 void	here_doc_init(char *line, t_heredoc *here_doc)
@@ -224,18 +76,18 @@ void	here_doc_init(char *line, t_heredoc *here_doc)
 	here_doc->buffer = NULL; // por el sg en add_buffer
 }
 
-
-t_heredoc	*here_doc_mode(char *line)
+t_heredoc *here_doc_mode(t_data *data_program, char *line)
 {
 	t_heredoc	*here_doc;
 	char		*new_line;
-	int		i = 0;
+	int			i;
 
-
+	i = 0;
 	here_doc = malloc(sizeof(t_heredoc));
 	if (!here_doc)
 		return (here_doc_error(here_doc, "MALLOC"), NULL);
 	here_doc_init(line, here_doc);
+	printf("here_doc->is_expandable: %d\n", here_doc->is_expandable);
 	while (here_doc->delimiter)
 	{
 		write(1, "heredoc >", 10);
@@ -245,32 +97,24 @@ t_heredoc	*here_doc_mode(char *line)
 		if (!new_line)
 			return (here_doc_error(here_doc, "EOF"), NULL);
 		if (ft_strcmp (new_line, here_doc->delimiter) == 0)
-			break;
+			break ;
 		here_doc->buffer = add_buffer(here_doc->buffer, new_line);
 		if (!here_doc->buffer)
 			return (here_doc_error(here_doc, "MALLOC"), NULL);
 	}
+	i = 0;
+	if (here_doc->buffer && here_doc->buffer[i] && here_doc->is_expandable)
+	{
+		while (here_doc->buffer[i])
+		{
+			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i]);
+			printf("buffer[%d]: %s\n", i, here_doc->buffer[i]);
+			i++;
+		}
+	}
 	if (new_line)
 		free(new_line);
-	return(here_doc);
-}
-	
-int is_here_doc(char *line)
-{
-	int i = 0;
-
-	while (line[i] != '\0')
-	{
-		if (line[i] == '<')
-		{
-		 	if (line[i + 1] == '<' && line[i + 2] != '<')
-				return (1);
-			else
-				return (0);
-		}
-		i++;
-	}
-	return (0);
+	return (here_doc);
 }
 
 /*

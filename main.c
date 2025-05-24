@@ -83,8 +83,8 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		}
 		//get_data_program(input, data_program); // Configuración inicial
-		// add_history(input); // Añadir al historial
-		add_mhistory(data_program, input); // Añadir al historial propio
+		add_history(input); // Añadir al historial
+		// add_mhistory(data_program, input); // Añadir al historial propio
 		parse_data(input, data_program, envp); // lo he puesto temporalmente para poder trabajar en el lexer
 		exec_all_lines(data_program);
 		clean_data_program(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
