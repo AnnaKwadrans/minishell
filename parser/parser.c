@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/27 18:50:53 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:15:33 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 			cmds[i] = get_cmd(cmd_aux[i]);
 		cmds[i]->env = envp;
 		cmds[i]->data = data;
+		printf("CMD ARRAY\n");
+		print_array(cmds[i]->args);
+		printf("END\n");
 		i++;
 	}
 	cmds[i] = NULL;

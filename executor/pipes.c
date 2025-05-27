@@ -26,6 +26,7 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds)
 	i = 0;
         while (cmds[i])
         {
+                
                 child(cmds[i], pipes, fds, i);
                 i++;
         }
@@ -86,17 +87,17 @@ bool    is_builtin(char *cmd)
 void    exec_builtin(t_cmd *cmd)
 {
         if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
-        {}
+                cmd->p_status = ft_echo(cmd->args);
         else if (ft_strncmp(cmd->args[0], "cd", 2) == 0)
         {}
         else if (ft_strncmp(cmd->args[0], "env", 3) == 0)
-        {}
+                cmd->p_status = ft_env(cmd->data->vars);
         else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
-        {}
+                cmd->p_status = ft_pwd();
         else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
         {}
         else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
-        {}
+                cmd->p_status = ft_unset(cmd->data->vars, cmd->args);
         else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
         {}
         else if (ft_strncmp(cmd->args[0], "mhistory", 8) == 0)
@@ -118,6 +119,7 @@ void    child(t_cmd *cmd, int pipes, int *fds, int i)
         {
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
                 redirect(cmd, pipes, fds, i);
+                cmd->data->last_cmd = &cmd;
                 if (is_builtin(cmd->args[0]))
                 {       
                         exec_builtin(cmd);
