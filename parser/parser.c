@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/24 19:05:55 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/05/28 00:15:33 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,8 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	input_exp = expand_vars(data, input);
 	printf("después de expand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
-	// while (cmd_aux[i])
-	// {
-	// 	cmd_aux[i] = expand_vars(data, cmd_aux[i]);
-	// 	i++;
-	// }
 	free(input_exp);
-	printf("ARRAY\n");
+	printf("\t\t>>>\t\tARRAY\n");
 	print_array(cmd_aux); // para testear
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
@@ -43,17 +38,19 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	i = 0;
 	while (i <= pipes)
 	{
-		cmds[i] = get_cmd(cmd_aux[i]);
-		cmds[i]->env = envp;
-		cmds[i]->data = data;
 		if (is_here_doc(cmd_aux[i]))
 		{
+			cmds[i] = init_cmd();
 			cmds[i]->heredoc = here_doc_mode(data, cmd_aux[i]);
 			printf("heredoc got it\n");
 			if (!cmds[i]->heredoc)
 				return (free_cmd(cmds[i]), free_array(cmd_aux), NULL);
-			
+			get_heredoc_cmd(cmd_aux[i], cmds[i]);
 		}
+		else
+			cmds[i] = get_cmd(cmd_aux[i]);
+		cmds[i]->env = envp;
+		cmds[i]->data = data;
 		printf("CMD ARRAY\n");
 		print_array(cmds[i]->args);
 		printf("END\n");

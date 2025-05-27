@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:04:39 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 01:24:44 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/24 18:23:13 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,8 @@ void		get_delimiter(char *line, t_heredoc *here_doc);
 char		**add_buffer(char **buffer, char *line);
 void		here_doc_init(char *line, t_heredoc *here_doc);
 t_heredoc	*here_doc_mode(t_data *data_program, char *line);
+
+// CMD.C
+void	get_heredoc_cmd(char *line, t_cmd *cmd);
 
 #endif

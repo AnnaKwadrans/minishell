@@ -69,6 +69,8 @@ int     *create_pipes(int pipes)
 
 bool    is_builtin(char *cmd)
 {
+        if (!cmd)
+                return (0);
         if (ft_strncmp(cmd, "echo", 4) == 0 || ft_strncmp(cmd, "cd", 2) == 0
                 || ft_strncmp(cmd, "env", 3) == 0 || ft_strncmp(cmd, "pwd", 3) == 0
                 || ft_strncmp(cmd, "export", 6) == 0 || ft_strncmp(cmd, "unset", 5) == 0
@@ -103,12 +105,14 @@ void    exec_builtin(t_cmd *cmd)
                 show_history(cmd->data);
                 cmd->p_status = 0;
         }
+        return ;
 }
 
 void    child(t_cmd *cmd, int pipes, int *fds, int i)
 {
         //printf("check new %d", i);
         cmd->pid = fork();
+        printf("check pid: %d\n", cmd->pid);
         if (cmd->pid < 0)
                 return (perror("Fork failed"));
         else if (cmd->pid == 0)
@@ -124,6 +128,7 @@ void    child(t_cmd *cmd, int pipes, int *fds, int i)
                 else
                 {
                         exec_cmd(cmd);
+                        exit(cmd->p_status);
                 }
         }
         else if (cmd->pid > 0)
@@ -150,6 +155,13 @@ void    redirect(t_cmd *cmd, int pipes, int *fds, int i)
                 if (i != 0)
                         close(fds[(i - 1) * 2]);
                 cmd->fd_in = handle_infile(cmd->infile, cmd->delimit);
+                dup2(cmd->fd_in, STDIN_FILENO);
+                close(cmd->fd_in);
+        }
+        else if (cmd->fd_in != STDIN_FILENO)
+        {
+                if (i != 0)
+                        close(fds[(i - 1) * 2]);
                 dup2(cmd->fd_in, STDIN_FILENO);
                 close(cmd->fd_in);
         }
@@ -313,7 +325,7 @@ void    parent(t_cmd **cmds, int pipes, int *fds)
        while (wait(NULL) > 0)
         ;
 }
-/*
+
 void    first_child(t_cmd *cmd, int pipes, int *fds)
 {
         // pipe 1, fds[0]
