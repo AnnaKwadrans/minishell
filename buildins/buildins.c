@@ -158,6 +158,15 @@ int main(void)
 	return (0);
 }
 
+// 	•	Si el usuario teclea env, debes imprimir solo:
+// 	•	Las variables que están exportadas
+// 	•	Y que tienen valor (como en VAR=value)
+// 	•	Formato: VAR=valor
+// 	•	Si teclea export sin argumentos, debes imprimir:
+// 	•	Todas las variables exportadas
+// 	•	Tengan o no valor
+// 	•	Formato: declare -x VAR="valor" o declare -x VAR si no tiene valor
+
 // PARA COMPILAR:
 // cc libft/libft.a vars/*.c buildins/*.c 
 

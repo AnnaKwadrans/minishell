@@ -28,7 +28,7 @@ void	print_array(char **array)
 	i = 0;
 	while (array[i])
 	{
-		printf("%s\n", array[i]);
+		printf("\t\t\t\t>>>%s\n", array[i]);
 		i++;
 	}
 }
