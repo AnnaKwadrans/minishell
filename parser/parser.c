@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 01:49:25 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/24 19:05:55 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 				return (free_cmd(cmds[i]), free_array(cmd_aux), NULL);
 			
 		}
+		printf("CMD ARRAY\n");
+		print_array(cmds[i]->args);
+		printf("END\n");
 		i++;
 	}
 	cmds[i] = NULL;
