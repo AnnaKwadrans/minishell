@@ -3,50 +3,131 @@
 #include "../data.h"
 #include "../libft/libft.h"
 #include "../vars/varenv.h"
+#include "../aux/aux.h"
+#include "../executor.h"
 
 int     ft_export()
 {
 
 }
 
-static void    rm_var(t_vars *vars)
+static void    rm_first(t_vars **vars)
 {
         t_vars  *temp;
 
-        temp = vars->next;
-        vars->next = vars->next->next;
+        temp = *vars;
+        *vars = (*vars)->next;
+        free(temp->name);
+        free(temp->value);
+        temp->data = NULL;
         temp->next = NULL;
-        free_vars(temp);
+        printf("CHILD\n");
+        ft_env(*vars);
+}
+
+static void    rm_last(t_vars *vars)
+{
+        t_vars  *temp;
+
+        temp = vars;
+        while (vars && vars->next)
+        {
+                if (!vars->next->next)
+                {
+                        free(vars->next->name);
+                        free(vars->next->value);
+                        vars->next->data = NULL;
+                        vars->next = NULL;
+                        printf("CHILD\n");
+                        ft_env(temp);
+                        return ;
+                }
+                vars = vars->next;
+        }
+}
+
+static void    rm_middle(t_vars *vars, char *name)
+{
+        t_vars  *temp;
+        
+        while (vars && vars->next && vars->next->next)
+        {
+                if (strncmp(vars->next->name, name, ft_strlen(name)) == 0)
+                {
+                        temp = vars->next;
+                        vars->next = vars->next->next;
+                        free(temp->name);
+                        free(temp->value);
+                        temp->data = NULL;
+                        temp->next = NULL;
+                        printf("CHILD\n");
+                        ft_env(vars);
+                        return ;
+                }
+                vars = vars->next;
+        }
+        printf("CHILD\n");
+        show_vars(vars);
+}
+
+int     ft_echo (char **args)
+{
+        int     i;
+        int     size;
+
+        if (ft_strncmp(args[1], "?", 1) == 0)
+        {
+                //printf("STATUS %d\n", ft_atoi(data->last_cmd->p_status));
+                return (0);
+        }
+        size = array_size(args) - 1;
+        i = 1;
+        if (ft_strncmp(args[1], "-n", 2) == 0)
+                i = 2;
+        while (i < size)
+        {
+                printf("%s ", args[i]);
+                i++;
+        }
+        printf("%s", args[i]);
+        if (ft_strncmp(args[1], "-n", 2) != 0)
+        printf("\n");
+        return (0);
 }
 
 int     ft_unset(t_vars *vars, char **args)
 {
         int     i;
-        
+        t_vars  *start;
+
         if (!vars || !args)
                 return (ft_putendl_fd("not enough arguments", 2), 0);
-        if (!vars->next)
+        start = vars;
+        i = 1;
+        while (args[i])
         {
-                i = 1;
-                while (args[i])
+                if (ft_strncmp(args[i], vars->name, ft_strlen(args[i])) == 0)
                 {
-                        if (ft_strncmp(args[i], vars->name, ft_strlen(args[i])) == 0)
-                                free_vars(vars->data);
-                        i++;
+
+                        return (rm_first(&vars), 0);
                 }
-                return (0);
-        }
-        while (vars->next)
-        {
-                i = 1;
-                while (args[i])
+                while (vars && vars->next && vars->next->next)
                 {
                         if (ft_strncmp(args[i], vars->next->name, ft_strlen(args[i])) == 0)
-                                rm_var(vars);
-                        i++;
+                        {
+
+                                return (rm_middle(start, args[i]), 0);
+                        }
+                        vars = vars->next;
                 }
-                vars = vars->next;
+                if (ft_strncmp(args[i], vars->next->name, ft_strlen(args[i])) == 0)
+                {
+
+                        return (rm_last(start), 0);
+                }
+                i++;
         }
+
         return (0);
 }
 
@@ -78,7 +159,7 @@ void    ft_cd(char *path)
 {
         opendir(path);
 }
-
+/*
 int main(int argc, char **argv, char **envp)
 {
         char    *path = malloc(50);
@@ -98,5 +179,7 @@ int main(int argc, char **argv, char **envp)
         printf("end :%s", path2);
         free(path);*/
         //free(path2);
+        /*
         return (0);
 }
+*/

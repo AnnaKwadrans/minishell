@@ -23,3 +23,8 @@ int	exec_line(t_cmd ***cmds, int *pipes);
 void    redirect(t_cmd *cmd, int pipes, int *fds, int i);
 void    child(t_cmd *cmd, int pipes, int *fds, int i);
 
+// ft_cd.c
+int     ft_env(t_vars *vars);
+int    ft_pwd();
+int     ft_unset(t_vars *vars, char **args);
+int     ft_echo (char **args);
