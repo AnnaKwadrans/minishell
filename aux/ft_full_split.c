@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_full_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 20:33:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/27 20:33:27 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/29 23:00:37 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**ft_full_split(char *s, char c)
 	result[i] = NULL;
 	return (result);
 }
-
+/*
 int main(void)
 {
 	char line[28] = "hello world, this is a test";
@@ -86,3 +86,4 @@ int main(void)
 		i++;
 	}
 }
+*/

@@ -38,9 +38,9 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
         while (waitpid(-1, &status, 0) > 0)
         {
                         *last_status = WEXITSTATUS(status);
-                        printf("CHILD %d\n", *last_status);
+                        //printf("CHILD %d\n", *last_status);
         }
-        printf("LAST STATUS %d\n", *last_status);
+        //printf("LAST STATUS %d\n", *last_status);
         return (0);
 }
 
@@ -49,7 +49,7 @@ int     *create_pipes(int pipes)
         int     *fds;
         int     i;
 
-        printf("PIPES %d\n", pipes);
+        //printf("PIPES %d\n", pipes);
         if (pipes == 0)
                 return (NULL);
         fds = malloc(sizeof(int) * pipes * 2);

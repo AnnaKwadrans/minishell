@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/28 00:15:33 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/29 23:27:13 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		}
 		else
 			cmds[i] = get_cmd(cmd_aux[i]);
-		cmds[i]->env = envp;
+		//cmds[i]->env = envp;
 		cmds[i]->data = data;
 		printf("CMD ARRAY\n");
 		print_array(cmds[i]->args);
@@ -105,7 +105,7 @@ t_cmd	*init_cmd(void)
 	if (!cmd)
 		return (NULL);
 	cmd->args = NULL;
-	cmd->env = NULL;
+	//cmd->env = NULL;
 	cmd->infile = NULL;
 	cmd->fd_in = STDIN_FILENO;
 	cmd->outfile = NULL;

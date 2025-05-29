@@ -22,6 +22,8 @@ int	exec_line(t_cmd ***cmds, int *pipes);
 //void    parent(t_cmd **cmds, int pipes, int *fds);
 void    redirect(t_cmd *cmd, int pipes, int *fds, int i);
 void    child(t_cmd *cmd, int pipes, int *fds, int i);
+char	**vars_to_char(t_vars *vars);
+char	*get_str_var(char *name, char *value);
 
 // ft_cd.c
 int     ft_env(t_vars *vars);
