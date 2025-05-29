@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:29:12 by akwadran          #+#    #+#             */
-/*   Updated: 2024/10/14 21:25:48 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/05/29 23:56:05 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*ptr;
 	int		len;
 
-	if (s1 == NULL || s2 == NULL)
+	if (s1 == NULL && s2 == NULL)
 		return (NULL);
+	if (s1 == NULL)
+		return (ft_strdup(s2));
+	if (s2 == NULL)
+		return (ft_strdup(s1));
 	len = ft_strlen(s1) + ft_strlen(s2);
 	ptr = malloc(sizeof(char) * (len + 1));
 	if (ptr == NULL)

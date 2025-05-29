@@ -46,7 +46,7 @@ void	free_cmd(t_cmd	*cmd)
 	if (!cmd)
 		return ;
 	free_array(cmd->args);
-	cmd->env = NULL;
+	//cmd->env = NULL;
 	if (cmd->infile)
 	{
 		free(cmd->infile);
