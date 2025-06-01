@@ -23,6 +23,7 @@ void	print_array(char **array)
 {
 	int	i;
 
+	printf("printing array: <<<\n");
 	if (!array)
 		return ;
 	i = 0;

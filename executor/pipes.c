@@ -18,25 +18,31 @@ void    exec_all_lines(t_data *data)
 
 int	execute_line(t_cmd **cmds, int pipes, int *fds)
 {
-        int i;
+	int i;
 
-        //printf("pipes: %d\n", pipes);
-        if (pipes > 0)
-                fds = create_pipes(pipes);
+	//printf("pipes: %d\n", pipes);
+	if (pipes > 0)
+		fds = create_pipes(pipes);
 	i = 0;
-        while (cmds[i])
-        {
-                
+	while (cmds[i])
+	{
+		printf("trying to execute cmd[%d]= %s\n", i, cmds[i]->args[0]);
+		if (!cmds[i]->args || !cmds[i]->args[0])
+		{
+			cmds[i]->p_status = 127; // Command not found
+			i++;
+			continue ;
+		}
                 child(cmds[i], pipes, fds, i);
                 i++;
-        }
-        close_fds(fds, pipes, -1, -1);
-        if (fds)
-                free(fds);
-        while (wait(NULL) > 0)
-                ;
-        //parent(cmds, pipes, fds);
-        return (0);
+	}
+	close_fds(fds, pipes, -1, -1);
+	if (fds)
+		free(fds);
+	while (wait(NULL) > 0)
+		;
+	//parent(cmds, pipes, fds);
+	return (0);
 }
 
 int     *create_pipes(int pipes)
@@ -111,6 +117,7 @@ void    exec_builtin(t_cmd *cmd)
 void    child(t_cmd *cmd, int pipes, int *fds, int i)
 {
         //printf("check new %d", i);
+        
         cmd->pid = fork();
         printf("check pid: %d\n", cmd->pid);
         if (cmd->pid < 0)
@@ -119,7 +126,7 @@ void    child(t_cmd *cmd, int pipes, int *fds, int i)
         {
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
                 redirect(cmd, pipes, fds, i);
-                cmd->data->last_cmd = &cmd;
+                cmd->data->last_cmd = cmd;
                 if (is_builtin(cmd->args[0]))
                 {       
                         exec_builtin(cmd);
@@ -158,7 +165,7 @@ void    redirect(t_cmd *cmd, int pipes, int *fds, int i)
                 dup2(cmd->fd_in, STDIN_FILENO);
                 close(cmd->fd_in);
         }
-        else if (cmd->fd_in != STDIN_FILENO)
+        else if (cmd->fd_in != STDIN_FILENO && cmd->fd_in > 2)
         {
                 if (i != 0)
                         close(fds[(i - 1) * 2]);

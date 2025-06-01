@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 20:33:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/27 20:33:27 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:19:42 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,19 @@ char	**ft_full_split(char *s, char c)
 	return (result);
 }
 
-int main(void)
-{
-	char line[28] = "hello world, this is a test";
-	char **buffer = ft_full_split(line, ' ');
-	if (buffer == NULL)
-	{
-		printf("Error: Memory allocation failed\n");
-		return (1);
-	}
-	int i = 0;
-	while (buffer[i] != NULL)
-	{
-		printf("buffer[%d]: %s\n", i, buffer[i]);
-		i++;
-	}
-}
+// int main(void)
+// {
+// 	char line[28] = "hello world, this is a test";
+// 	char **buffer = ft_full_split(line, ' ');
+// 	if (buffer == NULL)
+// 	{
+// 		printf("Error: Memory allocation failed\n");
+// 		return (1);
+// 	}
+// 	int i = 0;
+// 	while (buffer[i] != NULL)
+// 	{
+// 		printf("buffer[%d]: %s\n", i, buffer[i]);
+// 		i++;
+// 	}
+// }

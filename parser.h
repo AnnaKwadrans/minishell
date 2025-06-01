@@ -13,7 +13,7 @@ typedef struct s_cmd t_cmd;
 // parser.c
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data); // devuelve array de comandos
 t_cmd	*get_cmd(char *aux); // se le pasa como parametro una parte del input que corresponde a un pipe
-t_cmd	*init_cmd(); // inicializa la estructura
+void	init_cmd(t_cmd *cmd); // inicializa la estructura
 char	*get_infile(char *aux, char **delimit, int *index); // para obtener el infile (<) o delimitador (<<)
 char	*get_outfile(char *aux, int *append, int *index); // para obtener el outfile (>) y el bool append (>>)
 char	*get_file_str(const char *aux, int *index); // funcion auxiliar para obtener el string outfile, infile o delimit
