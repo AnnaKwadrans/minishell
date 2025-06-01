@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/01 18:54:54 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/01 16:59:19 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,25 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	t_cmd	**cmds;
 	char	*input_exp;
 
-	printf("%s\n", input);
+	printf("<<<-------------- PARSING LINE -------------->>>\n");
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
 	input_exp = expand_vars(data, input);
-	printf("después de expand: %s\n", input_exp);
+	printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	free(input_exp);
-	printf("\t\t>>>\t\tARRAY\n");
-	print_array(cmd_aux); // para testear
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
 		return (perror("malloc failed"), NULL);
 	i = 0;
 	while (i <= pipes)
 	{
+		cmds[i] = malloc(sizeof(t_cmd));
+		if (!cmds[i])
+			return (perror("malloc failed"), free_array(cmd_aux), NULL);
 		if (is_here_doc(cmd_aux[i]))
 		{
-			cmds[i] = init_cmd();
+			init_cmd(cmds[i]);
 			cmds[i]->heredoc = here_doc_mode(data, cmd_aux[i]);
 			printf("heredoc got it\n");
 			if (!cmds[i]->heredoc)
@@ -52,7 +53,8 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		//cmds[i]->env = envp;
 		cmds[i]->data = data;
 		printf("CMD ARRAY\n");
-		print_array(cmds[i]->args);
+		// if (cmds[i]->args)
+		// 	print_array(cmds[i]->args);
 		printf("END\n");
 		i++;
 	}
@@ -66,9 +68,10 @@ t_cmd	*get_cmd(char *aux)
 	t_cmd	*cmd;
 	int		i;
 
-	cmd = init_cmd();
+	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
-		return (NULL);
+		return (perror("malloc failed"), NULL);
+	init_cmd(cmd);
 	i = 0;
 	while (aux[i])
 	{
@@ -85,25 +88,18 @@ t_cmd	*get_cmd(char *aux)
 	}
 	if (cmd->args == NULL)
 	{
-		cmd->args = malloc(sizeof(char *));
+		cmd->args = malloc(sizeof(char *) * 2);
 		if (!cmd->args)
 			return (free_cmd(cmd), NULL);
 		cmd->args[0] = ft_strdup("cat");
+		cmd->args[1] = NULL;
 	}
-	//printf("%s %s %s %d\n", cmd->infile, cmd->delimit, cmd->outfile, cmd->append); // para testear
-	//print_array(cmd->args);
-	//printf("END PIPE\n");
 	return (cmd);
 }
 
 //VAR=abc ; ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile
-t_cmd	*init_cmd(void)
+void	init_cmd(t_cmd *cmd)
 {
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
 	cmd->args = NULL;
 	//cmd->env = NULL;
 	cmd->infile = NULL;
@@ -114,7 +110,8 @@ t_cmd	*init_cmd(void)
 	cmd->delimit = NULL;
 	cmd->heredoc = NULL;
 	cmd->data = NULL;
-	return (cmd);
+	cmd->p_status = 0;
+	cmd->pid = 0;
 }
 
 char	*get_infile(char *aux, char **delimit, int *index)

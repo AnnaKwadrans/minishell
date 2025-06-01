@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/27 19:28:55 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/01 16:41:50 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,16 @@ static void	setup_heredoc_input(t_cmd *cmd)
 	int	pipefd[2];
 	int	i;
 
+	if (pipe(pipefd) == -1)
+		return (perror("pipe"), free_cmd(cmd));
+	cmd->fd_in = pipefd[0]; // ← se usará como STDIN
+	if (!cmd->heredoc || !cmd->heredoc->buffer || !cmd->heredoc->buffer[0])
+	{
+		// heredoc vacío: cerramos el write-end sin escribir nada
+		close(pipefd[1]); // importante: esto permite que el reader reciba EOF
+		return ;
+	}
 	i = 0;
-	pipe(pipefd);
 	while (cmd->heredoc->buffer[i])
 	{
 		write(pipefd[1], cmd->heredoc->buffer[i],
@@ -26,8 +34,7 @@ static void	setup_heredoc_input(t_cmd *cmd)
 		write(pipefd[1], "\n", 1);
 		i++;
 	}
-	close(pipefd[1]);
-	cmd->fd_in = pipefd[0]; // lo usará en fork_and_exec
+	close(pipefd[1]); // cerramos el write-end
 }
 
 static void	default_assign_cmd(t_cmd *cmd)
@@ -58,6 +65,11 @@ void	get_heredoc_cmd(char *line, t_cmd *cmd)
 		free(args);
 		if (!cmd->args)
 			return (free_cmd(cmd));
+		printf("we got the cmd %s ", cmd->args[0]); // para testear
+		if (cmd->args[1])
+			printf("with the flags %s", cmd->args[1]); // para testear
+		else
+			printf("without flags\n"); // para testear
 	}
 	// if (cmd->heredoc->buffer)
 	setup_heredoc_input(cmd);

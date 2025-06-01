@@ -63,6 +63,12 @@ void	exec_cmd(t_cmd *cmd)
 	char	*path;
 	char	**str_vars;
 
+	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
+	{
+		cmd->p_status = 127;
+		return ;
+	}
+	path_var = getenv("PATH");
 	str_vars = vars_to_char(cmd->data->vars);
 	path_var = get_var_value(cmd->data, "PATH");
 	path_tab = ft_split(path_var + 5, ':');

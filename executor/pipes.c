@@ -134,29 +134,30 @@ void	exec_builtin(t_cmd *cmd)
 
 void	child(t_cmd *cmd, int pipes, int *fds, int i)
 {
-	//printf("check new %d", i);
-	cmd->pid = fork();
-	printf("check pid: %d\n", cmd->pid);
-	if (cmd->pid < 0)
-		return (perror("Fork failed"));
-	else if (cmd->pid == 0)
-	{
-		close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
-		redirect(cmd, pipes, fds, i);
-		//cmd->data->last_cmd = &cmd;
-		if (is_builtin(cmd->args[0]))
-		{
-			exec_builtin(cmd);
-			exit(cmd->p_status);
-		}
-		else
-		{
-			exec_cmd(cmd);
-			exit(cmd->p_status);
-		}
-	}
-	else if (cmd->pid > 0)
-		return ;
+        //printf("check new %d", i);
+        
+        cmd->pid = fork();
+        printf("check pid: %d\n", cmd->pid);
+        if (cmd->pid < 0)
+                return (perror("Fork failed"));
+        else if (cmd->pid == 0)
+        {
+                close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+                redirect(cmd, pipes, fds, i);
+                //cmd->data->last_cmd = &cmd;
+                if (is_builtin(cmd->args[0]))
+                {       
+                        exec_builtin(cmd);
+                        exit(cmd->p_status);
+                }
+                else
+                {
+                        exec_cmd(cmd);
+                        exit(cmd->p_status);
+                }
+        }
+        else if (cmd->pid > 0)
+                return ;
 }
 
 void	close_fds(int *fds, int pipes, int wr, int rd)
@@ -174,37 +175,38 @@ void	close_fds(int *fds, int pipes, int wr, int rd)
 
 void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
 {
-	if (cmd->infile)
-	{
-		if (i != 0)
-			close(fds[(i - 1) * 2]);
-		cmd->fd_in = handle_infile(cmd->infile, cmd->delimit);
-		dup2(cmd->fd_in, STDIN_FILENO);
-		close(cmd->fd_in);
-	}
-	else if (cmd->fd_in != STDIN_FILENO)
-	{
-		if (i != 0)
-			close(fds[(i - 1) * 2]);
-		dup2(cmd->fd_in, STDIN_FILENO);
-		close(cmd->fd_in);
-	}
-	else if (i != 0)
-	{
-		dup2(fds[(i - 1) * 2], STDIN_FILENO);
-		close(fds[(i - 1) * 2]);
-	}
-	if (cmd->outfile)
-	{
-		if (i != pipes)
-			close(fds[(i * 2) + 1]);
-		cmd->fd_out = handle_outfile(cmd->outfile, cmd->append);
-		dup2(cmd->fd_out, STDOUT_FILENO);
-		close(cmd->fd_out);
-	}
-	else if (i != pipes)
-	{
-		dup2(fds[(i * 2) + 1], STDOUT_FILENO);
-		close(fds[(i * 2) + 1]);
-	}
+        if (cmd->infile)
+        {
+                if (i != 0)
+                        close(fds[(i - 1) * 2]);
+                cmd->fd_in = handle_infile(cmd->infile, cmd->delimit);
+                dup2(cmd->fd_in, STDIN_FILENO);
+                close(cmd->fd_in);
+        }
+        else if (cmd->fd_in != STDIN_FILENO && cmd->fd_in > 2)
+        {
+                if (i != 0)
+                        close(fds[(i - 1) * 2]);
+                dup2(cmd->fd_in, STDIN_FILENO);
+                close(cmd->fd_in);
+        }
+        else if (i != 0)
+        {
+                dup2(fds[(i - 1) * 2], STDIN_FILENO); // 0:-2 1:0, 2:2, 3:4 
+                                                        //0: 
+                close(fds[(i - 1) * 2]);
+        }
+        if (cmd->outfile)
+        {
+                if (i != pipes)
+                        close(fds[(i * 2) + 1]); // 0:1 1:3 2:5 3:7
+                cmd->fd_out = handle_outfile(cmd->outfile, cmd->append);
+                dup2(cmd->fd_out, STDOUT_FILENO);
+                close(cmd->fd_out);
+        }
+        else if (i != pipes)
+        {
+                dup2(fds[(i * 2) + 1], STDOUT_FILENO);
+                close(fds[(i * 2) + 1]);
+        }
 }
