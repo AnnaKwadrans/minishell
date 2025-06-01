@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 20:33:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/28 00:19:42 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/01 16:57:38 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ char	**ft_full_split(char *s, char c)
 	result[i] = NULL;
 	return (result);
 }
-
 // int main(void)
 // {
 // 	char line[28] = "hello world, this is a test";
@@ -86,3 +85,4 @@ char	**ft_full_split(char *s, char c)
 // 		i++;
 // 	}
 // }
+

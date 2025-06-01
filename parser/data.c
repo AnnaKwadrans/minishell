@@ -17,8 +17,9 @@ void	init_data(t_data *data)
     	setup_interactive_signals();
 	else
 		setup_signals();
-	data->last_cmd = NULL;
+	//data->last_cmd = NULL;
 	data->fds = NULL;
+	data->last_status = 0;
 }
 
 t_lines	*get_line(t_data *data, char *input)

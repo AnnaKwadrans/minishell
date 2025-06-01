@@ -40,8 +40,8 @@ typedef struct s_data
 	int				*pipes; // Contador de pipes
 	int				is_interactive; // Si es interactivo o no
 	int				is_expandable; // Si es expandible o no
-	t_cmd			*last_cmd;
 	int				*fds;
+	int				last_status;
 }	t_data;
 
 // Estructura para almacenar las variables de entorno "locales"
@@ -58,7 +58,7 @@ typedef struct s_vars
 typedef struct s_cmd
 {
 	char		**args;
-	char		**env;
+	//char		**env;
 	char		*infile;
 	int			fd_in;
 	char		*outfile;

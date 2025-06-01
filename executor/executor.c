@@ -1,138 +1,8 @@
 #include "../data.h"
 #include "../parser.h"
 #include "../executor.h"
-/*
-int	exec_line(t_cmd ***cmds, int *pipes)
-{
-	int	i;
-	int	j;
-	int	fds[2];
+#include "../vars/varenv.h"
 
-	i = 0;
-	while (cmds[i])
-	{
-		j = 0;
-		while (cmds[i][j])
-		{
-			if (pipe(fds) < 0)
-			{
-				// err pipe
-			}
-			cmds[i][j]->pid = fork();
-			if (cmds[i][j]->pid < 0)
-			{
-				// err fork
-			}
-			else if (cmds[i][j]->pid == 0)
-			{
-				exec_cmd(cmds[i][j]);
-			}
-			else if (cmds[i][j]->pid > 0)
-			{
-				// parent
-				waitpid(cmds[i][j]->pid, NULL, 0);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
-*/
-/*
-int	execute_line(t_cmd ***cmds, int *pipes, int **fds)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (cmds[i])
-	{
-		fds = create_pipes(pipes[i]);
-		first_child(cmds[i][j], j, fds);
-		j = 1;
-		while (cmds[i][j] && j < pipes[i])
-		{
-			new_child(cmds[i][j], pipes[i], j, fds[i]);
-			j++;
-		}
-		if (j = pipes[i])
-			last_child(cmds[i][j], j, fds[i]);
-		free_fds(fds, pipes[i]);
-		i++;
-	}
-	return (0);
-}
-*/
-/*
-int	new_child(t_cmd *cmd, int pipes, int process, int *fds)
-{
-	if (pipe(fds) < 0)
-	{
-		// err pipe
-	}
-	cmd->pid = fork();
-	if (cmd->pid < 0)
-	{
-		// err fork
-	}
-	else if (cmd->pid == 0)
-	{
-		// child
-		if (index == 0 && index == pipes)
-		{
-			// no pipes
-			if (cmd->infile)
-				cmd->fd_in = handle_infile(cmd->infile, cmd->delimit);
-			if (cmd->outfile)
-				handle_outfile(cmd->outfile, cmd->append);
-			cmd->p_status = exec_cmd(cmd);
-			
-		}
-		else if (index == 0 && index != pipes)
-		{
-			// first pipe
-			if (cmd->infile)
-				handle_infile(cmd->infile, cmd->delimit);
-			if (cmd->outfile)
-				handle_outfile(cmd->outfile, cmd->append);
-			else
-				dup2(fds[1], STDOUT_FILENO);
-			cmd->p_status = exec_cmd(cmd);
-		}
-		else if (index != 0 && index == pipes)
-		{
-			// last pipe
-			if (cmd->infile)
-				handle_infile(cmd->infile, cmd->delimit);
-			else
-				dup2(fds[0], STDIN_FILENO);
-			if (cmd->outfile)
-				handle_outfile(cmd->outfile, cmd->append);
-			cmd->p_status = exec_cmd(cmd);
-		}
-		else
-		{
-			// middle pipe
-			if (cmd->infile)
-				handle_infile(cmd->infile, cmd->delimit);
-			else
-				dup2(fds[0], STDIN_FILENO);
-			if (cmd->outfile)
-				handle_outfile(cmd->outfile, cmd->append);
-			else
-				dup2(fds[1], STDOUT_FILENO);
-			cmd->p_status = exec_cmd(cmd);
-		}
-	}
-	else if (cmd->pid > 0)
-	{
-		// parent
-		waitpid(cmd->pid, NULL, 0);
-	}
-	return (0);
-}
-*/
 int	handle_infile(char *infile, char *delimit)
 {
 	int	fd;
@@ -179,6 +49,7 @@ void	exec_cmd(t_cmd *cmd)
 	char	*path_var;
 	char	**path_tab;
 	char	*path;
+	char	**str_vars;
 
 	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
 	{
@@ -186,45 +57,29 @@ void	exec_cmd(t_cmd *cmd)
 		return ;
 	}
 	path_var = getenv("PATH");
+	str_vars = vars_to_char(cmd->data->vars);
+	path_var = get_var_value(cmd->data, "PATH");
 	path_tab = ft_split(path_var + 5, ':');
 	path = get_path(cmd->args, path_tab);
 	if (path_tab)
 		free_array(path_tab);
 	if (path)
 	{
-		cmd->p_status = execve(path, cmd->args, cmd->env);
+		cmd->p_status = execve(path, cmd->args, str_vars);
 		free(path);
 		perror("Execve failed");
+		cmd->p_status = -1;
+		exit(-1);
 	}
 	else
 	{
 		ft_putendl_fd("Command not found", 2);
 		cmd->p_status = 127;
+		exit(127);
 	}
 	return ;
 }
-/*
-char	**parse_path_var(char **envp)
-{
-	int		i;
-	char	**path_tab;
 
-	if (envp == NULL)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		if (strncmp(envp[i], "PATH=", 5) == 0 && envp[i][5])
-		{
-			path_tab = ft_split(envp[i] + 5, ':');
-			if (path_tab)
-				return (path_tab);
-		}
-		i++;
-	}
-	return (NULL);
-}
-*/
 char	*get_path(char **cmd_tab, char **path_tab)
 {
 	int		i;
@@ -254,3 +109,41 @@ char	*get_path(char **cmd_tab, char **path_tab)
 	return (NULL);
 }
 
+char	**vars_to_char(t_vars *vars)
+{
+	t_vars	*temp;
+	int	size;
+	char	**str_vars;
+	int	i;
+
+	temp = vars;
+	size = 0;
+	while (temp)
+	{
+		size++;
+		temp = temp->next;
+	}
+	str_vars = malloc(sizeof(char *) * size);
+	if (!str_vars)
+		return (NULL);
+	temp = vars;
+	i = 0;
+	while (temp)
+	{
+		str_vars[i] = get_str_var(temp->name, temp->value);
+		i++;
+		temp = temp->next;
+	}
+	return (str_vars);
+}
+
+char	*get_str_var(char *name, char *value)
+{
+	char	*str_var;
+	char	*aux;
+
+	aux = ft_strjoin(name, "=");
+	str_var = ft_strjoin(aux, value);
+	free(aux);
+	return (str_var);
+}
