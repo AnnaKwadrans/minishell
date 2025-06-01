@@ -1,40 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/01 18:53:45 by akwadran          #+#    #+#             */
+/*   Updated: 2025/06/01 19:00:10 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../parser.h"
 #include "../data.h"
 
-/*
-int	ft_isspace(int c)
-{
-	if (c == ' ' || (c >= '\t' && c <= '\r'))
-		return (1);
-	return (0);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	unsigned int	i;
-
-	if (size == 0)
-		return (ft_strlen(src));
-	i = 0;
-	while (src[i] && i < (size - 1))
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
-}
-*/
 bool	is_set(char c, char const *set)
 {
 	while (*set)
@@ -78,7 +56,7 @@ char	*get_var(char *line)
 	//printf("%s\n", name);
 	var = getenv(name);
 	free(name);
-	return(var);
+	return (var);
 }
 
 t_lines	*last_line(t_lines *history_lines)
@@ -92,4 +70,3 @@ t_lines	*last_line(t_lines *history_lines)
 		last = last->next;
 	return (last);
 }
-

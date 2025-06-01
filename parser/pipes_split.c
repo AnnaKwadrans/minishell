@@ -1,5 +1,15 @@
-//#include "data.h"
-//#include "libft/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes_split.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/01 18:53:57 by akwadran          #+#    #+#             */
+/*   Updated: 2025/06/01 18:59:33 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../parser.h"
 #include <stdio.h>
 
@@ -65,8 +75,8 @@ static int	split_count(char const *s, char c)
 static char	**init_array(char const *s, int count, char c)
 {
 	char	**array;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	array = (char **)ft_calloc(count + 1, sizeof(char *));
 	if (array == NULL)

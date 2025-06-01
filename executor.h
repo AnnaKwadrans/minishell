@@ -8,6 +8,8 @@ void	exec_cmd(t_cmd *cmd);
 char	*get_path(char **cmd_tab, char **path_tab);
 int     *create_pipes(int pipes);
 void    close_fds(int *fds, int pipes, int wr, int rd);
+bool	is_builtin(char *cmd);
+void	exec_builtin(t_cmd *cmd);
 
 // executer.c
 //int     execute_line(t_cmd ***cmds, int *pipes);
