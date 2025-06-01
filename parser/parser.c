@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/29 23:27:13 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/01 18:54:54 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,41 +116,7 @@ t_cmd	*init_cmd(void)
 	cmd->data = NULL;
 	return (cmd);
 }
-/*
-char	*get_infile(char *aux, char **delimit, int *index)
-{
-	int	i;
-	int	start;
-	int	len;
-	int	heredoc;
 
-	i = 1;
-	if (aux[i] == '<')
-	{
-		heredoc = 1;
-		i++;
-	}
-	else
-		heredoc = 0;
-	while (ft_isspace(aux[i]))
-		i++;
-	start = i;
-	while (!ft_isspace(aux[i]))
-	{
-		if (aux[i] == '\'' || aux[i] == '\"')
-			i += close_quotes(&aux[i]);
-		i++;
-	}
-	len = i - start;
-	*index += i;
-	if (heredoc)
-	{
-		*delimit = ft_substr(aux, start, len);
-		return (NULL);
-	}
-	return (ft_substr(aux, start, len));
-}
-*/
 char	*get_infile(char *aux, char **delimit, int *index)
 {
 	int		i;

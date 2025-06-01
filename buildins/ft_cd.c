@@ -113,7 +113,7 @@ int     ft_echo (t_data *data, char **args)
         //arreglar esto en el pareso de variables
         if (ft_strncmp(args[1], "?", 1) == 0)
         {
-                printf("STATUS %d\n", ft_itoa(data->last_status));
+                printf("STATUS %d\n", data->last_status);
                 return (0);
         }
         size = array_size(args) - 1;
