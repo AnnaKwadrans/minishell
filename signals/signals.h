@@ -15,7 +15,7 @@
 
 # include "../data.h"
 
-volatile sig_atomic_t g_heredoc_interrupted;
+extern volatile sig_atomic_t g_heredoc_interrupted;
 
 void	rl_replace_line(const char *text, int clear_undo);
 

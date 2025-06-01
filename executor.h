@@ -29,4 +29,5 @@ char	*get_str_var(char *name, char *value);
 int     ft_env(t_vars *vars);
 int    ft_pwd();
 int     ft_unset(t_vars *vars, char **args);
-int     ft_echo (char **args);
+int     ft_echo (t_data *data, char **args);
+int     ft_export(t_data *data, char *name);
