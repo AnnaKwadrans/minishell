@@ -1,14 +1,49 @@
 #include <dirent.h>
-#include <limits.h>
+#include <linux/limits.h>
 #include "../data.h"
 #include "../libft/libft.h"
 #include "../vars/varenv.h"
-#include "../aux/aux.h"
+//#include "../aux/aux.h"
 #include "../executor.h"
 
-int     ft_export()
+t_vars  *exp_new_var(t_data *data, char *name)
 {
+        t_vars	*var;
+        char    *var_name;
+        char    *var_value;
+        int     i;
 
+        i = 0;
+        while (ft_isspace(name[i]))
+                i++;
+        var_name = ft_strdup_set(&name[i], "=");
+        while (name[i] != '=')
+                i++;
+        var_value = ft_strdup_set(&name[i + 1], " \t\n\v\r\f");
+        var = new_var(var_name, var_value, 1);
+        return (var);
+        add_var(data, var);
+
+}
+
+int     ft_export(t_data *data, char *name)
+{
+        t_vars  *temp;
+        t_vars  *new;
+
+        temp = data->vars;
+        while (temp)
+        {
+                if (ft_strncmp(name, temp->name, ft_strlen(name)) == 0)
+                {
+                        temp->is_exportable = 1;
+                        return (0);
+                }
+                temp = temp->next;
+        }
+        new = exp_new_var(data, name);
+        add_var(data, new);
+        return (0);
 }
 
 static void    rm_first(t_vars **vars)
@@ -70,19 +105,20 @@ static void    rm_middle(t_vars *vars, char *name)
         show_vars(vars);
 }
 
-int     ft_echo (char **args)
+int     ft_echo (t_data *data, char **args)
 {
         int     i;
         int     size;
 
+        //arreglar esto en el pareso de variables
         if (ft_strncmp(args[1], "?", 1) == 0)
         {
-                //printf("STATUS %d\n", ft_atoi(data->last_cmd->p_status));
+                printf("STATUS %d\n", ft_itoa(data->last_status));
                 return (0);
         }
         size = array_size(args) - 1;
         i = 1;
-        if (ft_strncmp(args[1], "-n", 2) == 0)
+        if (args[1][0] == '-' && args[1][1] == 'n')
                 i = 2;
         while (i < size)
         {
@@ -90,8 +126,8 @@ int     ft_echo (char **args)
                 i++;
         }
         printf("%s", args[i]);
-        if (ft_strncmp(args[1], "-n", 2) != 0)
-        printf("\n");
+        if (!(args[1][0] == '-' && args[1][1] == 'n'))
+                printf("\n");
         return (0);
 }
 
