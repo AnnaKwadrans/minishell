@@ -47,9 +47,9 @@ void	parse_data(char *input, t_data *data, char **envp)
 	{}
 		// err invalid syntax
 	data->line = get_line(data, input);
-	//print_array(data->part_lines);
+	printf("\t>>>\t\tLINE: %s\n", data->line->line);
 	data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
-	data->cmds = malloc(sizeof(t_cmd **) * array_size(data->part_lines));
+	data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
 	if (!data->cmds)
 		return (free_data(data));
 	l = 0;

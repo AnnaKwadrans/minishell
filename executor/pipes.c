@@ -22,9 +22,9 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
         int i;
         int status;
 
-        //printf("pipes: %d\n", pipes);
-        if (pipes > 0)
-                fds = create_pipes(pipes);
+	//printf("pipes: %d\n", pipes);
+	if (pipes > 0)
+		fds = create_pipes(pipes);
 	i = 0;
         while (cmds[i])
         {
@@ -117,6 +117,7 @@ void    exec_builtin(t_cmd *cmd)
 void    child(t_cmd *cmd, int pipes, int *fds, int i)
 {
         //printf("check new %d", i);
+        
         cmd->pid = fork();
         printf("check pid: %d\n", cmd->pid);
         if (cmd->pid < 0)
@@ -164,7 +165,7 @@ void    redirect(t_cmd *cmd, int pipes, int *fds, int i)
                 dup2(cmd->fd_in, STDIN_FILENO);
                 close(cmd->fd_in);
         }
-        else if (cmd->fd_in != STDIN_FILENO)
+        else if (cmd->fd_in != STDIN_FILENO && cmd->fd_in > 2)
         {
                 if (i != 0)
                         close(fds[(i - 1) * 2]);
