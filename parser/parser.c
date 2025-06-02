@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/01 16:59:19 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/01 18:02:57 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 			cmds[i]->heredoc = here_doc_mode(data, cmd_aux[i]);
 			printf("heredoc got it\n");
 			if (!cmds[i]->heredoc)
-				return (free_cmd(cmds[i]), free_array(cmd_aux), NULL);
+				return (perror("here_doc_mode failed"), free_array(cmd_aux), free_cmd(cmds), NULL);
 			get_heredoc_cmd(cmd_aux[i], cmds[i]);
 		}
 		else

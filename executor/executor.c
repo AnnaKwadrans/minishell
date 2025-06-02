@@ -56,9 +56,15 @@ void	exec_cmd(t_cmd *cmd)
 		cmd->p_status = 127;
 		return ;
 	}
-	path_var = getenv("PATH");
+	// path_var = getenv("PATH");
 	str_vars = vars_to_char(cmd->data->vars);
 	path_var = get_var_value(cmd->data, "PATH");
+	if (path_var == NULL || ft_strlen(path_var) < 5)
+	{
+		ft_putendl_fd("PATH variable not set or empty", 2);
+		cmd->p_status = 127;
+		exit(127);
+	}
 	path_tab = ft_split(path_var + 5, ':');
 	path = get_path(cmd->args, path_tab);
 	if (path_tab)

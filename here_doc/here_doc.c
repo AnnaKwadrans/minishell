@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 01:37:27 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:57:41 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ volatile sig_atomic_t g_heredoc_interrupted = 0;
 // El compilador podría asumir que running nunca cambia y podría optimizarlo así:
 // while (1) { /* hacer algo... */ }
 // PERO, si otra parte del programa modifica running, entonces esa optimización crearía un bucle infinito.
+
+void	expand_buffer(t_heredoc *here_doc)
+{
+	int		i;
+
+	if (!here_doc || !here_doc->buffer)
+		return ;
+	i = 0;
+	while (here_doc->buffer[i])
+	{
+		here_doc->buffer[i] = expand_vars(NULL, here_doc->buffer[i]);
+		if (!here_doc->buffer[i])
+			return ; // Manejar error de expansión
+		i++;
+	}
+}
 
 char	**add_buffer(char **buffer, char *line)
 {
@@ -79,7 +95,7 @@ void	here_doc_init(char *line, t_heredoc *here_doc)
 t_heredoc *here_doc_mode(t_data *data_program, char *line)
 {
 	t_heredoc	*here_doc;
-	char		*new_line;
+	char		*new_line = NULL;
 	int			i;
 
 	i = 0;
@@ -87,33 +103,36 @@ t_heredoc *here_doc_mode(t_data *data_program, char *line)
 	if (!here_doc)
 		return (here_doc_error(here_doc, "MALLOC"), NULL);
 	here_doc_init(line, here_doc);
-	printf("here_doc->is_expandable: %d\n", here_doc->is_expandable);
 	while (here_doc->delimiter)
 	{
 		write(1, "heredoc >", 10);
 		new_line = remove_trailing_newline(get_next_line(STDIN_FILENO));
-		if (g_heredoc_interrupted)
+		if (g_heredoc_interrupted) 
+		{
+			restore_signals();
 			return (here_doc_error(here_doc, "SIGINT"), NULL);
+		}
 		if (!new_line)
+		{
+			restore_signals();
 			return (here_doc_error(here_doc, "EOF"), NULL);
+		}
 		if (ft_strcmp (new_line, here_doc->delimiter) == 0)
 			break ;
 		here_doc->buffer = add_buffer(here_doc->buffer, new_line);
 		if (!here_doc->buffer)
-			return (here_doc_error(here_doc, "MALLOC"), NULL);
-	}
-	i = 0;
-	if (here_doc->buffer && here_doc->buffer[i] && here_doc->is_expandable)
-	{
-		while (here_doc->buffer[i])
 		{
-			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i]);
-			printf("buffer[%d]: %s\n", i, here_doc->buffer[i]);
-			i++;
+			restore_signals();
+			return (here_doc_error(here_doc, "MALLOC"), NULL);
 		}
+		free(new_line);
+		new_line = NULL;
 	}
 	if (new_line)
 		free(new_line);
+	if (here_doc->buffer && here_doc->buffer[i] && here_doc->is_expandable)
+		expand_buffer(here_doc);
+	restore_signals();
 	return (here_doc);
 }
 

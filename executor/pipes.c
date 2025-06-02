@@ -10,6 +10,11 @@ void    exec_all_lines(t_data *data)
 	i = 0;
 	while (data->cmds[i])
 	{
+                if (data->cmds[i] == NULL)
+                {
+                        i++;
+                        continue;
+                }
                 execute_line(data->cmds[i], data->pipes[i], data->fds, &data->last_status);
                 printf("LAST LAST STATUS: %d\n", data->last_status);
 		i++;
@@ -127,8 +132,8 @@ void    child(t_cmd *cmd, int pipes, int *fds, int i)
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
                 redirect(cmd, pipes, fds, i);
                 //cmd->data->last_cmd = &cmd;
-                if (is_builtin(cmd->args[0]))
-                {       
+                if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
+                {
                         exec_builtin(cmd);
                         exit(cmd->p_status);
                 }
@@ -136,7 +141,7 @@ void    child(t_cmd *cmd, int pipes, int *fds, int i)
                 {
                         exec_cmd(cmd);
                         exit(cmd->p_status);
-                }
+}
         }
         else if (cmd->pid > 0)
                 return ;

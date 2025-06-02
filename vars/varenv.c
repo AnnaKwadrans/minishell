@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/22 21:30:24 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/01 17:32:53 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*handle_quotes(char *result, char *line, int *i)
 {
 	char	quote;
 
-	quote = line[(*i)++];
+	quote = line[(*i)];
 	result = ft_strjoin_free(result, (char []){quote, '\0'});
 	while (line[*i] && line[*i] != quote)
 		result = ft_strjoin_free(result, (char []){line[(*i)++], '\0'});
@@ -110,7 +110,9 @@ char	*expand_vars(t_data *data_program, char *line)
 	char	*result;
 
 	count = count_vars(line);
+	// printf("Count of vars: %d\n", count);
 	vars = multi_search(data_program, line, count);
+	// print_array(vars);
 	result = handle_expansion(data_program, line, vars);
 	free_array(vars);
 	return (result);
@@ -149,40 +151,40 @@ char	*expand_vars(t_data *data_program, char *line)
 // 	init_env(data_program, env);
 // 	example_new_vars(data_program);
 // 	// show_vars(data_program);
-// printf("\n<<------------------ exportable");
-// printf("vars-- -- -- -- -- -- -- -- -->>\n\n ");
-	// 	// exported_vars = export_vars(data_program);
-	// 	// if (!exported_vars)
-	// 	// {
-	// 	// 	printf("Error al exportar las variables\n");
-	// 	// 	return (1);
-	// 	// }
-	// 	// for (int i = 0; exported_vars[i]; i++)
-	// 	// {
-	// 	// 	printf("Variable exportable %d:\n", i + 1);
-	// 	// 	printf("\tname: %s\n", exported_vars[i]->name);
-	// 	// 	printf("\tvalue: %s\n ", exported_vars[i]->value);
-	// 	// }
-	// 	printf("\n<<------------------ expand vars ------------------>>\n\n");
-	// 	char *line = "expanding -$MY_VAR3-, -$MY_VAR4-, -$MY_VAR5-";
-	// 	char *expanded_line = expand_vars(data_program, line);
+// 	printf("\n<<------------------ exportable");
+// 	printf("vars-- -- -- -- -- -- -- -- -->>\n\n ");
+// 	// exported_vars = export_vars(data_program);
+// 	// if (!exported_vars)
+// 	// {
+// 	// 	printf("Error al exportar las variables\n");
+// 	// 	return (1);
+// 	// }
+// 	// for (int i = 0; exported_vars[i]; i++)
+// 	// {
+// 	// 	printf("Variable exportable %d:\n", i + 1);
+// 	// 	printf("\tname: %s\n", exported_vars[i]->name);
+// 	// 	printf("\tvalue: %s\n ", exported_vars[i]->value);
+// 	// }
+// 	printf("\n<<------------------ expand vars ------------------>>\n\n");
+// 	char *line = "I'm a test line with $MY_VAR, this is $MY_VAR2";
+// 	char *expanded_line = expand_vars(data_program, line);
 
-	// 	if (expanded_line)
-	// 	{
-	// 		printf("Linea expandida: %s\n", expanded_line);
-	// 		free(expanded_line);
-	// 	}
-	// 	else
-	// 		printf("Error al expandir la linea\n");
-	// 	// var = search_var(data_program, "PWD");
-	// 	// if (var)
-	// 	// 	printf("Variable encontrada: %s=%s\n", var->name, var->value);
-	// 	// else
-	// 	// 	printf("Variable no encontrada\n");
-	// 	free_vars(data_program);
-	// 	free(data_program);
-	// 	return (0);
-	// }
+// 	if (expanded_line)
+// 	{
+// 		printf("Linea expandida: %s\n", expanded_line);
+// 		free(expanded_line);
+// 	}
+// 	else
+// 		printf("Error al expandir la linea\n");
+// 	// var = search_var(data_program, "PWD");
+// 	// if (var)
+// 	// 	printf("Variable encontrada: %s=%s\n", var->name, var->value);
+// 	// else
+// 	// 	printf("Variable no encontrada\n");
+// 	free_vars(data_program);
+// 	free(data_program);
+// 	return (0);
+// }
 
 	// PARA PROBAR ESTAS FUNCIONES CON LIBFT
 	// cc libft/libft.a vars/*.c
