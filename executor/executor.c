@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
+/*   Updated: 2025/06/01 19:07:08 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../data.h"
 #include "../parser.h"
 #include "../executor.h"
@@ -118,9 +130,9 @@ char	*get_path(char **cmd_tab, char **path_tab)
 char	**vars_to_char(t_vars *vars)
 {
 	t_vars	*temp;
-	int	size;
+	int		size;
 	char	**str_vars;
-	int	i;
+	int		i;
 
 	temp = vars;
 	size = 0;

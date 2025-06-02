@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:13:52 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 01:24:11 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/01 19:31:11 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../data.h"
 
-volatile sig_atomic_t g_heredoc_interrupted;
+extern volatile sig_atomic_t g_heredoc_interrupted;
 
 void	rl_replace_line(const char *text, int clear_undo);
 
