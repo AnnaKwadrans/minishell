@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/02 17:57:41 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/04 21:34:27 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,26 +105,30 @@ t_heredoc *here_doc_mode(t_data *data_program, char *line)
 	here_doc_init(line, here_doc);
 	while (here_doc->delimiter)
 	{
-		write(1, "heredoc >", 10);
+		write(1, "heredoc > ", 10);
 		new_line = remove_trailing_newline(get_next_line(STDIN_FILENO));
 		if (g_heredoc_interrupted) 
 		{
 			restore_signals();
 			return (here_doc_error(here_doc, "SIGINT"), NULL);
-		}
-		if (!new_line)
-		{
-			restore_signals();
-			return (here_doc_error(here_doc, "EOF"), NULL);
-		}
-		if (ft_strcmp (new_line, here_doc->delimiter) == 0)
+    }
+		if (ft_strcmp(new_line, here_doc->delimiter) == 0 || !new_line)
 			break ;
 		here_doc->buffer = add_buffer(here_doc->buffer, new_line);
 		if (!here_doc->buffer)
-		{
-			restore_signals();
 			return (here_doc_error(here_doc, "MALLOC"), NULL);
-		}
+	}
+	if (here_doc->buffer && here_doc->is_expandable)
+	{
+		i = 0;
+		while (here_doc->buffer[i])
+		{
+			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i]);
+			if (!here_doc->buffer[i])
+				return (here_doc_error(here_doc, "EXPAND_VARS"), NULL);
+			printf("buffer[%d]: %s\n", i, here_doc->buffer[i]);
+			i++;
+    }
 		free(new_line);
 		new_line = NULL;
 	}

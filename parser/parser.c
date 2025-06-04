@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/01 18:02:57 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/04 21:05:05 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	t_cmd	**cmds;
 	char	*input_exp;
 
-	printf("<<<-------------- PARSING LINE -------------->>>\n");
+	// printf("<<<-------------- PARSING LINE -------------->>>\n");
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
 	input_exp = expand_vars(data, input);
-	printf("\t>>>\t\texpand: %s\n", input_exp);
+	// printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	free(input_exp);
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
@@ -43,19 +43,25 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		{
 			init_cmd(cmds[i]);
 			cmds[i]->heredoc = here_doc_mode(data, cmd_aux[i]);
-			printf("heredoc got it\n");
 			if (!cmds[i]->heredoc)
-				return (perror("here_doc_mode failed"), free_array(cmd_aux), free_cmd(cmds), NULL);
+			{
+				free_cmd(cmds[i]);
+				free_array(cmd_aux);
+				cmds[i] = NULL;
+				printf("Error in heredoc\n");
+				return (NULL);
+			}
+			printf("heredoc got it\n");
 			get_heredoc_cmd(cmd_aux[i], cmds[i]);
 		}
 		else
 			cmds[i] = get_cmd(cmd_aux[i]);
 		//cmds[i]->env = envp;
 		cmds[i]->data = data;
-		printf("CMD ARRAY\n");
+		// printf("CMD ARRAY\n");
 		// if (cmds[i]->args)
 		// 	print_array(cmds[i]->args);
-		printf("END\n");
+		// printf("END\n");
 		i++;
 	}
 	cmds[i] = NULL;
