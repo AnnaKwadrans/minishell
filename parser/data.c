@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/01 19:02:12 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:28:06 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 	int		l;
 	int		c;
 
+	part_lines = NULL;
 	printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!even_quotes(input))
 	{}

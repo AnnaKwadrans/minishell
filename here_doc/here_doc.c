@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/04 21:34:27 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/05 01:31:29 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	expand_buffer(t_heredoc *here_doc)
 	{
 		here_doc->buffer[i] = expand_vars(NULL, here_doc->buffer[i]);
 		if (!here_doc->buffer[i])
-			return ; // Manejar error de expansión
+			here_doc_error(here_doc, "EXPAND_VARS") ; // Manejar error de expansión
 		i++;
 	}
 }
@@ -83,6 +83,7 @@ char	**add_buffer(char **buffer, char *line)
 
 void	here_doc_init(char *line, t_heredoc *here_doc)
 {
+	g_heredoc_interrupted = 0;
 	setup_heredoc_signals();
 	get_delimiter(line, here_doc);
 	if (!here_doc->delimiter)
@@ -92,7 +93,7 @@ void	here_doc_init(char *line, t_heredoc *here_doc)
 	here_doc->buffer = NULL; // por el sg en add_buffer
 }
 
-t_heredoc *here_doc_mode(t_data *data_program, char *line)
+t_heredoc	*here_doc_mode(t_data *data_program, char *line)
 {
 	t_heredoc	*here_doc;
 	char		*new_line = NULL;
@@ -107,16 +108,17 @@ t_heredoc *here_doc_mode(t_data *data_program, char *line)
 	{
 		write(1, "heredoc > ", 10);
 		new_line = remove_trailing_newline(get_next_line(STDIN_FILENO));
-		if (g_heredoc_interrupted) 
-		{
-			restore_signals();
-			return (here_doc_error(here_doc, "SIGINT"), NULL);
-    }
-		if (ft_strcmp(new_line, here_doc->delimiter) == 0 || !new_line)
+		if (g_heredoc_interrupted)
+			return (free(new_line), here_doc_error(here_doc, "SIGINT"), NULL);
+		if (!new_line)
+			break ;
+		if (ft_strcmp(new_line, here_doc->delimiter) == 0)
 			break ;
 		here_doc->buffer = add_buffer(here_doc->buffer, new_line);
 		if (!here_doc->buffer)
-			return (here_doc_error(here_doc, "MALLOC"), NULL);
+			return (free(new_line), here_doc_error(here_doc, "MALLOC"), NULL);
+		free(new_line);
+		new_line = NULL;
 	}
 	if (here_doc->buffer && here_doc->is_expandable)
 	{
@@ -128,15 +130,12 @@ t_heredoc *here_doc_mode(t_data *data_program, char *line)
 				return (here_doc_error(here_doc, "EXPAND_VARS"), NULL);
 			printf("buffer[%d]: %s\n", i, here_doc->buffer[i]);
 			i++;
-    }
-		free(new_line);
-		new_line = NULL;
+		}
 	}
-	if (new_line)
-		free(new_line);
-	if (here_doc->buffer && here_doc->buffer[i] && here_doc->is_expandable)
-		expand_buffer(here_doc);
-	restore_signals();
+	if (data_program->is_interactive)
+		setup_interactive_signals();
+	else
+		restore_signals();
 	return (here_doc);
 }
 

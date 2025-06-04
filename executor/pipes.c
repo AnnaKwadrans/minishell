@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/03 01:39:20 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/05 00:07:36 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,36 @@
 #include "../here_doc/here_doc.h"
 
 
-int     get_size_array(t_cmd **cmds)
+int	get_size_array(t_cmd **cmds)
 {
-        int	i;
+	int	i;
 
-        if (!cmds)
-                return (0);
-        i = 0;
-        while (cmds[i])
-                i++;
-        return (i);
+	if (!cmds)
+		return (0);
+	i = 0;
+	while (cmds[i])
+		i++;
+	return (i);
 }
 
 void	exec_all_lines(t_data *data)
 {
 	int	i;
-  int     size;
-	i = 0;
+	int	size;
 
-  size = get_size_array(data->cmds);
-  while (i < size)
+	i = 0;
+	size = get_size_array(data->cmds);
+	while (i < size)
 	{
-      if (data->cmds[i] == NULL)
-      {
-            i++;
-            continue;
-      }
-      execute_line(data->cmds[i], data->pipes[i], data->fds, &data->last_status);
-		  printf("LAST LAST STATUS: %d\n", data->last_status);
-		  i++;
+		if (data->cmds[i] == NULL)
+		{
+			i++;
+			continue ;
+		}
+		execute_line(data->cmds[i], data->pipes[i],
+			data->fds, &data->last_status);
+		printf("LAST LAST STATUS: %d\n", data->last_status);
+		i++;
 	}
 }
 
