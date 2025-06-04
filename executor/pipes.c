@@ -3,18 +3,36 @@
 #include "../executor.h"
 #include "../here_doc/here_doc.h"
 
-void    exec_all_lines(t_data *data)
+int     get_size_array(t_cmd **cmds)
+{
+        int	i;
+
+        if (!cmds)
+                return (0);
+        i = 0;
+        while (cmds[i])
+                i++;
+        return (i);
+}
+
+void	exec_all_lines(t_data *data)
 {
 	int	i;
-
+        int     size;
 	i = 0;
-	while (data->cmds[i])
+
+        size = get_size_array(data->cmds);
+        while (i < size)
 	{
-                execute_line(data->cmds[i], data->pipes[i], data->fds, &data->last_status);
-                printf("LAST LAST STATUS: %d\n", data->last_status);
+                if (data->cmds[i] == NULL)
+                {
+                        i++;
+                        continue;
+                }
+        	execute_line(data->cmds[i], data->pipes[i], data->fds, &data->last_status);
+		printf("LAST LAST STATUS: %d\n", data->last_status);
 		i++;
 	}
-	return ;
 }
 
 int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
@@ -117,7 +135,8 @@ void    exec_builtin(t_cmd *cmd)
 void    child(t_cmd *cmd, int pipes, int *fds, int i)
 {
         //printf("check new %d", i);
-        
+        if (!cmd || !cmd->args || !cmd->args[0])
+                return ;
         cmd->pid = fork();
         printf("check pid: %d\n", cmd->pid);
         if (cmd->pid < 0)
