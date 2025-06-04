@@ -8,6 +8,8 @@ void	exec_cmd(t_cmd *cmd);
 char	*get_path(char **cmd_tab, char **path_tab);
 int     *create_pipes(int pipes);
 void    close_fds(int *fds, int pipes, int wr, int rd);
+bool	is_builtin(char *cmd);
+void	exec_builtin(t_cmd *cmd);
 
 // executer.c
 //int     execute_line(t_cmd ***cmds, int *pipes);
@@ -29,4 +31,5 @@ char	*get_str_var(char *name, char *value);
 int     ft_env(t_vars *vars);
 int    ft_pwd();
 int     ft_unset(t_vars *vars, char **args);
-int     ft_echo (char **args);
+int     ft_echo (t_data *data, char **args);
+int     ft_export(t_data *data, char *name);

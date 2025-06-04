@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/22 20:13:11 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:32:40 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ int	skip_quote(const char *line, int i)
 {
 	char	quote;
 
-	quote = line[i++];
-	while (line[i] && line[i] != quote)
+	// printf("Skip quote: %s\n", line);
+	quote = line[i];
+	while (line[i] && line[i] == quote)
 		i++;
 	return (i);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
+/*   Updated: 2025/06/01 19:07:08 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../data.h"
 #include "../parser.h"
 #include "../executor.h"
@@ -56,9 +68,15 @@ void	exec_cmd(t_cmd *cmd)
 		cmd->p_status = 127;
 		return ;
 	}
-	path_var = getenv("PATH");
+	// path_var = getenv("PATH");
 	str_vars = vars_to_char(cmd->data->vars);
 	path_var = get_var_value(cmd->data, "PATH");
+	if (path_var == NULL || ft_strlen(path_var) < 5)
+	{
+		ft_putendl_fd("PATH variable not set or empty", 2);
+		cmd->p_status = 127;
+		exit(127);
+	}
 	path_tab = ft_split(path_var + 5, ':');
 	path = get_path(cmd->args, path_tab);
 	if (path_tab)
@@ -112,9 +130,9 @@ char	*get_path(char **cmd_tab, char **path_tab)
 char	**vars_to_char(t_vars *vars)
 {
 	t_vars	*temp;
-	int	size;
+	int		size;
 	char	**str_vars;
-	int	i;
+	int		i;
 
 	temp = vars;
 	size = 0;

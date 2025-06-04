@@ -8,15 +8,15 @@ Las señales en Unix son una forma de comunicación entre procesos que permiten 
 
 Las señales son identificadas por números enteros y nombres simbólicos en <signal.h>. Algunas señales comunes que servirán en Minishell son:
 
-| Señal | Número | Descripción |
-|-------|--------|-------------|
-| SIGINT | 2 | Interrumpe un proceso (enviado con Ctrl+C). |
-| SIGQUIT | 3 | Termina un proceso y genera un core dump (enviado con Ctrl+\). |
-| SIGTSTP | 20 | Suspende un proceso (enviado con Ctrl+Z). |
-| SIGTERM | 15 | Solicita la terminación de un proceso. |
-| SIGHUP | 1 | Se envía cuando la terminal se cierra. |
-| SIGKILL | 9 | Mata un proceso (no se puede capturar o ignorar). |
-| SIGSTOP | 19 | Suspende un proceso (no se puede capturar o ignorar). |
+| Señal   | Número | Descripción                                                    |
+| ------- | ------ | -------------------------------------------------------------- |
+| SIGINT  | 2      | Interrumpe un proceso (enviado con Ctrl+C).                    |
+| SIGQUIT | 3      | Termina un proceso y genera un core dump (enviado con Ctrl+\). |
+| SIGTSTP | 20     | Suspende un proceso (enviado con Ctrl+Z).                      |
+| SIGTERM | 15     | Solicita la terminación de un proceso.                         |
+| SIGHUP  | 1      | Se envía cuando la terminal se cierra.                         |
+| SIGKILL | 9      | Mata un proceso (no se puede capturar o ignorar).              |
+| SIGSTOP | 19     | Suspende un proceso (no se puede capturar o ignorar).          |
 
 ## Manejo de Señales en C con signal()
 
@@ -47,8 +47,8 @@ Para capturar y manejar señales en Minishell, usaremos signal():
 
 ### Explicación
 
--	signal(SIGINT, sigint_handler): Configuraremos sigint_handler() para manejar SIGINT.
--	pause(): Suspende el proceso hasta recibir una señal.
+- signal(SIGINT, sigint_handler): Configuraremos sigint_handler() para manejar SIGINT.
+- pause(): Suspende el proceso hasta recibir una señal.
 
 Si presionamos Ctrl+C, en vez de cerrar el programa, imprimirá un nuevo prompt.
 
@@ -107,9 +107,9 @@ La función fflush() en C se usa para vaciar (flush) un buffer de salida, es dec
 
 Cuando se usa printf(), el texto no se imprime inmediatamente, sino que se almacena en un buffer temporal y se envía a la terminal solo cuando:
 
-1.	El buffer se llena.
-2.	Se encuentra un salto de línea \n.
-3.	Se usa fflush(stdout) para forzar la impresión.
+1. El buffer se llena.
+2. Se encuentra un salto de línea \n.
+3. Se usa fflush(stdout) para forzar la impresión.
 
 Ejemplo:
 
@@ -164,7 +164,7 @@ int main(void)
 
 ### Durante la ejecución de un comando externo
 
-Por ejemplo, si hacemos "*ls -l*", *Ctrl+C* debería terminar el proceso hijo sin afectar el shell, es decir que Minishell no debe cerrarse.
+Por ejemplo, si hacemos "_ls -l_", _Ctrl+C_ debería terminar el proceso hijo sin afectar el shell, es decir que Minishell no debe cerrarse.
 
 ```c
 pid_t pid = fork();
@@ -206,9 +206,9 @@ void start_here_doc()
 }
 ```
 
-###  En un comando en segundo plano (&)
+### En un comando en segundo plano (&)
 
-Si hacemos *sleep 10 & ./minishell*, en principio, debería esperar 10 segundos y ejecutar el programa. No obstante, si hacemos *Ctrl + C* en la espera debería finalizar el proceso de la espera y ejecutar el programa, **sólo si Minishell es interactivo**.
+Si hacemos _sleep 10 & ./minishell_, en principio, debería esperar 10 segundos y ejecutar el programa. No obstante, si hacemos _Ctrl + C_ en la espera debería finalizar el proceso de la espera y ejecutar el programa, **sólo si Minishell es interactivo**.
 
 Comportamiento esperado:
 
@@ -219,7 +219,6 @@ Comportamiento esperado:
     •	Si Minishell es interactivo, Ctrl+C debe matar solo sleep y no afectar a Minishell.
     •	Si no es interactivo, el comportamiento dependerá de la configuración de señales.
 
-
 #### ¿minishell es interactivo?
 
 Se refiere a si el usuario está interactuando directamente con él en una terminal o si está recibiendo comandos desde un archivo o un script.
@@ -227,29 +226,28 @@ Se refiere a si el usuario está interactuando directamente con él en una termi
 🔹 Tipos de ejecución en Minishell
 
 1️⃣ Modo interactivo (El usuario escribe comandos directamente)
-	
-•	Se ejecuta en una terminal normal.
-•	Minishell muestra un prompt (Minishell> ) y espera comandos.
-•	Ejemplo:
+• Se ejecuta en una terminal normal.
+• Minishell muestra un prompt (Minishell> ) y espera comandos.
+• Ejemplo:
 
 ```bash
 ./minishell
 ```
 
-•	Aquí es donde Ctrl+C debe limpiar la línea y mostrar un nuevo prompt.
+• Aquí es donde Ctrl+C debe limpiar la línea y mostrar un nuevo prompt.
 
 2️⃣ Modo no interactivo (Los comandos vienen de un script o un pipe)
 
-•	No hay interacción directa con el usuario.
-•	Minishell ejecuta los comandos de un archivo o pipe y luego sale.
-•	Ejemplo:
+• No hay interacción directa con el usuario.
+• Minishell ejecuta los comandos de un archivo o pipe y luego sale.
+• Ejemplo:
 
 ```bash
 echo "ls -l" | ./minishell
 ./minishell < script.sh
 ```
 
-•	En este caso, no debería mostrar un prompt y Ctrl+C no debería afectarlo igual que en modo interactivo.
+• En este caso, no debería mostrar un prompt y Ctrl+C no debería afectarlo igual que en modo interactivo.
 
 3️⃣ ¿cómo saber si Minishell es interactivo?
 
@@ -274,14 +272,14 @@ int main(void)
 
 Si es interactivo, debes:
 
-•	Mostrar el prompt (Minishell> ).
-•	Capturar SIGINT (Ctrl+C) para evitar que cierre el shell.
-•	Capturar SIGQUIT (Ctrl+\) para evitar que muestre un core dump.
+• Mostrar el prompt (Minishell> ).
+• Capturar SIGINT (Ctrl+C) para evitar que cierre el shell.
+• Capturar SIGQUIT (Ctrl+\) para evitar que muestre un core dump.
 
 Si no es interactivo, debes:
 
-•	No mostrar el prompt.
-•	No capturar señales como SIGINT, porque si el usuario manda un Ctrl + C, el shell debería terminar.
+• No mostrar el prompt.
+• No capturar señales como SIGINT, porque si el usuario manda un Ctrl + C, el shell debería terminar.
 
 Ejemplo:
 
@@ -300,4 +298,33 @@ else
 {
     // No capturamos SIGINT en modo no interactivo
 }
+```
+
+## Uso de SIGACTION
+
+Para el uso de sigaction() debemos definir una estructura `sigaction`:
+
+- que contiene el manejador de la señal.
+- un conjunto de señales que se bloquearán durante la ejecución del manejador
+- algunas opciones adicionales.
+
+  struct sigaction {
+  void (\*sa_handler)(int); // Tu función que maneja la señal (handler)
+  sigset_t sa_mask; // Otras señales que quieres bloquear durante el handler
+  int sa_flags; // Opciones adicionales (como SA_RESTART)
+  // También: sa_sigaction si usas SA_SIGINFO
+  };
+
+luego se modifican las variables de nuestra estructura a nuestra conveniencia. Y finalmente registramos el manejador de señales con `sigaction()`
+
+```c
+    void	setup_signals(void)
+    {
+        struct sigaction sa;
+        sa.sa_handler = signal_handler;        // Tu función personalizada
+        sigemptyset(&sa.sa_mask);              // No bloqueamos otras señales
+        sa.sa_flags = SA_RESTART;              // Reinicia syscalls si son interrumpidas
+        sigaction(SIGINT, &sa, NULL);          // Aplicamos el handler a SIGINT
+    }
+´´´
 ```
