@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/05 00:07:36 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/05 22:19:08 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,29 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
 	if (pipes > 0)
 		fds = create_pipes(pipes);
 	i = 0;
+
+        while (cmds[i])
+        {
+                if (is_builtin(cmds[i]->args[0]))
+                        exec_builtin(cmds[i], pipes, fds, i);
+                else
+                        child(cmds[i], pipes, fds, i);
+                i++;
+        }
+        close_fds(fds, pipes, -1, -1);
+        if (fds)
+                free(fds);
+        i = 0;
+        while (waitpid(-1, &status, 0) > 0)
+        {
+                        *last_status = WEXITSTATUS(status);
+                        //printf("CHILD %d\n", *last_status);
+        }
+        //printf("LAST STATUS %d\n", *last_status);
+        return (0);
+
+        
+/* COMMIT CAMPUS
 	while (cmds[i])
 	{
 		if (is_builtin(cmds[i]->args[0]))
@@ -80,6 +103,7 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
 	}
 	//printf("LAST STATUS %d\n", *last_status);
 	return (0);
+END COMMIT CAMPUS */
 }
 
 int	*create_pipes(int pipes)
@@ -128,6 +152,39 @@ bool	is_builtin(char *cmd)
 	}
 }
 
+
+void    exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
+{
+        printf("check pid: %d\n", cmd->pid);
+        close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+        redirect(cmd, pipes, fds, i);
+        ft_builtin(cmd);
+        return ;
+}
+
+void    ft_builtin(t_cmd *cmd)
+{
+        if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
+                cmd->p_status = ft_echo(cmd->args);
+        else if (ft_strncmp(cmd->args[0], "cd", 2) == 0)
+                cmd->p_status = ft_cd(cmd->data, cmd->args);
+        else if (ft_strncmp(cmd->args[0], "env", 3) == 0)
+                cmd->p_status = ft_env(cmd->data->vars);
+        else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
+                cmd->p_status = ft_pwd(cmd->args);
+        else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
+                cmd->p_status = ft_export(cmd->data->vars, cmd->args);
+        else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
+                cmd->p_status = ft_unset(cmd->data->vars, cmd->args);
+        else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
+                ft_exit(cmd->data, cmd->args);
+        else if (ft_strncmp(cmd->args[0], "mhistory", 8) == 0)
+        {
+                show_history(cmd->data);
+                cmd->p_status = 0;
+        }
+        return ;
+/* COMMIT CAMPUS 
 void	exec_builtin(t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
@@ -150,6 +207,7 @@ void	exec_builtin(t_cmd *cmd)
 		cmd->p_status = 0;
 	}
 	return ;
+END COMMIT CAMPUS */
 }
 
 void	child(t_cmd *cmd, int pipes, int *fds, int i)
@@ -166,6 +224,10 @@ void	child(t_cmd *cmd, int pipes, int *fds, int i)
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
                 redirect(cmd, pipes, fds, i);
                 //cmd->data->last_cmd = &cmd;
+
+                exec_cmd(cmd);
+                exit(cmd->p_status);
+/*COMMIT CAMPUS 
                 if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
                 {
                         exec_builtin(cmd);
@@ -176,6 +238,7 @@ void	child(t_cmd *cmd, int pipes, int *fds, int i)
                         exec_cmd(cmd);
                         exit(cmd->p_status);
 }
+END COMMIT CAMPUS */
         }
         else if (cmd->pid > 0)
                 return ;
