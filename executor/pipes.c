@@ -28,7 +28,10 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
 	i = 0;
         while (cmds[i])
         {
-                child(cmds[i], pipes, fds, i);
+                if (is_builtin(cmds[i]->args[0]))
+                        exec_builtin(cmds[i], pipes, fds, i);
+                else
+                        child(cmds[i], pipes, fds, i);
                 i++;
         }
         close_fds(fds, pipes, -1, -1);
@@ -90,22 +93,31 @@ bool    is_builtin(char *cmd)
         }
 }
 
-void    exec_builtin(t_cmd *cmd)
+void    exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
+{
+        printf("check pid: %d\n", cmd->pid);
+        close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+        redirect(cmd, pipes, fds, i);
+        ft_builtin(cmd);
+        return ;
+}
+
+void    ft_builtin(t_cmd *cmd)
 {
         if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
                 cmd->p_status = ft_echo(cmd->args);
         else if (ft_strncmp(cmd->args[0], "cd", 2) == 0)
-        {}
+                cmd->p_status = ft_cd(cmd->data, cmd->args);
         else if (ft_strncmp(cmd->args[0], "env", 3) == 0)
                 cmd->p_status = ft_env(cmd->data->vars);
         else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
-                cmd->p_status = ft_pwd();
+                cmd->p_status = ft_pwd(cmd->args);
         else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
-        {}
+                cmd->p_status = ft_export(cmd->data->vars, cmd->args);
         else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
                 cmd->p_status = ft_unset(cmd->data->vars, cmd->args);
         else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
-        {}
+                ft_exit(cmd->data, cmd->args);
         else if (ft_strncmp(cmd->args[0], "mhistory", 8) == 0)
         {
                 show_history(cmd->data);
@@ -126,16 +138,8 @@ void    child(t_cmd *cmd, int pipes, int *fds, int i)
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
                 redirect(cmd, pipes, fds, i);
                 //cmd->data->last_cmd = &cmd;
-                if (is_builtin(cmd->args[0]))
-                {       
-                        exec_builtin(cmd);
-                        exit(cmd->p_status);
-                }
-                else
-                {
-                        exec_cmd(cmd);
-                        exit(cmd->p_status);
-                }
+                exec_cmd(cmd);
+                exit(cmd->p_status);
         }
         else if (cmd->pid > 0)
                 return ;
