@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/05 22:19:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/05 22:30:02 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec_all_lines(t_data *data)
 	int	size;
 
 	i = 0;
-	size = get_size_array(data->cmds);
+	size = get_size_array(data->cmds[i]);
 	while (i < size)
 	{
 		if (data->cmds[i] == NULL)
@@ -165,7 +165,7 @@ void    exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 void    ft_builtin(t_cmd *cmd)
 {
         if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
-                cmd->p_status = ft_echo(cmd->args);
+                cmd->p_status = ft_echo(cmd->data, cmd->args);
         else if (ft_strncmp(cmd->args[0], "cd", 2) == 0)
                 cmd->p_status = ft_cd(cmd->data, cmd->args);
         else if (ft_strncmp(cmd->args[0], "env", 3) == 0)
