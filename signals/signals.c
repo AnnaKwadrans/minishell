@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:08:57 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 00:09:39 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/05 00:39:40 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,22 @@
 
 void	setup_signals(void)
 {
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART; // Reiniciar llamadas al sistema interrumpidas
+
+	sa.sa_handler = sigint_handler;
+	sigaction(SIGINT, &sa, NULL); // Registrar el manejador para SIGINT
+
+	sa.sa_handler = sigquit_handler;
+	sigaction(SIGQUIT, &sa, NULL); // Registrar el manejador para SIGQUIT
 }
 
 void	setup_interactive_signals(void)
 {
 	disable_echoctl();
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN); // Ignorar Ctrl+\;
+	setup_signals();
 }
 
 void	restore_signals(void)

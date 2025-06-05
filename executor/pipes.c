@@ -1,31 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
+/*   Updated: 2025/06/05 22:19:08 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../data.h"
 #include "../parser.h"
 #include "../executor.h"
 #include "../here_doc/here_doc.h"
 
-void    exec_all_lines(t_data *data)
+
+int	get_size_array(t_cmd **cmds)
 {
 	int	i;
 
+	if (!cmds)
+		return (0);
 	i = 0;
-	while (data->cmds[i])
+	while (cmds[i])
+		i++;
+	return (i);
+}
+
+void	exec_all_lines(t_data *data)
+{
+	int	i;
+	int	size;
+
+	i = 0;
+	size = get_size_array(data->cmds);
+	while (i < size)
 	{
-                execute_line(data->cmds[i], data->pipes[i], data->fds, &data->last_status);
-                printf("LAST LAST STATUS: %d\n", data->last_status);
+		if (data->cmds[i] == NULL)
+		{
+			i++;
+			continue ;
+		}
+		execute_line(data->cmds[i], data->pipes[i],
+			data->fds, &data->last_status);
+		printf("LAST LAST STATUS: %d\n", data->last_status);
 		i++;
 	}
-	return ;
 }
 
 int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
 {
-        int i;
-        int status;
+	int	i;
+	int	status;
 
-        //printf("pipes: %d\n", pipes);
-        if (pipes > 0)
-                fds = create_pipes(pipes);
+	//printf("pipes: %d\n", pipes);
+	if (pipes > 0)
+		fds = create_pipes(pipes);
 	i = 0;
+
         while (cmds[i])
         {
                 if (is_builtin(cmds[i]->args[0]))
@@ -45,53 +78,80 @@ int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
         }
         //printf("LAST STATUS %d\n", *last_status);
         return (0);
+
+        
+/* COMMIT CAMPUS
+	while (cmds[i])
+	{
+		if (is_builtin(cmds[i]->args[0]))
+		{
+			exec_builtin(cmds[i]);
+			*last_status = cmds[i]->p_status;
+		}
+		else
+			child(cmds[i], pipes, fds, i);
+		i++;
+	}
+	close_fds(fds, pipes, -1, -1);
+	if (fds)
+		free(fds);
+	i = 0;
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		*last_status = WEXITSTATUS(status);
+		//printf("CHILD %d\n", *last_status);
+	}
+	//printf("LAST STATUS %d\n", *last_status);
+	return (0);
+END COMMIT CAMPUS */
 }
 
-int     *create_pipes(int pipes)
+int	*create_pipes(int pipes)
 {
-        int     *fds;
-        int     i;
+	int	*fds;
+	int	i;
 
-        //printf("PIPES %d\n", pipes);
-        if (pipes == 0)
-                return (NULL);
-        fds = malloc(sizeof(int) * pipes * 2);
-        if (!fds)
-                return (NULL);
-        i = 0;
-        while (i <= pipes)
-        {
-                //printf("check pipe %d\n", i);
-                if (pipe(&fds[i * 2]) < 0)
-                        return (NULL);
-                i++;
-        }
-        /*
-        i = 0;
-        while (i < pipes)
-        {
-                printf("i %d: %d %d\n", i, fds[i * 2], fds[(i * 2) + 1]);
-                i++;
-        }*/
-        return (fds);
+	//printf("PIPES %d\n", pipes);
+	if (pipes == 0)
+		return (NULL);
+	fds = malloc(sizeof(int) * pipes * 2);
+	if (!fds)
+		return (NULL);
+	i = 0;
+	while (i <= pipes)
+	{
+		//printf("check pipe %d\n", i);
+		if (pipe(&fds[i * 2]) < 0)
+			return (NULL);
+		i++;
+	}
+	/*
+	i = 0;
+	while (i < pipes)
+	{
+		printf("i %d: %d %d\n", i, fds[i * 2], fds[(i * 2) + 1]);
+		i++;
+	}*/
+	return (fds);
 }
 
-bool    is_builtin(char *cmd)
+bool	is_builtin(char *cmd)
 {
-        if (!cmd)
-                return (0);
-        if (ft_strncmp(cmd, "echo", 4) == 0 || ft_strncmp(cmd, "cd", 2) == 0
-                || ft_strncmp(cmd, "env", 3) == 0 || ft_strncmp(cmd, "pwd", 3) == 0
-                || ft_strncmp(cmd, "export", 6) == 0 || ft_strncmp(cmd, "unset", 5) == 0
-                || ft_strncmp(cmd, "exit", 4) == 0 || ft_strncmp(cmd, "mhistory", 8) == 0)
-        {
-                return (1);
-        }
-        else
-        {
-                return (0);
-        }
+	if (!cmd)
+		return (0);
+	if (ft_strncmp(cmd, "echo", 4) == 0 || ft_strncmp(cmd, "cd", 2) == 0
+		|| ft_strncmp(cmd, "env", 3) == 0 || ft_strncmp(cmd, "pwd", 3) == 0
+		|| ft_strncmp(cmd, "export", 6) == 0 || ft_strncmp(cmd, "unset", 5) == 0
+		|| ft_strncmp(cmd, "exit", 4) == 0 || ft_strncmp(cmd, "mhistory", 8) == 0)
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
 }
+
 
 void    exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 {
@@ -124,11 +184,37 @@ void    ft_builtin(t_cmd *cmd)
                 cmd->p_status = 0;
         }
         return ;
+/* COMMIT CAMPUS 
+void	exec_builtin(t_cmd *cmd)
+{
+	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
+		cmd->p_status = ft_echo(cmd->data, cmd->args);
+	else if (ft_strncmp(cmd->args[0], "cd", 2) == 0)
+	{}
+	else if (ft_strncmp(cmd->args[0], "env", 3) == 0)
+		cmd->p_status = ft_env(cmd->data->vars);
+	else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
+		cmd->p_status = ft_pwd();
+	else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
+		cmd->p_status = ft_export(cmd->data, cmd->args[1]);
+	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
+		cmd->p_status = ft_unset(cmd->data->vars, cmd->args);
+	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
+	{}
+	else if (ft_strncmp(cmd->args[0], "mhistory", 8) == 0)
+	{
+		show_history(cmd->data);
+		cmd->p_status = 0;
+	}
+	return ;
+END COMMIT CAMPUS */
 }
 
-void    child(t_cmd *cmd, int pipes, int *fds, int i)
+void	child(t_cmd *cmd, int pipes, int *fds, int i)
 {
         //printf("check new %d", i);
+        if (!cmd || !cmd->args || !cmd->args[0])
+                return ;
         cmd->pid = fork();
         printf("check pid: %d\n", cmd->pid);
         if (cmd->pid < 0)
@@ -138,27 +224,40 @@ void    child(t_cmd *cmd, int pipes, int *fds, int i)
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
                 redirect(cmd, pipes, fds, i);
                 //cmd->data->last_cmd = &cmd;
+
                 exec_cmd(cmd);
                 exit(cmd->p_status);
+/*COMMIT CAMPUS 
+                if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
+                {
+                        exec_builtin(cmd);
+                        exit(cmd->p_status);
+                }
+                else
+                {
+                        exec_cmd(cmd);
+                        exit(cmd->p_status);
+}
+END COMMIT CAMPUS */
         }
         else if (cmd->pid > 0)
                 return ;
 }
 
-void    close_fds(int *fds, int pipes, int wr, int rd)
+void	close_fds(int *fds, int pipes, int wr, int rd)
 {
-        int     i;
+	int	i;
 
-        i = 0;
-        while (i < (pipes * 2))
-        {
-                if (i != wr && i != rd)
-                        close(fds[i]);
-                i++;
-        }
+	i = 0;
+	while (i < (pipes * 2))
+	{
+		if (i != wr && i != rd)
+			close(fds[i]);
+		i++;
+	}
 }
 
-void    redirect(t_cmd *cmd, int pipes, int *fds, int i)
+void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
 {
         if (cmd->infile)
         {
@@ -168,7 +267,7 @@ void    redirect(t_cmd *cmd, int pipes, int *fds, int i)
                 dup2(cmd->fd_in, STDIN_FILENO);
                 close(cmd->fd_in);
         }
-        else if (cmd->fd_in != STDIN_FILENO)
+        else if (cmd->fd_in != STDIN_FILENO && cmd->fd_in > 2)
         {
                 if (i != 0)
                         close(fds[(i - 1) * 2]);

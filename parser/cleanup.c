@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
+/*   Updated: 2025/06/05 00:32:19 by kegonza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
@@ -15,7 +27,7 @@ void	clean_data_program(t_data *data)
 		while (data->cmds[i])
 		{
 			j = 0;
-			while(data->cmds[i][j])
+			while (data->cmds[i][j])
 			{
 				free_cmd(data->cmds[i][j]);
 				j++;
@@ -26,7 +38,8 @@ void	clean_data_program(t_data *data)
 		free(data->cmds);
 		data->cmds = NULL;
 	}
-	//free_array(data->part_lines); <- ver por qué da segfault
+	free_array(data->part_lines);
+	data->part_lines = NULL;
 	if (data->pipes)
 	{
 		free(data->pipes);
@@ -38,7 +51,6 @@ void	free_data(t_data *data)
 {
 	//free_history(data->history_lines); // por hacer la funcion
 	clean_data_program(data);
-	
 }
 
 void	free_cmd(t_cmd	*cmd)
@@ -46,7 +58,6 @@ void	free_cmd(t_cmd	*cmd)
 	if (!cmd)
 		return ;
 	free_array(cmd->args);
-	//cmd->env = NULL;
 	if (cmd->infile)
 	{
 		free(cmd->infile);

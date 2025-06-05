@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
+/*   Updated: 2025/06/05 00:28:06 by kegonza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
@@ -14,10 +26,9 @@ void	init_data(t_data *data)
 	data->pipes = 0;
 	data->is_interactive = isatty(STDIN_FILENO);
 	if (data->is_interactive)
-    	setup_interactive_signals();
+		setup_interactive_signals();
 	else
 		setup_signals();
-	//data->last_cmd = NULL;
 	data->fds = NULL;
 	data->last_status = 0;
 }
@@ -25,7 +36,7 @@ void	init_data(t_data *data)
 t_lines	*get_line(t_data *data, char *input)
 {
 	t_lines	*line;
-	
+
 	line = malloc(sizeof(t_lines));
 	if (!line)
 		return (perror("malloc failed"), NULL);
@@ -42,14 +53,15 @@ void	parse_data(char *input, t_data *data, char **envp)
 	int		l;
 	int		c;
 
+	part_lines = NULL;
 	printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!even_quotes(input))
 	{}
 		// err invalid syntax
 	data->line = get_line(data, input);
-	//print_array(data->part_lines);
+	printf("\t>>>\t\tLINE: %s\n", data->line->line);
 	data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
-	data->cmds = malloc(sizeof(t_cmd **) * array_size(data->part_lines));
+	data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
 	if (!data->cmds)
 		return (free_data(data));
 	l = 0;
@@ -63,13 +75,13 @@ void	parse_data(char *input, t_data *data, char **envp)
 		}
 		else
 		{
-			data->cmds[c] = parse_line(data->part_lines[l], data->pipes[c], envp, data);
+			data->cmds[c] = parse_line(data->part_lines[l], data->pipes[c],
+				envp, data);
 			if (!data->cmds[c])
 				return (free_data(data));
 			l++;
 			c++;
 		}
-		
 	}
 	data->cmds[c] = NULL;
 }

@@ -1,5 +1,5 @@
 #include "../parser.h"
-#include "../data.h"
+//#include "../data.h"
 #include "aux.h"
 
 void	free_array(char **array)
@@ -23,6 +23,7 @@ void	print_array(char **array)
 {
 	int	i;
 
+	printf("printing array: <<<\n");
 	if (!array)
 		return ;
 	i = 0;

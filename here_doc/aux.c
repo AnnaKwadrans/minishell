@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:12:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 01:24:41 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/05 00:40:01 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,15 @@ void	here_doc_error(t_heredoc *here_doc, char *error_msg)
 			printf("MALLOC ERROR\n");
 		else if (ft_strcmp(error_msg, "PARSE") == 0)
 			printf("Parse error near `\\n`\n");
+		else if (ft_strcmp(error_msg, "EXPAND_VARS") == 0)
+			printf("Error expanding variables\n");
+		else
+			printf("Unknown error: %s\n", error_msg);
 	}
 	else
-		printf("EOF detected\n");
+		printf("An error occurred in here_doc\n");
 	printf("<<----- \t HERE_DOC MODE STOPPED \t ----->>\n");
 	free_here_doc(here_doc);
-	restore_signals();
 }
 
 void	free_here_doc(t_heredoc *here_doc)

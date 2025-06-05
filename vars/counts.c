@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:04:02 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/21 00:12:39 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/01 17:32:58 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,12 @@ int	count_vars(char *line)
 	int	i;
 	int	count;
 
+	// printf("Count vars: %s\n", line);
 	count = 0;
 	i = 0;
 	while (line[i])
 	{
+		// printf("line[%d]: %c\n",i, line[i]);
 		if (line[i] == '$' && (line[i + 1] != '\0' && line[i + 1] != '$'))
 		{
 			count++;

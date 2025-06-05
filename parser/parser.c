@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/29 23:27:13 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/04 21:05:05 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,37 +23,45 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	t_cmd	**cmds;
 	char	*input_exp;
 
-	printf("%s\n", input);
+	// printf("<<<-------------- PARSING LINE -------------->>>\n");
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
 	input_exp = expand_vars(data, input);
-	printf("después de expand: %s\n", input_exp);
+	// printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	free(input_exp);
-	printf("\t\t>>>\t\tARRAY\n");
-	print_array(cmd_aux); // para testear
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
 		return (perror("malloc failed"), NULL);
 	i = 0;
 	while (i <= pipes)
 	{
+		cmds[i] = malloc(sizeof(t_cmd));
+		if (!cmds[i])
+			return (perror("malloc failed"), free_array(cmd_aux), NULL);
 		if (is_here_doc(cmd_aux[i]))
 		{
-			cmds[i] = init_cmd();
+			init_cmd(cmds[i]);
 			cmds[i]->heredoc = here_doc_mode(data, cmd_aux[i]);
-			printf("heredoc got it\n");
 			if (!cmds[i]->heredoc)
-				return (free_cmd(cmds[i]), free_array(cmd_aux), NULL);
+			{
+				free_cmd(cmds[i]);
+				free_array(cmd_aux);
+				cmds[i] = NULL;
+				printf("Error in heredoc\n");
+				return (NULL);
+			}
+			printf("heredoc got it\n");
 			get_heredoc_cmd(cmd_aux[i], cmds[i]);
 		}
 		else
 			cmds[i] = get_cmd(cmd_aux[i]);
 		//cmds[i]->env = envp;
 		cmds[i]->data = data;
-		printf("CMD ARRAY\n");
-		print_array(cmds[i]->args);
-		printf("END\n");
+		// printf("CMD ARRAY\n");
+		// if (cmds[i]->args)
+		// 	print_array(cmds[i]->args);
+		// printf("END\n");
 		i++;
 	}
 	cmds[i] = NULL;
@@ -66,9 +74,10 @@ t_cmd	*get_cmd(char *aux)
 	t_cmd	*cmd;
 	int		i;
 
-	cmd = init_cmd();
+	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
-		return (NULL);
+		return (perror("malloc failed"), NULL);
+	init_cmd(cmd);
 	i = 0;
 	while (aux[i])
 	{
@@ -85,25 +94,18 @@ t_cmd	*get_cmd(char *aux)
 	}
 	if (cmd->args == NULL)
 	{
-		cmd->args = malloc(sizeof(char *));
+		cmd->args = malloc(sizeof(char *) * 2);
 		if (!cmd->args)
 			return (free_cmd(cmd), NULL);
 		cmd->args[0] = ft_strdup("cat");
+		cmd->args[1] = NULL;
 	}
-	//printf("%s %s %s %d\n", cmd->infile, cmd->delimit, cmd->outfile, cmd->append); // para testear
-	//print_array(cmd->args);
-	//printf("END PIPE\n");
 	return (cmd);
 }
 
 //VAR=abc ; ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile
-t_cmd	*init_cmd(void)
+void	init_cmd(t_cmd *cmd)
 {
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
 	cmd->args = NULL;
 	//cmd->env = NULL;
 	cmd->infile = NULL;
@@ -114,43 +116,10 @@ t_cmd	*init_cmd(void)
 	cmd->delimit = NULL;
 	cmd->heredoc = NULL;
 	cmd->data = NULL;
-	return (cmd);
+	cmd->p_status = 0;
+	cmd->pid = 0;
 }
-/*
-char	*get_infile(char *aux, char **delimit, int *index)
-{
-	int	i;
-	int	start;
-	int	len;
-	int	heredoc;
 
-	i = 1;
-	if (aux[i] == '<')
-	{
-		heredoc = 1;
-		i++;
-	}
-	else
-		heredoc = 0;
-	while (ft_isspace(aux[i]))
-		i++;
-	start = i;
-	while (!ft_isspace(aux[i]))
-	{
-		if (aux[i] == '\'' || aux[i] == '\"')
-			i += close_quotes(&aux[i]);
-		i++;
-	}
-	len = i - start;
-	*index += i;
-	if (heredoc)
-	{
-		*delimit = ft_substr(aux, start, len);
-		return (NULL);
-	}
-	return (ft_substr(aux, start, len));
-}
-*/
 char	*get_infile(char *aux, char **delimit, int *index)
 {
 	int		i;
