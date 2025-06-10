@@ -259,15 +259,7 @@ int    ft_cd(t_data *data, char **args)
 
 void     ft_exit(t_data *data, char **args)
 {
-        int     status;
-
-        if (args[1])
-        {
-                status = ft_atoi(args[1]);
-                exit(status);
-        }
-        else
-                exit(data->last_status);
+        exit(data->last_status);
 }
 
 /*
