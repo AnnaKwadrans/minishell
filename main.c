@@ -86,10 +86,11 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input); // Añadir al historial
 		// add_mhistory(data_program, input); // Añadir al historial propio
 		parse_data(input, data_program, envp); // lo he puesto temporalmente para poder trabajar en el lexer
-		exec_all_lines(data_program);
+		//exec_all_lines(data_program);
+		execute_line(data_program);
 		clean_data_program(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
 		free(input);
-		printf("*******************************************\n");
+		//printf("*******************************************\n");
 		//ft_printer_lines(data_program->history_lines);
 		//printf("**********\n");
 	}

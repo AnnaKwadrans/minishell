@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/04 21:05:05 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:44:10 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
 	input_exp = expand_vars(data, input);
+	printf("EXPANDED: %s\n", input_exp);
 	// printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	free(input_exp);
@@ -55,7 +56,10 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 			get_heredoc_cmd(cmd_aux[i], cmds[i]);
 		}
 		else
+		{
 			cmds[i] = get_cmd(cmd_aux[i]);
+			//trim_quotes(cmds[i]->args);
+		}
 		//cmds[i]->env = envp;
 		cmds[i]->data = data;
 		// printf("CMD ARRAY\n");
@@ -68,7 +72,25 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	free_array(cmd_aux);
 	return (cmds);
 }
+/*
+void	trim_quotes(char **args)
+{
+	int	i;
+	char	*trimmed;
+	char	*aux;
 
+	i = 0;
+	while (args[i])
+	{
+		
+	}
+	aux = ft_strtrim(input, " \t\n\v\r\f");
+	trimmed = ft_strtrim(aux, "\"\'");
+	free(input);
+	free(aux);
+	return (trimmed);
+}
+*/
 t_cmd	*get_cmd(char *aux)
 {
 	t_cmd	*cmd;
@@ -100,6 +122,8 @@ t_cmd	*get_cmd(char *aux)
 		cmd->args[0] = ft_strdup("cat");
 		cmd->args[1] = NULL;
 	}
+	printf("ARGS\n");
+	print_array(cmd->args);
 	return (cmd);
 }
 
@@ -190,8 +214,8 @@ char	**get_args(char *aux, int *index)
 		len++;
 	cmd_line = ft_substr(aux, 0, len);
 	args = split_pipes(cmd_line, ' ');
-	//printf("desp del split:\n");
-	//print_array(args);
+	printf("desp del split:\n");
+	print_array(args);
 	free(cmd_line);
 	*index += len;
 	return (args);
