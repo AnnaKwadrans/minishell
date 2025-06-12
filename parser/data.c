@@ -28,7 +28,7 @@ void	init_data(t_data *data)
 	if (data->is_interactive)
 		setup_interactive_signals();
 	else
-		setup_signals();
+		setup_nointeractive();
 	data->fds = NULL;
 	data->last_status = 0;
 }
