@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/05 21:30:47 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/11 22:35:52 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_data(t_data *data)
 	data->line = NULL;
 	data->cmds = NULL;
 	data->history_lines = NULL;
-	data->part_lines = NULL;
+	//data->part_lines = NULL;
 	data->vars = NULL;
 	data->pipes = 0;
 	data->is_interactive = isatty(STDIN_FILENO);
@@ -33,39 +33,28 @@ void	init_data(t_data *data)
 	data->last_status = 0;
 }
 
-t_lines	*get_line(t_data *data, char *input)
-{
-	t_lines	*line;
-
-	line = malloc(sizeof(t_lines));
-	if (!line)
-		return (perror("malloc failed"), NULL);
-	line->line = ft_strdup(input);
-	line->next = NULL;
-	line->data = data;
-	data->part_lines = split_pipes(input, ';');
-	return (line);
-}
-
 void	parse_data(char *input, t_data *data, char **envp)
 {
-	char	**part_lines;
-	int		l;
-	int		c;
-
-	part_lines = NULL;
-	printf("<<<-------------- NEW CMD -------------->>>\n");
+	//printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!even_quotes(input))
 	{}
 		// err invalid syntax
 	data->line = get_line(data, input);
-	printf("\t>>>\t\tLINE: %s\n", data->line->line);
-	data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
-	data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
+	//printf("\t>>>\t\tLINE: %s\n", data->line->line);
+	//data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
+	data->pipes = count_pipe(input);
+	//data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
+	data->cmds = malloc(sizeof(t_cmd *));
 	if (!data->cmds)
 		return (free_data(data));
-	l = 0;
-	c = 0;
+	if (is_var(input))
+		handle_var(input, data);
+	else
+		data->cmds = parse_line(input, data->pipes, envp, data);
+	if (!data->cmds)
+		return (free_data(data));
+	
+/*	
 	while (data->part_lines[l])
 	{
 		if (is_var(data->part_lines[l]))
@@ -84,24 +73,21 @@ void	parse_data(char *input, t_data *data, char **envp)
 		}
 	}
 	data->cmds[c] = NULL;
+*/
 }
 
-int	*get_pipes(char **part_lines, size_t size)
+t_lines	*get_line(t_data *data, char *input)
 {
-	int	*pipes;
-	int	i;
+	t_lines	*line;
 
-	pipes = (int *)malloc(sizeof(int) * (size + 1));
-	if (!pipes)
-		return (NULL);
-	i = 0;
-	while (part_lines[i])
-	{
-		pipes[i] = count_pipe(part_lines[i]);
-		i++;
-	}
-	pipes[size] = -1;
-	return (pipes);
+	line = malloc(sizeof(t_lines));
+	if (!line)
+		return (perror("malloc failed"), NULL);
+	line->line = ft_strdup(input);
+	line->next = NULL;
+	line->data = data;
+	//data->part_lines = split_pipes(input, ';');
+	return (line);
 }
 
 int	count_pipe(char *line)
@@ -122,26 +108,57 @@ int	count_pipe(char *line)
 	return (pipes);
 }
 
-bool	even_quotes(char *line)
+bool	is_var(char *line)
 {
-	int	single_com;
-	int	double_com;
 	int	i;
 
-	single_com = 0;
-	double_com = 0;
+	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'')
-			single_com++;
-		else if (line[i] == '\"')
-			double_com++;
+		if (line[i] == '=')
+			return (1);
 		i++;
 	}
-	if ((single_com % 2 != 0) || (double_com % 2 != 0))
-	{
-		// err invalid syntax
-		return (0);
-	}
-	return (1);
+	return (0);
 }
+
+void	handle_var(char *input, t_data *data)
+{
+	t_vars	*var;
+	char	*name;
+	char	*value;
+	int		i;	
+
+	i = 0;
+	while (ft_isspace(input[i]))
+		i++;
+	name = ft_strdup_set(&input[i], "=");
+	while (input[i] != '=')
+		i++;
+	value = ft_strdup_set(&input[i + 1], " \t\n\v\r\f");
+	var = new_var(name, value, 0);
+	add_var(data, var);
+}
+
+
+/*
+int	*get_pipes(char **part_lines, size_t size)
+{
+	int	*pipes;
+	int	i;
+
+	pipes = (int *)malloc(sizeof(int) * (size + 1));
+	if (!pipes)
+		return (NULL);
+	i = 0;
+	while (part_lines[i])
+	{
+		pipes[i] = count_pipe(part_lines[i]);
+		i++;
+	}
+	pipes[size] = -1;
+	return (pipes);
+}
+*/
+
+

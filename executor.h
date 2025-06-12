@@ -1,8 +1,8 @@
 #include "data.h"
 #include "parser.h"
 
-void    exec_all_lines(t_data *data);
-int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status);
+//void    exec_all_lines(t_data *data);
+int	execute_line(t_data *data);
 //void    single_child(t_cmd *cmd);
 void	exec_cmd(t_cmd *cmd);
 char	*get_path(char **cmd_tab, char **path_tab);

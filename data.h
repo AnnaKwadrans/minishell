@@ -33,11 +33,11 @@ typedef struct s_heredoc
 typedef struct s_data
 {
 	struct s_lines	*line; // Lineas de entrada
-	struct s_cmd	***cmds; // Comandos para ejecutar
+	struct s_cmd	**cmds; // Comandos para ejecutar
 	struct s_lines	*history_lines; // Historial de comandos ejecutados
-	char			**part_lines; // split por ;
+	//char			**part_lines; // split por ;
 	struct s_vars	*vars; // Variables de entorno
-	int				*pipes; // Contador de pipes
+	int				pipes; // Contador de pipes
 	int				is_interactive; // Si es interactivo o no
 	int				is_expandable; // Si es expandible o no
 	int				*fds;

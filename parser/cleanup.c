@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/05 00:32:19 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:49:29 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,13 @@ void	clean_data_program(t_data *data)
 		i = 0;
 		while (data->cmds[i])
 		{
-			j = 0;
-			while (data->cmds[i][j])
-			{
-				free_cmd(data->cmds[i][j]);
-				j++;
-			}
-			free(data->cmds[i]);
+			free_cmd(data->cmds[i]);
 			i++;
 		}
 		free(data->cmds);
 		data->cmds = NULL;
 	}
+	/*
 	free_array(data->part_lines);
 	data->part_lines = NULL;
 	if (data->pipes)
@@ -45,6 +40,7 @@ void	clean_data_program(t_data *data)
 		free(data->pipes);
 		data->pipes = NULL;
 	}
+		*/
 }
 
 void	free_data(t_data *data)

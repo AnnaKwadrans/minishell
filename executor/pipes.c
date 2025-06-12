@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/05 22:30:02 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/11 22:43:50 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	get_size_array(t_cmd **cmds)
 		i++;
 	return (i);
 }
-
+/*
 void	exec_all_lines(t_data *data)
 {
 	int	i;
@@ -44,39 +44,38 @@ void	exec_all_lines(t_data *data)
 		}
 		execute_line(data->cmds[i], data->pipes[i],
 			data->fds, &data->last_status);
-		printf("LAST LAST STATUS: %d\n", data->last_status);
+		//printf("LAST LAST STATUS: %d\n", data->last_status);
 		i++;
 	}
 }
-
-int	execute_line(t_cmd **cmds, int pipes, int *fds, int *last_status)
+*/
+int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_status)
 {
 	int	i;
 	int	status;
 
 	//printf("pipes: %d\n", pipes);
-	if (pipes > 0)
-		fds = create_pipes(pipes);
+	if (data->pipes > 0)
+		data->fds = create_pipes(data->pipes);
 	i = 0;
-
-        while (cmds[i])
+        while (data->cmds[i])
         {
-                if (is_builtin(cmds[i]->args[0]))
-                        exec_builtin(cmds[i], pipes, fds, i);
+                if (is_builtin(data->cmds[i]->args[0]))
+                        exec_builtin(data->cmds[i], data->pipes, data->fds, i);
                 else
-                        child(cmds[i], pipes, fds, i);
+                        child(data->cmds[i], data->pipes, data->fds, i);
                 i++;
         }
-        close_fds(fds, pipes, -1, -1);
-        if (fds)
-                free(fds);
+        close_fds(data->fds, data->pipes, -1, -1);
+        if (data->fds)
+                free(data->fds);
         i = 0;
         while (waitpid(-1, &status, 0) > 0)
         {
-                        *last_status = WEXITSTATUS(status);
+                        data->last_status = WEXITSTATUS(status);
                         //printf("CHILD %d\n", *last_status);
         }
-        //printf("LAST STATUS %d\n", *last_status);
+        printf("LAST STATUS %d\n", data->last_status);
         return (0);
 
         
@@ -155,7 +154,7 @@ bool	is_builtin(char *cmd)
 
 void    exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 {
-        printf("check pid: %d\n", cmd->pid);
+        //printf("check pid: %d\n", cmd->pid);
         close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
         redirect(cmd, pipes, fds, i);
         ft_builtin(cmd);
@@ -183,6 +182,7 @@ void    ft_builtin(t_cmd *cmd)
                 show_history(cmd->data);
                 cmd->p_status = 0;
         }
+	cmd->data->last_status = cmd->p_status;
         return ;
 /* COMMIT CAMPUS 
 void	exec_builtin(t_cmd *cmd)
@@ -216,7 +216,7 @@ void	child(t_cmd *cmd, int pipes, int *fds, int i)
         if (!cmd || !cmd->args || !cmd->args[0])
                 return ;
         cmd->pid = fork();
-        printf("check pid: %d\n", cmd->pid);
+        //printf("check pid: %d\n", cmd->pid);
         if (cmd->pid < 0)
                 return (perror("Fork failed"));
         else if (cmd->pid == 0)
