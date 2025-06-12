@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/12 18:44:10 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:28:26 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ t_cmd	*get_cmd(char *aux)
 		else
 			cmd->args = append_args(cmd->args, &aux[i], &i);
 	}
-	if (cmd->args == NULL)
+	if (cmd->args)
+		cmd->args = rm_quotes(cmd->args);
+	else
 	{
 		cmd->args = malloc(sizeof(char *) * 2);
 		if (!cmd->args)
@@ -231,4 +233,63 @@ char	**append_args(char **args, char *aux, int *i)
 	free_array(add);
 	free_array(args);
 	return (joined);
+}
+
+char	**rm_quotes(char **args)
+{
+	char	**res;
+	int	i;
+
+	res = (char **)malloc(sizeof(char *) * (array_size(args) + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (args[i])
+	{
+		res[i] = rm_quotes_arg(args[i]);
+		i++;
+	}
+	res[i] = NULL;
+	free_array(args);
+	return(res);
+}
+
+char	*rm_quotes_arg(char *arg)
+{
+	char	*res;
+	int	i;
+	int	j;
+
+	res = (char *)malloc(sizeof(char) * (count_no_quotes(arg) + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (arg[i])
+	{
+		if (arg[i] != '\'' && arg[i] != '\"')
+		{
+			res[j] = arg[i];
+			j++;
+		}
+		i++;
+	}
+	res[j] = '\0';
+	return (res);
+}
+
+int	count_no_quotes(char *arg)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (arg[i])
+	{
+		if (arg[i] != '\'' && arg[i] != '\"')
+			count++;
+		i++;
+	}
+	return (count);
 }

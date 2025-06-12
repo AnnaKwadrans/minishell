@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/01 17:32:40 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/12 20:06:02 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_vars(void *args)
 int	skip_var(const char *line, int i)
 {
 	i++;
-	while (line[i] && (line[i] == '_' || ft_isalnum(line[i])))
+	while (line[i] && (line[i] == '_' || ft_isalnum(line[i]) || line[i] == '?'))
 		i++;
 	return (i);
 }
