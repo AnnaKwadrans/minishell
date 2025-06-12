@@ -50,6 +50,9 @@ bool    valid_pipes(char *line);
 bool    is_var(char *line);
 void    handle_var(char *input, t_data *data);
 
-char	*trim_quotes(char *input);
+//char	*trim_quotes(char *input);
+int	count_no_quotes(char *arg);
+char	*rm_quotes_arg(char *arg);
+char	**rm_quotes(char **args);
 
 #endif

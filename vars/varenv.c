@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/01 17:32:53 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/11 22:21:20 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*expand_vars(t_data *data_program, char *line)
 	count = count_vars(line);
 	// printf("Count of vars: %d\n", count);
 	vars = multi_search(data_program, line, count);
-	// print_array(vars);
+	//print_array(vars);
 	result = handle_expansion(data_program, line, vars);
 	free_array(vars);
 	return (result);

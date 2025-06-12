@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   counts.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:04:02 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/01 17:32:58 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/12 19:41:27 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	get_var_size(char *line, int start)
 	i = start;
 	while (line[i])
 	{
-		if (line[i] == '_' || ft_isalnum(line[i]))
+		if (line[i] == '_' || ft_isalnum(line[i]) || line[i] == '?')
 			size++;
 		else
 			break ;
