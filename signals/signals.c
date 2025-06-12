@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:08:57 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/05 00:39:40 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/05 21:31:19 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@ void	setup_interactive_signals(void)
 {
 	disable_echoctl();
 	setup_signals();
+}
+
+void	setup_nointeractive(void)
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+
+	sa.sa_handler = SIG_DFL;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 void	restore_signals(void)
