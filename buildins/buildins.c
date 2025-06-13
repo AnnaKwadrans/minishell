@@ -30,52 +30,6 @@ void	ft_pwd(t_data *data_program)
 	printf("%s\n", tmp->value);
 }
 
-char *pre_echo(char *var)
-{
-	char *name;
-	int size;
-	int i;
-
-	i = 0;
-	size = 0;
-	while (var[size] && var[size] != ' ')
-		size++;
-	name = malloc(sizeof(char) * (size));
-	if (!name)
-		return (NULL);
-	while (var[i] && var[i] != ' ')
-	{
-		name[i] = var[i + 1];
-		i++;
-	}
-	name[i] = '\0';
-	return (name);
-}
-
-void ft_echo(t_data *data_program, char *var)
-{
-	t_vars	*tmp;
-	char	*value;
-	char	*name;
-
-	name = pre_echo(var);
-	tmp = search_var(data_program, name);
-	if (!tmp)
-	{
-		printf("Variable %s not found\n", var);
-		return ;
-	}
-	value = tmp->value;
-	if (value)
-	{
-		printf("%s\n", value);
-	}
-	else
-	{
-		printf("Variable %s is empty\n", var);
-	}
-}
-
 void	make_function(t_data *data_program, char *var)
 {
 	char	**args;
@@ -92,7 +46,7 @@ void	make_function(t_data *data_program, char *var)
 		{
 			printf("echo found\n");
 			ft_echo(data_program, args[i + 1]);
-			break;
+			break ;
 		}
 		// if (ft_strcmp(args[i], "cd") == 0)
 		// {
@@ -104,7 +58,7 @@ void	make_function(t_data *data_program, char *var)
 		{
 			printf("pwd found\n");
 			ft_pwd(data_program);
-			break;
+			break ;
 		}
 		// if (ft_strcmp(args[i], "export") == 0)
 		// {
@@ -135,7 +89,7 @@ void	make_function(t_data *data_program, char *var)
 	free(args);
 }
 
-int main(void)
+int	main(void)
 {
 	t_data	*data_program;
 	char	*line1, *line2;

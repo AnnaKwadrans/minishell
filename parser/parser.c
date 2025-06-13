@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/12 19:28:26 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:52:01 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,32 @@
 #include "../here_doc/here_doc.h"
 #include "../vars/varenv.h"
 
+int is_expandable(char *input)
+{
+	int	simple_quotes;
+	int	double_quotes;
+	int	i;
+	int	size;
+
+	simple_quotes = 0;
+	double_quotes = 0;
+	i = 0;
+	size = ft_strlen(input);
+	while (input[i])
+	{
+		if (input[i] == '\'' && input[i + 1] == '\'')
+			simple_quotes++;
+		else if (input[i] == '\"')
+			double_quotes++;
+		i++;
+	}
+	printf("Simple quotes: %d, Double quotes: %d\n", simple_quotes, double_quotes);
+	if ((simple_quotes % 2 == 0 && simple_quotes != 0) || double_quotes % 2 == 0)
+		return (1);
+	else
+		return (0);
+}
+
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 {
 	int		i;
@@ -23,14 +49,22 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	t_cmd	**cmds;
 	char	*input_exp;
 
-	// printf("<<<-------------- PARSING LINE -------------->>>\n");
+	printf("<<<-------------- PARSING LINE -------------->>>\n");
+	printf("PARSING INPUT: %s\n", input);
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (ft_putendl_fd("Parse error", 2), NULL);
-	input_exp = expand_vars(data, input);
-	printf("EXPANDED: %s\n", input_exp);
+	printf("Input: %s\n", input);
+	if (is_expandable(input))
+	{
+		printf("Input expandable: %s\n", input);
+		input_exp = expand_vars(data, input);
+		printf("EXPANDED: %s\n", input_exp);
+	}
+	else
+		input_exp = input;
 	// printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
-	free(input_exp);
+
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
 		return (perror("malloc failed"), NULL);

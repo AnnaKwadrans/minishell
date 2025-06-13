@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 01:12:15 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/13 19:32:06 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ char	**multi_search(t_data *data_program, char *line, int count);
 void	show_vars(void *args);
 void	init_env(t_data *data_program, char **env);
 char	*expand_vars(t_data *data_program, char *line);
+
+void	example_new_vars(t_data *data_program);
 
 #endif
