@@ -14,12 +14,21 @@
 
 # include "libft/libft.h"
 # include "signals/signals.h"
+# include "aux/aux.h"
 
 typedef struct s_heredoc	t_heredoc;
 typedef struct s_data		t_data;
 typedef struct s_vars		t_vars;
 typedef struct s_cmd		t_cmd;
 typedef struct s_lines		t_lines;
+
+// Estructura para expandir variables
+typedef struct s_expand
+{
+	t_data	*data; // Datos del programa
+	char	**values; // Valores de las variables
+	int		count; // Contador de variables
+}	t_expand;
 
 // Estructura para here_doc
 typedef struct s_heredoc

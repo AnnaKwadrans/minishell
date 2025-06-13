@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/01 17:32:53 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/13 20:09:42 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ void	init_env(t_data *data_program, char **env)
 			return ;
 		}
 		new->name = ft_strdup(split[0]);
-		new->value = split[1] ? ft_strdup(split[1]) : NULL;
+		if (split[1])
+			new->value = ft_strdup(split[1]);
+		else
+			new->value = NULL;
 		new->is_exportable = 1;
 		new->next = NULL;
 		add_var(data_program, new);
@@ -63,42 +66,69 @@ void	init_env(t_data *data_program, char **env)
 	}
 }
 
-static char	*handle_quotes(char *result, char *line, int *i)
+static char	*handle_single_quotes(char *result, char *line, int *i)
 {
-	char	quote;
-
-	quote = line[(*i)];
-	result = ft_strjoin_free(result, (char []){quote, '\0'});
-	while (line[*i] && line[*i] != quote)
-		result = ft_strjoin_free(result, (char []){line[(*i)++], '\0'});
-	if (line[*i] == quote)
-		result = ft_strjoin_free(result, (char []){line[(*i)++], '\0'});
+	(*i)++;  // Salta la comilla de apertura '
+	while (line[*i] && line[*i] != '\'')
+		result = ft_strjoin_free(result, (char[]){line[(*i)++], '\0'});
+	if (line[*i] == '\'')
+		(*i)++;  // Salta la comilla de cierre
 	return (result);
 }
 
-static char	*handle_expansion(t_data *data, char *line, char **vars)
+static char	*handle_double_quotes(char *result, char *line, int *i, t_expand *exp)
 {
-	char	*result;
-	int		i;
-	int		j;
+	(*i)++; // Saltar comilla de apertura "
+	while (line[*i] && line[*i] != '\"')
+	{
+		if (line[*i] == '$' && line[*i + 1] && line[*i + 1] != '$')
+		{
+			(*i)++;
+			result = ft_strjoin_free(result, exp->values[(exp->count)++]);
+			*i = skip_var(line, *i - 1);
+		}
+		else
+			result = ft_strjoin_free(result, (char[]){line[(*i)++], '\0'});
+	}
+	if (line[*i] == '\"')
+		(*i)++; // Saltar comilla de cierre
+	return result;
+}
+
+static char	*handle_quotes(char *result, char *line, int *i, t_expand *exp)
+{
+	if (line[*i] == '\'')
+		return (handle_single_quotes(result, line, i));
+	else if (line[*i] == '\"')
+		return (handle_double_quotes(result, line, i, exp));
+	return (result);
+}
+
+static char *handle_expansion(t_data *data, char *line, char **vars)
+{
+	char		*result;
+	int			i;
+	t_expand	exp;
 
 	result = ft_strdup("");
 	i = 0;
-	j = 0;
+	exp.data = data;
+	exp.values = vars;
+	exp.count = 0;
 	while (line[i])
 	{
 		if (line[i] == '$' && line[i + 1] && line[i + 1] != '$')
 		{
 			i++;
-			result = ft_strjoin_free(result, vars[j++]);
+			result = ft_strjoin_free(result, vars[exp.count++]);
 			i = skip_var(line, i - 1);
 		}
 		else if (line[i] == '\'' || line[i] == '\"')
-			result = handle_quotes(result, line, &i);
+			result = handle_quotes(result, line, &i, &exp);
 		else if (line[i] == '\\' && line[i + 1])
-			result = ft_strjoin_free(result, (char []){line[i++], '\0'});
+			result = ft_strjoin_free(result, (char[]){line[i++], '\0'});
 		else
-			result = ft_strjoin_free(result, (char []){line[i++], '\0'});
+			result = ft_strjoin_free(result, (char[]){line[i++], '\0'});
 	}
 	return (result);
 }
@@ -110,33 +140,33 @@ char	*expand_vars(t_data *data_program, char *line)
 	char	*result;
 
 	count = count_vars(line);
-	// printf("Count of vars: %d\n", count);
+	printf("Count of vars: %d\n", count);
 	vars = multi_search(data_program, line, count);
-	// print_array(vars);
+	print_array(vars);
 	result = handle_expansion(data_program, line, vars);
 	free_array(vars);
 	return (result);
 }
 
-// static void example_new_vars(t_data *data_program)
-// {
-// 	t_vars	*new_var1;
-// 	t_vars	*new_var2;
-// 	t_vars	*new_var3;
-// 	t_vars	*new_var4;
-// 	t_vars	*new_var5;
+void example_new_vars(t_data *data_program)
+{
+	t_vars	*new_var1;
+	t_vars	*new_var2;
+	t_vars	*new_var3;
+	t_vars	*new_var4;
+	t_vars	*new_var5;
 
-// 	new_var1 = new_var("MY_VAR", "Hello World", 1);
-// 	new_var2 = new_var("MY_VAR2", "42", 0);
-// 	new_var3 = new_var("MY_VAR3", "Hello", 1);
-// 	new_var4 = new_var("MY_VAR4", "World", 0);
-// 	new_var5 = new_var("MY_VAR5", "!", 1);
-// 	add_var(data_program, new_var1);
-// 	add_var(data_program, new_var2);
-// 	add_var(data_program, new_var3);
-// 	add_var(data_program, new_var4);
-// 	add_var(data_program, new_var5);
-// }
+	new_var1 = new_var("MY_VAR", "Hello World", 1);
+	new_var2 = new_var("MY_VAR2", "42", 0);
+	new_var3 = new_var("MY_VAR3", "Hello", 1);
+	new_var4 = new_var("MY_VAR4", "World", 0);
+	new_var5 = new_var("MY_VAR5", "!", 1);
+	add_var(data_program, new_var1);
+	add_var(data_program, new_var2);
+	add_var(data_program, new_var3);
+	add_var(data_program, new_var4);
+	add_var(data_program, new_var5);
+}
 
 // int main(int argc, char **argv, char **env)
 // {

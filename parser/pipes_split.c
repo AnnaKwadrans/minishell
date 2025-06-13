@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:57 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/01 18:59:33 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/12 22:36:14 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	close_quotes(char const *s)
 	int	i;
 
 	i = 0;
+	printf("\tCLOSE QUOTES\n");
 	if (s[i] == '\'')
 	{
 		i++;
@@ -53,6 +54,7 @@ static int	split_count(char const *s, char c)
 	int	new_string;
 	int	i;
 
+	printf("\t SPLITTING COUNT\n");
 	new_string = 0;
 	count = 0;
 	i = 0;
@@ -69,6 +71,7 @@ static int	split_count(char const *s, char c)
 		}
 		i++;
 	}
+	printf("\tCount: %d\n", count);
 	return (count);
 }
 
@@ -112,6 +115,7 @@ char	**split_pipes(char const *s, char c)
 	int		i;
 	int		j;
 
+	printf("<<<-------------- SPLITTING PIPES -------------->>>\n");
 	count = split_count(s, c);
 	array = init_array(s, count, c);
 	if (array == NULL)

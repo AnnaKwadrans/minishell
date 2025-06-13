@@ -151,30 +151,29 @@ static void    rm_middle(t_vars *vars, char *name)
         show_vars(vars);
 }
 
-int     ft_echo (t_data *data, char **args)
+int	ft_echo (t_data *data, char **args)
 {
-        int     i;
-        int     size;
+	int	i;
+	int	size;
 
-        //arreglar esto en el pareso de variables
-        if (ft_strncmp(args[1], "?", 1) == 0)
-        {
-                printf("STATUS %d\n", data->last_status);
-                return (0);
-        }
-        size = array_size(args) - 1;
-        i = 1;
-        if (args[1][0] == '-' && args[1][1] == 'n')
-                i = 2;
-        while (i < size)
-        {
-                printf("%s ", args[i]);
-                i++;
-        }
-        printf("%s", args[i]);
-        if (!(args[1][0] == '-' && args[1][1] == 'n'))
-                printf("\n");
-        return (0);
+	if (ft_strncmp(args[1], "?", 1) == 0)
+	{
+		printf("STATUS %d\n", data->last_status);
+		return (0);
+	}
+	size = array_size(args) - 1;
+	i = 1;
+	if (args[1][0] == '-' && args[1][1] == 'n')
+		i = 2;
+	while (i < size)
+	{
+		printf("%s ", args[i]);
+		i++;
+	}
+	printf("%s", args[i]);
+	if (!(args[1][0] == '-' && args[1][1] == 'n'))
+		printf("\n");
+	return (0);
 }
 
 int     ft_unset(t_vars *vars, char **args)
