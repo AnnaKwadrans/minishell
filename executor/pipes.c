@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/11 22:43:50 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:52:23 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,27 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	int	status;
 
 	//printf("pipes: %d\n", pipes);
+	if (!data || !data->cmds || !data->cmds[0])
+		return (0);
 	if (data->pipes > 0)
 		data->fds = create_pipes(data->pipes);
 	i = 0;
-        while (data->cmds[i])
-        {
-                if (is_builtin(data->cmds[i]->args[0]))
-                        exec_builtin(data->cmds[i], data->pipes, data->fds, i);
-                else
-                        child(data->cmds[i], data->pipes, data->fds, i);
-                i++;
-        }
-        close_fds(data->fds, data->pipes, -1, -1);
-        if (data->fds)
-                free(data->fds);
-        i = 0;
-        while (waitpid(-1, &status, 0) > 0)
-        {
-                        data->last_status = WEXITSTATUS(status);
-                        //printf("CHILD %d\n", *last_status);
-        }
-        printf("LAST STATUS %d\n", data->last_status);
-        return (0);
-
-        
+	while (data->cmds[i])
+	{
+		if (is_builtin(data->cmds[i]->args[0]))
+			exec_builtin(data->cmds[i], data->pipes, data->fds, i);
+		else
+			child(data->cmds[i], data->pipes, data->fds, i);
+		i++;
+	}
+	close_fds(data->fds, data->pipes, -1, -1);
+	if (data->fds)
+		free(data->fds);
+	i = 0;
+	while (waitpid(-1, &status, 0) > 0)
+		data->last_status = WEXITSTATUS(status);
+	printf("LAST STATUS %d\n", data->last_status);
+	return (0);
 /* COMMIT CAMPUS
 	while (cmds[i])
 	{

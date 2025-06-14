@@ -8,21 +8,27 @@ split()
 2 " fd2 " >> "fd2"
 3 " fd3 > fsfgdfg sdf" >> "fd3"
 
-dup
+    debería verificar los 3 fd e imprimir error en el primero que encuentre. de no encontrar errores, la rediección final será la del último fd.
 
-    debería verificar los 3 fd e imprimir error en el primero que encuentre.
+---
 
 # COMANDOS VACÍOS
 
 manejo errores del cat predeterminado
 
-# ECHO
+---
+
+# ECHO (HECHO)
 
 debería haber sólo "-n" o "-nnnnnnn" para que imprima. todo lo demás, deberá imprimir incluido el intento de flag.
 
-# EXPAND VARS
+---
+
+# EXPAND VARS (HECHO)
 
 manejo de comillas dobles, imprime innecesariamente. Y expansión regulada por un verificador que debemos implementar.
+
+---
 
 # PIPES
 

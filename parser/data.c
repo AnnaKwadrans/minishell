@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/12 22:39:31 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:56:05 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 	{}
 		// err invalid syntax
 	data->line = get_line(data, input);
-	printf("\t>>>\t\tLINE: %s\n", data->line->line);
+	// printf(">>>\t\tLINE: %s\n", data->line->line);
 	//data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
 	data->pipes = count_pipe(input);
 	//data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
@@ -97,7 +97,6 @@ int	count_pipe(char *line)
 
 	pipes = 0;
 	i = 0;
-	printf("COUNTING PIPES IN: %s\n", line);
 	while (line[i])
 	{
 		if (line[i] == '\'' || line[i] == '\"')
@@ -106,7 +105,6 @@ int	count_pipe(char *line)
 			pipes++;
 		i++;
 	}
-	printf("COUNTED PIPES: %d\n", pipes);
 	return (pipes);
 }
 
