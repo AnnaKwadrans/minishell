@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/13 19:52:01 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:58:11 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,16 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	t_cmd	**cmds;
 	char	*input_exp;
 
-	printf("<<<-------------- PARSING LINE -------------->>>\n");
-	printf("PARSING INPUT: %s\n", input);
+	// printf("<<<-------------- PARSING LINE -------------->>>\n");
+	// printf("PARSING INPUT: %s\n", input);
 	if (!input || input[0] == '\0' || !valid_pipes(input))
-		return (ft_putendl_fd("Parse error", 2), NULL);
-	printf("Input: %s\n", input);
+		return (NULL);
+	// printf("Input: %s\n", input);
 	if (is_expandable(input))
 	{
-		printf("Input expandable: %s\n", input);
+		// printf("Input expandable: %s\n", input);
 		input_exp = expand_vars(data, input);
-		printf("EXPANDED: %s\n", input_exp);
+		// printf("EXPANDED: %s\n", input_exp);
 	}
 	else
 		input_exp = input;
@@ -83,10 +83,10 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 				free_cmd(cmds[i]);
 				free_array(cmd_aux);
 				cmds[i] = NULL;
-				printf("Error in heredoc\n");
+				// printf("Error in heredoc\n");
 				return (NULL);
 			}
-			printf("heredoc got it\n");
+			// printf("heredoc got it\n");
 			get_heredoc_cmd(cmd_aux[i], cmds[i]);
 		}
 		else
@@ -156,8 +156,8 @@ t_cmd	*get_cmd(char *aux)
 		cmd->args[0] = ft_strdup("cat");
 		cmd->args[1] = NULL;
 	}
-	printf("ARGS\n");
-	print_array(cmd->args);
+	// printf("ARGS\n");
+	// print_array(cmd->args);
 	return (cmd);
 }
 
