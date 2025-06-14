@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/14 18:52:23 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/14 23:27:36 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	}
 	close_fds(data->fds, data->pipes, -1, -1);
 	if (data->fds)
+	{
 		free(data->fds);
+		data->fds = NULL;
+	}
 	i = 0;
 	while (waitpid(-1, &status, 0) > 0)
 		data->last_status = WEXITSTATUS(status);
