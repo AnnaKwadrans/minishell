@@ -3,16 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:29 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/15 21:05:38 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
+
+
+void	free_here_doc(t_heredoc *here_doc)
+{
+	if (here_doc)
+	{
+		if (here_doc->delimiter)
+			free(here_doc->delimiter);
+		if (here_doc->buffer)
+			free_array(here_doc->buffer);
+		free(here_doc);
+	}
+}
 
 void	clean_data_program(t_data *data)
 {
@@ -32,21 +45,35 @@ void	clean_data_program(t_data *data)
 		free(data->cmds);
 		data->cmds = NULL;
 	}
-	/*
-	free_array(data->part_lines);
-	data->part_lines = NULL;
-	if (data->pipes)
+	if (data->history_lines)
 	{
-		free(data->pipes);
-		data->pipes = NULL;
+		free_line(data->history_lines);
+		data->history_lines = NULL;
 	}
-		*/
+	data->pipes = 0;
+	if (data->fds)
+	{
+		free(data->fds);
+		data->fds = NULL;
+	}
+	// free_array(data->part_lines);
+	// data->part_lines = NULL;
 }
 
 void	free_data(t_data *data)
 {
 	//free_history(data->history_lines); // por hacer la funcion
 	clean_data_program(data);
+	if (data->vars)
+	{
+		free_array(data->vars);
+		data->vars = NULL;
+	}
+	if (data->line)
+	{
+		free_line(data->line);
+		data->line = NULL;
+	}
 }
 
 void	free_cmd(t_cmd	*cmd)
@@ -63,6 +90,11 @@ void	free_cmd(t_cmd	*cmd)
 	{
 		free(cmd->outfile);
 		cmd->outfile = NULL;
+	}
+	if (cmd->heredoc)
+	{
+		free_here_doc(cmd->heredoc);
+		cmd->heredoc = NULL;
 	}
 	if (cmd->delimit)
 	{

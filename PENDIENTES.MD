@@ -14,7 +14,25 @@ split()
 
 # COMANDOS VACÍOS
 
-manejo errores del cat predeterminado
+## manejo errores del cat predeterminado.
+
+Línea vacía:
+
+```bash
+minishell > "      "
+```
+
+inicia un cat por predeterminado. debería sólo generar otro prompt.
+
+## Línea con NADA genera un SEGFAULT
+
+con:
+
+```bash
+minishell > ""
+```
+
+el programa explota por SEGFAULT. Deberíamos manejar ese error. ZSH retorna un error de permisos (?) y **no ejecuta nada**
 
 ---
 
@@ -30,6 +48,8 @@ manejo de comillas dobles, imprime innecesariamente. Y expansión regulada por u
 
 ---
 
-# PIPES
+# PIPES (HECHO)
 
 Errores de memoria (double free).
+
+#
