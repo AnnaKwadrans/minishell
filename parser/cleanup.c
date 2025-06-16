@@ -6,13 +6,26 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/14 23:32:19 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:05:38 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
+
+
+void	free_here_doc(t_heredoc *here_doc)
+{
+	if (here_doc)
+	{
+		if (here_doc->delimiter)
+			free(here_doc->delimiter);
+		if (here_doc->buffer)
+			free_array(here_doc->buffer);
+		free(here_doc);
+	}
+}
 
 void	clean_data_program(t_data *data)
 {
@@ -51,6 +64,16 @@ void	free_data(t_data *data)
 {
 	//free_history(data->history_lines); // por hacer la funcion
 	clean_data_program(data);
+	if (data->vars)
+	{
+		free_array(data->vars);
+		data->vars = NULL;
+	}
+	if (data->line)
+	{
+		free_line(data->line);
+		data->line = NULL;
+	}
 }
 
 void	free_cmd(t_cmd	*cmd)
@@ -67,6 +90,11 @@ void	free_cmd(t_cmd	*cmd)
 	{
 		free(cmd->outfile);
 		cmd->outfile = NULL;
+	}
+	if (cmd->heredoc)
+	{
+		free_here_doc(cmd->heredoc);
+		cmd->heredoc = NULL;
 	}
 	if (cmd->delimit)
 	{

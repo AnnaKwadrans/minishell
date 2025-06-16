@@ -30,6 +30,6 @@ manejo de comillas dobles, imprime innecesariamente. Y expansión regulada por u
 
 ---
 
-# PIPES
+# PIPES (HECHO)
 
 Errores de memoria (double free).

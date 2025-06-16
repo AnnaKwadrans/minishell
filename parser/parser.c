@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/14 18:58:11 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:13:32 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	char	**cmd_aux;
 	t_cmd	**cmds;
 	char	*input_exp;
+	int		will_free;
 
 	// printf("<<<-------------- PARSING LINE -------------->>>\n");
 	// printf("PARSING INPUT: %s\n", input);
@@ -58,10 +59,14 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	{
 		// printf("Input expandable: %s\n", input);
 		input_exp = expand_vars(data, input);
+		will_free = 1;
 		// printf("EXPANDED: %s\n", input_exp);
 	}
 	else
+	{
 		input_exp = input;
+		will_free = 0;
+	}
 	// printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 
@@ -91,7 +96,13 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		}
 		else
 		{
+			free(cmds[i]);
 			cmds[i] = get_cmd(cmd_aux[i]);
+			if (!cmds[i])
+			{
+				free_array(cmd_aux);
+				return (NULL);
+			}
 			//trim_quotes(cmds[i]->args);
 		}
 		//cmds[i]->env = envp;
@@ -104,6 +115,8 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	}
 	cmds[i] = NULL;
 	free_array(cmd_aux);
+	if (will_free)
+		free(input_exp);
 	return (cmds);
 }
 /*
