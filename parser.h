@@ -14,12 +14,24 @@ typedef struct s_cmd t_cmd;
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data); // devuelve array de comandos
 t_cmd	*get_cmd(char *aux); // se le pasa como parametro una parte del input que corresponde a un pipe
 void	init_cmd(t_cmd *cmd); // inicializa la estructura
-char	*get_infile(char *aux, char **delimit, int *index); // para obtener el infile (<) o delimitador (<<)
-char	*get_outfile(char *aux, int *append, int *index); // para obtener el outfile (>) y el bool append (>>)
+void	get_infile(char *aux, int *index, char ***infile); // para obtener el infile (<) o delimitador (<<)
+//void	get_infile(char *aux, int *index, t_inf **infile);
+//void	add_infile(t_inf *infile, t_inf *new);
+void	get_outfile(char *aux, int *index, char ***outfile, int *append);
+char	**first_file(char *new_file);
+char	**append_file(char **file, char *new_file);
+//void	get_outfile(char *aux, int *index, t_outf **outfile); // para obtener el outfile (>) y el bool append (>>)
+//void	add_outfile(t_outf *outfile, t_outf *new);
+//void	print_outfiles(t_outf *outfile);
+//void	print_infiles(t_inf *infile);
 char	*get_file_str(const char *aux, int *index); // funcion auxiliar para obtener el string outfile, infile o delimit
 char	**get_args(char *aux, int *index); // para obtener el array con el comando y argumentos
 char	**append_args(char **args, char *aux, int *i); // para añadir los argumentos al array con el comando
 int     *get_pipes(char **part_lines, size_t size);
+char	**first_file(char *new_file);
+char	**append_file(char **file, char *new_file);
+int	check_infile(char **infile, t_data *data);
+int	open_infile(t_cmd *cmd, t_data *data);
 
 // pipe_split.c
 int	close_quotes(char const *s); // devuelve el index donde terminan las comillas

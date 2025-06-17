@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/04 20:33:20 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/14 11:27:08 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	get_heredoc_cmd(char *line, t_cmd *cmd)
 	cmd->outfile = NULL;
 	cmd->append = 0;
 	cmd->infile = NULL;
-	cmd->delimit = NULL;
+	//cmd->delimit = NULL;
 	cmd->pid = 0;
 	cmd->p_status = 0;
 }
