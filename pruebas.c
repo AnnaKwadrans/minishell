@@ -5,106 +5,63 @@
 #include <dirent.h>
 #include <errno.h>
 
-void list_directory(const char *path) {
-    DIR *dir;
-    struct dirent *ent;
+#include "data.h"
 
-    // Open the directory
-    if ((dir = opendir(path)) == NULL) {
-        fprintf(stderr, "Could not open directory %s: %s\n",
-                path, strerror(errno));
-        return;
-    }
+void	init_env(t_data *data_program, char **env);
 
-    // Read and display each entry
-    while ((ent = readdir(dir)) != NULL) {
-        printf("%s\n", ent->d_name);
-    }
+// int	ft_echo(t_data *data, char **args)
+// {
+// 	int	i;
+// 	int	size;
+// 	int	is_expadable;
 
-    // Close the directory
-    if (closedir(dir) == -1) {
-        fprintf(stderr, "Error closing directory: %s\n",
-                strerror(errno));
-    }
-}
-/*
-int main() {
-    char cwd[1024];
+// 	is_expadable = 0;
+// 	//arreglar esto en el pareso de variables
+// 	if (ft_strncmp(args[1], "?", 1) == 0)
+// 	{
+// 		printf("STATUS %d\n", data->last_status);
+// 		return (0);
+// 	}
+// 	size = array_size(args) - 1;
+// 	i = 1;
+// 	if (args[1][0] == '-' && args[1][1] == 'n')
+// 		i = 2;
+// 	while (i < size)
+// 	{
+// 		printf("%s ", args[i]);
+// 		i++;
+// 	}
+// 	printf("%s", args[i]);
+// 	if (!(args[1][0] == '-' && args[1][1] == 'n'))
+// 		printf("\n");
+// 	return (0);
+// }
 
-    // Get current working directory
-    if (getcwd(cwd, sizeof(cwd)) == NULL) {
-        fprintf(stderr, "Error getting current directory: %s\n",
-                strerror(errno));
-        return EXIT_FAILURE;
-    }
+// int	main(int argc, char *argv[], char **env)
+// {
+// 	t_data	*data;
+// 	char	**args;
 
-    printf("Current directory: %s\n", cwd);
+// 	args = malloc(4 * sizeof(char *));
+// 	if (!args)
+// 	{
+// 		perror("malloc");
+// 		return (1);
+// 	}
+// 	printf("Initializing data structure...\n");
+// 	args[0] = "echo";
+// 	args[1] = "Hello";
+// 	args[2] = "\"$USER\"";
+// 	args[3] = NULL;
+// 	printf("example_new_vars called...\n");
+// 	data = malloc(sizeof(t_data));
+// 	init_env(data, env);
+// 	data->last_status = 0;
+// 	// Llamada a la función ft_echo
+// 	printf("Calling ft_echo...\n");
+// 	ft_echo(data, args);
+// 	// Verificar el estado final
+// 	printf("Last status: %d\n", data->last_status);
 
-    // List contents of current directory
-    printf("\nContents:\n");
-    list_directory(".");
-
-    // Try to change directory
-    if (chdir("~") == -1) {
-        fprintf(stderr, "Could not change to subdir: %s\n",
-                strerror(errno));
-    } else {
-        printf("\nChanged to new directory\n");
-        
-        // Verify the change
-        if (getcwd(cwd, sizeof(cwd)) != NULL) {
-            printf("New current directory: %s\n", cwd);
-        }
-    }
-
-    return EXIT_SUCCESS;
-}
-*/
-
-
-/* Where the environment variable 'PATH' is set to a value. */
-/*
-int main(int agrc, char **argv, char **envp)
-{
-    char *pathvar;
- 
-    //pathvar = getenv("PATH");
-    //printf("pathvar=%s",pathvar);
-    char *name;
- 	
-        name = get_var("PATH sdhgbsdk egaea");
-        printf("name: %s\n", name);
-         
- 	//free(name);
-
- 	
-        return (0);
- }
-*/
-/*
-int    main(void)
-{
-       char   **array;
-       char   *line;
-       s_cmd   **cmds;
-       
-       line = ft_strdup(" VAR=abc; ' cat -e | pipe' def | ghi  ");
-       array = split_pipes(line, ';');
-       print_array(array);
-       free_array(array);
-       free(line);
-
-       line = ft_strdup(" VAR=abc | ' cat -e | pipe' def | ghi  ");
-       array = split_pipes(line, '|');
-       print_array(array);
-       free_array(array);
-       free(line);
-
-       line = ft_strdup(" VAR=abc | ' cat -e | pipe' def | ghi  | sort -R | grep \"hola\"   ");
-       array = split_pipes(line, '|');
-       print_array(array);
-       free_array(array);
-       free(line);
-       return (0);
-}
-*/
+// 	return 0;
+// }

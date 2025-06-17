@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 22:55:44 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/15 21:13:32 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,60 @@
 #include "../here_doc/here_doc.h"
 #include "../vars/varenv.h"
 
+int is_expandable(char *input)
+{
+	int	simple_quotes;
+	int	double_quotes;
+	int	i;
+	int	size;
+
+	simple_quotes = 0;
+	double_quotes = 0;
+	i = 0;
+	size = ft_strlen(input);
+	while (input[i])
+	{
+		if (input[i] == '\'' && input[i + 1] == '\'')
+			simple_quotes++;
+		else if (input[i] == '\"')
+			double_quotes++;
+		i++;
+	}
+	printf("Simple quotes: %d, Double quotes: %d\n", simple_quotes, double_quotes);
+	if ((simple_quotes % 2 == 0 && simple_quotes != 0) || double_quotes % 2 == 0)
+		return (1);
+	else
+		return (0);
+}
+
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 {
 	int		i;
 	char	**cmd_aux;
 	t_cmd	**cmds;
 	char	*input_exp;
+	int		will_free;
 
 	// printf("<<<-------------- PARSING LINE -------------->>>\n");
+	// printf("PARSING INPUT: %s\n", input);
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (NULL);
-		//return (ft_putendl_fd("Parse error", 2), NULL);
-	input_exp = expand_vars(data, input);
-	//input_exp = input;
-	printf("EXPANDED: %s\n", input_exp);
+	// printf("Input: %s\n", input);
+	if (is_expandable(input))
+	{
+		// printf("Input expandable: %s\n", input);
+		input_exp = expand_vars(data, input);
+		will_free = 1;
+		// printf("EXPANDED: %s\n", input_exp);
+	}
+	else
+	{
+		input_exp = input;
+		will_free = 0;
+	}
 	// printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
-	free(input_exp);
+
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
 		return (perror("malloc failed"), NULL);
@@ -51,15 +88,21 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 				free_cmd(cmds[i]);
 				free_array(cmd_aux);
 				cmds[i] = NULL;
-				printf("Error in heredoc\n");
+				// printf("Error in heredoc\n");
 				return (NULL);
 			}
-			printf("heredoc got it\n");
+			// printf("heredoc got it\n");
 			get_heredoc_cmd(cmd_aux[i], cmds[i]);
 		}
 		else
 		{
+			free(cmds[i]);
 			cmds[i] = get_cmd(cmd_aux[i]);
+			if (!cmds[i])
+			{
+				free_array(cmd_aux);
+				return (NULL);
+			}
 			//trim_quotes(cmds[i]->args);
 		}
 		//cmds[i]->env = envp;
@@ -72,6 +115,8 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	}
 	cmds[i] = NULL;
 	free_array(cmd_aux);
+	if (will_free)
+		free(input_exp);
 	return (cmds);
 }
 /*
@@ -126,36 +171,11 @@ t_cmd	*get_cmd(char *aux)
 		cmd->args[0] = ft_strdup("cat");
 		cmd->args[1] = NULL;
 	}
-	printf("ARGS\n");
-	print_array(cmd->args);
-	printf("INFILES\n");
-	print_array(cmd->outfile);
-	//print_infiles(cmd->infile);
-	printf("OUTFILES\n");
-	print_array(cmd->outfile);
-	//print_outfiles(cmd->outfile);
-	//exit(1);
+	// printf("ARGS\n");
+	// print_array(cmd->args);
 	return (cmd);
 }
-/*
-void	print_outfiles(t_outf *outfile)
-{
-	while (outfile)
-	{
-		printf("%s %d\n", outfile->outfile, outfile->append);
-		outfile = outfile->next;
-	}
-}
 
-void	print_infiles(t_inf *infile)
-{
-	while (infile)
-	{
-		printf("%s\n", infile->infile);
-		infile = infile->next;
-	}
-}
-*/
 //VAR=abc ; ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile
 void	init_cmd(t_cmd *cmd)
 {
@@ -190,43 +210,6 @@ void	skip_delimit(char *aux, int *index)
 	*index += i;
 	return ;
 }
-/*
-void	get_infile(char *aux, int *index, t_inf **infile)
-{
-	int		i;
-	t_inf	*new_inf;
-
-	i = 1;
-	if (aux[i] == '<')
-	{
-		i++;
-		skip_delimit(&aux[i], &i);
-		*index += i;
-		return ;
-	}
-	new_inf = (t_inf *)malloc(sizeof(t_inf));
-	if (!new_inf)
-		return ;
-	i = 1;
-	new_inf->infile = get_file_str(&aux[i], &i);
-	new_inf->next = NULL;
-	*index += i;
-	if (*infile == NULL)
-		*infile = new_inf;
-	else
-		add_infile(*infile, new_inf);
-}
-
-void	add_infile(t_inf *infile, t_inf *new)
-{
-	if (!new)
-		return ;
-	while (infile->next)
-		infile = infile->next;
-	infile->next = new;
-	return ;
-}
-*/
 
 void	get_infile(char *aux, int *index, char ***infile) 
 {
@@ -276,64 +259,7 @@ char	**append_file(char **file, char *new_file)
 	res = join_arrays(file, new_file_array);
 	return (res);
 }
-/*
-char	*get_infile(char *aux, char **delimit, int *index)
-{
-	int		i;
-	char	*infile;
 
-	i = 1;
-	if (aux[i] == '<')
-	{
-		i++;
-		*delimit = get_file_str(&aux[i], &i);
-		*index += i;
-		return (NULL);
-	}
-	else
-	{
-		infile = get_file_str(&aux[i], &i);
-		*index += i;
-		return (infile);
-	}
-}
-*/
-/*
-void	get_outfile(char *aux, int *index, t_outf **outfile)
-{
-	int		i;
-	t_outf	*new_outf;
-
-	new_outf = (t_outf *)malloc(sizeof(t_outf));
-	if (!new_outf)
-		return ;
-	i = 1;
-	if (aux[i] == '>')
-	{
-		new_outf->append = 1;
-		i++;
-	}
-	else
-		new_outf->append = 0;
-	new_outf->outfile = get_file_str(&aux[i], &i);
-	new_outf->next = NULL;
-	*index += i;
-	if (*outfile == NULL)
-		*outfile = new_outf;
-	else
-		add_outfile(*outfile, new_outf);
-}
-
-void	add_outfile(t_outf *outfile, t_outf *new)
-{
-	if (!new)
-		return ;
-	while (outfile->next)
-		outfile = outfile->next;
-	outfile->next = new;
-	return ;
-}
-*/
 
 void	get_outfile(char *aux, int *index, char ***outfile, int *append) 
 {
@@ -356,24 +282,6 @@ void	get_outfile(char *aux, int *index, char ***outfile, int *append)
 	else
 		*outfile = first_file(new_outf);
 }
-
-/*
-char	*get_outfile(char *aux, int *append, int *index)
-{
-	int		i;
-	char	*outfile;
-
-	i = 1;
-	if (aux[i] == '>')
-	{
-		*append = 1;
-		i++;
-	}
-	outfile = get_file_str(&aux[i], &i);
-	*index += i;
-	return (outfile);
-}
-*/
 
 char	*get_file_str(const char *aux, int *index)
 {

@@ -66,34 +66,26 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
-
 	data_program = malloc(sizeof(t_data));
-	init_data(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
+	init_data(data_program);
 	init_env(data_program, envp);
 	while (1)
 	{
 		if (data_program->is_interactive)
 			input = readline("minishell > ");
 		else
-			input = get_next_line(STDIN_FILENO); // Cambiar por la función que lee del archivo
-		if (!input) // Ctrl+D o línea vacía
+			input = get_next_line(STDIN_FILENO);
+		if (!input)
 		{
 			free(input);
-			break;
+			break ;
 		}
-		//get_data_program(input, data_program); // Configuración inicial
-		add_history(input); // Añadir al historial
-		// add_mhistory(data_program, input); // Añadir al historial propio
-		parse_data(input, data_program, envp); // lo he puesto temporalmente para poder trabajar en el lexer
-		//exec_all_lines(data_program);
-		if (data_program->line)
-			execute_line(data_program);
-		clean_data_program(data_program); // lo he puesto temporalmente para poder trabajar en el lexer
+		add_history(input);
+		parse_data(input, data_program, envp);
+		execute_line(data_program);
+		clean_data_program(data_program);
 		free(input);
-		//printf("*******************************************\n");
-		//ft_printer_lines(data_program->history_lines);
-		//printf("**********\n");
+
 	}
 }
 

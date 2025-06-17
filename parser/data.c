@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
 /*   Updated: 2025/06/12 20:38:29 by akwadran         ###   ########.fr       */
@@ -35,27 +35,24 @@ void	init_data(t_data *data)
 
 void	parse_data(char *input, t_data *data, char **envp)
 {
-	//printf("<<<-------------- NEW CMD -------------->>>\n");
+	printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!even_quotes(input))
 	{
 		free_data(data);
 		return (ft_putendl_fd("Err: invalid syntax", 2));
 	}
 	data->line = get_line(data, input);
-	//printf("\t>>>\t\tLINE: %s\n", data->line->line);
+	// printf(">>>\t\tLINE: %s\n", data->line->line);
 	//data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
 	data->pipes = count_pipe(input);
-	//data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
-	data->cmds = malloc(sizeof(t_cmd *));
-	if (!data->cmds)
-		return (free_data(data));
+	data->cmds = NULL;
+	// data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
 	if (is_var(input))
 		handle_var(input, data);
 	else
 		data->cmds = parse_line(input, data->pipes, envp, data);
 	if (!data->cmds)
 		return (free_data(data));
-	
 /*	
 	while (data->part_lines[l])
 	{

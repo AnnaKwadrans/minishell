@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
 /*   Updated: 2025/06/17 23:34:14 by akwadran         ###   ########.fr       */
@@ -24,6 +24,8 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	if (!data)
 		return (-1);
 	//printf("pipes: %d\n", pipes);
+	if (!data || !data->cmds || !data->cmds[0])
+		return (0);
 	if (data->pipes > 0)
 		data->fds = create_pipes(data->pipes);
 	i = 0;
