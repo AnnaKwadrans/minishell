@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/12 18:49:29 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/12 22:37:16 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,6 @@ void	free_cmd(t_cmd	*cmd)
 	{
 		free(cmd->outfile);
 		cmd->outfile = NULL;
-	}
-	if (cmd->delimit)
-	{
-		free(cmd->delimit);
-		cmd->delimit = NULL;
 	}
 	cmd->data = NULL;
 	free(cmd);

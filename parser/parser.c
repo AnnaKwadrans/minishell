@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/12 19:28:26 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/17 22:55:44 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 
 	// printf("<<<-------------- PARSING LINE -------------->>>\n");
 	if (!input || input[0] == '\0' || !valid_pipes(input))
-		return (ft_putendl_fd("Parse error", 2), NULL);
+		return (NULL);
+		//return (ft_putendl_fd("Parse error", 2), NULL);
 	input_exp = expand_vars(data, input);
+	//input_exp = input;
 	printf("EXPANDED: %s\n", input_exp);
 	// printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
@@ -106,9 +108,9 @@ t_cmd	*get_cmd(char *aux)
 		if (ft_isspace(aux[i]))
 			i++;
 		else if (aux[i] == '<')
-			cmd->infile = get_infile(&aux[i], &cmd->delimit, &i);
+			get_infile(&aux[i], &i, &cmd->infile);
 		else if (aux[i] == '>')
-			cmd->outfile = get_outfile(&aux[i], &cmd->append, &i);
+			get_outfile(&aux[i], &i, &cmd->outfile, &cmd->append);
 		else if (!cmd->args)
 			cmd->args = get_args(&aux[i], &i);
 		else
@@ -126,9 +128,34 @@ t_cmd	*get_cmd(char *aux)
 	}
 	printf("ARGS\n");
 	print_array(cmd->args);
+	printf("INFILES\n");
+	print_array(cmd->outfile);
+	//print_infiles(cmd->infile);
+	printf("OUTFILES\n");
+	print_array(cmd->outfile);
+	//print_outfiles(cmd->outfile);
+	//exit(1);
 	return (cmd);
 }
+/*
+void	print_outfiles(t_outf *outfile)
+{
+	while (outfile)
+	{
+		printf("%s %d\n", outfile->outfile, outfile->append);
+		outfile = outfile->next;
+	}
+}
 
+void	print_infiles(t_inf *infile)
+{
+	while (infile)
+	{
+		printf("%s\n", infile->infile);
+		infile = infile->next;
+	}
+}
+*/
 //VAR=abc ; ' cat -e | pipe' def | ghi >>fichero  | sort -R >> file| grep \"hola\"   >>outfile
 void	init_cmd(t_cmd *cmd)
 {
@@ -138,14 +165,118 @@ void	init_cmd(t_cmd *cmd)
 	cmd->fd_in = STDIN_FILENO;
 	cmd->outfile = NULL;
 	cmd->fd_out = STDOUT_FILENO;
-	cmd->append = 0;
-	cmd->delimit = NULL;
+	//cmd->append = 0;
+	//cmd->delimit = NULL;
 	cmd->heredoc = NULL;
 	cmd->data = NULL;
 	cmd->p_status = 0;
 	cmd->pid = 0;
 }
 
+
+void	skip_delimit(char *aux, int *index)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isspace(aux[i]))
+		i++;
+	while (aux[i] && !ft_isspace(aux[i]))
+	{
+		if (aux[i] == '\'' || aux[i] == '\"')
+			i += close_quotes(&aux[i]);
+		i++;
+	}
+	*index += i;
+	return ;
+}
+/*
+void	get_infile(char *aux, int *index, t_inf **infile)
+{
+	int		i;
+	t_inf	*new_inf;
+
+	i = 1;
+	if (aux[i] == '<')
+	{
+		i++;
+		skip_delimit(&aux[i], &i);
+		*index += i;
+		return ;
+	}
+	new_inf = (t_inf *)malloc(sizeof(t_inf));
+	if (!new_inf)
+		return ;
+	i = 1;
+	new_inf->infile = get_file_str(&aux[i], &i);
+	new_inf->next = NULL;
+	*index += i;
+	if (*infile == NULL)
+		*infile = new_inf;
+	else
+		add_infile(*infile, new_inf);
+}
+
+void	add_infile(t_inf *infile, t_inf *new)
+{
+	if (!new)
+		return ;
+	while (infile->next)
+		infile = infile->next;
+	infile->next = new;
+	return ;
+}
+*/
+
+void	get_infile(char *aux, int *index, char ***infile) 
+{
+	char	*new_inf;
+	int	i;
+
+	i = 1;
+	if (aux[i] == '<')
+	{
+		i++;
+		skip_delimit(&aux[i], &i);
+		*index += i;
+	}
+	else
+	{
+		new_inf = get_file_str(&aux[i], &i);
+		*index += i;
+	}
+	if (*infile)
+		*infile = append_file(*infile, new_inf);
+	else
+		*infile = first_file(new_inf);
+}
+
+char	**first_file(char *new_file)
+{
+	char	**file;
+
+	file = (char **)malloc(sizeof(char *) * 2);
+	if (!file)
+		return (NULL);
+	file[0] = new_file;
+	file[1] = NULL;
+	//printf("FISRT FILE\n");
+	//printf("%s\n", new_inf);
+	//print_array(infile);
+	return (file);
+}
+
+char	**append_file(char **file, char *new_file)
+{
+	char	**res;
+	char	**new_file_array;
+	int	size;
+
+	new_file_array = first_file(new_file);
+	res = join_arrays(file, new_file_array);
+	return (res);
+}
+/*
 char	*get_infile(char *aux, char **delimit, int *index)
 {
 	int		i;
@@ -166,7 +297,67 @@ char	*get_infile(char *aux, char **delimit, int *index)
 		return (infile);
 	}
 }
+*/
+/*
+void	get_outfile(char *aux, int *index, t_outf **outfile)
+{
+	int		i;
+	t_outf	*new_outf;
 
+	new_outf = (t_outf *)malloc(sizeof(t_outf));
+	if (!new_outf)
+		return ;
+	i = 1;
+	if (aux[i] == '>')
+	{
+		new_outf->append = 1;
+		i++;
+	}
+	else
+		new_outf->append = 0;
+	new_outf->outfile = get_file_str(&aux[i], &i);
+	new_outf->next = NULL;
+	*index += i;
+	if (*outfile == NULL)
+		*outfile = new_outf;
+	else
+		add_outfile(*outfile, new_outf);
+}
+
+void	add_outfile(t_outf *outfile, t_outf *new)
+{
+	if (!new)
+		return ;
+	while (outfile->next)
+		outfile = outfile->next;
+	outfile->next = new;
+	return ;
+}
+*/
+
+void	get_outfile(char *aux, int *index, char ***outfile, int *append) 
+{
+	char	*new_outf;
+	int	i;
+
+	i = 1;
+	if (aux[i] == '>')
+	{
+		*append = 1;
+		i++;
+	}
+	else
+	{
+		new_outf = get_file_str(&aux[i], &i);
+		*index += i;
+	}
+	if (*outfile)
+		*outfile = append_file(*outfile, new_outf);
+	else
+		*outfile = first_file(new_outf);
+}
+
+/*
 char	*get_outfile(char *aux, int *append, int *index)
 {
 	int		i;
@@ -182,6 +373,7 @@ char	*get_outfile(char *aux, int *append, int *index)
 	*index += i;
 	return (outfile);
 }
+*/
 
 char	*get_file_str(const char *aux, int *index)
 {
@@ -193,7 +385,7 @@ char	*get_file_str(const char *aux, int *index)
 	while (ft_isspace(aux[i]))
 		i++;
 	start = i;
-	while (aux[i] && !ft_isspace(aux[i]))
+	while (aux[i] && !ft_isspace(aux[i]) && aux[i] != '>' && aux[i] != '<')
 	{
 		if (aux[i] == '\'' || aux[i] == '\"')
 			i += close_quotes(&aux[i]);

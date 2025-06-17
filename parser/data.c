@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/11 22:35:52 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:38:29 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ void	parse_data(char *input, t_data *data, char **envp)
 {
 	//printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!even_quotes(input))
-	{}
-		// err invalid syntax
+	{
+		free_data(data);
+		return (ft_putendl_fd("Err: invalid syntax", 2));
+	}
 	data->line = get_line(data, input);
 	//printf("\t>>>\t\tLINE: %s\n", data->line->line);
 	//data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));

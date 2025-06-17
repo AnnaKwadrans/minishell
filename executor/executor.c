@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/01 19:07:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/17 23:54:45 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,118 @@
 #include "../executor.h"
 #include "../vars/varenv.h"
 
-int	handle_infile(char *infile, char *delimit)
+int	handle_infile(t_cmd *cmd, t_data *data)
 {
-	int	fd;
-
-	if (delimit)
-	{
-		// heredoc
+	if (cmd->heredoc)
 		return (0);
-	}
 	else
 	{
-		if (access(infile, F_OK) == -1 || access(infile, R_OK) == -1)
+		if (check_infile(cmd->infile, data) == -1)
+			return (-1);
+		if (open_infile(cmd, data) == -2)
+			return (-2);
+	}
+        return (0);
+}
+
+int	check_infile(char **infile, t_data *data)
+{
+	int	i;
+	
+	i = 0;
+	while (infile[i])
+	{
+		if (access(infile[i], F_OK) == -1)
 		{
-			perror("Cannot access infile");
+			perror("No such file");
+			data->last_status = 1;
 			return (-1);
 		}
-		fd = open(infile, O_RDONLY);
-		if (fd == -1)
-			perror("Open failed");
-		return (fd);
+		if (access(infile[i], R_OK) == -1)
+		{
+			perror("Permission denied");
+			data->last_status = 1;
+			return (-1);
+		}
+		i++;
 	}
+	return (0);
 }
 
-int	handle_outfile(char *outfile, int append)
+int	open_infile(t_cmd *cmd, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->infile[i])
+	{
+		if (cmd->fd_in != STDIN_FILENO)
+			close(cmd->fd_in);
+		cmd->fd_in = open(cmd->infile[i], O_RDONLY);
+		if (cmd->fd_in == -1)
+		{
+			perror("Open failed");
+			data->last_status = 1;
+			return (-2);
+		}
+	}
+	return (0);
+}
+
+int	handle_outfile(t_cmd *cmd, t_data *data)
 {
 	int	fd;
 
-	if (access(outfile, F_OK) == 0 && access(outfile, W_OK) == -1)
-	{
-		perror("Cannot access outfile");
-		return (-1);
-	}
-	if (append)
-		fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0666); // check permisos
-	else
-		fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0666); // check permisos
-	if (fd == -1)
-		perror("Open failed");
-	return (fd);
+        if (check_outfile(cmd->outfile, data) == -1)
+                return (-1);
+	printf("check1\n");
+        if (open_outfile(cmd, data) == -2)
+                return (-2);
+	printf("check2\n");
+	return (0);
 }
 
+int	check_outfile(char **outfile, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (outfile[i])
+	{
+		if (access(outfile[i], F_OK) == 0 && access(outfile[i], W_OK) == -1)
+		{
+			perror("Permission denied");
+			data->last_status = 1;
+			return (-1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	open_outfile(t_cmd *cmd, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->outfile[i])
+	{
+		if (cmd->fd_out != STDOUT_FILENO)
+			close(cmd->fd_out);
+		if (cmd->append)
+			cmd->fd_out = open(cmd->outfile[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			cmd->fd_out = open(cmd->outfile[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (cmd->fd_out == -1)
+		{
+			perror("Open failed");
+			data->last_status = 1;
+			return (-2);
+		}
+		i++;
+	}
+	return (0);
+}
 void	exec_cmd(t_cmd *cmd)
 {
 	char	*path_var;

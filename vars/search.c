@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:33 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/12 19:52:12 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/14 11:15:09 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,13 @@ char	*fill_var_values(t_data *data_program, char *line, int start)
 	int		var_size;
 	char	*var_name;
 	char	*var_value;
-	char	*aux;
 
 	var_size = get_var_size(line, start);
 	var_name = fill_var_name(line, start, var_size);
 	if (!var_name)
 		return (NULL);
 	if (ft_strncmp(var_name, "?", 1) == 0)
-	{
-		aux = ft_itoa(data_program->last_status);
-		printf("ITOA %s\n", aux);
-		return (aux);
-	}
+		return (ft_itoa(data_program->last_status));
 	var_value = get_var_value(data_program, var_name);
 	free(var_name);
 	if (!var_value)

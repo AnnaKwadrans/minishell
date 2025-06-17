@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:54:15 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/11 22:35:49 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/12 22:58:21 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ bool	even_quotes(char *line)
 	int	double_com;
 	int	i;
 
+	i = 0;
 	single_com = 0;
 	double_com = 0;
 	while (line[i])
@@ -56,9 +57,6 @@ bool	even_quotes(char *line)
 		i++;
 	}
 	if ((single_com % 2 != 0) || (double_com % 2 != 0))
-	{
-		// err invalid syntax
 		return (0);
-	}
 	return (1);
 }
