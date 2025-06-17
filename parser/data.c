@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/15 21:00:47 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/17 18:28:57 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@ void	init_data(t_data *data)
 void	parse_data(char *input, t_data *data, char **envp)
 {
 	printf("<<<-------------- NEW CMD -------------->>>\n");
+	if (!input || input[0] == '\0')
+	{
+		printf("Empty input, returning...\n");
+		return ;
+	}
+	if (input[0] == '\n' || input[0] == ' ')
+	{
+		printf("Input starts with newline or space, returning...\n");
+		return ;
+	}
+	if (ft_strcmp(input, "\"\"" ) == 0 || ft_strcmp(input, "''") == 0)
+	{
+		printf("Input is empty quotes, returning...\n");
+		return ;
+	}
 	if (!even_quotes(input))
 	{}
 		// err invalid syntax

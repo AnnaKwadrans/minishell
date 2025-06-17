@@ -6,11 +6,50 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:44 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/22 20:50:47 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/17 20:39:16 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "varenv.h"
+
+static t_cmd	*get_last_cmd(t_data *data_program)
+{
+	t_cmd	*result;
+	int		size;
+
+	if (!data_program->cmds[0])
+		return (NULL); // No commands executed yet, nothing to return
+	size = array_size(data_program->cmds);
+	return (data_program->cmds[size - 1]);
+}
+
+void	update_env(t_data *data_program)
+{
+	t_vars	*tmp;
+	t_cmd	*last_cmd;
+
+	// printf("updating \"_\" \n");
+	if (!data_program || !data_program->cmds || !data_program->cmds[0])
+		return ;
+	last_cmd = get_last_cmd(data_program);
+	if (!last_cmd)
+		return ;
+	tmp = search_var(data_program, "_");
+	if (!tmp)
+	{
+		tmp = new_var("_", last_cmd->args[array_size(last_cmd->args) - 1], 0);
+		if (!tmp)
+			return ;
+		add_var(data_program, tmp);
+	}
+	else
+	{
+		free(tmp->value);
+		tmp->value = ft_strdup(last_cmd->args[array_size(last_cmd->args) - 1]);
+		if (!tmp->value)
+			return ;
+	}
+}
 
 t_vars	**export_vars(t_data *data_program)
 {

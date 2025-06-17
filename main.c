@@ -83,6 +83,8 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input);
 		parse_data(input, data_program, envp);
 		execute_line(data_program);
+		update_env(data_program);
+		printf("the new value of _ is %s\n", get_var_value(data_program, "_"));
 		clean_data_program(data_program);
 		free(input);
 

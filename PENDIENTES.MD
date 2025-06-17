@@ -14,7 +14,7 @@ split()
 
 # COMANDOS VACÍOS
 
-## manejo errores del cat predeterminado.
+## manejo errores del cat predeterminado.(HECHO)
 
 Línea vacía:
 
@@ -24,7 +24,7 @@ minishell > "      "
 
 inicia un cat por predeterminado. debería sólo generar otro prompt.
 
-## Línea con NADA genera un SEGFAULT
+## Línea con NADA genera un SEGFAULT (HECHO)
 
 con:
 
@@ -56,7 +56,7 @@ Errores de memoria (double free).
 
 El proyecto, según subject, debe compilar sólo con las flags -Wextra -Werror -Wall
 
-# ECHO
+# ECHO (HECHO)
 
 Echo sin argumentos retorna SEGFAULT:
 
@@ -70,7 +70,7 @@ Echo sin argumentos retorna SEGFAULT:
 #4 0x000100d3e2e8 in main+0xc4 (minishell:arm64+0x10000a2e8)
 #5 0x0001929beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
 
-# $\_
+# $\_ . (HECHO)
 
 Debería actualizar la lista de variables de entorno, sobretodo, la variable "\_" (el último argumento del último comando ejecutado). Ejemplo:
 
@@ -84,6 +84,20 @@ Y luego,
     "echo $_ "
 ```
 
-debería retornar: "f1"
+cat -e fd1.txt
+$\_ = fd1.txt
+
+ls -l
+$\_ = -l
+
+pwd
+$\_ = pwd
+
+" "
+$\_ = \n
+
+debería retornar: "hola"
 
 En caso de que lo último ejecutado, sea un ejecutable, debería salir la ruta del ejecutable.
+
+$\_

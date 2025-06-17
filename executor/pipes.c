@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/14 23:27:36 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/17 19:39:17 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	i = 0;
 	while (waitpid(-1, &status, 0) > 0)
 		data->last_status = WEXITSTATUS(status);
-	printf("LAST STATUS %d\n", data->last_status);
+	// printf("LAST STATUS %d\n", data-w>last_status);
 	return (0);
 /* COMMIT CAMPUS
 	while (cmds[i])
