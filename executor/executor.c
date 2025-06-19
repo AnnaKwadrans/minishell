@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/01 19:07:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/18 01:30:22 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	exec_cmd(t_cmd *cmd)
 	char	**path_tab;
 	char	*path;
 	char	**str_vars;
+	int		i;
+	int		j;
 
 	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
 	{

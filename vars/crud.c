@@ -6,38 +6,64 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:44 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 20:39:16 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/17 23:59:16 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "varenv.h"
 
-static t_cmd	*get_last_cmd(t_data *data_program)
+int	only_variable_expansions(char **args)
 {
-	t_cmd	*result;
-	int		size;
+	int	i;
 
-	if (!data_program->cmds[0])
-		return (NULL); // No commands executed yet, nothing to return
-	size = array_size(data_program->cmds);
-	return (data_program->cmds[size - 1]);
+	if (!args)
+		return (0);
+	i = 0;
+	while (args[i])
+	{
+		// Si algún argumento NO empieza por '$', hay texto literal
+		if (args[i][0] != '$')
+			return (0);
+		i++;
+	}
+	return (1); // Todos son expansiones
+}
+
+int	is_echo_cmd(char **args)
+{
+	int	i;
+
+	if (!args || !args[0])
+		return (0);
+	if (ft_strcmp(args[0], "echo"))
+		return (1);
+	return (0); // Solo tiene opciones de echo
 }
 
 void	update_env(t_data *data_program)
 {
 	t_vars	*tmp;
 	t_cmd	*last_cmd;
+	int		size_cmd;
+	int		size_args;
 
-	// printf("updating \"_\" \n");
 	if (!data_program || !data_program->cmds || !data_program->cmds[0])
 		return ;
-	last_cmd = get_last_cmd(data_program);
+	size_cmd = array_size(data_program->cmds);
+	if (size_cmd == 0)
+		return ;
+	last_cmd = data_program->cmds[size_cmd - 1];
 	if (!last_cmd)
+		return ;
+	if (!is_echo_cmd(last_cmd->args) || only_variable_expansions(last_cmd->args))
+		return ;
+	size_args = array_size(last_cmd->args);
+	if (size_args == 0)
 		return ;
 	tmp = search_var(data_program, "_");
 	if (!tmp)
 	{
-		tmp = new_var("_", last_cmd->args[array_size(last_cmd->args) - 1], 0);
+		tmp = new_var("_", last_cmd->args[size_args - 1], 0);
 		if (!tmp)
 			return ;
 		add_var(data_program, tmp);
@@ -45,7 +71,7 @@ void	update_env(t_data *data_program)
 	else
 	{
 		free(tmp->value);
-		tmp->value = ft_strdup(last_cmd->args[array_size(last_cmd->args) - 1]);
+		tmp->value = ft_strdup(last_cmd->args[size_args - 1]);
 		if (!tmp->value)
 			return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 19:34:26 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/18 01:30:34 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,21 @@ void	trim_quotes(char **args)
 	return (trimmed);
 }
 */
+
+int	is_valid(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '\'' || str[i] != '\"' || !ft_isspace(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 t_cmd	*get_cmd(char *aux)
 {
 	t_cmd	*cmd;
@@ -164,10 +179,11 @@ t_cmd	*get_cmd(char *aux)
 		cmd->args = rm_quotes(cmd->args);
 	else
 	{
-		cmd->args = (char **)malloc(sizeof(char *) * 1);
+		cmd->args = malloc(sizeof(char *) * 2);
 		if (!cmd->args)
-			return (perror("malloc failed"), free(cmd), NULL);
-		cmd->args[0] = NULL;
+			return (free_cmd(cmd), NULL);
+		cmd->args[0] = ft_strdup("cat");
+		cmd->args[1] = NULL;
 	}
 	// printf("ARGS\n");
 	// print_array(cmd->args);

@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/17 18:28:57 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/17 23:02:43 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,16 @@ void	parse_data(char *input, t_data *data, char **envp)
 		return ;
 	}
 	if (!even_quotes(input))
-	{}
+	{
+		free_data(data);
+		return ;
+	}
+	if (!is_valid(input))
+	{
+		printf("Invalid syntax in input: %s\n", input);
+		clean_data_program(data);
+		return ;
+	}
 		// err invalid syntax
 	data->line = get_line(data, input);
 	// printf(">>>\t\tLINE: %s\n", data->line->line);

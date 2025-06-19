@@ -101,3 +101,22 @@ debería retornar: "hola"
 En caso de que lo último ejecutado, sea un ejecutable, debería salir la ruta del ejecutable.
 
 $\_
+
+# EJECUTAR MINISHELL DENTRO DE MINISHELL
+
+# CORRECCIÓN ALTERNA
+
+1.⁠ ⁠Historial (los comandos vacíos)
+ 2.⁠ ⁠"" o ' ' (segfault)
+ 3.⁠ ⁠Echo $a""a > $a( ) a >> a a
+ 4.⁠ ⁠Echo $kk tomate
+ 5.⁠ ⁠Echo patata "" tomate
+ 6.⁠ ⁠Export kk="echo tomate". $kk
+
+<!--  7.⁠ ⁠Exit con los long XXXXXXX -->
+
+10.⁠ ⁠Variable global: ^C y después $? debería salir 130 y el nuestro sale 0.
+
+<!-- 11.⁠ ⁠> kk (segfault) -->
+<!-- 12.⁠ ⁠Cuando hay PATH, hay que indicar la ruta, pero cuando no hay PATH (porque se ha hecho unset), busca en la propia carpeta donde estás.
+13.⁠ ⁠< cat (segfault) -->

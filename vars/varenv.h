@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 17:54:39 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/17 23:09:17 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // AUX.C
 char	*ft_strjoin_free(char *s1, char *s2);
 int		ft_strcmp(const char *s1, const char *s2);
-void	free_vars(void *args);
+void	free_vars(t_vars *vars);
 int		skip_var(const char *line, int i);
 int		skip_quote(const char *line, int i);
 

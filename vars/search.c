@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:33 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/12 19:52:12 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:04:40 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char	*fill_var_values(t_data *data_program, char *line, int start)
 	if (ft_strncmp(var_name, "?", 1) == 0)
 	{
 		aux = ft_itoa(data_program->last_status);
-		printf("ITOA %s\n", aux);
 		return (aux);
 	}
 	var_value = get_var_value(data_program, var_name);

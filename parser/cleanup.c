@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/15 21:05:38 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/17 23:05:53 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../data.h"
 #include "../libft/libft.h"
 
+void	free_vars(void *args);
 
 void	free_here_doc(t_heredoc *here_doc)
 {
@@ -32,8 +33,8 @@ void	clean_data_program(t_data *data)
 	int	i;
 	int	j;
 
-	free_line(data->line);
-	data->line = NULL;
+	if (!data)
+		return ;
 	if (data->cmds)
 	{
 		i = 0;
@@ -66,7 +67,7 @@ void	free_data(t_data *data)
 	clean_data_program(data);
 	if (data->vars)
 	{
-		free_array(data->vars);
+		free_vars(data->vars);
 		data->vars = NULL;
 	}
 	if (data->line)
