@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/18 01:30:34 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 19:40:39 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	is_valid(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] != '\'' || str[i] != '\"' || !ft_isspace(str[i]))
+		if (str[i] != '\'' && str[i] != '\"' && !ft_isspace(str[i]))
 			return (1);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:33 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/18 00:04:40 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 20:15:55 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*get_var_value(t_data *data_program, char *name)
 	return (NULL);
 }
 
+
 char	*fill_var_name(char *line, int start, int size)
 {
 	char	*var_name;
@@ -71,10 +72,7 @@ char	*fill_var_values(t_data *data_program, char *line, int start)
 	if (!var_name)
 		return (NULL);
 	if (ft_strncmp(var_name, "?", 1) == 0)
-	{
-		aux = ft_itoa(data_program->last_status);
-		return (aux);
-	}
+		return (ft_itoa(data_program->last_status));
 	var_value = get_var_value(data_program, var_name);
 	free(var_name);
 	if (!var_value)

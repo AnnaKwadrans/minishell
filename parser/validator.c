@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:54:15 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/12 22:56:04 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 20:17:33 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
