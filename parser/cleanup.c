@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/17 23:05:53 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 19:06:30 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	clean_data_program(t_data *data)
 		free(data->fds);
 		data->fds = NULL;
 	}
+	data->is_expandable = 0;
 	// free_array(data->part_lines);
 	// data->part_lines = NULL;
 }

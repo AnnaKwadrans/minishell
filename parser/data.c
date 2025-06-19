@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/17 23:02:43 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 19:07:19 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_data(t_data *data)
 		setup_interactive_signals();
 	else
 		setup_nointeractive();
+	data->is_expandable = 0;
 	data->fds = NULL;
 	data->last_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:44 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 23:59:16 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 20:25:10 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	update_env(t_data *data_program)
 
 	if (!data_program || !data_program->cmds || !data_program->cmds[0])
 		return ;
+	if (data_program->last_status != 0)
+		return ; // No actualizamos si el último comando falló
 	size_cmd = array_size(data_program->cmds);
 	if (size_cmd == 0)
 		return ;
 	last_cmd = data_program->cmds[size_cmd - 1];
 	if (!last_cmd)
-		return ;
-	if (!is_echo_cmd(last_cmd->args) || only_variable_expansions(last_cmd->args))
 		return ;
 	size_args = array_size(last_cmd->args);
 	if (size_args == 0)

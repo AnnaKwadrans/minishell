@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 19:35:07 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 20:22:40 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ char	*expand_vars(t_data *data_program, char *line)
 	vars = multi_search(data_program, line, count);
 	// print_array(vars);
 	result = handle_expansion(data_program, line, vars);
+	if (count != 0)
+		data_program->is_expandable = 1;
 	free_array(vars);
 	return (result);
 }
