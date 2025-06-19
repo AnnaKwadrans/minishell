@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 18:48:30 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:19:39 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,10 @@ int	handle_infile(t_cmd *cmd, t_data *data)
 		return (0);
 	else
 	{
-		printf("check before check infile\n");
 		if (check_infile(cmd->infile, data) == -1)
 			return (-1);
-		printf("check after check infile\n");
-		printf("check before open infile\n");
 		if (open_infile(cmd, data) == -2)
 			return (-2);
-		printf("check after open infile\n");
 	}
         return (0);
 }
@@ -84,10 +80,8 @@ int	handle_outfile(t_cmd *cmd, t_data *data)
 
         if (check_outfile(cmd->outfile, data) == -1)
                 return (-1);
-	printf("check1\n");
         if (open_outfile(cmd, data) == -2)
                 return (-2);
-	printf("check2\n");
 	return (0);
 }
 
@@ -146,17 +140,19 @@ void	exec_cmd(t_cmd *cmd)
 		cmd->p_status = 127;
 		return ;
 	}
-	// path_var = getenv("PATH");
-	str_vars = vars_to_char(cmd->data->vars);
-	path_var = get_var_value(cmd->data, "PATH");
-	if (path_var == NULL || ft_strlen(path_var) < 5)
+	else
 	{
-		ft_putendl_fd("PATH variable not set or empty", 2);
-		cmd->p_status = 127;
-		exit(127);
+		str_vars = vars_to_char(cmd->data->vars);
+		path_var = get_paths(cmd->data);
+		if (path_var == NULL || ft_strlen(path_var) < 5)
+		{
+			ft_putendl_fd("PATH variable not set or empty", 2);
+			cmd->p_status = 127;
+			exit(127);
+		}
+		path_tab = ft_split(path_var + 5, ':');
+		path = get_path(cmd->args, path_tab);
 	}
-	path_tab = ft_split(path_var + 5, ':');
-	path = get_path(cmd->args, path_tab);
 	if (path_tab)
 		free_array(path_tab);
 	if (path)
@@ -176,6 +172,22 @@ void	exec_cmd(t_cmd *cmd)
 	return ;
 }
 
+char	*get_paths(t_data *data_program)
+{
+	char	*path_var;
+	char	*pwd_var;
+	char	*all_paths;
+	char	*aux;
+
+	path_var = get_var_value(data_program, "PATH");
+	pwd_var = get_var_value(data_program, "PWD");
+	aux = ft_strjoin(path_var, ":");
+	free(path_var);
+	all_paths = ft_strjoin(aux, pwd_var);
+	free(aux);
+	return(all_paths);
+}
+
 char	*get_path(char **cmd_tab, char **path_tab)
 {
 	int		i;
@@ -187,6 +199,7 @@ char	*get_path(char **cmd_tab, char **path_tab)
 	if (!cmd_tab[0])
 		cmd_tab[0] = ft_strdup("cat");
 	i = 0;
+	
 	while (path_tab[i] != NULL)
 	{
 		if (ft_strncmp(cmd_tab[0], path_tab[i], ft_strlen(path_tab[i])) == 0)

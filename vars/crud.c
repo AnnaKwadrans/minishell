@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:44 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/19 20:25:10 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 20:53:37 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ int	is_echo_cmd(char **args)
 	if (ft_strcmp(args[0], "echo"))
 		return (1);
 	return (0); // Solo tiene opciones de echo
+}
+
+size_t	cmd_array_size(t_cmd **cmd)
+{
+	size_t	size;
+
+	size = 0;
+	while (cmd[size])
+		size++;
+	return (size);
 }
 
 void	update_env(t_data *data_program)

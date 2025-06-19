@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 23:09:17 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 19:09:36 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_vars	**export_vars(t_data *data_program);
 t_vars	*new_var(char *name, char *value, int is_exportable);
 void	add_var(t_data *data_program, t_vars *new);
 void	update_env(t_data *data_program);
+size_t	cmd_array_size(t_cmd **cmd);
 
 // SEARCH.C
 t_vars	*search_var(t_data *data_program, char *name);
