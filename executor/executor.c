@@ -138,6 +138,8 @@ void	exec_cmd(t_cmd *cmd)
 	char	**path_tab;
 	char	*path;
 	char	**str_vars;
+	int		i;
+	int		j;
 
 	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
 	{

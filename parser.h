@@ -62,6 +62,7 @@ char	*ft_strdup_set(const char *s, char *set);
 bool    valid_pipes(char *line);
 bool    is_var(char *line);
 void    handle_var(char *input, t_data *data);
+int		is_valid(char *str);
 
 //char	*trim_quotes(char *input);
 int	count_no_quotes(char *arg);

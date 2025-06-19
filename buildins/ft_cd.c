@@ -173,6 +173,11 @@ int	ft_echo (t_data *data, char **args)
 	int	size;
 	int	is_n_flag;
 
+	if (!args[1])
+	{
+		printf("\n");
+		return (0);
+	}
 	if (ft_strncmp(args[1], "?", 1) == 0)
 	{
 		printf("STATUS %d\n", data->last_status);

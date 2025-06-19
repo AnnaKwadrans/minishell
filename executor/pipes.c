@@ -27,31 +27,52 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	if (!data || !data->cmds || !data->cmds[0])
 		return (0);
 	if (data->pipes > 0)
-		data->fds = create_pipes(data->pipes);	
-        i = 0;
-        while (data->cmds[i])
-        {
-                if (is_builtin(data->cmds[i]->args[0]))
-                        exec_builtin(data->cmds[i], data->pipes, data->fds, i);
-                else
-                        child(data->cmds[i], data->pipes, data->fds, i);
-                i++;
-        }
-        close_fds(data->fds, data->pipes, -1, -1);
-        if (data->fds)
-        {
-                free(data->fds);
-                data->fds = NULL;
-        }
-        i = 0;
-        while (waitpid(-1, &status, 0) > 0)
-        {
-                        data->last_status = WEXITSTATUS(status);
-                        //printf("CHILD %d\n", *last_status);
-        }
-        printf("LAST STATUS %d\n", data->last_status);
-        return (0);
-}
+		data->fds = create_pipes(data->pipes);
+	i = 0;
+	while (data->cmds[i])
+	{
+		if (is_builtin(data->cmds[i]->args[0]))
+			exec_builtin(data->cmds[i], data->pipes, data->fds, i);
+		else
+			child(data->cmds[i], data->pipes, data->fds, i);
+		i++;
+	}
+	close_fds(data->fds, data->pipes, -1, -1);
+	if (data->fds)
+	{
+		free(data->fds);
+		data->fds = NULL;
+	}
+	i = 0;
+	while (waitpid(-1, &status, 0) > 0)
+		data->last_status = WEXITSTATUS(status);
+	// printf("LAST STATUS %d\n", data-w>last_status);
+	return (0);
+/* COMMIT CAMPUS
+	while (cmds[i])
+	{
+		if (is_builtin(cmds[i]->args[0]))
+		{
+			exec_builtin(cmds[i]);
+			*last_status = cmds[i]->p_status;
+		}
+		else
+			child(cmds[i], pipes, fds, i);
+		i++;
+	}
+	close_fds(fds, pipes, -1, -1);
+	if (fds)
+		free(fds);
+	i = 0;
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		*last_status = WEXITSTATUS(status);
+		//printf("CHILD %d\n", *last_status);
+	}
+	//printf("LAST STATUS %d\n", *last_status);
+	return (0);
+END COMMIT CAMPUS */
+
 
 int	*create_pipes(int pipes)
 {

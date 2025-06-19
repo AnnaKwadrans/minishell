@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/15 21:13:32 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/18 01:30:34 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int is_expandable(char *input)
 			double_quotes++;
 		i++;
 	}
-	printf("Simple quotes: %d, Double quotes: %d\n", simple_quotes, double_quotes);
+	// printf("Simple quotes: %d, Double quotes: %d\n", simple_quotes, double_quotes);
 	if ((simple_quotes % 2 == 0 && simple_quotes != 0) || double_quotes % 2 == 0)
 		return (1);
 	else
@@ -69,7 +69,6 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	}
 	// printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
-
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
 		return (perror("malloc failed"), NULL);
@@ -138,6 +137,21 @@ void	trim_quotes(char **args)
 	return (trimmed);
 }
 */
+
+int	is_valid(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '\'' || str[i] != '\"' || !ft_isspace(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 t_cmd	*get_cmd(char *aux)
 {
 	t_cmd	*cmd;
@@ -316,8 +330,8 @@ char	**get_args(char *aux, int *index)
 		len++;
 	cmd_line = ft_substr(aux, 0, len);
 	args = split_pipes(cmd_line, ' ');
-	printf("desp del split:\n");
-	print_array(args);
+	// printf("desp del split:\n");
+	// print_array(args);
 	free(cmd_line);
 	*index += len;
 	return (args);

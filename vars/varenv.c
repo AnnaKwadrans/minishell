@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/13 20:09:42 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/17 19:35:07 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static char	*handle_double_quotes(char *result, char *line, int *i, t_expand *ex
 	}
 	if (line[*i] == '\"')
 		(*i)++; // Saltar comilla de cierre
-	return result;
+	return (result);
 }
 
 static char	*handle_quotes(char *result, char *line, int *i, t_expand *exp)
@@ -142,7 +142,7 @@ char	*expand_vars(t_data *data_program, char *line)
 	count = count_vars(line);
 	printf("Count of vars: %d\n", count);
 	vars = multi_search(data_program, line, count);
-	print_array(vars);
+	// print_array(vars);
 	result = handle_expansion(data_program, line, vars);
 	free_array(vars);
 	return (result);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/12 20:06:02 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/17 23:10:27 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,19 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	return (joined);
 }
 
-void	free_vars(void *args)
+void	free_vars(t_vars *vars)
 {
-	t_vars	*var;
 	t_vars	*next;
-	t_data	*data_program;
 
-	data_program = (t_data *)args;
-	var = data_program->vars;
-	while (var)
+	if (!vars)
+		return ;
+	while (vars)
 	{
-		next = var->next;
-		free(var->name);
-		free(var->value);
-		free(var);
-		var = next;
+		next = vars->next;
+		free(vars->name);
+		free(vars->value);
+		free(vars);
+		vars = next;
 	}
 }
 
