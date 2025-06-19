@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/17 23:34:14 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:41:26 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	if (!data || !data->cmds || !data->cmds[0])
 		return (0);
 	if (data->pipes > 0)
-		data->fds = create_pipes(data->pipes);
-	i = 0;
+		data->fds = create_pipes(data->pipes);	
+        i = 0;
         while (data->cmds[i])
         {
                 if (is_builtin(data->cmds[i]->args[0]))
@@ -138,7 +138,9 @@ void	child(t_cmd *cmd, int pipes, int *fds, int i)
         else if (cmd->pid == 0)
         {
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+                printf("check bf redirect");
                 redirect(cmd, pipes, fds, i);
+                printf("check af redirect");
                 //cmd->data->last_cmd = &cmd;
 
                 exec_cmd(cmd);
@@ -168,7 +170,9 @@ void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
         {
                 if (i != 0)
                         close(fds[(i - 1) * 2]);
+                printf("check before handle infile\n");
                 handle_infile(cmd, cmd->data); // y si error?
+                printf("check after handle infile\n");
                 dup2(cmd->fd_in, STDIN_FILENO);
                 close(cmd->fd_in);
         }
@@ -189,7 +193,9 @@ void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
         {
                 if (i != pipes)
                         close(fds[(i * 2) + 1]); // 0:1 1:3 2:5 3:7
+                printf("check before handle outfile\n");
                 handle_outfile(cmd, cmd->data);
+                printf("check after handle outfile\n");
                 //handle_outfile(cmd->outfile, cmd->append, cmd->data); // y si error?
                 dup2(cmd->fd_out, STDOUT_FILENO);
                 close(cmd->fd_out);

@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/17 23:54:45 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:48:30 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ int	handle_infile(t_cmd *cmd, t_data *data)
 		return (0);
 	else
 	{
+		printf("check before check infile\n");
 		if (check_infile(cmd->infile, data) == -1)
 			return (-1);
+		printf("check after check infile\n");
+		printf("check before open infile\n");
 		if (open_infile(cmd, data) == -2)
 			return (-2);
+		printf("check after open infile\n");
 	}
         return (0);
 }
@@ -69,6 +73,7 @@ int	open_infile(t_cmd *cmd, t_data *data)
 			data->last_status = 1;
 			return (-2);
 		}
+		i++;
 	}
 	return (0);
 }
