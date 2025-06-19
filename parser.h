@@ -42,6 +42,7 @@ void	clean_data_program(t_data *data); // libera la memoria de t_data después d
 void	free_data(t_data *data); // libera todo de t_data pero está incompleta
 void	free_cmd(t_cmd	*cmd);
 void	free_line(t_lines *line);
+void	free_data_vars(t_vars *vars);
 
 //data.c - esto lo tenemos duplicado, probablemente para borrar
 void	init_data(t_data *data);
