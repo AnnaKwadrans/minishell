@@ -45,6 +45,7 @@ bool	even_quotes(char *line)
 	int	double_com;
 	int	i;
 
+	i = 0;
 	single_com = 0;
 	double_com = 0;
 	while (line[i])
