@@ -65,7 +65,6 @@ char	*fill_var_values(t_data *data_program, char *line, int start)
 	int		var_size;
 	char	*var_name;
 	char	*var_value;
-	char	*aux;
 
 	var_size = get_var_size(line, start);
 	var_name = fill_var_name(line, start, var_size);

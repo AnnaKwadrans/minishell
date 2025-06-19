@@ -67,14 +67,13 @@ typedef struct s_vars
 typedef struct s_cmd
 {
 	char		**args;
-	//char		**env;
-	char		*infile;
+	char		**infile;
 	int			fd_in;
-	char		*outfile;
+	char		**outfile;
 	int			fd_out;
 	int			append;
 	t_heredoc	*heredoc;
-	char		*delimit;
+	//char		*delimit;
 	pid_t		pid;
 	int			p_status;
 	t_data		*data;

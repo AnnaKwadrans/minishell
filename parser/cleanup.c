@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 19:06:30 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 20:42:20 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,28 @@ void	clean_data_program(t_data *data)
 	// data->part_lines = NULL;
 }
 
+void	free_data_vars(t_vars *vars)
+{
+	t_vars	*next;
+
+	while (vars)
+	{
+		free(vars->name);
+		vars->name = NULL;
+		free(vars->value);
+		vars->value = NULL;
+		vars->data = NULL;
+		vars = vars->next;
+	}
+}
+
 void	free_data(t_data *data)
 {
 	//free_history(data->history_lines); // por hacer la funcion
 	clean_data_program(data);
 	if (data->vars)
 	{
-		free_vars(data->vars);
+		free_data_vars(data->vars);
 		data->vars = NULL;
 	}
 	if (data->line)
@@ -98,11 +113,11 @@ void	free_cmd(t_cmd	*cmd)
 		free_here_doc(cmd->heredoc);
 		cmd->heredoc = NULL;
 	}
-	if (cmd->delimit)
-	{
-		free(cmd->delimit);
-		cmd->delimit = NULL;
-	}
+	//if (cmd->delimit)
+	//{
+	//	free(cmd->delimit);
+	//	cmd->delimit = NULL;
+	//}
 	cmd->data = NULL;
 	free(cmd);
 	cmd = NULL;
