@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crud.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:44 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 23:59:16 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/19 19:09:44 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ int	is_echo_cmd(char **args)
 	return (0); // Solo tiene opciones de echo
 }
 
+size_t	cmd_array_size(t_cmd **cmd)
+{
+	size_t	size;
+
+	size = 0;
+	while (cmd[size])
+		size++;
+	return (size);
+}
+
 void	update_env(t_data *data_program)
 {
 	t_vars	*tmp;
@@ -49,7 +59,7 @@ void	update_env(t_data *data_program)
 
 	if (!data_program || !data_program->cmds || !data_program->cmds[0])
 		return ;
-	size_cmd = array_size(data_program->cmds);
+	size_cmd = cmd_array_size(data_program->cmds);
 	if (size_cmd == 0)
 		return ;
 	last_cmd = data_program->cmds[size_cmd - 1];
