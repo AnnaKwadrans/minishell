@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/19 19:40:39 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:20:54 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		input_exp = input;
 		will_free = 0;
 	}
-	// printf("\t>>>\t\texpand: %s\n", input_exp);
+	//printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
@@ -367,7 +367,38 @@ char	**rm_quotes(char **args)
 	free_array(args);
 	return(res);
 }
+/*
+char	*rm_quotes_arg(char *arg)
+{
+	char	*res;
+	int	i;
+	int	j;
+	bool	flag_simple;
+	bool	flag_double;
 
+	res = (char *)malloc(sizeof(char) * (count_no_quotes(arg) + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	j = 0;
+	flag_simple = 0;
+	flag_double = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '\'' )
+
+
+		if (arg[i] != '\'' && arg[i] != '\"')
+		{
+			res[j] = arg[i];
+			j++;
+		}
+		i++;
+	}
+	res[j] = '\0';
+	return (res);
+}
+*/
 char	*rm_quotes_arg(char *arg)
 {
 	char	*res;
@@ -381,6 +412,7 @@ char	*rm_quotes_arg(char *arg)
 	j = 0;
 	while (arg[i])
 	{
+		
 		if (arg[i] != '\'' && arg[i] != '\"')
 		{
 			res[j] = arg[i];

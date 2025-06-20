@@ -23,7 +23,7 @@ static t_vars	*export_new_var(char *arg)
 	return (new);
 }
 
-int	ft_export(t_vars *vars, char **args)
+int	ft_export(t_data *data, t_vars *vars, char **args)
 {
 	int		i;
 	t_vars	*start;
@@ -45,10 +45,12 @@ int	ft_export(t_vars *vars, char **args)
 			vars = vars->next;
 		}
 		new = export_new_var(args[i]);
+		add_var(data, new);
 		i++;
 		vars = start;
 	}
-/* COMMIT CAMPUS
+}
+/*
 t_vars  *exp_new_var(t_data *data, char *name)
 {
         t_vars	*var;
@@ -64,9 +66,9 @@ t_vars  *exp_new_var(t_data *data, char *name)
                 i++;
         var_value = ft_strdup_set(&name[i + 1], " \t\n\v\r\f");
         var = new_var(var_name, var_value, 1);
-        return (var);
+	var->is_exportable = 1;
         add_var(data, var);
-
+        return (var);
 }
 
 int     ft_export(t_data *data, char *name)
@@ -86,11 +88,9 @@ int     ft_export(t_data *data, char *name)
         }
         new = exp_new_var(data, name);
         add_var(data, new);
-END COMMIT CAMPUS */
-
 	return (0);
 }
-
+*/
 static void	rm_first(t_vars **vars)
 {
 	t_vars	*temp;

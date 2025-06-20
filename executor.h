@@ -56,7 +56,7 @@ int    ft_pwd();
 int     ft_unset(t_vars *vars, char **args);
 
 int     ft_echo (t_data *data, char **args);
-int     ft_export(t_vars *vars, char **args);
+int	ft_export(t_data *data, t_vars *vars, char **args);
 void     ft_exit(t_data *data, char **args);
 int    ft_cd(t_data *data, char **args);
 /*COMMIT CAMPUS 
