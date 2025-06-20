@@ -102,7 +102,7 @@ En caso de que lo último ejecutado, sea un ejecutable, debería salir la ruta d
 
 $\_
 
-# EJECUTAR MINISHELL DENTRO DE MINISHELL
+# EJECUTAR MINISHELL DENTRO DE MINISHELL (HECHO, pero pendiente el valor de la variable SHLVL)
 
 # CORRECCIÓN ALTERNA
 
