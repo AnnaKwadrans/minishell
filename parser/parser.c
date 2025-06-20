@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/20 22:41:12 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/20 23:43:54 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		// printf("CMD ARRAY\n");
 		// if (cmds[i]->args)
 		// 	print_array(cmds[i]->args);
-		// printf("END\n");
+		// printf("END %d\n", i);
 		i++;
 	}
 	cmds[i] = NULL;
 	free_array(cmd_aux);
 	if (will_free)
 		free(input_exp);
-	print_cmd(cmds);
+	//print_cmd(cmds);
 	return (cmds);
 }
 
@@ -141,26 +141,6 @@ void	print_cmd(t_cmd **cmds)
 		i++;
 	}
 }
-
-/*
-void	trim_quotes(char **args)
-{
-	int	i;
-	char	*trimmed;
-	char	*aux;
-
-	i = 0;
-	while (args[i])
-	{
-		
-	}
-	aux = ft_strtrim(input, " \t\n\v\r\f");
-	trimmed = ft_strtrim(aux, "\"\'");
-	free(input);
-	free(aux);
-	return (trimmed);
-}
-*/
 
 int	is_valid(char *str)
 {
@@ -186,7 +166,7 @@ t_cmd	*get_cmd(char *aux)
 		return (perror("malloc failed"), NULL);
 	init_cmd(cmd);
 	i = 0;
-	printf("get_cmd - aux: %s\n", aux);
+	//printf("get_cmd - aux: %s\n", aux);
 	while (aux[i])
 	{
 		if (ft_isspace(aux[i]))
@@ -311,11 +291,8 @@ void	get_outfile(char *aux, int *index, char ***outfile, int *append)
 		*append = 1;
 		i++;
 	}
-	else
-	{
-		new_outf = get_file_str(&aux[i], &i);
-		*index += i;
-	}
+	new_outf = get_file_str(&aux[i], &i);
+	*index += i;
 	if (*outfile)
 		*outfile = append_file(*outfile, new_outf);
 	else
@@ -358,7 +335,7 @@ char	**get_args(char *aux, int *index)
 		len++;
 	}
 	cmd_line = ft_substr(aux, 0, len);
-	printf("cmd_line: %s\n", cmd_line);
+	//printf("cmd_line: %s\n", cmd_line);
 	args = split_pipes(cmd_line, ' ');
 	// printf("desp del split:\n");
 	// print_array(args);
