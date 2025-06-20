@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 19:51:07 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:52:35 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	int	i;
 	int	status;
 
-	if (!data)
+	show_vars(data);
+        if (!data)
 		return (-1);
 	//printf("pipes: %d\n", pipes);
 	if (!data || !data->cmds || !data->cmds[0])
@@ -107,7 +108,7 @@ void    ft_builtin(t_cmd *cmd)
         else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
                 cmd->p_status = ft_pwd(cmd->args);
         else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
-                cmd->p_status = ft_export(cmd->data->vars, cmd->args);
+                cmd->p_status = ft_export(cmd->data, cmd->data->vars, cmd->args);
         else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
                 cmd->p_status = ft_unset(cmd->data->vars, cmd->args);
         else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)

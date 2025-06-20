@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 19:43:22 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:34:22 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 	}
 	if (!even_quotes(input))
 	{
+		printf("Invalid synax, returning...\n");
 		free_data(data);
 		return ;
 	}
@@ -72,9 +73,11 @@ void	parse_data(char *input, t_data *data, char **envp)
 	if (is_var(input))
 		handle_var(input, data);
 	else
+	{
 		data->cmds = parse_line(input, data->pipes, envp, data);
-	if (!data->cmds)
-		return (free_data(data));
+		if (!data->cmds)
+			return (free_data(data));
+	}
 /*	
 	while (data->part_lines[l])
 	{
@@ -148,19 +151,29 @@ void	handle_var(char *input, t_data *data)
 	t_vars	*var;
 	char	*name;
 	char	*value;
-	int		i;	
+	int		i;
+	t_vars	*check;
 
 	i = 0;
 	while (ft_isspace(input[i]))
 		i++;
 	name = ft_strdup_set(&input[i], "=");
+
 	while (input[i] != '=')
 		i++;
-	value = ft_strdup_set(&input[i + 1], " \t\n\v\r\f");
-	var = new_var(name, value, 0);
-	add_var(data, var);
+	check = search_var(data, name);
+	if (check)
+	{
+		free(check->value);
+		check->value = ft_strdup_set(&input[i + 1], " \t\n\v\r\f");
+	}
+	else
+	{
+		value = ft_strdup_set(&input[i + 1], " \t\n\v\r\f");
+		var = new_var(name, value, 0);
+		add_var(data, var);
+	}
 }
-
 
 /*
 int	*get_pipes(char **part_lines, size_t size)
