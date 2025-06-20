@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/20 23:43:54 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/21 00:00:44 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		return (NULL);
 	// printf("Input: %s\n", input);
 	
-	if (is_expandable(input))
+	/*if (is_expandable(input))
 	{
 		printf("Input expandable: %s\n", input);
 		input_exp = expand_vars(data, input);
@@ -64,10 +64,10 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		printf("EXPANDED: %s\n", input_exp);
 	}
 	else
-	{
+	{*/
 		input_exp = input;
 		will_free = 0;
-	}
+	//}
 	printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	//print_array(cmd_aux);
@@ -210,6 +210,7 @@ void	init_cmd(t_cmd *cmd)
 	cmd->data = NULL;
 	cmd->p_status = 0;
 	cmd->pid = 0;
+	cmd->is_builtin = 0;
 }
 
 

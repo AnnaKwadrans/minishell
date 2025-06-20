@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/20 23:41:33 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/21 00:04:32 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	while (data->cmds[i])
 	{
 		if (is_builtin(data->cmds[i]->args[0]))
-			exec_builtin(data->cmds[i], data->pipes, data->fds, i);
-		else
+                {
+			data->cmds[i]->is_builtin = 1;
+                        exec_builtin(data->cmds[i], data->pipes, data->fds, i);
+                }
+                else
 			child(data->cmds[i], data->pipes, data->fds, i);
 		i++;
 	}
@@ -80,7 +83,7 @@ bool	is_builtin(char *cmd)
 		|| ft_strncmp(cmd, "export", 6) == 0 || ft_strncmp(cmd, "unset", 5) == 0
 		|| ft_strncmp(cmd, "exit", 4) == 0 || ft_strncmp(cmd, "mhistory", 8) == 0)
 	{
-		return (1);
+                return (1);
 	}
 	else
 		return (0);
@@ -164,7 +167,11 @@ void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
         {
                 if (i != 0)
                         close(fds[(i - 1) * 2]);
-                handle_infile(cmd, cmd->data); // y si error?
+                if (handle_infile(cmd, cmd->data) != 0)
+                {
+                        clean_data_program(cmd->data);
+                        exit(1);
+                }
                 dup2(cmd->fd_in, STDIN_FILENO);
                 close(cmd->fd_in);
         }
@@ -185,7 +192,11 @@ void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
         {
                 if (i != pipes)
                         close(fds[(i * 2) + 1]); // 0:1 1:3 2:5 3:7
-                handle_outfile(cmd, cmd->data);
+                if (handle_outfile(cmd, cmd->data) != 0)
+                {
+                        clean_data_program(cmd->data);
+                        exit(1);
+                }
                 //handle_outfile(cmd->outfile, cmd->append, cmd->data); // y si error?
                 dup2(cmd->fd_out, STDOUT_FILENO);
                 close(cmd->fd_out);
