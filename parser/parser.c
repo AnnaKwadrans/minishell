@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/19 21:20:54 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/20 22:41:12 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,26 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	int		will_free;
 
 	// printf("<<<-------------- PARSING LINE -------------->>>\n");
-	// printf("PARSING INPUT: %s\n", input);
+	 printf("PARSING INPUT: %s\n", input);
 	if (!input || input[0] == '\0' || !valid_pipes(input))
 		return (NULL);
 	// printf("Input: %s\n", input);
+	
 	if (is_expandable(input))
 	{
-		// printf("Input expandable: %s\n", input);
+		printf("Input expandable: %s\n", input);
 		input_exp = expand_vars(data, input);
 		will_free = 1;
-		// printf("EXPANDED: %s\n", input_exp);
+		printf("EXPANDED: %s\n", input_exp);
 	}
 	else
 	{
 		input_exp = input;
 		will_free = 0;
 	}
-	//printf("\t>>>\t\texpand: %s\n", input_exp);
+	printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
+	//print_array(cmd_aux);
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!cmds)
 		return (perror("malloc failed"), NULL);
@@ -116,8 +118,30 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	free_array(cmd_aux);
 	if (will_free)
 		free(input_exp);
+	print_cmd(cmds);
 	return (cmds);
 }
+
+void	print_cmd(t_cmd **cmds)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (cmds[i])
+	{
+		printf("CMD %d\n", i);
+		printf("ARGS\n");
+		print_array(cmds[i]->args);
+		printf("INFILES\n");
+		print_array(cmds[i]->infile);
+		printf("OUTFILES\n");
+		print_array(cmds[i]->outfile);
+		printf("APPEND %d\n", cmds[i]->append);
+		i++;
+	}
+}
+
 /*
 void	trim_quotes(char **args)
 {
@@ -162,6 +186,7 @@ t_cmd	*get_cmd(char *aux)
 		return (perror("malloc failed"), NULL);
 	init_cmd(cmd);
 	i = 0;
+	printf("get_cmd - aux: %s\n", aux);
 	while (aux[i])
 	{
 		if (ft_isspace(aux[i]))
@@ -199,7 +224,7 @@ void	init_cmd(t_cmd *cmd)
 	cmd->fd_in = STDIN_FILENO;
 	cmd->outfile = NULL;
 	cmd->fd_out = STDOUT_FILENO;
-	//cmd->append = 0;
+	cmd->append = 0;
 	//cmd->delimit = NULL;
 	cmd->heredoc = NULL;
 	cmd->data = NULL;
@@ -327,8 +352,13 @@ char	**get_args(char *aux, int *index)
 
 	len = 0;
 	while (aux[len] && aux[len] != '<' && aux[len] != '>')
+	{
+		if (aux[len] == '\'' || aux[len == '\"'])
+			len +=close_quotes(&aux[len]);
 		len++;
+	}
 	cmd_line = ft_substr(aux, 0, len);
+	printf("cmd_line: %s\n", cmd_line);
 	args = split_pipes(cmd_line, ' ');
 	// printf("desp del split:\n");
 	// print_array(args);
@@ -367,38 +397,53 @@ char	**rm_quotes(char **args)
 	free_array(args);
 	return(res);
 }
-/*
+
 char	*rm_quotes_arg(char *arg)
 {
 	char	*res;
 	int	i;
 	int	j;
-	bool	flag_simple;
-	bool	flag_double;
+	bool	q_simple;
+	bool	q_double;
 
 	res = (char *)malloc(sizeof(char) * (count_no_quotes(arg) + 1));
 	if (!res)
 		return (NULL);
 	i = 0;
 	j = 0;
-	flag_simple = 0;
-	flag_double = 0;
+	q_simple = 0;
+	q_double = 0;
 	while (arg[i])
 	{
-		if (arg[i] == '\'' )
-
-
-		if (arg[i] != '\'' && arg[i] != '\"')
+		if (arg[i] == '\'' && q_simple == 0 && q_double == 0)
 		{
-			res[j] = arg[i];
-			j++;
+			q_simple = 1;
+			i++;
 		}
+		else if (arg[i] == '\'' && q_simple == 1)
+		{
+			q_simple = 0;
+			i++;
+		}
+		else if (arg[i] == '\"' && q_double == 0 && q_simple == 0)
+		{
+			q_double = 1;
+			i++;
+		}
+		else if (arg[i] == '\"' && q_double == 1)
+		{
+			q_double = 0;
+			i++;
+		}
+		res[j] = arg[i];
 		i++;
+		j++;
 	}
 	res[j] = '\0';
 	return (res);
 }
-*/
+
+/*
 char	*rm_quotes_arg(char *arg)
 {
 	char	*res;
@@ -423,7 +468,7 @@ char	*rm_quotes_arg(char *arg)
 	res[j] = '\0';
 	return (res);
 }
-
+*//*
 int	count_no_quotes(char *arg)
 {
 	int	i;
@@ -436,6 +481,45 @@ int	count_no_quotes(char *arg)
 		if (arg[i] != '\'' && arg[i] != '\"')
 			count++;
 		i++;
+	}
+	return (count);
+}
+*/
+int	count_no_quotes(char *arg)
+{
+	int	i;
+	int	count;
+	bool	q_simple;
+	bool	q_double;
+
+	i = 0;
+	count = 0;
+	q_simple = 0;
+	q_double = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '\'' && q_simple == 0 && q_double == 0)
+		{
+			q_simple = 1;
+			i++;
+		}
+		else if (arg[i] == '\'' && q_simple == 1)
+		{
+			q_simple = 0;
+			i++;
+		}
+		else if (arg[i] == '\"' && q_double == 0 && q_simple == 0)
+		{
+			q_double = 1;
+			i++;
+		}
+		else if (arg[i] == '\"' && q_double == 1)
+		{
+			q_double = 0;
+			i++;
+		}
+		i++;
+		count++;
 	}
 	return (count);
 }

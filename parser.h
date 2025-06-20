@@ -32,6 +32,7 @@ char	**first_file(char *new_file);
 char	**append_file(char **file, char *new_file);
 int	check_infile(char **infile, t_data *data);
 int	open_infile(t_cmd *cmd, t_data *data);
+void	print_cmd(t_cmd **cmds);
 
 // pipe_split.c
 int	close_quotes(char const *s); // devuelve el index donde terminan las comillas
