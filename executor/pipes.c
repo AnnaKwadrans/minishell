@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 21:52:35 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:33:25 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	int	i;
 	int	status;
 
-	show_vars(data);
         if (!data)
 		return (-1);
 	//printf("pipes: %d\n", pipes);
