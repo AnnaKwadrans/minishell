@@ -10,7 +10,7 @@ int     *create_pipes(int pipes);
 void    close_fds(int *fds, int pipes, int wr, int rd);
 
 bool    is_builtin(char *cmd);
-void    exec_builtin(t_cmd *cmd, int pipes, int *fds, int i);
+int     exec_builtin(t_cmd *cmd, int pipes, int *fds, int i);
 void    ft_builtin(t_cmd *cmd);
 
 
@@ -43,14 +43,14 @@ int	exec_line(t_cmd ***cmds, int *pipes);
 //void	redirect_input(t_cmd *cmd, t_data *data, int i);
 //void	redirect_output(t_cmd *cmd, t_data *data, int i);
 //void	redirect(t_cmd *cmd, t_data *data, int i);
-void    redirect(t_cmd *cmd, int pipes, int *fds, int i);
+int    redirect(t_cmd *cmd, int pipes, int *fds, int i);
 
-void    child(t_cmd *cmd, int pipes, int *fds, int i);
+int     child(t_cmd *cmd, int pipes, int *fds, int i);
 char	**vars_to_char(t_vars *vars);
 char	*get_str_var(char *name, char *value);
 char	*get_paths(t_data *data_program);
 
-// ft_cd.c
+// ft_cd
 int     ft_env(t_vars *vars);
 int    ft_pwd();
 int     ft_unset(t_vars *vars, char **args);

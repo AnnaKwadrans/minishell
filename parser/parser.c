@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/21 00:00:44 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:29:59 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,19 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		return (NULL);
 	// printf("Input: %s\n", input);
 	
-	/*if (is_expandable(input))
+	if (is_expandable(input))
 	{
 		printf("Input expandable: %s\n", input);
-		input_exp = expand_vars(data, input);
+		input_exp = expand_vars(data, input, 0);
 		will_free = 1;
 		printf("EXPANDED: %s\n", input_exp);
 	}
 	else
-	{*/
+	{
 		input_exp = input;
 		will_free = 0;
-	//}
-	printf("\t>>>\t\texpand: %s\n", input_exp);
+	}
+	//printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	//print_array(cmd_aux);
 	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
@@ -118,7 +118,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	free_array(cmd_aux);
 	if (will_free)
 		free(input_exp);
-	//print_cmd(cmds);
+	print_cmd(cmds);
 	return (cmds);
 }
 
