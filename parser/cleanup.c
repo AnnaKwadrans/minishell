@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 18:34:49 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:37:40 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	clean_data_program(t_data *data)
 
 	if (!data)
 		return ;
+	if (data->line)
+		free_line(data->line);
 	if (data->cmds)
 	{
 		i = 0;
@@ -98,15 +100,9 @@ void	free_cmd(t_cmd	*cmd)
 		return ;
 	free_array(cmd->args);
 	if (cmd->infile)
-	{
-		free(cmd->infile);
-		cmd->infile = NULL;
-	}
+		free_array(cmd->infile);
 	if (cmd->outfile)
-	{
-		free(cmd->outfile);
-		cmd->outfile = NULL;
-	}
+		free_array(cmd->outfile);
 	if (cmd->heredoc)
 	{
 		free_here_doc(cmd->heredoc);

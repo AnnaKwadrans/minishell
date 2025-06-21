@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/21 13:29:59 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/21 13:51:49 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -413,9 +413,12 @@ char	*rm_quotes_arg(char *arg)
 			q_double = 0;
 			i++;
 		}
-		res[j] = arg[i];
-		i++;
-		j++;
+		else
+		{
+			res[j] = arg[i];
+			i++;
+			j++;
+		}
 	}
 	res[j] = '\0';
 	return (res);
@@ -496,8 +499,11 @@ int	count_no_quotes(char *arg)
 			q_double = 0;
 			i++;
 		}
-		i++;
-		count++;
+		else
+		{
+			i++;
+			count++;
+		}
 	}
 	return (count);
 }

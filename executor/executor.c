@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/20 23:52:03 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:24:48 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,12 +161,14 @@ void	exec_cmd(t_cmd *cmd)
 		free(path);
 		perror("Execve failed");
 		cmd->p_status = -1;
+		clean_data_program(cmd->data);
 		exit(-1);
 	}
 	else
 	{
 		ft_putendl_fd("Command not found", 2);
 		cmd->p_status = 127;
+		clean_data_program(cmd->data);
 		exit(127);
 	}
 	return ;
