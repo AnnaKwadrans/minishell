@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:56 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/21 00:04:32 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:56:04 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,15 @@ bool	is_builtin(char *cmd)
 		return (0);
 }
 
-void    exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
+int	exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 {
         //printf("check pid: %d\n", cmd->pid);
         close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
 	//redirect(cmd, cmd->data, i);
-	redirect(cmd, pipes, fds, i);
+	if (redirect(cmd, pipes, fds, i) != 0)
+		return (1);
         ft_builtin(cmd);
-        return ;
+        return (0);
 }
 
 void    ft_builtin(t_cmd *cmd)
@@ -125,27 +126,30 @@ void    ft_builtin(t_cmd *cmd)
 
 }
 
-void	child(t_cmd *cmd, int pipes, int *fds, int i)
+int	child(t_cmd *cmd, int pipes, int *fds, int i)
 {
         //printf("check new %d", i);
         if (!cmd || !cmd->args || !cmd->args[0])
-                return ;
+                return (2);
         cmd->pid = fork();
         //printf("check pid: %d\n", cmd->pid);
         if (cmd->pid < 0)
-                return (perror("Fork failed"));
+                return (perror("Fork failed"), 2);
         else if (cmd->pid == 0)
         {
                 close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
-                redirect(cmd, pipes, fds, i);
+                if (redirect(cmd, pipes, fds, i) != 0)
+			return (1);
                 //cmd->data->last_cmd = &cmd;
 
                 exec_cmd(cmd);
                 exit(cmd->p_status);
 
+
+		
         }
         else if (cmd->pid > 0)
-                return ;
+                return (0);
 }
 
 void	close_fds(int *fds, int pipes, int wr, int rd)
@@ -161,17 +165,14 @@ void	close_fds(int *fds, int pipes, int wr, int rd)
 	}
 }
 
-void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
+int	redirect(t_cmd *cmd, int pipes, int *fds, int i)
 {
         if (cmd->infile)
         {
                 if (i != 0)
                         close(fds[(i - 1) * 2]);
                 if (handle_infile(cmd, cmd->data) != 0)
-                {
-                        clean_data_program(cmd->data);
-                        exit(1);
-                }
+                        return (1);
                 dup2(cmd->fd_in, STDIN_FILENO);
                 close(cmd->fd_in);
         }
@@ -193,10 +194,7 @@ void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
                 if (i != pipes)
                         close(fds[(i * 2) + 1]); // 0:1 1:3 2:5 3:7
                 if (handle_outfile(cmd, cmd->data) != 0)
-                {
-                        clean_data_program(cmd->data);
-                        exit(1);
-                }
+                        return (1);
                 //handle_outfile(cmd->outfile, cmd->append, cmd->data); // y si error?
                 dup2(cmd->fd_out, STDOUT_FILENO);
                 close(cmd->fd_out);
@@ -206,4 +204,5 @@ void	redirect(t_cmd *cmd, int pipes, int *fds, int i)
                 dup2(fds[(i * 2) + 1], STDOUT_FILENO);
                 close(fds[(i * 2) + 1]);
         }
+        return (0);
 }

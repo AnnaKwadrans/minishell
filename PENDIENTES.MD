@@ -1,4 +1,4 @@
-# REDIRECCIONES
+# REDIRECCIONES (HECHO)
 
     cat <" fd1 "<" fd2 "<" fd3 > fasdf sa sdfsd"
     no tiene que pasar el executor si la verificaci'on da error - distinguir entre comando (exit) y builtin
