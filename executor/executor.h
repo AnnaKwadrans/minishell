@@ -1,7 +1,7 @@
 #include "../data.h"
 #include "../parser/parser.h"
 
-// executor.c.c
+// executor.c
 int	execute_line(t_data *data);
 int     *create_pipes(int pipes);
 int     handle_cmd(t_data *data, t_cmd *cmd, int i);

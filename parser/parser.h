@@ -10,29 +10,44 @@ typedef struct s_data t_data;
 typedef struct s_lines t_lines;
 typedef struct s_cmd t_cmd;
 
+// data.c
+void	init_data(t_data *data);
+void	parse_data(char *input, t_data *data, char **envp);
+t_lines	*get_line(t_data *data, char *input);
+int	count_pipe(char *line); // ver si no tiene errores
+void    handle_var(char *input, t_data *data);
+
+//validator.c
+bool	valid_input(char *input, t_data *data);
+bool	even_quotes(char *line);
+bool    valid_pipes(char *line); // ver si no tiene errores
+int	empty_input(char *str);
+bool    is_var(char *line);
+
 // parser.c
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data); // devuelve array de comandos
+char	*vars_expansion(char *input, t_data *data, int *will_free);
+int     is_expandable(char *input);
+void	pipeline(t_data *data, t_cmd **cmd, char *cmd_aux);
+
+// command.c
 t_cmd	*get_cmd(char *aux); // se le pasa como parametro una parte del input que corresponde a un pipe
 void	init_cmd(t_cmd *cmd); // inicializa la estructura
+
+// args.c
+char	**get_args(char *aux, int *index); // para obtener el array con el comando y argumentos
+char	**append_args(char **args, char *aux, int *i); // para añadir los argumentos al array con el comando
+int	count_no_quotes(char *arg);
+char	*rm_quotes_arg(char *arg);
+char	**rm_quotes(char **args);
+
+// files.c
+void	skip_delimit(char *aux, int *index);
 void	get_infile(char *aux, int *index, char ***infile); // para obtener el infile (<) o delimitador (<<)
-//void	get_infile(char *aux, int *index, t_inf **infile);
-//void	add_infile(t_inf *infile, t_inf *new);
 void	get_outfile(char *aux, int *index, char ***outfile, int *append);
 char	**first_file(char *new_file);
 char	**append_file(char **file, char *new_file);
-//void	get_outfile(char *aux, int *index, t_outf **outfile); // para obtener el outfile (>) y el bool append (>>)
-//void	add_outfile(t_outf *outfile, t_outf *new);
-//void	print_outfiles(t_outf *outfile);
-//void	print_infiles(t_inf *infile);
 char	*get_file_str(const char *aux, int *index); // funcion auxiliar para obtener el string outfile, infile o delimit
-char	**get_args(char *aux, int *index); // para obtener el array con el comando y argumentos
-char	**append_args(char **args, char *aux, int *i); // para añadir los argumentos al array con el comando
-int     *get_pipes(char **part_lines, size_t size);
-char	**first_file(char *new_file);
-char	**append_file(char **file, char *new_file);
-int	check_infile(char **infile, t_data *data);
-int	open_infile(t_cmd *cmd, t_data *data);
-void	print_cmd(t_cmd **cmds);
 
 // pipe_split.c
 int	close_quotes(char const *s); // devuelve el index donde terminan las comillas
@@ -45,29 +60,12 @@ void	free_cmd(t_cmd	*cmd);
 void	free_line(t_lines *line);
 void	free_data_vars(t_vars *vars);
 
-//data.c - esto lo tenemos duplicado, probablemente para borrar
-void	init_data(t_data *data);
-void	parse_data(char *input, t_data *data, char **envp);
-int	count_pipe(char *line);
-bool	even_quotes(char *line);
-t_lines	*get_line(t_data *data, char *input);
-
-// lexer_utils.c
+// parser_utils.c
 char	*get_var(char *line); // para obtener el valor de la variable de entorno
 //estas tres probablemente para borrar
 bool	is_set(char c, char const *set);
 size_t	ft_strlen_set(const char *s, char *set);
 char	*ft_strdup_set(const char *s, char *set);
-
-//validator.c
-bool    valid_pipes(char *line);
-bool    is_var(char *line);
-void    handle_var(char *input, t_data *data);
-int		is_valid(char *str);
-
-//char	*trim_quotes(char *input);
-int	count_no_quotes(char *arg);
-char	*rm_quotes_arg(char *arg);
-char	**rm_quotes(char **args);
+void	print_cmd(t_cmd **cmds);
 
 #endif
