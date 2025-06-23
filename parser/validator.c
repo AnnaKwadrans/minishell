@@ -6,13 +6,13 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:54:15 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 20:17:33 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:43:33 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../data.h"
-#include "../parser.h"
-#include "../executor.h"
+#include "parser.h"
+#include "../executor/executor.h"
 #include "../vars/varenv.h"
 #include <stdbool.h>
 

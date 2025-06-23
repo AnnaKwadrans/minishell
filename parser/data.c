@@ -6,11 +6,11 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 21:34:22 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:43:00 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser.h"
+#include "parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
 #include "../vars/varenv.h"

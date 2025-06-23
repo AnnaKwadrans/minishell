@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/21 14:52:59 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:43:57 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../data.h"
 #include "../aux/aux.h"
 #include "../libft/libft.h"
-#include "../parser.h"
+#include "../parser/parser.h"
 #include "varenv.h"
 
 void	show_vars(void *args)
