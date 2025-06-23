@@ -6,11 +6,11 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:57 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/20 21:57:24 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:43:21 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser.h"
+#include "parser.h"
 #include <stdio.h>
 
 int	close_quotes(char const *s)

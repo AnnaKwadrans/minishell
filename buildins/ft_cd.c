@@ -1,11 +1,11 @@
 #include <dirent.h>
- #include <linux/limits.h>
+// #include <linux/limits.h>
 #include <limits.h>
 #include "../data.h"
 #include "../libft/libft.h"
 #include "../vars/varenv.h"
 //#include "../aux/aux.h"
-#include "../executor.h"
+#include "../executor/executor.h"
 
 static t_vars	*export_new_var(char *arg)
 {

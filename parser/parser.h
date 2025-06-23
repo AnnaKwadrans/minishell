@@ -3,8 +3,8 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
-# include "libft/libft.h"
-# include "aux/aux.h"
+# include "../libft/libft.h"
+# include "../aux/aux.h"
 
 typedef struct s_data t_data;
 typedef struct s_lines t_lines;
