@@ -122,10 +122,9 @@ $\_
 <!-- 12.⁠ ⁠Cuando hay PATH, hay que indicar la ruta, pero cuando no hay PATH (porque se ha hecho unset), busca en la propia carpeta donde estás.
 13.⁠ ⁠< cat (segfault) -->
 
-
 11. leaks:
     $?
     $
-    
 
 
+# Actualizar \_ antes del fork, al menos en ENV

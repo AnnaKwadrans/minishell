@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   counts.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:04:02 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/12 19:41:27 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:52:50 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "varenv.h"
+
+int	total_vars(t_data *data_program)
+{
+	t_vars	*tmp;
+	int		count;
+
+	tmp = data_program->vars;
+	count = 0;
+	while (tmp)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	return (count);
+}
 
 int	get_var_size(char *line, int start)
 {
