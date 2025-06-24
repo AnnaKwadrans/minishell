@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/05 01:31:29 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/21 13:29:44 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
 
-char	*expand_vars(t_data *data_program, char *str);
+char	*expand_vars(t_data *data_program, char *str, bool rm_quotes);
 char	**ft_full_split(char *s, char c);
 int		ft_strcmp(const char *s1, const char *s2);
 void	rl_replace_line(const char *text, int clear_undo);
@@ -47,7 +47,7 @@ void	expand_buffer(t_heredoc *here_doc)
 	i = 0;
 	while (here_doc->buffer[i])
 	{
-		here_doc->buffer[i] = expand_vars(NULL, here_doc->buffer[i]);
+		here_doc->buffer[i] = expand_vars(NULL, here_doc->buffer[i], 1);
 		if (!here_doc->buffer[i])
 			here_doc_error(here_doc, "EXPAND_VARS") ; // Manejar error de expansión
 		i++;
@@ -125,7 +125,7 @@ t_heredoc	*here_doc_mode(t_data *data_program, char *line)
 		i = 0;
 		while (here_doc->buffer[i])
 		{
-			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i]);
+			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i], 1);
 			if (!here_doc->buffer[i])
 				return (here_doc_error(here_doc, "EXPAND_VARS"), NULL);
 			printf("buffer[%d]: %s\n", i, here_doc->buffer[i]);

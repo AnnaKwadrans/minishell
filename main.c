@@ -1,6 +1,6 @@
 #include "data.h"
-#include "parser.h"
-#include "executor.h"
+#include "parser/parser.h"
+#include "executor/executor.h"
 #include "vars/varenv.h"
 
 // void	set_raw_mode(void)

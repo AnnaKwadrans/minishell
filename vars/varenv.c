@@ -6,14 +6,14 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/19 20:22:40 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/24 20:47:07 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../data.h"
 #include "../aux/aux.h"
 #include "../libft/libft.h"
-#include "../parser.h"
+#include "../parser/parser.h"
 #include "varenv.h"
 
 void	show_vars(void *args)
@@ -104,7 +104,7 @@ static char	*handle_quotes(char *result, char *line, int *i, t_expand *exp)
 	return (result);
 }
 
-static char *handle_expansion(t_data *data, char *line, char **vars)
+static char *handle_expansion(t_data *data, char *line, char **vars, bool rm_quotes)
 {
 	char		*result;
 	int			i;
@@ -123,7 +123,7 @@ static char *handle_expansion(t_data *data, char *line, char **vars)
 			result = ft_strjoin_free(result, vars[exp.count++]);
 			i = skip_var(line, i - 1);
 		}
-		else if (line[i] == '\'' || line[i] == '\"')
+		else if (rm_quotes && (line[i] == '\'' || line[i] == '\"'))
 			result = handle_quotes(result, line, &i, &exp);
 		else if (line[i] == '\\' && line[i + 1])
 			result = ft_strjoin_free(result, (char[]){line[i++], '\0'});
@@ -133,7 +133,7 @@ static char *handle_expansion(t_data *data, char *line, char **vars)
 	return (result);
 }
 
-char	*expand_vars(t_data *data_program, char *line)
+char	*expand_vars(t_data *data_program, char *line, bool rm_quotes)
 {
 	char	**vars;
 	int		count;
@@ -144,9 +144,8 @@ char	*expand_vars(t_data *data_program, char *line)
 	vars = multi_search(data_program, line, count);
 	// print_array(vars);
 	result = handle_expansion(data_program, line, vars);
-	if (count != 0)
-		data_program->is_expandable = 1;
 	free_array(vars);
+	vars = NULL;
 	return (result);
 }
 

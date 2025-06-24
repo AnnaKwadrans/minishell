@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:45 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/01 19:00:10 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/24 01:38:16 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser.h"
+#include "parser.h"
 #include "../data.h"
 
 bool	is_set(char c, char const *set)
@@ -69,4 +69,23 @@ t_lines	*last_line(t_lines *history_lines)
 	while (last->next)
 		last = last->next;
 	return (last);
+}
+
+void	print_cmd(t_cmd **cmds)
+{
+	int	i;
+
+	i = 0;
+	while (cmds[i])
+	{
+		printf("CMD %d\n", i);
+		printf("ARGS\n");
+		print_array(cmds[i]->args);
+		printf("INFILES\n");
+		print_array(cmds[i]->infile);
+		printf("OUTFILES\n");
+		print_array(cmds[i]->outfile);
+		printf("APPEND %d\n", cmds[i]->append);
+		i++;
+	}
 }

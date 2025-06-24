@@ -6,11 +6,11 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 20:42:20 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/24 20:46:44 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser.h"
+#include "parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
 
@@ -35,6 +35,8 @@ void	clean_data_program(t_data *data)
 
 	if (!data)
 		return ;
+	if (data->line)
+		free_line(data->line);
 	if (data->cmds)
 	{
 		i = 0;
@@ -99,15 +101,9 @@ void	free_cmd(t_cmd	*cmd)
 		return ;
 	free_array(cmd->args);
 	if (cmd->infile)
-	{
-		free(cmd->infile);
-		cmd->infile = NULL;
-	}
+		free_array(cmd->infile);
 	if (cmd->outfile)
-	{
-		free(cmd->outfile);
-		cmd->outfile = NULL;
-	}
+		free_array(cmd->outfile);
 	if (cmd->heredoc)
 	{
 		free_here_doc(cmd->heredoc);

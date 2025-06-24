@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:57 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/14 18:57:55 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/23 22:43:21 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser.h"
+#include "parser.h"
 #include <stdio.h>
 
 int	close_quotes(char const *s)
@@ -18,7 +18,7 @@ int	close_quotes(char const *s)
 	int	i;
 
 	i = 0;
-	// printf("\tCLOSE QUOTES\n");
+	//printf("\tCLOSE QUOTES\n");
 	if (s[i] == '\'')
 	{
 		i++;
@@ -54,7 +54,7 @@ static int	split_count(char const *s, char c)
 	int	new_string;
 	int	i;
 
-	// printf("\t SPLITTING COUNT\n");
+	//printf("\t SPLITTING COUNT\n");
 	new_string = 0;
 	count = 0;
 	i = 0;
@@ -71,7 +71,7 @@ static int	split_count(char const *s, char c)
 		}
 		i++;
 	}
-	// printf("\tCount: %d\n", count);
+	//printf("\tCount: %d\n", count);
 	return (count);
 }
 
@@ -115,7 +115,7 @@ char	**split_pipes(char const *s, char c)
 	int		i;
 	int		j;
 
-	// printf("<<<-------------- SPLITTING PIPES -------------->>>\n");
+	//printf("<<<-------------- SPLITTING PIPES -------------->>>\n");
 	count = split_count(s, c);
 	array = init_array(s, count, c);
 	if (array == NULL)

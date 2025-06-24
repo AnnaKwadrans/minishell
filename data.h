@@ -11,6 +11,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <signal.h>
+# include <stdbool.h>
 
 # include "libft/libft.h"
 # include "signals/signals.h"
@@ -77,6 +78,7 @@ typedef struct s_cmd
 	pid_t		pid;
 	int			p_status;
 	t_data		*data;
+	bool		is_builtin;
 }	t_cmd;
 
 // Estructura para almacenar las lineas de entrada (historial)

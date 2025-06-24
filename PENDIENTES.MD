@@ -1,6 +1,7 @@
-# REDIRECCIONES
+# REDIRECCIONES (HECHO)
 
     cat <" fd1 "<" fd2 "<" fd3 > fasdf sa sdfsd"
+    no tiene que pasar el executor si la verificaci'on da error - distinguir entre comando (exit) y builtin
 
 split()
 0 cat
@@ -103,15 +104,15 @@ Cuando se trata de una expansión de variables, esta variable ($\_) no debe actu
 
 $\_
 
-# EJECUTAR MINISHELL DENTRO DE MINISHELL
+# EJECUTAR MINISHELL DENTRO DE MINISHELL (HECHO, pero pendiente el valor de la variable SHLVL)
 
 # CORRECCIÓN ALTERNA
 
-1.⁠ ⁠Historial (los comandos vacíos)
- 2.⁠ ⁠"" o ' ' (segfault)
- 3.⁠ ⁠Echo $a""a > $a( ) a >> a a
- 4.⁠ ⁠Echo $kk tomate
- 5.⁠ ⁠Echo patata "" tomate
+1.⁠ ⁠Historial (los comandos vacíos) (ME PARECE QUE FUNCIONA)
+ 2.⁠ ⁠"" o ' ' (segfault) (HECHO)
+ 3.⁠ ⁠Echo $a""a > $a( ) a >> a a (ELIMINA $, TIENE QUE SER ASÍ SI NO EXISTE LA VARIABLE?)
+ 4.⁠ ⁠Echo $kk tomate (FUNCIONA)
+ 5.⁠ ⁠Echo patata "" tomate (HECHO)
  6.⁠ ⁠Export kk="echo tomate". $kk
 
 <!--  7.⁠ ⁠Exit con los long XXXXXXX -->
@@ -121,3 +122,10 @@ $\_
 <!-- 11.⁠ ⁠> kk (segfault) -->
 <!-- 12.⁠ ⁠Cuando hay PATH, hay que indicar la ruta, pero cuando no hay PATH (porque se ha hecho unset), busca en la propia carpeta donde estás.
 13.⁠ ⁠< cat (segfault) -->
+
+
+11. leaks:
+    $?
+    $
+    
+

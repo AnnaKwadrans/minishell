@@ -6,253 +6,121 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/19 20:19:39 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:41:06 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../data.h"
-#include "../parser.h"
-#include "../executor.h"
-#include "../vars/varenv.h"
+#include "../parser/parser.h"
+#include "executor.h"
+#include "../here_doc/here_doc.h"
 
-int	handle_infile(t_cmd *cmd, t_data *data)
+int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_status)
 {
-	if (cmd->heredoc)
+	int	i;
+	int	status;
+
+        if (!data)
+		return (-1);
+	//printf("pipes: %d\n", pipes);
+	if (!data || !data->cmds || !data->cmds[0])
 		return (0);
-	else
-	{
-		if (check_infile(cmd->infile, data) == -1)
-			return (-1);
-		if (open_infile(cmd, data) == -2)
-			return (-2);
-	}
-        return (0);
-}
-
-int	check_infile(char **infile, t_data *data)
-{
-	int	i;
-	
+	if (data->pipes > 0)
+		data->fds = create_pipes(data->pipes);
 	i = 0;
-	while (infile[i])
+	while (data->cmds[i])
 	{
-		if (access(infile[i], F_OK) == -1)
-		{
-			perror("No such file");
-			data->last_status = 1;
-			return (-1);
-		}
-		if (access(infile[i], R_OK) == -1)
-		{
-			perror("Permission denied");
-			data->last_status = 1;
-			return (-1);
-		}
+		if (is_builtin(data->cmds[i]->args[0]))
+                {
+			data->cmds[i]->is_builtin = 1;
+                        exec_builtin(data->cmds[i], data->pipes, data->fds, i);
+                }
+                else
+			child(data->cmds[i], data->pipes, data->fds, i);
 		i++;
 	}
+	close_fds(data->fds, data->pipes, -1, -1);
+	if (data->fds)
+	{
+		free(data->fds);
+		data->fds = NULL;
+	}
+	i = 0;
+	while (waitpid(-1, &status, 0) > 0)
+		data->last_status = WEXITSTATUS(status);
+	printf("LAST STATUS %d\n", data->last_status);
 	return (0);
 }
 
-int	open_infile(t_cmd *cmd, t_data *data)
+int	*create_pipes(int pipes)
 {
+	int	*fds;
 	int	i;
 
-	i = 0;
-	while (cmd->infile[i])
-	{
-		if (cmd->fd_in != STDIN_FILENO)
-			close(cmd->fd_in);
-		cmd->fd_in = open(cmd->infile[i], O_RDONLY);
-		if (cmd->fd_in == -1)
-		{
-			perror("Open failed");
-			data->last_status = 1;
-			return (-2);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	handle_outfile(t_cmd *cmd, t_data *data)
-{
-	int	fd;
-
-        if (check_outfile(cmd->outfile, data) == -1)
-                return (-1);
-        if (open_outfile(cmd, data) == -2)
-                return (-2);
-	return (0);
-}
-
-int	check_outfile(char **outfile, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (outfile[i])
-	{
-		if (access(outfile[i], F_OK) == 0 && access(outfile[i], W_OK) == -1)
-		{
-			perror("Permission denied");
-			data->last_status = 1;
-			return (-1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	open_outfile(t_cmd *cmd, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (cmd->outfile[i])
-	{
-		if (cmd->fd_out != STDOUT_FILENO)
-			close(cmd->fd_out);
-		if (cmd->append)
-			cmd->fd_out = open(cmd->outfile[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			cmd->fd_out = open(cmd->outfile[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (cmd->fd_out == -1)
-		{
-			perror("Open failed");
-			data->last_status = 1;
-			return (-2);
-		}
-		i++;
-	}
-	return (0);
-}
-void	exec_cmd(t_cmd *cmd)
-{
-	char	*path_var;
-	char	**path_tab;
-	char	*path;
-	char	**str_vars;
-	int		i;
-	int		j;
-
-	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
-	{
-		cmd->p_status = 127;
-		return ;
-	}
-	else
-	{
-		str_vars = vars_to_char(cmd->data->vars);
-		path_var = get_paths(cmd->data);
-		if (path_var == NULL || ft_strlen(path_var) < 5)
-		{
-			ft_putendl_fd("PATH variable not set or empty", 2);
-			cmd->p_status = 127;
-			exit(127);
-		}
-		path_tab = ft_split(path_var + 5, ':');
-		path = get_path(cmd->args, path_tab);
-	}
-	if (path_tab)
-		free_array(path_tab);
-	if (path)
-	{
-		cmd->p_status = execve(path, cmd->args, str_vars);
-		free(path);
-		perror("Execve failed");
-		cmd->p_status = -1;
-		exit(-1);
-	}
-	else
-	{
-		ft_putendl_fd("Command not found", 2);
-		cmd->p_status = 127;
-		exit(127);
-	}
-	return ;
-}
-
-char	*get_paths(t_data *data_program)
-{
-	char	*path_var;
-	char	*pwd_var;
-	char	*all_paths;
-	char	*aux;
-
-	path_var = get_var_value(data_program, "PATH");
-	pwd_var = get_var_value(data_program, "PWD");
-	aux = ft_strjoin(path_var, ":");
-	free(path_var);
-	all_paths = ft_strjoin(aux, pwd_var);
-	free(aux);
-	return(all_paths);
-}
-
-char	*get_path(char **cmd_tab, char **path_tab)
-{
-	int		i;
-	char	*aux;
-	char	*path;
-
-	if (path_tab == NULL || cmd_tab == NULL)
+	//printf("PIPES %d\n", pipes);
+	if (pipes == 0)
 		return (NULL);
-	if (!cmd_tab[0])
-		cmd_tab[0] = ft_strdup("cat");
-	i = 0;
-	
-	while (path_tab[i] != NULL)
-	{
-		if (ft_strncmp(cmd_tab[0], path_tab[i], ft_strlen(path_tab[i])) == 0)
-			path = ft_strdup(cmd_tab[0]);
-		else
-		{
-			aux = ft_strjoin(path_tab[i], "/");
-			path = ft_strjoin(aux, cmd_tab[0]);
-			free(aux);
-		}
-		if (access(path, X_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	return (NULL);
-}
-
-char	**vars_to_char(t_vars *vars)
-{
-	t_vars	*temp;
-	int		size;
-	char	**str_vars;
-	int		i;
-
-	temp = vars;
-	size = 0;
-	while (temp)
-	{
-		size++;
-		temp = temp->next;
-	}
-	str_vars = malloc(sizeof(char *) * size);
-	if (!str_vars)
+	fds = malloc(sizeof(int) * pipes * 2);
+	if (!fds)
 		return (NULL);
-	temp = vars;
 	i = 0;
-	while (temp)
+	while (i <= pipes)
 	{
-		str_vars[i] = get_str_var(temp->name, temp->value);
+		//printf("check pipe %d\n", i);
+		if (pipe(&fds[i * 2]) < 0)
+			return (NULL);
 		i++;
-		temp = temp->next;
 	}
-	return (str_vars);
+	return (fds);
 }
 
-char	*get_str_var(char *name, char *value)
+int     handle_cmd(t_data *data, t_cmd *cmd, int i)
 {
-	char	*str_var;
-	char	*aux;
+	if (is_builtin(cmd->args[0]))
+	{
+		cmd->is_builtin = 1;
+		exec_builtin(cmd, data->pipes, data->fds, i);
+	}
+	else
+		child(cmd, data->pipes, data->fds, i);
+	return (0); //check
+}
 
-	aux = ft_strjoin(name, "=");
-	str_var = ft_strjoin(aux, value);
-	free(aux);
-	return (str_var);
+void	close_fds(int *fds, int pipes, int wr, int rd)
+{
+	int	i;
+
+	i = 0;
+	while (i < (pipes * 2))
+	{
+		if (i != wr && i != rd)
+			close(fds[i]);
+		i++;
+	}
+}
+
+int	child(t_cmd *cmd, int pipes, int *fds, int i)
+{
+        //printf("check new %d", i);
+        if (!cmd || !cmd->args || !cmd->args[0])
+                return (2);
+        cmd->pid = fork();
+        //printf("check pid: %d\n", cmd->pid);
+        if (cmd->pid < 0)
+                return (perror("Fork failed"), 2);
+        else if (cmd->pid == 0)
+        {
+                close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+                if (redirect(cmd, pipes, fds, i) != 0)
+			return (1);
+                //cmd->data->last_cmd = &cmd;
+
+                exec_cmd(cmd);
+                exit(cmd->p_status);
+
+
+		
+        }
+        else if (cmd->pid > 0)
+                return (0);
 }
