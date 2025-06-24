@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/25 00:00:12 by akwadran         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/24 22:48:02 by kegonza          ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/06/25 00:09:42 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
