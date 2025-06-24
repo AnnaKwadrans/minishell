@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 23:10:27 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/24 22:47:18 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	free_vars(t_vars *vars)
 	{
 		next = vars->next;
 		free(vars->name);
+		vars->name = NULL;
 		free(vars->value);
+		vars->value = NULL;
+		vars->data = NULL;
 		free(vars);
 		vars = next;
 	}

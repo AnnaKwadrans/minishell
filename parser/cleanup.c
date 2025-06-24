@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/23 22:43:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:48:02 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,28 +63,13 @@ void	clean_data_program(t_data *data)
 	// data->part_lines = NULL;
 }
 
-void	free_data_vars(t_vars *vars)
-{
-	t_vars	*next;
-
-	while (vars)
-	{
-		free(vars->name);
-		vars->name = NULL;
-		free(vars->value);
-		vars->value = NULL;
-		vars->data = NULL;
-		vars = vars->next;
-	}
-}
-
 void	free_data(t_data *data)
 {
 	//free_history(data->history_lines); // por hacer la funcion
 	clean_data_program(data);
 	if (data->vars)
 	{
-		free_data_vars(data->vars);
+		free_data(data->vars);
 		data->vars = NULL;
 	}
 	if (data->line)

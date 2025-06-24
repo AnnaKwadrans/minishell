@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/23 22:43:57 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:51:32 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	init_env(t_data *data_program, char **env)
 			new->value = NULL;
 		new->is_exportable = 1;
 		new->next = NULL;
+		new->data = data_program;
 		add_var(data_program, new);
 		free_array(split);
 		i++;
@@ -140,7 +141,7 @@ char	*expand_vars(t_data *data_program, char *line, bool rm_quotes)
 	char	*result;
 
 	count = count_vars(line);
-	printf("Count of vars: %d\n", count);
+	printf("Count of vars for expand: %d\n", count);
 	vars = multi_search(data_program, line, count);
 	// print_array(vars);
 	result = handle_expansion(data_program, line, vars, rm_quotes);
