@@ -70,7 +70,6 @@ char	**append_file(char **file, char *new_file)
 	return (res);
 }
 
-
 void	get_outfile(char *aux, int *index, char ***outfile, int *append) 
 {
 	char	*new_outf;

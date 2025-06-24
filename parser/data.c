@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/24 00:07:56 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/24 23:56:09 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void	parse_data(char *input, t_data *data, char **envp)
 	data->pipes = count_pipe(input);
 	data->cmds = NULL;
 	// data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
-	if (is_var(input))
-		handle_var(input, data);
-	else
-	{
+	//if (is_var(input))
+	//	handle_var(input, data);
+	//else
+	//{
 		data->cmds = parse_line(input, data->pipes, envp, data);
 		if (!data->cmds)
 			return (free_data(data));
-	}
+	//}
 }
 
 t_lines	*get_line(t_data *data, char *input)
