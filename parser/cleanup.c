@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/23 22:43:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/25 00:00:12 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,22 @@ void	free_here_doc(t_heredoc *here_doc)
 void	clean_data_program(t_data *data)
 {
 	int	i;
-	int	j;
 
 	if (!data)
 		return ;
 	if (data->line)
+	{
 		free_line(data->line);
+		data->line = NULL;
+	}
 	if (data->cmds)
 	{
 		i = 0;
 		while (data->cmds[i])
-		{
-			free_cmd(data->cmds[i]);
-			i++;
-		}
+		//{
+			free_cmd(data->cmds[i++]);
+		//	i++;
+		//}
 		free(data->cmds);
 		data->cmds = NULL;
 	}

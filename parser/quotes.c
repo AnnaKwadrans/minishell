@@ -4,40 +4,7 @@
 #include "../here_doc/here_doc.h"
 #include "../vars/varenv.h"
 
-char	**get_args(char *aux, int *index)
-{
-	int		len;
-	char	*cmd_line;
-	char	**args;
 
-	len = 0;
-	while (aux[len] && aux[len] != '<' && aux[len] != '>')
-	{
-		if (aux[len] == '\'' || aux[len == '\"'])
-			len +=close_quotes(&aux[len]);
-		len++;
-	}
-	cmd_line = ft_substr(aux, 0, len);
-	//printf("cmd_line: %s\n", cmd_line);
-	args = split_pipes(cmd_line, ' ');
-	// printf("desp del split:\n");
-	// print_array(args);
-	free(cmd_line);
-	*index += len;
-	return (args);
-}
-
-char	**append_args(char **args, char *aux, int *i)
-{
-	char	**add;
-	char	**joined;
-
-	add = get_args(aux, i);
-	joined = join_arrays(args, add);
-	free_array(add);
-	free_array(args);
-	return (joined);
-}
 
 char	**rm_quotes(char **args)
 {
@@ -75,35 +42,41 @@ char	*rm_quotes_arg(char *arg)
 	q_double = 0;
 	while (arg[i])
 	{
-		if (arg[i] == '\'' && q_simple == 0 && q_double == 0)
-		{
-			q_simple = 1;
-			i++;
-		}
-		else if (arg[i] == '\'' && q_simple == 1)
-		{
-			q_simple = 0;
-			i++;
-		}
-		else if (arg[i] == '\"' && q_double == 0 && q_simple == 0)
-		{
-			q_double = 1;
-			i++;
-		}
-		else if (arg[i] == '\"' && q_double == 1)
-		{
-			q_double = 0;
-			i++;
-		}
-		else
+		if (cpy_char(arg[i], &q_simple, &q_double))
 		{
 			res[j] = arg[i];
-			i++;
 			j++;
 		}
+		i++;
 	}
 	res[j] = '\0';
 	return (res);
+}
+
+bool	cpy_char(char arg, bool *q_simple, bool *q_double)
+{
+	if (arg == '\'' && *q_simple == 0 && *q_double == 0)
+	{
+		*q_simple = 1;
+		return (0);
+	}
+	else if (arg == '\'' && *q_simple == 1)
+	{
+		*q_simple = 0;
+		return (0);
+	}
+	else if (arg == '\"' && *q_double == 0 && *q_simple == 0)
+	{
+		*q_double = 1;
+		return (0);
+	}
+	else if (arg == '\"' && *q_double == 1)
+	{
+		*q_double = 0;
+		return (0);
+	}
+	else
+		return (1);
 }
 
 int	count_no_quotes(char *arg)
@@ -119,6 +92,10 @@ int	count_no_quotes(char *arg)
 	q_double = 0;
 	while (arg[i])
 	{
+		if (cpy_char(arg[i], &q_simple, &q_double))
+			count++;
+		i++;
+		/*
 		if (arg[i] == '\'' && q_simple == 0 && q_double == 0)
 		{
 			q_simple = 1;
@@ -139,11 +116,12 @@ int	count_no_quotes(char *arg)
 			q_double = 0;
 			i++;
 		}
-		else
-		{
-			i++;
-			count++;
-		}
+		*/
+		//else
+		//{
+		//	i++;
+		//	count++;
+		//}
 	}
 	return (count);
 }

@@ -15,7 +15,9 @@ bool	is_builtin(char *cmd)
                 return (1);
 	}
 	else
-		return (0);
+        {
+                return (0);
+        }
 }
 
 int	exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
@@ -40,7 +42,10 @@ void    ft_builtin(t_cmd *cmd)
         else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
                 cmd->p_status = ft_pwd(cmd->args);
         else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
+        {
+                printf("check ft_builtin\n");
                 cmd->p_status = ft_export(cmd->data, cmd->data->vars, cmd->args);
+        }
         else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
                 cmd->p_status = ft_unset(cmd->data->vars, cmd->args);
         else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)

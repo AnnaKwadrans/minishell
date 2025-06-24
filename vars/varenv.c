@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:28 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/23 22:43:57 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:27:12 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	show_vars(void *args)
 		printf("Variable %d:\n", i);
 		printf("\tname: %s\n", var->name);
 		printf("\tvalue: %s\n ", var->value);
+		printf("\texportable: %d\n ", var->is_exportable);
 		var = var->next;
 		i++;
 	}

@@ -20,6 +20,9 @@ static t_vars	*export_new_var(char *arg)
 		i++;
 	value = ft_strdup_set(&arg[i + 1], " \t\n\v\r\f");
 	new = new_var(name, value, 1);
+	printf("%d\n", new->is_exportable);
+	new->is_exportable = 1;
+	printf("%d\n", new->is_exportable);
 	return (new);
 }
 
@@ -45,7 +48,9 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 			vars = vars->next;
 		}
 		new = export_new_var(args[i]);
+		new->is_exportable = 1;
 		add_var(data, new);
+		printf("%d\n", new->is_exportable);
 		i++;
 		vars = start;
 	}
