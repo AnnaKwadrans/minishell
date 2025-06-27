@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 	data_program = malloc(sizeof(t_data));
 	init_data(data_program);
 	init_env(data_program, envp);
-	printf("we have %d vars in env\n", total_vars(data_program));
+	//printf("we have %d vars in env\n", total_vars(data_program));
 	while (1)
 	{
 		if (data_program->is_interactive)
@@ -92,7 +92,7 @@ int	main(int argc, char **argv, char **envp)
 		execute_line(data_program);
 		// show_vars(data_program);
 		// update_env(data_program);
-		printf("the new value of _ is %s\n", get_var_value(data_program, "_"));
+		//printf("the new value of _ is %s\n", get_var_value(data_program, "_"));
 		// show_vars(data_program);
 		clean_data_program(data_program);
 		free(input);

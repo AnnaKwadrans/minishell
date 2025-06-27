@@ -43,7 +43,7 @@ void    ft_builtin(t_cmd *cmd)
                 cmd->p_status = ft_pwd(cmd->args);
         else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
         {
-                printf("check ft_builtin\n");
+                //printf("check ft_builtin\n");
                 cmd->p_status = ft_export(cmd->data, cmd->data->vars, cmd->args);
         }
         else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
