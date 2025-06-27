@@ -1,18 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/25 00:09:42 by akwadran         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/27 19:32:43 by akwadran         ###   ########.fr       */
->>>>>>> main
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "parser.h"
 #include "../data.h"
@@ -75,7 +61,7 @@ void	free_data(t_data *data)
 	clean_data_program(data);
 	if (data->vars)
 	{
-		free_data(data->vars);
+		free_vars(data->vars);
 		data->vars = NULL;
 	}
 	if (data->line)

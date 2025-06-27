@@ -15,17 +15,90 @@ static t_vars	*export_new_var(char *arg)
 	int		i;
 
 	i = 0;
+	printf("%s\n", arg);
 	name = ft_strdup_set(&arg[i], "=");
+	printf("%s\n", name);
 	while (arg[i] != '=')
 		i++;
-	value = ft_strdup_set(&arg[i + 1], " \t\n\v\r\f");
+	value = ft_strdup(&arg[i + 1]);
+	printf("%s\n", value);
 	new = new_var(name, value, 1);
-	printf("%d\n", new->is_exportable);
-	new->is_exportable = 1;
-	printf("%d\n", new->is_exportable);
+	//printf("%d\n", new->is_exportable);
+	//new->is_exportable = 1;
+	//printf("%d\n", new->is_exportable);
 	return (new);
 }
 
+static bool	valid_name(char *arg)
+{
+	int	i;
+	bool	equal;
+	char	*name;
+
+	if (!(ft_isalpha(arg[0]) || arg[0] == '_'))
+		return (0);
+	i = 0;
+	/*
+	while (arg[i])
+	{
+		if (arg[i] == '=')
+			equal = 1;
+		i++;
+	}
+	if (equal)
+	{*/
+		name = ft_strdup_set(arg, "=");
+		if (ft_isalnum(name[strlen(name) - 1]))
+		{
+			free(name);
+			return (1);
+		}
+	//}
+	return (0);
+}
+
+static bool	has_equals(char *arg)
+{
+	while (arg[i])
+	{
+		if (arg[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_export(t_data *data, t_vars *vars, char **args)
+{
+	int	i;
+	t_vars	*arg;
+	t_vars	*found;
+
+
+	if (!vars || !args)
+		return (ft_putendl_fd("not enough arguments", 2), 0);
+	i = 1;
+	while (args[i])
+	{
+		if (!valid_name(args[i]))
+			return (ft_putendl_fd("not valid identifier", 2), 1);
+		arg = export_new_var(args[i]);
+		found = search_var(data, arg->name);
+		if (found)
+		{
+			found->is_exportable = 1;
+			free_vars(arg);
+		}
+		else
+		{
+			add_var(data, arg);
+		}
+		i++;
+	}
+	
+}
+
+/*
 int	ft_export(t_data *data, t_vars *vars, char **args)
 {
 	int		i;
@@ -34,6 +107,8 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 
 	if (!vars || !args)
 		return (ft_putendl_fd("not enough arguments", 2), 0);
+	
+	
 	i = 1;
 	start = vars;
 	while (args[i])
@@ -47,14 +122,16 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 			}
 			vars = vars->next;
 		}
-		new = export_new_var(args[i]);
-		new->is_exportable = 1;
-		add_var(data, new);
-		printf("%d\n", new->is_exportable);
+		if (!vars)
+		{
+			new = export_new_var(args[i]);
+			add_var(data, new);
+		}
 		i++;
 		vars = start;
 	}
 }
+*/
 /*
 t_vars  *exp_new_var(t_data *data, char *name)
 {
@@ -302,7 +379,7 @@ int	ft_cd(t_data *data, char **args)
 		if (chdir(args[1]) == -1)
 			perror("chdir failed");
 	}
-	return (1);
+	return (0);
 }
 
 void	ft_exit(t_data *data, char **args)

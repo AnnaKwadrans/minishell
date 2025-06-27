@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/24 23:56:09 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/27 20:57:49 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_data(t_data *data)
 
 void	parse_data(char *input, t_data *data, char **envp)
 {
-	printf("<<<-------------- NEW CMD -------------->>>\n");
+	//printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!valid_input(input, data))
 		return ;
 	data->line = get_line(data, input);
