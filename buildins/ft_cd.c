@@ -82,6 +82,8 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 	{
 		if (!valid_name(args[i]))
 			return (ft_putendl_fd("not valid identifier", 2), 1);
+		if (!has_equals)
+			continue ;
 		arg = export_new_var(args[i]);
 		found = search_var(data, arg->name);
 		if (found)
