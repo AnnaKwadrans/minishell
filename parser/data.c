@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/27 20:57:49 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:54:49 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 	//else
 	//{
 		data->cmds = parse_line(input, data->pipes, envp, data);
+		//print_cmd(data->cmds);
 		if (!data->cmds)
 			return (free_data(data));
 	//}

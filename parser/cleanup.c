@@ -33,10 +33,13 @@ void	clean_data_program(t_data *data)
 	{
 		i = 0;
 		while (data->cmds[i])
-		//{
-			free_cmd(data->cmds[i++]);
-		//	i++;
-		//}
+		{
+			printf("freeing cdm %d\n", i);
+			free_cmd(data->cmds[i]);
+			//free(data->cmds[i]);
+			data->cmds[i] = NULL;
+			i++;
+		}
 		free(data->cmds);
 		data->cmds = NULL;
 	}
@@ -107,3 +110,4 @@ void	free_line(t_lines *line)
 	free(line);
 	line = NULL;
 }
+
