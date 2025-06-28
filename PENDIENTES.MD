@@ -137,17 +137,15 @@ echo $? $USER $HOME (solo expande $?)
 echo $ y echo "$"
 echo $?hola
 
-EXPORT 
+EXPORT (HECHO) 
 export hello
 export "GHI=abc hola"
-
-# Valid variable names
+Valid variable names:
 export MY_VAR=value           # Starts with letter
 export _MY_VAR=value         # Starts with underscore
 export MY-VAR=value          # Contains hyphen (but not at start)
 export MY_VAR_1=value        # Contains numbers after letters
-
-# Invalid attempts
+Invalid attempts:
 export -VAR=value            # ❌ Starts with hyphen
 export VAR-=value           # ❌ Contains -=
 export =VALUE               # ❌ Starts with equals sign

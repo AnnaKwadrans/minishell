@@ -1,5 +1,5 @@
 #include <dirent.h>
-// #include <linux/limits.h>
+#include <linux/limits.h>
 #include <limits.h>
 #include "../data.h"
 #include "../libft/libft.h"
@@ -59,6 +59,9 @@ static bool	valid_name(char *arg)
 
 static bool	has_equals(char *arg)
 {
+	int	i;
+	
+	i = 0;
 	while (arg[i])
 	{
 		if (arg[i] == '=')
@@ -82,8 +85,13 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 	{
 		if (!valid_name(args[i]))
 			return (ft_putendl_fd("not valid identifier", 2), 1);
-		if (!has_equals)
+		if (!has_equals(args[i]))
+		{
+			printf("check not equals\n");
+			i++;
 			continue ;
+		}
+			//continue ;
 		arg = export_new_var(args[i]);
 		found = search_var(data, arg->name);
 		if (found)
@@ -363,13 +371,29 @@ int	ft_env(t_vars *vars)
 	return (0);
 }
 
+static void	update_pwd_var(t_data *data)
+{
+	t_vars	*pwd;
+	char	path[PATH_MAX];
+
+	if (getcwd(path, PATH_MAX) == NULL)
+		return (perror("getcwd failed"));
+	pwd = search_var(data, "PWD");
+	free(pwd->value);
+	pwd->value = ft_strdup(path);
+	return ;
+}
+
 int	ft_cd(t_data *data, char **args)
 {
 	t_vars	*home_var;
 	char	*home_path;
 
 	if (array_size(args) > 2)
-	{ /*err*/ }
+	{ 
+		ft_putendl_fd("too many arguments", 2);
+		return (1);
+	 }
 	else if (array_size(args) == 1 || ft_strncmp(args[1], "~", 1) == 0)
 	{
 		home_var = search_var(data, "HOME");
@@ -381,6 +405,7 @@ int	ft_cd(t_data *data, char **args)
 		if (chdir(args[1]) == -1)
 			perror("chdir failed");
 	}
+	update_pwd_var(data);
 	return (0);
 }
 
