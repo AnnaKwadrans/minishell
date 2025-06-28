@@ -58,6 +58,7 @@ char	**split_pipes(char const *s, char c); // un split pero tiene en cuenta comi
 // cleanup.c
 void	clean_data_program(t_data *data); // libera la memoria de t_data después de ejecutar el comando excepto history_line
 void	free_data(t_data *data); // libera todo de t_data pero está incompleta
+void	free_cmds(t_data *data);
 void	free_cmd(t_cmd	*cmd);
 void	free_line(t_lines *line);
 void	free_data_vars(t_vars *vars);

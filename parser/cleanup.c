@@ -31,6 +31,8 @@ void	clean_data_program(t_data *data)
 	}
 	if (data->cmds)
 	{
+		free_cmds(data);
+		/*
 		i = 0;
 		while (data->cmds[i])
 		{
@@ -42,6 +44,7 @@ void	clean_data_program(t_data *data)
 		}
 		free(data->cmds);
 		data->cmds = NULL;
+		*/
 	}
 	if (data->history_lines)
 	{
@@ -74,15 +77,37 @@ void	free_data(t_data *data)
 	}
 }
 
+void	free_cmds(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->cmds[i])
+	{
+		free_cmd(data->cmds[i]);
+		data->cmds[i] = NULL;
+		i++;
+	}
+	free(data->cmds);
+	data->cmds = NULL;
+}
+
 void	free_cmd(t_cmd	*cmd)
 {
 	if (!cmd)
 		return ;
 	free_array(cmd->args);
+	cmd->args = NULL;
 	if (cmd->infile)
+	{
 		free_array(cmd->infile);
+		cmd->infile = NULL;
+	}
 	if (cmd->outfile)
+	{
 		free_array(cmd->outfile);
+		cmd->outfile = NULL;
+	}
 	if (cmd->heredoc)
 	{
 		free_here_doc(cmd->heredoc);
