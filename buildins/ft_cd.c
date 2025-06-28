@@ -411,7 +411,11 @@ int	ft_cd(t_data *data, char **args)
 
 void	ft_exit(t_data *data, char **args)
 {
-	exit(data->last_status);
+	int	status;
+
+	status = data->last_status;
+	free_data(data);
+	exit(status);
 }
 
 /*
