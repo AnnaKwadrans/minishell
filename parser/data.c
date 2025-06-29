@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/24 20:46:57 by kegonza          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/06/29 13:53:48 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "parser.h"
 #include "../data.h"
@@ -20,8 +22,6 @@ void	init_data(t_data *data)
 {
 	data->line = NULL;
 	data->cmds = NULL;
-	data->history_lines = NULL;
-	//data->part_lines = NULL;
 	data->vars = NULL;
 	data->pipes = 0;
 	data->is_interactive = isatty(STDIN_FILENO);
@@ -36,7 +36,7 @@ void	init_data(t_data *data)
 
 void	parse_data(char *input, t_data *data, char **envp)
 {
-	printf("<<<-------------- NEW CMD -------------->>>\n");
+	//printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!valid_input(input, data))
 		return ;
 	data->line = get_line(data, input);
@@ -45,14 +45,15 @@ void	parse_data(char *input, t_data *data, char **envp)
 	data->pipes = count_pipe(input);
 	data->cmds = NULL;
 	// data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
-	if (is_var(input))
-		handle_var(input, data);
-	else
-	{
+	//if (is_var(input))
+	//	handle_var(input, data);
+	//else
+	//{
 		data->cmds = parse_line(input, data->pipes, envp, data);
+		//print_cmd(data->cmds);
 		if (!data->cmds)
 			return (free_data(data));
-	}
+	//}
 }
 
 t_lines	*get_line(t_data *data, char *input)

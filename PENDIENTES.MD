@@ -123,9 +123,40 @@ $\_
 <!-- 12.⁠ ⁠Cuando hay PATH, hay que indicar la ruta, pero cuando no hay PATH (porque se ha hecho unset), busca en la propia carpeta donde estás.
 13.⁠ ⁠< cat (segfault) -->
 
-
 11. leaks:
     $?
     $
-    
 
+# Actualizar \_ antes del fork, al menos en ENV
+
+# BUILTINS
+
+ECHO
+echo $? $USER $HOME (solo expande $?)
+echo $ y echo "$"
+echo $?hola
+
+EXPORT (HECHO)
+export hello
+export "GHI=abc hola"
+Valid variable names:
+export MY_VAR=value # Starts with letter
+export \_MY_VAR=value # Starts with underscore
+export MY-VAR=value # Contains hyphen (but not at start)
+export MY_VAR_1=value # Contains numbers after letters
+Invalid attempts:
+export -VAR=value # ❌ Starts with hyphen
+export VAR-=value # ❌ Contains -=
+export =VALUE # ❌ Starts with equals sign
+export @VAR=value # ❌ Contains special character
+
+CD
+actualizar variable PWD
+cd $PWD hola -> err too many arguments
+cd 123 -> err no such dir ->exit code 1
+
+# PIPES
+
+env | grep HOME
+ls | grep c | env
+(exits minishell)

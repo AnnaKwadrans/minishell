@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/24 01:39:56 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:49:33 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,12 @@ int is_expandable(char *input)
 
 void	pipeline(t_data *data, t_cmd **cmd, char *cmd_aux)
 {
-	*cmd = malloc(sizeof(t_cmd));
-	if (!(*cmd))
-		return (perror("malloc failed"));
-	init_cmd(*cmd);
 	if (is_here_doc(cmd_aux))
 	{
+		*cmd = malloc(sizeof(t_cmd));
+		if (!(*cmd))
+			return (perror("malloc failed"));
+		init_cmd(*cmd);
 		(*cmd)->heredoc = here_doc_mode(data, cmd_aux);
 		if (!(*cmd)->heredoc)
 		{
@@ -145,4 +145,21 @@ void	pipeline(t_data *data, t_cmd **cmd, char *cmd_aux)
 	// if (cmds[i]->args)
 	// 	print_array(cmds[i]->args);
 	// printf("END %d\n", i);
+}
+
+void	init_cmd(t_cmd *cmd)
+{
+	cmd->args = NULL;
+	//cmd->env = NULL;
+	cmd->infile = NULL;
+	cmd->fd_in = STDIN_FILENO;
+	cmd->outfile = NULL;
+	cmd->fd_out = STDOUT_FILENO;
+	cmd->append = 0;
+	//cmd->delimit = NULL;
+	cmd->heredoc = NULL;
+	cmd->data = NULL;
+	cmd->p_status = 0;
+	cmd->pid = 0;
+	cmd->is_builtin = 0;
 }

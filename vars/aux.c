@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/17 23:10:27 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/28 15:22:40 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,13 @@ void	free_vars(t_vars *vars)
 	while (vars)
 	{
 		next = vars->next;
+		
 		free(vars->name);
+		vars->name = NULL;
 		free(vars->value);
+		vars->value = NULL;
+		vars->data = NULL;
+		vars->next = NULL;
 		free(vars);
 		vars = next;
 	}

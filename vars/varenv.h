@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/21 13:30:10 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:53:18 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int		count_exportable_vars(t_data *data_program);
 int		mtrx_size(char **mtrx);
 int		count_vars(char *line);
 int		size_total(char *line, char **values);
+int		total_vars(t_data *data_program);
 
 // CRUD.C
 t_vars	**export_vars(t_data *data_program);

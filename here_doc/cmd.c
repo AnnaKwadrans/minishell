@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/14 11:27:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:46:38 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static char	*get_arg(char *line, t_cmd *cmd)
 void	get_heredoc_cmd(char *line, t_cmd *cmd)
 {
 	char	*args;
-	
+
 	args = get_arg(line, cmd);
 	if (!args || !args[0])
 	{

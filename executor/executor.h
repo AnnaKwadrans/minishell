@@ -23,6 +23,7 @@ void	exec_cmd(t_cmd *cmd);
 char	**vars_to_char(t_vars *vars);
 char	*get_str_var(char *name, char *value);
 char	*get_paths(t_data *data_program);
+char	*get_exec_path(t_cmd *cmd);
 char	*get_path(char **cmd_tab, char **path_tab);
 
 // infile.c

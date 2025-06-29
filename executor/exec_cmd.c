@@ -5,46 +5,46 @@
 
 void	exec_cmd(t_cmd *cmd)
 {
-	char	*path_var;
-	char	**path_tab;
+	//char	*path_var;
+	//char	**path_tab;
 	char	*path;
 	char	**str_vars;
-	int		i;
-	int		j;
+	//int		i;
+	//int		j;
 
 	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
 	{
-		cmd->p_status = 127;
-		return ;
+		//cmd->p_status = 127;
+		exit(127);
 	}
-	else
+	str_vars = vars_to_char(cmd->data->vars);
+	/*
+	path_var = get_paths(cmd->data);
+	if (path_var == NULL || ft_strlen(path_var) < 5)
 	{
-		str_vars = vars_to_char(cmd->data->vars);
-		path_var = get_paths(cmd->data);
-		if (path_var == NULL || ft_strlen(path_var) < 5)
-		{
-			ft_putendl_fd("PATH variable not set or empty", 2);
-			cmd->p_status = 127;
-			exit(127);
-		}
-		path_tab = ft_split(path_var + 5, ':');
-		path = get_path(cmd->args, path_tab);
+		ft_putendl_fd("PATH variable not set or empty", 2);
+		cmd->p_status = 127;
+		exit(127);
 	}
+	path_tab = ft_split(path_var + 5, ':');
+	path = get_path(cmd->args, path_tab);
 	if (path_tab)
 		free_array(path_tab);
+	*/
+	path = get_exec_path(cmd);
 	if (path)
 	{
 		cmd->p_status = execve(path, cmd->args, str_vars);
 		free(path);
 		perror("Execve failed");
-		cmd->p_status = -1;
+		//cmd->p_status = -1;
 		clean_data_program(cmd->data);
 		exit(-1);
 	}
 	else
 	{
 		ft_putendl_fd("Command not found", 2);
-		cmd->p_status = 127;
+		//cmd->p_status = 127;
 		clean_data_program(cmd->data);
 		exit(127);
 	}
@@ -90,6 +90,26 @@ char	*get_str_var(char *name, char *value)
 	return (str_var);
 }
 
+char	*get_exec_path(t_cmd *cmd)
+{
+	char	*path_var;
+	char	**path_tab;
+	char	*path;
+
+	path_var = get_paths(cmd->data);
+	if (path_var == NULL || ft_strlen(path_var) < 5)
+	{
+		ft_putendl_fd("PATH variable not set or empty", 2);
+		cmd->p_status = 127;
+		exit(127);
+	}
+	path_tab = ft_split(path_var + 5, ':');
+	path = get_path(cmd->args, path_tab);
+	if (path_tab)
+		free_array(path_tab);
+	return (path);
+}
+
 char	*get_paths(t_data *data_program)
 {
 	char	*path_var;
@@ -117,7 +137,6 @@ char	*get_path(char **cmd_tab, char **path_tab)
 	if (!cmd_tab[0])
 		cmd_tab[0] = ft_strdup("cat");
 	i = 0;
-	
 	while (path_tab[i] != NULL)
 	{
 		if (ft_strncmp(cmd_tab[0], path_tab[i], ft_strlen(path_tab[i])) == 0)

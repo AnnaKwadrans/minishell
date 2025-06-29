@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:33 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/19 20:15:55 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:05:37 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*fill_var_name(char *line, int start, int size)
 		start++;
 	}
 	var_name[i] = '\0';
-	printf("VAR_NAME %s\n", var_name);
+	//printf("VAR_NAME %s\n", var_name);
 	return (var_name);
 }
 
