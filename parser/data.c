@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/24 23:56:09 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:26:04 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	init_data(t_data *data)
 {
 	data->line = NULL;
 	data->cmds = NULL;
-	data->history_lines = NULL;
-	//data->part_lines = NULL;
 	data->vars = NULL;
 	data->pipes = 0;
 	data->is_interactive = isatty(STDIN_FILENO);

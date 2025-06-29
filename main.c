@@ -79,6 +79,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 		{
 			free(input);
+			if (data_program)
+				free_data(data_program);
 			break ;
 		}
 		add_history(input);

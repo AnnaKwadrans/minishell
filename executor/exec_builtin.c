@@ -50,11 +50,6 @@ void    ft_builtin(t_cmd *cmd)
                 cmd->p_status = ft_unset(cmd->data->vars, cmd->args);
         else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
                 ft_exit(cmd->data, cmd->args);
-        else if (ft_strncmp(cmd->args[0], "mhistory", 8) == 0)
-        {
-                show_history(cmd->data);
-                cmd->p_status = 0;
-        }
 	cmd->data->last_status = cmd->p_status;
         return ;
 

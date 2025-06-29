@@ -6,11 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/25 00:00:12 by akwadran         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/24 22:48:02 by kegonza          ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/06/28 18:25:38 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +50,6 @@ void	clean_data_program(t_data *data)
 		free(data->cmds);
 		data->cmds = NULL;
 	}
-	if (data->history_lines)
-	{
-		free_line(data->history_lines);
-		data->history_lines = NULL;
-	}
 	data->pipes = 0;
 	if (data->fds)
 	{
@@ -72,16 +63,13 @@ void	clean_data_program(t_data *data)
 void	free_data(t_data *data)
 {
 	//free_history(data->history_lines); // por hacer la funcion
+	if (!data)
+		return ;
 	clean_data_program(data);
 	if (data->vars)
 	{
-		free_data(data->vars);
+		free_vars(data);
 		data->vars = NULL;
-	}
-	if (data->line)
-	{
-		free_line(data->line);
-		data->line = NULL;
 	}
 }
 
