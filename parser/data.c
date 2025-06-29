@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 18:49:39 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/28 18:26:04 by kegonza          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/06/29 13:49:20 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "parser.h"
 #include "../data.h"
@@ -33,7 +34,7 @@ void	init_data(t_data *data)
 
 void	parse_data(char *input, t_data *data, char **envp)
 {
-	printf("<<<-------------- NEW CMD -------------->>>\n");
+	//printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!valid_input(input, data))
 		return ;
 	data->line = get_line(data, input);
@@ -47,6 +48,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 	//else
 	//{
 		data->cmds = parse_line(input, data->pipes, envp, data);
+		//print_cmd(data->cmds);
 		if (!data->cmds)
 			return (free_data(data));
 	//}
