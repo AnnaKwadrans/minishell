@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/29 13:54:03 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:56:37 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ char	*expand_vars(t_data *data_program, char *line, bool rm_quotes)
 	//printf("Count of vars for expand: %d\n", count);
 	vars = multi_search(data_program, line, count);
 	// print_array(vars);
-	result = handle_expansion(data_program, line, vars);
+	result = handle_expansion(data_program, line, vars, rm_quotes);
 	free_array(vars);
 	vars = NULL;
 	return (result);

@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/29 13:53:31 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/29 14:01:06 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,9 @@ void	clean_data_program(t_data *data)
 
 	if (!data)
 		return ;
-	if (data->line)
-	{
-		free_line(data->line);
-		data->line = NULL;
-	}
 	if (data->cmds)
 	{
 		free_cmds(data);
-		/*
 		i = 0;
 		while (data->cmds[i])
 		{
@@ -75,7 +69,7 @@ void	free_data(t_data *data)
 	clean_data_program(data);
 	if (data->vars)
 	{
-		free_data(data->vars);
+		free_vars(data);
 		data->vars = NULL;
 	}
 }
@@ -85,6 +79,8 @@ void	free_cmds(t_data *data)
 	int	i;
 
 	i = 0;
+	if (!data || !data->cmds)
+		return ;
 	while (data->cmds[i])
 	{
 		free_cmd(data->cmds[i]);

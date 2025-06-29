@@ -1,6 +1,9 @@
+#ifdef LINUX_OS
+# include <linux/limits.h>
+#else
+# include <limits.h>
+#endif
 #include <dirent.h>
-#include <linux/limits.h>
-#include <limits.h>
 #include "../data.h"
 #include "../libft/libft.h"
 #include "../vars/varenv.h"
