@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 18:46:59 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/29 13:48:49 by kegonza          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/06/29 14:01:06 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "parser.h"
 #include "../data.h"
@@ -34,15 +35,9 @@ void	clean_data_program(t_data *data)
 
 	if (!data)
 		return ;
-	if (data->line)
-	{
-		free_line(data->line);
-		data->line = NULL;
-	}
 	if (data->cmds)
 	{
 		free_cmds(data);
-		/*
 		i = 0;
 		while (data->cmds[i])
 		{
@@ -61,6 +56,7 @@ void	clean_data_program(t_data *data)
 		free(data->fds);
 		data->fds = NULL;
 	}
+	data->is_expandable = 0;
 	// free_array(data->part_lines);
 	// data->part_lines = NULL;
 }
@@ -73,7 +69,7 @@ void	free_data(t_data *data)
 	clean_data_program(data);
 	if (data->vars)
 	{
-		free_data(data->vars);
+		free_vars(data);
 		data->vars = NULL;
 	}
 }
@@ -83,6 +79,8 @@ void	free_cmds(t_data *data)
 	int	i;
 
 	i = 0;
+	if (!data || !data->cmds)
+		return ;
 	while (data->cmds[i])
 	{
 		free_cmd(data->cmds[i]);

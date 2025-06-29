@@ -15,6 +15,9 @@ LIBFT = libft/libft.a
 UNAME_S := $(shell uname -s)
 WHO := $(shell whoami)
 
+ifeq ($(UNAME_S),Linux)
+    FLAGS += -DLINUX_OS
+endif
 ifeq ($(UNAME_S),Darwin)
 	ifeq ($(WHO),annakwadrans)
 		READLINE_INC = -I/usr/local/opt/readline/include

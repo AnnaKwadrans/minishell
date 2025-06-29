@@ -100,6 +100,7 @@ $\_ = \n
 debería retornar: "hola"
 
 En caso de que lo último ejecutado, sea un ejecutable, debería salir la ruta del ejecutable.
+Cuando se trata de una expansión de variables, esta variable ($\_) no debe actualizar.
 
 $\_
 

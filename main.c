@@ -92,10 +92,11 @@ int	main(int argc, char **argv, char **envp)
 		}
 		parse_data(input, data_program, envp);
 		execute_line(data_program);
-		// show_vars(data_program);
-		// update_env(data_program);
-		//printf("the new value of _ is %s\n", get_var_value(data_program, "_"));
-		// show_vars(data_program);
+		printf("last status: %d\n", data_program->last_status);
+		printf("is_expandable: %d\n", data_program->is_expandable);
+		if (data_program->is_expandable == 0)
+			update_env(data_program);
+		printf("the new value of _ is %s\n", get_var_value(data_program, "_"));
 		clean_data_program(data_program);
 		free(input);
 	}

@@ -6,9 +6,10 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/29 13:49:20 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:53:48 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #include "parser.h"
@@ -28,6 +29,7 @@ void	init_data(t_data *data)
 		setup_interactive_signals();
 	else
 		setup_nointeractive();
+	data->is_expandable = 0;
 	data->fds = NULL;
 	data->last_status = 0;
 }
