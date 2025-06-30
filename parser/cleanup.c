@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/29 14:01:06 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:24:03 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	clean_data_program(t_data *data)
 	if (data->cmds)
 	{
 		free_cmds(data);
-		i = 0;
+		/*i = 0;
 		while (data->cmds[i])
 		{
 			printf("freeing cdm %d\n", i);
@@ -46,8 +46,8 @@ void	clean_data_program(t_data *data)
 			//free(data->cmds[i]);
 			data->cmds[i] = NULL;
 			i++;
-		}
-		free(data->cmds);
+		}*/
+		// free(data->cmds);
 		data->cmds = NULL;
 	}
 	data->pipes = 0;
