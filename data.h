@@ -42,7 +42,7 @@ typedef struct s_heredoc
 // Estructura para almacenar los datos del programa
 typedef struct s_data
 {
-	struct s_lines	*line; // Lineas de entrada
+	//struct s_lines	*line; // Lineas de entrada
 	struct s_cmd	**cmds; // Comandos para ejecutar
 	struct s_vars	*vars; // Variables de entorno
 	int				pipes; // Contador de pipes
