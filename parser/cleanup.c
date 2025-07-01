@@ -14,8 +14,9 @@
 #include "parser.h"
 #include "../data.h"
 #include "../libft/libft.h"
+#include "../vars/varenv.h"
 
-void	free_vars(void *args);
+//void	free_vars(void *args);
 
 void	free_here_doc(t_heredoc *here_doc)
 {
@@ -69,7 +70,8 @@ void	free_data(t_data *data)
 	clean_data_program(data);
 	if (data->vars)
 	{
-		free_vars(data);
+		//show_vars(data->vars);
+		free_vars(data->vars);
 		data->vars = NULL;
 	}
 }

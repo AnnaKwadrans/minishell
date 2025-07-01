@@ -20,7 +20,7 @@
 
 void	init_data(t_data *data)
 {
-	data->line = NULL;
+	//data->line = NULL;
 	data->cmds = NULL;
 	data->vars = NULL;
 	data->pipes = 0;
@@ -39,7 +39,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 	//printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!valid_input(input, data))
 		return ;
-	data->line = get_line(data, input);
+	//data->line = get_line(data, input);
 	// printf(">>>\t\tLINE: %s\n", data->line->line);
 	//data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
 	data->pipes = count_pipe(input);
