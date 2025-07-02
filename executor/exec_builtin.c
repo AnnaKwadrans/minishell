@@ -10,7 +10,7 @@ bool	is_builtin(char *cmd)
 	if (ft_strncmp(cmd, "echo", 4) == 0 || ft_strncmp(cmd, "cd", 2) == 0
 		|| ft_strncmp(cmd, "env", 3) == 0 || ft_strncmp(cmd, "pwd", 3) == 0
 		|| ft_strncmp(cmd, "export", 6) == 0 || ft_strncmp(cmd, "unset", 5) == 0
-		|| ft_strncmp(cmd, "exit", 4) == 0 || ft_strncmp(cmd, "mhistory", 8) == 0)
+		|| ft_strncmp(cmd, "exit", 4) == 0)
 	{
                 return (1);
 	}
@@ -22,12 +22,21 @@ bool	is_builtin(char *cmd)
 
 int	exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 {
+        int     saved_stdin;
+        int     saved_stdout;
+
+        saved_stdin = dup(STDIN_FILENO);
+        saved_stdout = dup(STDOUT_FILENO);
         //printf("check pid: %d\n", cmd->pid);
         close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
 	//redirect(cmd, cmd->data, i);
 	if (redirect(cmd, pipes, fds, i) != 0)
 		return (1);
         ft_builtin(cmd);
+        dup2(saved_stdin, STDIN_FILENO);
+        close(saved_stdin);
+        dup2(saved_stdout, STDOUT_FILENO);
+        close(saved_stdout);
         return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/30 16:22:25 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:14:02 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	free_array(cmd_aux);
 	if (will_free)
 		free(input_exp);
-	print_cmd(data->cmds);
+	//print_cmd(data->cmds);
 	return (data->cmds);
 }
 
@@ -114,7 +114,6 @@ int is_expandable(char *input)
 
 void	pipeline(t_data *data, char **cmd_aux, int i)
 {
-	printf("check 1\n");
 	if (is_here_doc(cmd_aux[i]))
 	{
 		data->cmds[i] = malloc(sizeof(t_cmd));
@@ -132,13 +131,10 @@ void	pipeline(t_data *data, char **cmd_aux, int i)
 	}
 	else
 	{
-		printf("check 2\n");
 		data->cmds[i] = get_cmd(cmd_aux[i]);
-		printf("check 3\n");
 		if (!(data->cmds[i]))
 			return ;
 	}
-	printf("check 4\n");
 	data->cmds[i]->data = data;
 }
 
