@@ -59,6 +59,19 @@ int	count_pipes(char *input) // <- MEJOR LA FUNCION int count_pipe(char *line) P
 
 // }
 
+void	update_shlvl(t_data *data)
+{
+	t_vars *shlvl;
+	int	lvl;
+
+	if (!data->vars)
+		return ;
+	shlvl = search_var(data, "SHLVL");
+	lvl = ft_atoi(shlvl->value) + 1;
+	free(shlvl->value);
+	shlvl->value = ft_itoa(lvl);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char			*input;
@@ -69,6 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	data_program = malloc(sizeof(t_data));
 	init_data(data_program);
 	init_env(data_program, envp);
+	update_shlvl(data_program);
 	printf("we have %d vars in env\n", total_vars(data_program));
 	while (1)
 	{
