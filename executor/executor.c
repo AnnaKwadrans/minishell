@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/02 21:43:47 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:31:16 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ int	child(t_cmd *cmd, int pipes, int *fds, int i)
 			return (1);
                 //cmd->data->last_cmd = &cmd;
 
-                exec_cmd(cmd);
-                exit(cmd->p_status);
-
-
-		
+                if (cmd->is_builtin)
+			ft_builtin(cmd);
+		else
+			exec_cmd(cmd);
+                exit(cmd->p_status);	
         }
         else if (cmd->pid > 0)
                 return (0);
