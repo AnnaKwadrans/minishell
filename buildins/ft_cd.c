@@ -66,7 +66,10 @@ int	ft_pwd(void)
 	char	path[PATH_MAX];
 
 	if (getcwd(path, PATH_MAX) == NULL)
-		return (perror("getcwd failed"), -1);
+	{
+		perror("getcwd failed");
+		return (1);
+	}
 	printf("%s\n", path);
 	return (0);
 }
@@ -132,12 +135,12 @@ int	ft_cd(t_data *data, char **args)
 	{
 		home_var = search_var(data, "HOME");
 		if (chdir(home_var->value) == -1)
-			perror("chdir failed");
+			return (perror("chdir failed"), 1);
 	}
 	else 
 	{
 		if (chdir(args[1]) == -1)
-			perror("chdir failed");
+		return (perror("chdir failed"), 1);
 	}
 	update_pwd_var(data);
 	return (0);
