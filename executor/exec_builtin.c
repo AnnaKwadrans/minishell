@@ -25,18 +25,42 @@ int	exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
         int     saved_stdin;
         int     saved_stdout;
 
-        saved_stdin = dup(STDIN_FILENO);
-        saved_stdout = dup(STDOUT_FILENO);
-        //printf("check pid: %d\n", cmd->pid);
-        close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
-	//redirect(cmd, cmd->data, i);
-	if (redirect(cmd, pipes, fds, i) != 0)
+        if (cmd->data->pipes == 0)
+        {
+                saved_stdin = dup(STDIN_FILENO);
+                saved_stdout = dup(STDOUT_FILENO);
+                //printf("check pid: %d\n", cmd->pid);
+                close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+	        //redirect(cmd, cmd->data, i);
+	        if (redirect(cmd, pipes, fds, i) != 0)
 		return (1);
-        ft_builtin(cmd);
-        dup2(saved_stdin, STDIN_FILENO);
-        close(saved_stdin);
-        dup2(saved_stdout, STDOUT_FILENO);
-        close(saved_stdout);
+                ft_builtin(cmd);
+                dup2(saved_stdin, STDIN_FILENO);
+                close(saved_stdin);
+                dup2(saved_stdout, STDOUT_FILENO);
+                close(saved_stdout);
+        }
+        else
+        {
+                child(cmd, pipes, fds, i);
+                /*cmd->pid = fork();
+                //printf("check pid: %d\n", cmd->pid);
+                if (cmd->pid < 0)
+                        return (perror("Fork failed"), 2);
+                else if (cmd->pid == 0)
+                {
+                        close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+                        if (redirect(cmd, pipes, fds, i) != 0)
+                                return (1);
+                        //cmd->data->last_cmd = &cmd;
+        
+                        ft_builtin(cmd);
+                        exit(cmd->p_status);
+
+                }
+                else if (cmd->pid > 0)
+                        return (0);*/
+        }
         return (0);
 }
 
