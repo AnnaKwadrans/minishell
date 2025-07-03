@@ -12,7 +12,7 @@ int	redirect(t_cmd *cmd, int pipes, int *fds, int i)
                 if (handle_infile(cmd, cmd->data) != 0)
                         return (1);
                 dup2(cmd->fd_in, STDIN_FILENO);
-                //close(cmd->fd_in);
+                close(cmd->fd_in);
         }
         else if (i != 0)
         {
@@ -26,9 +26,8 @@ int	redirect(t_cmd *cmd, int pipes, int *fds, int i)
                         close(fds[(i * 2) + 1]); // 0:1 1:3 2:5 3:7
                 if (handle_outfile(cmd, cmd->data) != 0)
                         return (1);
-                //handle_outfile(cmd->outfile, cmd->append, cmd->data); // y si error?
                 dup2(cmd->fd_out, STDOUT_FILENO);
-                //close(cmd->fd_out);
+                close(cmd->fd_out);
         }
         else if (i != pipes)
         {
@@ -37,6 +36,8 @@ int	redirect(t_cmd *cmd, int pipes, int *fds, int i)
         }
         return (0);
 }
+
+
 /*
 int	redirect(t_cmd *cmd, int pipes, int *fds, int i)
 {

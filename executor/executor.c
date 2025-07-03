@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/03 21:31:16 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:42:09 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	i = 0;
 	while (data->cmds[i])
 	{
-		printf("check cmd %d\n", i);
 		handle_cmd(data, data->cmds[i], i);
 		/*if (is_builtin(data->cmds[i]->args[0]))
                 {
