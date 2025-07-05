@@ -9,19 +9,20 @@
 #include "../vars/varenv.h"
 //#include "../aux/aux.h"
 #include "../executor/executor.h"
+#include "builtins.h"
 
-static void	rm_first(t_vars **vars)
+static void	rm_first(t_data *data)
 {
 	t_vars	*temp;
 
-	temp = *vars;
-	*vars = (*vars)->next;
-	free(temp->name);
-	free(temp->value);
-	temp->data = NULL;
+	temp = data->vars;
+	data->vars = temp->next;
 	temp->next = NULL;
-	// printf("CHILD\n");
-	ft_env(*vars);
+	free_vars(temp);
+	temp = NULL;
+	//printf("******VARS******\n");
+	//ft_env(data->vars);
+	//printf("****END VARS****\n");
 }
 
 static void	rm_last(t_vars *vars)
@@ -33,12 +34,20 @@ static void	rm_last(t_vars *vars)
 	{
 		if (!vars->next->next)
 		{
+			free_vars(vars->next);
+			vars->next = NULL;
+			/*
 			free(vars->next->name);
+			vars->next->name = NULL;
 			free(vars->next->value);
+			vars->next->value = NULL;
 			vars->next->data = NULL;
 			vars->next = NULL;
+			free(vars->next);
+			vars->next = NULL;
+			*/
 			// printf("CHILD\n");
-			ft_env(temp);
+			//ft_env(temp);
 			return ;
 		}
 		vars = vars->next;
@@ -53,53 +62,70 @@ static void	rm_middle(t_vars *vars, char *name)
 	{
 		if (strncmp(vars->next->name, name, ft_strlen(name)) == 0)
 		{
-			temp = vars->next;
+			temp = vars->next->next;
+			vars->next->next = NULL;
+			free_vars(vars->next);
+			vars->next = temp;
+			/*
+			temp->next = NULL;
 			vars->next = vars->next->next;
+			free_vars(temp);
+			temp = NULL;
+			*//*
 			free(temp->name);
+			temp->name = NULL;
 			free(temp->value);
+			temp->value = NULL;
 			temp->data = NULL;
 			temp->next = NULL;
-			// printf("CHILD\n");
-			ft_env(vars);
+			*/
+			// printf("CHILD\n");unset
+			//ft_env(vars);
 			return ;
 		}
 		vars = vars->next;
 	}
 	// printf("CHILD\n");
-	show_vars(vars);
+	//show_vars(vars);
 }
 
-int	ft_unset(t_vars *vars, char **args)
+static void	single_unset(char *arg, t_data *data, t_vars *vars)
 {
-	int		i;
 	t_vars	*start;
 
-	if (!vars || !args)
-		return (ft_putendl_fd("not enough arguments", 2), 0);
 	start = vars;
-	i = 1;
-	while (args[i])
-	{
-		if (ft_strncmp(args[i], vars->name, ft_strlen(args[i])) == 0)
+	printf("ARG %s\n", arg);
+	printf("VAR %s\n", vars->name);
+	if (ft_strncmp(arg, vars->name, ft_strlen(arg)) == 0)
 		{
-			rm_first(&vars);
-			break ;
+			rm_first(data);
+			return ;
 		}
 		while (vars && vars->next && vars->next->next)
 		{
-			if (ft_strncmp(args[i], vars->next->name, ft_strlen(args[i])) == 0)
+			if (ft_strncmp(arg, vars->next->name, ft_strlen(arg)) == 0)
 			{
-				rm_middle(start, args[i]);
-				break ;
+				rm_middle(start, arg);
+				return ;
 			}
 			vars = vars->next;
 		}
-		if (ft_strncmp(args[i], vars->next->name, ft_strlen(args[i])) == 0)
-		{
+		if (ft_strncmp(arg, vars->next->name, ft_strlen(arg)) == 0)
 			rm_last(start);
-			break ;
-		}
+}
+
+int	ft_unset(char **args, t_data *data)
+{
+	int		i;
+
+	if (!data->vars || !args)
+		return (ft_putendl_fd("not enough arguments", 2), 0);
+	i = 1;
+	while (args[i])
+	{
+		single_unset(args[i], data, data->vars);
 		i++;
 	}
 	return (0);
 }
+
