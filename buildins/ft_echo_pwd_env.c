@@ -1,4 +1,4 @@
-#ifdef LINUX_OS
+#ifdef __linux__
 # include <linux/limits.h>
 #else
 # include <limits.h>
