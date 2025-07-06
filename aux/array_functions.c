@@ -23,13 +23,17 @@ void	print_array(char **array)
 {
 	int	i;
 
-	printf("printing array: <<<\n");
 	if (!array)
+	{
+		printf("\n");
 		return ;
+	}
 	i = 0;
 	while (array[i])
 	{
-		printf("\t\t\t\t>>>%s\n", array[i]);
+		if (i != 0)
+			printf("\t\t");
+		printf("\t%d >%s\n", i, array[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:09:43 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/05 00:42:39 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/30 21:26:33 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sigint_handler_heredoc(int sig)
 {
 	(void)sig;
-	g_heredoc_interrupted = 1;
+	g_sigint_received = 1;
 	write(1, "\n", 1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/30 16:24:03 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:50:46 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,17 +123,3 @@ void	free_cmd(t_cmd	*cmd)
 	free(cmd);
 	cmd = NULL;
 }
-
-void	free_line(t_lines *line)
-{
-	if (!line)
-		return ;
-	if (line->line)
-	{
-		free(line->line);
-		line->line = NULL;
-	}
-	free(line);
-	line = NULL;
-}
-

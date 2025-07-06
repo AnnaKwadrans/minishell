@@ -59,6 +59,8 @@ int	count_pipes(char *input) // <- MEJOR LA FUNCION int count_pipe(char *line) P
 
 // }
 
+int	g_sigint_received = 0; // Variable global para manejar SIGINT
+
 void	update_shlvl(t_data *data)
 {
 	t_vars *shlvl;
@@ -86,6 +88,12 @@ int	main(int argc, char **argv, char **envp)
 	printf("we have %d vars in env\n", total_vars(data_program));
 	while (1)
 	{
+		if (g_sigint_received)
+		{
+			data_program->last_status = 130; // Resetear el estado de salida
+			g_sigint_received = 0; // Reiniciar la señal
+			continue ;
+		}
 		if (data_program->is_interactive)
 			input = readline("minishell > ");
 		else

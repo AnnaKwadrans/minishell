@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
 /*   Updated: 2025/07/02 18:14:02 by akwadran         ###   ########.fr       */
@@ -24,7 +24,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	char	*input_exp;
 	int		will_free;
 
-	// printf("<<<-------------- PARSING LINE -------------->>>\n");
+	printf("<<<-------------- PARSING LINE -------------->>>\n");
 	// printf("PARSING INPUT: %s\n", input);
 	
 	//if (!input || input[0] == '\0' || !valid_pipes(input))

@@ -7,13 +7,11 @@
 # include "../aux/aux.h"
 
 typedef struct s_data t_data;
-typedef struct s_lines t_lines;
 typedef struct s_cmd t_cmd;
 
 // data.c
 void	init_data(t_data *data);
 void	parse_data(char *input, t_data *data, char **envp);
-t_lines	*get_line(t_data *data, char *input);
 int	count_pipe(char *line); // ver si no tiene errores
 void    handle_var(char *input, t_data *data);
 
@@ -60,7 +58,6 @@ void	clean_data_program(t_data *data); // libera la memoria de t_data después d
 void	free_data(t_data *data); // libera todo de t_data pero está incompleta
 void	free_cmds(t_data *data);
 void	free_cmd(t_cmd	*cmd);
-void	free_line(t_lines *line);
 void	free_data_vars(t_vars *vars);
 
 // parser_utils.c
