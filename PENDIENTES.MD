@@ -135,6 +135,7 @@ ECHO
 echo $? $USER $HOME (solo expande $?)
 echo $ y echo "$"
 echo $?hola
+echo '$PWD'
 
 EXPORT (HECHO)
 export hello
