@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/30 21:35:18 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/07 00:02:11 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,10 @@ void	here_doc_init(char *line, t_heredoc *here_doc)
 t_heredoc	*here_doc_mode(t_data *data_program, char *line)
 {
 	t_heredoc	*here_doc;
-	char		*new_line = NULL;
+	char		*new_line;
 	int			i;
 
+	new_line = NULL;
 	here_doc = malloc(sizeof(t_heredoc));
 	if (!here_doc)
 		return (here_doc_error(here_doc, "MALLOC"), NULL);

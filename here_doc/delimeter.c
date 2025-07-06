@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:17:14 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/23 00:17:23 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/06 22:57:57 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ char	*aux_get_delimiter(char *line)
 	char	*temp;
 
 	start = 0;
-	while (line[start] != '\0' && (line[start] == '\'' || line[start] == '\"' || line[start] == ' '))
+	while (line[start] != '\0' && (line[start] == '\''
+			|| line[start] == '\"' || line[start] == ' '))
 		start++;
 	end = ft_strlen(line) - 1;
-	while (end > start && (line[end] == ' ' || line[end] == '\'' || line[end] == '\"'))
+	while (end > start && (line[end] == ' '
+			|| line[end] == '\'' || line[end] == '\"'))
 		end--;
 	if (end < start)
 		return (free(line), NULL);
@@ -33,12 +35,32 @@ char	*aux_get_delimiter(char *line)
 	return (temp);
 }
 
+static int	new_start(char *line)
+{
+	int	start;
+
+	// printf("searching new start\n");
+	start = 0;
+	if (!line)
+		return (0);
+	while (line[start] != '<')
+		start++;
+	// printf("found a '%c'\t", line[start]);
+	start += 2;
+	// printf("jumping to '%c'\t", line[start]);
+	while (line[start] == ' ')
+		start++;
+	// printf("jumping spaces to '%c'\t", line[start]);
+	while (line[start] && line[start] != ' ' && line[start] != '\n')
+		start++;
+	return (start);
+}
+
 void	get_delimiter(char *line, t_heredoc *here_doc)
 {
 	int		i;
 	int		start;
 	char	*temp;
-
 
 	i = 0;
 	start = 0;
@@ -46,11 +68,7 @@ void	get_delimiter(char *line, t_heredoc *here_doc)
 	{
 		if (line[i] == '<' && line[i + 1] == '<')
 		{
-			start = i + 2;
-			while (line[start] == ' ')
-				start++;
-			while (line[start] && line[start] != ' ' && line[start] != '\n')
-				start++;
+			start = new_start(line);
 			temp = malloc(sizeof(char) * (start - i + 1));
 			if (!temp)
 				return ;
@@ -66,4 +84,3 @@ void	get_delimiter(char *line, t_heredoc *here_doc)
 		i++;
 	}
 }
-
