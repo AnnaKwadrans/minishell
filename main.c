@@ -66,7 +66,7 @@ void	update_shlvl(t_data *data)
 	t_vars *shlvl;
 	int	lvl;
 
-	if (!data->vars)
+	if (!data || !data->vars)
 		return ;
 	shlvl = search_var(data, "SHLVL");
 	lvl = ft_atoi(shlvl->value) + 1;
