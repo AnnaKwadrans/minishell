@@ -1,10 +1,4 @@
 #include "parser.h"
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../here_doc/here_doc.h"
-#include "../vars/varenv.h"
-
-
 
 char	**rm_quotes(char **args)
 {

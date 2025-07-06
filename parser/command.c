@@ -1,9 +1,4 @@
 #include "parser.h"
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../here_doc/here_doc.h"
-#include "../vars/varenv.h"
-#include "../executor/executor.h"
 
 t_cmd	*get_cmd(char *aux)
 {

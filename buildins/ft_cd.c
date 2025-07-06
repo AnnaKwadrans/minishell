@@ -1,11 +1,4 @@
-#ifdef LINUX_OS
-# include <linux/limits.h>
-#else
-# include <limits.h>
-#endif
 #include "builtins.h"
-#include "../vars/varenv.h"
-#include "../parser/parser.h"
 
 static void	update_pwd_var(t_data *data)
 {
@@ -43,13 +36,4 @@ int	ft_cd(t_data *data, char **args)
 	}
 	update_pwd_var(data);
 	return (0);
-}
-
-void	ft_exit(t_data *data, char **args)
-{
-	int	status;
-
-	status = data->last_status;
-	free_data(data);
-	exit(status);
 }

@@ -1,5 +1,11 @@
-#include "../data.h"
-#include "../parser/parser.h"
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
+# include "../data.h"
+# include "../parser/parser.h"
+# include "../here_doc/here_doc.h"
+# include "../buildins/builtins.h"
+# include "../vars/varenv.h"
+
 
 // executor.c
 int	execute_line(t_data *data);
@@ -35,3 +41,5 @@ int	handle_infile(t_cmd *cmd, t_data *data);
 int	check_outfile(char **outfile, t_data *data);
 int	open_outfile(t_cmd *cmd, t_data *data);
 int	handle_outfile(t_cmd *cmd, t_data *data);
+
+#endif

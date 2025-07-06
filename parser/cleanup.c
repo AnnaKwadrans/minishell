@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/30 21:50:46 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/06 21:44:38 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "parser.h"
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../vars/varenv.h"
-
-//void	free_vars(void *args);
 
 void	free_here_doc(t_heredoc *here_doc)
 {

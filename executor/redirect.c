@@ -1,7 +1,4 @@
-#include "../data.h"
-#include "../parser/parser.h"
 #include "executor.h"
-#include "../here_doc/here_doc.h"
 
 int	redirect(t_cmd *cmd, int pipes, int *fds, int i)
 {

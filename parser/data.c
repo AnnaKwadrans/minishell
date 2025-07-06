@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/30 21:48:07 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/06 21:46:27 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "parser.h"
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../vars/varenv.h"
-#include <readline/readline.h>
 
 void	init_data(t_data *data)
 {

@@ -3,8 +3,14 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
+# include <readline/readline.h>
+# include <stdio.h>
 # include "../libft/libft.h"
 # include "../aux/aux.h"
+# include "../data.h"
+# include "../vars/varenv.h"
+# include "../here_doc/here_doc.h"
+# include "../executor/executor.h"
 
 typedef struct s_data t_data;
 typedef struct s_cmd t_cmd;

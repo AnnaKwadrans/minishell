@@ -1,7 +1,4 @@
-#include "../data.h"
-#include "../parser/parser.h"
 #include "executor.h"
-#include "../vars/varenv.h"
 
 void	exec_cmd(t_cmd *cmd)
 {

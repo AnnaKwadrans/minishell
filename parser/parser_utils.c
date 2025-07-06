@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:45 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/30 22:02:20 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/06 21:47:08 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "../data.h"
 
 bool	is_set(char c, char const *set)
 {
