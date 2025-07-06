@@ -3,6 +3,7 @@
 #include "../libft/libft.h"
 #include "../here_doc/here_doc.h"
 #include "../vars/varenv.h"
+#include "../executor/executor.h"
 
 t_cmd	*get_cmd(char *aux)
 {
@@ -44,6 +45,8 @@ t_cmd	*get_cmd(char *aux)
 	}
 	// printf("ARGS\n");
 	// print_array(cmd->args);
+	if (is_builtin(cmd->args[0]))
+		cmd->is_builtin = 1;
 	return (cmd);
 }
 

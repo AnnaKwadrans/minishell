@@ -150,12 +150,12 @@ export VAR-=value # ❌ Contains -=
 export =VALUE # ❌ Starts with equals sign
 export @VAR=value # ❌ Contains special character
 
-CD
+CD (hecho)
 actualizar variable PWD
 cd $PWD hola -> err too many arguments
 cd 123 -> err no such dir ->exit code 1
 
-# PIPES
+# PIPES (hecho)
 
 env | grep HOME
 ls | grep c | env

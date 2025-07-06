@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/27 20:57:39 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:42:09 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	i = 0;
 	while (data->cmds[i])
 	{
-		if (is_builtin(data->cmds[i]->args[0]))
+		handle_cmd(data, data->cmds[i], i);
+		/*if (is_builtin(data->cmds[i]->args[0]))
                 {
 			data->cmds[i]->is_builtin = 1;
                         exec_builtin(data->cmds[i], data->pipes, data->fds, i);
                 }
                 else
 			child(data->cmds[i], data->pipes, data->fds, i);
+		*/
 		i++;
 	}
 	close_fds(data->fds, data->pipes, -1, -1);
@@ -76,9 +78,8 @@ int	*create_pipes(int pipes)
 
 int     handle_cmd(t_data *data, t_cmd *cmd, int i)
 {
-	if (is_builtin(cmd->args[0]))
+	if (cmd->is_builtin)
 	{
-		cmd->is_builtin = 1;
 		exec_builtin(cmd, data->pipes, data->fds, i);
 	}
 	else
@@ -115,11 +116,11 @@ int	child(t_cmd *cmd, int pipes, int *fds, int i)
 			return (1);
                 //cmd->data->last_cmd = &cmd;
 
-                exec_cmd(cmd);
-                exit(cmd->p_status);
-
-
-		
+                if (cmd->is_builtin)
+			ft_builtin(cmd);
+		else
+			exec_cmd(cmd);
+                exit(cmd->p_status);	
         }
         else if (cmd->pid > 0)
                 return (0);

@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/30 21:52:38 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/02 18:14:02 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 {
 	int		i;
 	char	**cmd_aux;
-	t_cmd	**cmds;
+	//t_cmd	**cmds;
 	char	*input_exp;
 	int		will_free;
 
@@ -48,23 +48,23 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	//printf("\t>>>\t\texpand: %s\n", input_exp);
 	cmd_aux = split_pipes(input_exp, '|');
 	//print_array(cmd_aux);
-	cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
-	if (!cmds)
+	data->cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
+	if (!data->cmds)
 		return (perror("malloc failed"), NULL);
 	i = 0;
 	while (i <= pipes)
 	{
-		pipeline(data, &cmds[i], cmd_aux[i]);
-		if (!cmds[i])
+		pipeline(data, cmd_aux, i);
+		if (!data->cmds[i])
 			return (free_array(cmd_aux), NULL); // ver liberacion de memoria
 		i++;
 	}
-	cmds[i] = NULL;
+	data->cmds[i] = NULL;
 	free_array(cmd_aux);
 	if (will_free)
 		free(input_exp);
-	print_cmd(cmds);
-	return (cmds);
+	//print_cmd(data->cmds);
+	return (data->cmds);
 }
 
 char	*vars_expansion(char *input, t_data *data, int *will_free)
@@ -112,7 +112,33 @@ int is_expandable(char *input)
 		return (0);
 }
 
-void	pipeline(t_data *data, t_cmd **cmd, char *cmd_aux)
+void	pipeline(t_data *data, char **cmd_aux, int i)
+{
+	if (is_here_doc(cmd_aux[i]))
+	{
+		data->cmds[i] = malloc(sizeof(t_cmd));
+		if (!(data->cmds[i]))
+			return (perror("malloc failed"));
+		init_cmd(data->cmds[i]);
+		(data->cmds[i])->heredoc = here_doc_mode(data, cmd_aux[i]);
+		if (!(data->cmds[i])->heredoc)
+		{
+			free_cmd(data->cmds[i]);
+			data->cmds[i] = NULL;
+			return ;
+		}
+		get_heredoc_cmd(cmd_aux[i], data->cmds[i]);
+	}
+	else
+	{
+		data->cmds[i] = get_cmd(cmd_aux[i]);
+		if (!(data->cmds[i]))
+			return ;
+	}
+	data->cmds[i]->data = data;
+}
+
+/*void	pipeline(t_data *data, t_cmd **cmd, char *cmd_aux)
 {
 	if (is_here_doc(cmd_aux))
 	{
@@ -146,7 +172,7 @@ void	pipeline(t_data *data, t_cmd **cmd, char *cmd_aux)
 	// 	print_array(cmds[i]->args);
 	// printf("END %d\n", i);
 }
-
+*/
 void	init_cmd(t_cmd *cmd)
 {
 	cmd->args = NULL;

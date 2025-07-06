@@ -20,7 +20,7 @@
 
 void	init_data(t_data *data)
 {
-	data->line = NULL;
+	//data->line = NULL;
 	data->cmds = NULL;
 	data->vars = NULL;
 	data->pipes = 0;

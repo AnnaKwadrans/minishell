@@ -26,7 +26,7 @@ bool    is_var(char *line);
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data); // devuelve array de comandos
 char	*vars_expansion(char *input, t_data *data, int *will_free);
 int     is_expandable(char *input);
-void	pipeline(t_data *data, t_cmd **cmd, char *cmd_aux);
+void	pipeline(t_data *data, char **cmd_aux, int i);
 void	init_cmd(t_cmd *cmd); // inicializa la estructura
 
 // command.c

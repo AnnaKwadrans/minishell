@@ -35,18 +35,3 @@ int	handle_infile(t_cmd *cmd, t_data *data);
 int	check_outfile(char **outfile, t_data *data);
 int	open_outfile(t_cmd *cmd, t_data *data);
 int	handle_outfile(t_cmd *cmd, t_data *data);
-
-
-// ft_cd
-int     ft_env(t_vars *vars);
-int    ft_pwd();
-int     ft_unset(t_vars *vars, char **args);
-
-int     ft_echo (t_data *data, char **args);
-int	ft_export(t_data *data, t_vars *vars, char **args);
-void     ft_exit(t_data *data, char **args);
-int    ft_cd(t_data *data, char **args);
-/*COMMIT CAMPUS 
-int     ft_echo (t_data *data, char **args);
-int     ft_export(t_data *data, char *name);
-END COMMIT CAMPUS */
