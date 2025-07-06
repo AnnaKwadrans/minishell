@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/29 13:46:38 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/30 21:44:37 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,11 @@ void	get_heredoc_cmd(char *line, t_cmd *cmd)
 		else
 			printf("without flags\n"); // para testear
 	}
-	// if (cmd->heredoc->buffer)
 	setup_heredoc_input(cmd);
 	cmd->fd_out = STDOUT_FILENO;
 	cmd->outfile = NULL;
 	cmd->append = 0;
 	cmd->infile = NULL;
-	//cmd->delimit = NULL;
 	cmd->pid = 0;
 	cmd->p_status = 0;
 }

@@ -17,11 +17,12 @@
 # include "signals/signals.h"
 # include "aux/aux.h"
 
+extern int g_sigint_received;
+
 typedef struct s_heredoc	t_heredoc;
 typedef struct s_data		t_data;
 typedef struct s_vars		t_vars;
 typedef struct s_cmd		t_cmd;
-typedef struct s_lines		t_lines;
 
 // Estructura para expandir variables
 typedef struct s_expand
@@ -72,23 +73,12 @@ typedef struct s_cmd
 	int			fd_out;
 	int			append;
 	t_heredoc	*heredoc;
-	//char		*delimit;
 	pid_t		pid;
 	int			p_status;
 	t_data		*data;
 	bool		is_builtin;
 }	t_cmd;
 
-// Estructura para almacenar las lineas de entrada (historial)
-typedef struct s_lines
-{
-	char			*line; // Linea de entrada
-	int				index; // Indice de la linea
-	struct s_lines	*next; // Siguiente linea
-	t_data			*data; // Datos del programa
-}	t_lines;
-
-void	ft_printer_lines(t_lines *lines);
 void	add_mhistory(t_data *data_program, char *input);
 void	show_history(void *arg);
 void	free_cmd(t_cmd *cmd);

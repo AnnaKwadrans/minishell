@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:12:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/16 16:22:04 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/30 21:39:46 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ void	here_doc_error(t_heredoc *here_doc, char *error_msg)
 	else
 		printf("An error occurred in here_doc\n");
 	printf("<<----- \t HERE_DOC MODE STOPPED \t ----->>\n");
-	free_here_doc(here_doc);
+	if (here_doc)
+		free_here_doc(here_doc);
 }
