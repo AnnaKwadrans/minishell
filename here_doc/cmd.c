@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/30 21:44:37 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/06 21:33:29 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static char	*get_arg(char *line, t_cmd *cmd)
 	}
 	return (args);
 }
+
 void	get_heredoc_cmd(char *line, t_cmd *cmd)
 {
 	char	*args;
