@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:45 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/24 01:38:16 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:02:20 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,6 @@ char	*get_var(char *line)
 	return (var);
 }
 
-t_lines	*last_line(t_lines *history_lines)
-{
-	t_lines	*last;
-
-	if (!history_lines)
-		return (NULL);
-	last = history_lines;
-	while (last->next)
-		last = last->next;
-	return (last);
-}
-
 void	print_cmd(t_cmd **cmds)
 {
 	int	i;
@@ -78,14 +66,14 @@ void	print_cmd(t_cmd **cmds)
 	i = 0;
 	while (cmds[i])
 	{
-		printf("CMD %d\n", i);
-		printf("ARGS\n");
+		printf("\tCMD \t\t%d\n", i);
+		printf("\tARGS\t");
 		print_array(cmds[i]->args);
-		printf("INFILES\n");
+		printf("\tINFILES\t");
 		print_array(cmds[i]->infile);
-		printf("OUTFILES\n");
+		printf("\tOUTFILES\t");
 		print_array(cmds[i]->outfile);
-		printf("APPEND %d\n", cmds[i]->append);
+		printf("\tAPPEND \t%d\n", cmds[i]->append);
 		i++;
 	}
 }

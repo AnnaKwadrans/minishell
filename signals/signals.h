@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:13:52 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/05 21:44:09 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/30 21:23:58 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define SIGNALS_H
 
 # include "../data.h"
-
-extern volatile sig_atomic_t g_heredoc_interrupted;
 
 void	rl_replace_line(const char *text, int clear_undo);
 

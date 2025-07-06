@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/29 13:53:48 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/06/30 21:48:07 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,9 @@ void	init_data(t_data *data)
 
 void	parse_data(char *input, t_data *data, char **envp)
 {
-	//printf("<<<-------------- NEW CMD -------------->>>\n");
+	printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!valid_input(input, data))
 		return ;
-	//data->line = get_line(data, input);
 	// printf(">>>\t\tLINE: %s\n", data->line->line);
 	//data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
 	data->pipes = count_pipe(input);
@@ -54,19 +53,6 @@ void	parse_data(char *input, t_data *data, char **envp)
 		if (!data->cmds)
 			return (free_data(data));
 	//}
-}
-
-t_lines	*get_line(t_data *data, char *input)
-{
-	t_lines	*line;
-
-	line = malloc(sizeof(t_lines));
-	if (!line)
-		return (perror("malloc failed"), NULL);
-	line->line = ft_strdup(input);
-	line->next = NULL;
-	line->data = data;
-	return (line);
 }
 
 int	count_pipe(char *line)
