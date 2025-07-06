@@ -1,8 +1,4 @@
 #include "parser.h"
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../here_doc/here_doc.h"
-#include "../vars/varenv.h"
 
 void	skip_delimit(char *aux, int *index)
 {

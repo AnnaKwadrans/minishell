@@ -1,14 +1,4 @@
-#ifdef LINUX_OS
-# include <linux/limits.h>
-#else
-# include <limits.h>
-#endif
-#include <dirent.h>
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../vars/varenv.h"
-//#include "../aux/aux.h"
-#include "../executor/executor.h"
+#include "builtins.h"
 
 static t_vars	*export_new_var(char *arg)
 {

@@ -6,14 +6,11 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/03 21:42:09 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/06 23:15:00 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../data.h"
-#include "../parser/parser.h"
 #include "executor.h"
-#include "../here_doc/here_doc.h"
 
 int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_status)
 {
@@ -31,14 +28,6 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	while (data->cmds[i])
 	{
 		handle_cmd(data, data->cmds[i], i);
-		/*if (is_builtin(data->cmds[i]->args[0]))
-                {
-			data->cmds[i]->is_builtin = 1;
-                        exec_builtin(data->cmds[i], data->pipes, data->fds, i);
-                }
-                else
-			child(data->cmds[i], data->pipes, data->fds, i);
-		*/
 		i++;
 	}
 	close_fds(data->fds, data->pipes, -1, -1);
@@ -50,7 +39,6 @@ int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_s
 	i = 0;
 	while (waitpid(-1, &status, 0) > 0)
 		data->last_status = WEXITSTATUS(status);
-	//printf("LAST STATUS %d\n", data->last_status);
 	return (0);
 }
 
@@ -66,7 +54,7 @@ int	*create_pipes(int pipes)
 	if (!fds)
 		return (NULL);
 	i = 0;
-	while (i <= pipes)
+	while (i < pipes)
 	{
 		//printf("check pipe %d\n", i);
 		if (pipe(&fds[i * 2]) < 0)

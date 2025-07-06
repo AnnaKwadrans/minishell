@@ -1,8 +1,4 @@
-#include "../data.h"
-#include "../parser/parser.h"
 #include "executor.h"
-#include "../here_doc/here_doc.h"
-#include "../buildins/builtins.h"
 
 bool	is_builtin(char *cmd)
 {

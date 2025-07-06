@@ -6,15 +6,11 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:54:15 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/23 23:12:40 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:49:00 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../data.h"
 #include "parser.h"
-#include "../executor/executor.h"
-#include "../vars/varenv.h"
-#include <stdbool.h>
 
 bool	valid_input(char *input, t_data *data) // check si se libera todo bien
 {

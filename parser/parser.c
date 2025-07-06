@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/02 18:14:02 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/06 23:33:40 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../here_doc/here_doc.h"
-#include "../vars/varenv.h"
 
 t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 {
@@ -32,6 +28,7 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	// printf("Input: %s\n", input);
 	
 	input_exp = vars_expansion(input, data, &will_free);
+	printf("%d, %s\n", is_expandable(input), input_exp);
 	/*
 	if (is_expandable(input))
 	{

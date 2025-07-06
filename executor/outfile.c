@@ -1,7 +1,4 @@
-#include "../data.h"
-#include "../parser/parser.h"
 #include "executor.h"
-#include "../vars/varenv.h"
 
 int	handle_outfile(t_cmd *cmd, t_data *data)
 {

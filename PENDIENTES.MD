@@ -161,3 +161,6 @@ cd 123 -> err no such dir ->exit code 1
 env | grep HOME
 ls | grep c | env
 (exits minishell)
+
+# unclosed fds (hecho)
+ps | grep minishell | awk '{print $1}' | xargs lsof -p
