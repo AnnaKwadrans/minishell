@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/06 23:33:40 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/07 00:04:30 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 
 	printf("<<<-------------- PARSING LINE -------------->>>\n");
 	// printf("PARSING INPUT: %s\n", input);
-	
+
 	//if (!input || input[0] == '\0' || !valid_pipes(input))
 	//	return (NULL);
 	// printf("Input: %s\n", input);
-	
+
 	input_exp = vars_expansion(input, data, &will_free);
 	printf("%d, %s\n", is_expandable(input), input_exp);
 	/*
@@ -105,7 +105,7 @@ int is_expandable(char *input)
 	// printf("Simple quotes: %d, Double quotes: %d\n", simple_quotes, double_quotes);
 	if ((simple_quotes % 2 == 0 && simple_quotes != 0) || double_quotes % 2 == 0)
 		return (1);
-	else
+	else if ()
 		return (0);
 }
 
