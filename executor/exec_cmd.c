@@ -101,6 +101,7 @@ char	*get_exec_path(t_cmd *cmd)
 		exit(127);
 	}
 	path_tab = ft_split(path_var + 5, ':');
+	free(path_var);
 	path = get_path(cmd->args, path_tab);
 	if (path_tab)
 		free_array(path_tab);

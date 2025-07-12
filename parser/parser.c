@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/07 00:04:30 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/12 13:34:08 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,14 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	char	**cmd_aux;
 	//t_cmd	**cmds;
 	char	*input_exp;
-	int		will_free;
+	//int		will_free;
 
 	printf("<<<-------------- PARSING LINE -------------->>>\n");
-	// printf("PARSING INPUT: %s\n", input);
 
-	//if (!input || input[0] == '\0' || !valid_pipes(input))
-	//	return (NULL);
-	// printf("Input: %s\n", input);
-
-	input_exp = vars_expansion(input, data, &will_free);
-	printf("%d, %s\n", is_expandable(input), input_exp);
-	/*
-	if (is_expandable(input))
-	{
-		printf("Input expandable: %s\n", input);
-		input_exp = expand_vars(data, input, 0);
-		will_free = 1;
-		printf("EXPANDED: %s\n", input_exp);
-	}
-	else
-	{
-		input_exp = input;
-		will_free = 0;
-	}*/
-	//printf("\t>>>\t\texpand: %s\n", input_exp);
-	cmd_aux = split_pipes(input_exp, '|');
+	//input_exp = vars_expansion(input, data, &will_free);
+	//printf("%d, %s\n", is_expandable(input), input_exp);
+	//cmd_aux = split_pipes(input_exp, '|');
+	cmd_aux = split_pipes(input, '|');
 	//print_array(cmd_aux);
 	data->cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!data->cmds)
@@ -58,12 +40,12 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	}
 	data->cmds[i] = NULL;
 	free_array(cmd_aux);
-	if (will_free)
-		free(input_exp);
+	//if (will_free)
+	//	free(input_exp);
 	//print_cmd(data->cmds);
 	return (data->cmds);
 }
-
+/*
 char	*vars_expansion(char *input, t_data *data, int *will_free)
 {
 	char	*input_exp;
@@ -82,7 +64,7 @@ char	*vars_expansion(char *input, t_data *data, int *will_free)
 	}
 	return (input_exp);
 }
-
+*/
 int is_expandable(char *input)
 {
 	int	simple_quotes;
@@ -105,7 +87,7 @@ int is_expandable(char *input)
 	// printf("Simple quotes: %d, Double quotes: %d\n", simple_quotes, double_quotes);
 	if ((simple_quotes % 2 == 0 && simple_quotes != 0) || double_quotes % 2 == 0)
 		return (1);
-	else if ()
+	else
 		return (0);
 }
 
@@ -133,43 +115,9 @@ void	pipeline(t_data *data, char **cmd_aux, int i)
 			return ;
 	}
 	data->cmds[i]->data = data;
+	vars_expansion(data, data->cmds[i]);
 }
 
-/*void	pipeline(t_data *data, t_cmd **cmd, char *cmd_aux)
-{
-	if (is_here_doc(cmd_aux))
-	{
-		*cmd = malloc(sizeof(t_cmd));
-		if (!(*cmd))
-			return (perror("malloc failed"));
-		init_cmd(*cmd);
-		(*cmd)->heredoc = here_doc_mode(data, cmd_aux);
-		if (!(*cmd)->heredoc)
-		{
-			free_cmd(*cmd);
-			//free_array(cmd_aux);
-			*cmd = NULL;
-			// printf("Error in heredoc\n");
-			return ;
-		}
-		// printf("heredoc got it\n");
-		get_heredoc_cmd(cmd_aux, *cmd);
-	}
-	else
-	{
-		//free(cmd); // por que?
-		*cmd = get_cmd(cmd_aux);
-		if (!(*cmd))
-			return ;
-	}
-	//cmds[i]->env = envp;
-	(*cmd)->data = data;
-	// printf("CMD ARRAY\n");
-	// if (cmds[i]->args)
-	// 	print_array(cmds[i]->args);
-	// printf("END %d\n", i);
-}
-*/
 void	init_cmd(t_cmd *cmd)
 {
 	cmd->args = NULL;
@@ -185,4 +133,35 @@ void	init_cmd(t_cmd *cmd)
 	cmd->p_status = 0;
 	cmd->pid = 0;
 	cmd->is_builtin = 0;
+}
+
+void	*vars_expansion(t_data *data, t_cmd *cmd)
+{
+	int	i;
+	//char	*input_exp;
+	
+	i = 0;
+	while (cmd->args[i])
+	{
+		if (is_expandable(cmd->args[i]))
+		{
+			cmd->args[i] = expand_vars(data, cmd->args[i], 0, 1);
+		}
+		i++;
+	}
+	/*
+	if (is_expandable(input))
+	{
+		//printf("Input expandable: %s\n", input);
+		input_exp = expand_vars(data, input, 0);
+		*will_free = 1;
+		//printf("EXPANDED: %s\n", input_exp);
+	}
+	else
+	{
+		input_exp = input;
+		*will_free = 0;
+	}
+	return (input_exp);
+	*/
 }
