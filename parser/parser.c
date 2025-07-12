@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/12 15:25:51 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:32:44 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,10 @@ void	rm_quotes(t_data *data, t_cmd *cmd)
 			cmd->args[i] = rm_quotes_arg(cmd->args[i]);
 		i++;
 	}
-
+	if (has_quotes_to_rm(cmd->infile))
+		cmd->infile = rm_quotes_arg(cmd->infile);
+	if (has_quotes_to_rm(cmd->outfile))
+		cmd->outfile = rm_quotes_arg(cmd->outfile);
 }
 
 bool	has_quotes_to_rm(char *str)
