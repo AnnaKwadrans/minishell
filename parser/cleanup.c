@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/06 21:44:38 by akwadran         ###   ########.fr       */
+/*   Created: 2025/07/12 16:28:19 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 16:28:33 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,6 @@ void	clean_data_program(t_data *data)
 	if (data->cmds)
 	{
 		free_cmds(data);
-		/*i = 0;
-		while (data->cmds[i])
-		{
-			printf("freeing cdm %d\n", i);
-			free_cmd(data->cmds[i]);
-			//free(data->cmds[i]);
-			data->cmds[i] = NULL;
-			i++;
-		}*/
-		// free(data->cmds);
 		data->cmds = NULL;
 	}
 	data->pipes = 0;
@@ -52,19 +42,15 @@ void	clean_data_program(t_data *data)
 		data->fds = NULL;
 	}
 	data->is_expandable = 0;
-	// free_array(data->part_lines);
-	// data->part_lines = NULL;
 }
 
 void	free_data(t_data *data)
 {
-	//free_history(data->history_lines); // por hacer la funcion
 	if (!data)
 		return ;
 	clean_data_program(data);
 	if (data->vars)
 	{
-		//show_vars(data->vars);
 		free_vars(data->vars);
 		data->vars = NULL;
 	}
@@ -108,11 +94,6 @@ void	free_cmd(t_cmd	*cmd)
 		free_here_doc(cmd->heredoc);
 		cmd->heredoc = NULL;
 	}
-	//if (cmd->delimit)
-	//{
-	//	free(cmd->delimit);
-	//	cmd->delimit = NULL;
-	//}
 	cmd->data = NULL;
 	free(cmd);
 	cmd = NULL;

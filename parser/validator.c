@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:54:15 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/06 21:49:00 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:42:51 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ bool	valid_input(char *input, t_data *data) // check si se libera todo bien
 	if (!input || input[0] == '\0')
 		return (printf("Empty input, returning...\n"), 0);
 	if (input[0] == '\n' || input[0] == ' ')
-		return (printf("Input starts with newline or space, returning...\n"), 0);
+	{
+		printf("Input starts with newline or space, returning...\n");
+		return (0);
+	}
 	if (ft_strcmp(input, "\"\"" ) == 0 || ft_strcmp(input, "''") == 0)
 		return (printf("Input is empty quotes, returning...\n"), 0);
 	if (!even_quotes(input) || !valid_pipes(input))
