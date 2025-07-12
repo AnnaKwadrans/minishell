@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/12 13:34:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:25:51 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*vars_expansion(char *input, t_data *data, int *will_free)
 	}
 	return (input_exp);
 }
-*/
+*//*
 int is_expandable(char *input)
 {
 	int	simple_quotes;
@@ -90,7 +90,7 @@ int is_expandable(char *input)
 	else
 		return (0);
 }
-
+*/
 void	pipeline(t_data *data, char **cmd_aux, int i)
 {
 	if (is_here_doc(cmd_aux[i]))
@@ -116,6 +116,7 @@ void	pipeline(t_data *data, char **cmd_aux, int i)
 	}
 	data->cmds[i]->data = data;
 	vars_expansion(data, data->cmds[i]);
+	rm_quotes(data, data->cmds[i]);
 }
 
 void	init_cmd(t_cmd *cmd)
@@ -145,23 +146,77 @@ void	*vars_expansion(t_data *data, t_cmd *cmd)
 	{
 		if (is_expandable(cmd->args[i]))
 		{
-			cmd->args[i] = expand_vars(data, cmd->args[i], 0, 1);
+			cmd->args[i] = expand_vars(data, cmd->args[i], 1, 1);
 		}
 		i++;
 	}
-	/*
-	if (is_expandable(input))
+}
+
+int is_expandable(char *input)
+{
+	int	i;
+	
+	if (input[0] == '\'' && input[ft_strlen(input) - 1] == '\'')
+		return (0);
+	i = 0;
+	while (input[i])
 	{
-		//printf("Input expandable: %s\n", input);
-		input_exp = expand_vars(data, input, 0);
-		*will_free = 1;
-		//printf("EXPANDED: %s\n", input_exp);
+		if (input[i] == '$')
+			return (1);
+		i++;
 	}
+	return (0);
+}
+
+void	rm_quotes(t_data *data, t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->args[i])
+	{
+		if (has_quotes_to_rm(cmd->args[i]))
+			cmd->args[i] = rm_quotes_arg(cmd->args[i]);
+		i++;
+	}
+
+}
+
+bool	has_quotes_to_rm(char *str)
+{
+	int	i;
+
+	if ((str[0] == '\'' && str[ft_strlen(str) - 1] == '\'') || (str[0] == '\"' && str[ft_strlen(str) - 1] == '\"'))
+		return (1);
 	else
+		return (0);
+}
+
+char	*rm_quotes_arg(char *arg)
+{
+	char	*res;
+	int	i;
+	int	j;
+	bool	q_simple;
+	bool	q_double;
+
+	res = (char *)malloc(sizeof(char) * (count_no_quotes(arg) + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	j = 0;
+	q_simple = 0;
+	q_double = 0;
+	while (arg[i])
 	{
-		input_exp = input;
-		*will_free = 0;
+		if (cpy_char(arg[i], &q_simple, &q_double))
+		{
+			res[j] = arg[i];
+			j++;
+		}
+		i++;
 	}
-	return (input_exp);
-	*/
+	res[j] = '\0';
+	free(arg);
+	return (res);
 }

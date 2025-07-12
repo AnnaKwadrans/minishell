@@ -1,5 +1,5 @@
 #include "parser.h"
-
+/*
 char	**rm_quotes(char **args)
 {
 	char	**res;
@@ -18,7 +18,7 @@ char	**rm_quotes(char **args)
 	free_array(args);
 	return(res);
 }
-
+*//*
 char	*rm_quotes_arg(char *arg)
 {
 	char	*res;
@@ -46,7 +46,7 @@ char	*rm_quotes_arg(char *arg)
 	res[j] = '\0';
 	return (res);
 }
-
+*/
 bool	cpy_char(char arg, bool *q_simple, bool *q_double)
 {
 	if (arg == '\'' && *q_simple == 0 && *q_double == 0)
