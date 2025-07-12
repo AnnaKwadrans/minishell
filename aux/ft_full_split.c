@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_full_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 20:33:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/01 16:57:38 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/12 18:08:11 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

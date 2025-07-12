@@ -6,20 +6,19 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/06 23:15:00 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:48:54 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-int	execute_line(t_data *data)  //t_cmd **cmds, int pipes, int *fds, int *last_status)
+int	execute_line(t_data *data)
 {
 	int	i;
 	int	status;
 
-        if (!data)
+	if (!data)
 		return (-1);
-	//printf("pipes: %d\n", pipes);
 	if (!data || !data->cmds || !data->cmds[0])
 		return (0);
 	if (data->pipes > 0)
@@ -47,7 +46,6 @@ int	*create_pipes(int pipes)
 	int	*fds;
 	int	i;
 
-	//printf("PIPES %d\n", pipes);
 	if (pipes == 0)
 		return (NULL);
 	fds = malloc(sizeof(int) * pipes * 2);
@@ -56,7 +54,6 @@ int	*create_pipes(int pipes)
 	i = 0;
 	while (i < pipes)
 	{
-		//printf("check pipe %d\n", i);
 		if (pipe(&fds[i * 2]) < 0)
 			return (NULL);
 		i++;
@@ -64,7 +61,7 @@ int	*create_pipes(int pipes)
 	return (fds);
 }
 
-int     handle_cmd(t_data *data, t_cmd *cmd, int i)
+int	handle_cmd(t_data *data, t_cmd *cmd, int i)
 {
 	if (cmd->is_builtin)
 	{
@@ -90,26 +87,22 @@ void	close_fds(int *fds, int pipes, int wr, int rd)
 
 int	child(t_cmd *cmd, int pipes, int *fds, int i)
 {
-        //printf("check new %d", i);
-        if (!cmd || !cmd->args || !cmd->args[0])
-                return (2);
-        cmd->pid = fork();
-        //printf("check pid: %d\n", cmd->pid);
-        if (cmd->pid < 0)
-                return (perror("Fork failed"), 2);
-        else if (cmd->pid == 0)
-        {
-                close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
-                if (redirect(cmd, pipes, fds, i) != 0)
+	if (!cmd || !cmd->args || !cmd->args[0])
+		return (2);
+	cmd->pid = fork();
+	if (cmd->pid < 0)
+		return (perror("Fork failed"), 2);
+	else if (cmd->pid == 0)
+	{
+		close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+		if (redirect(cmd, pipes, fds, i) != 0)
 			return (1);
-                //cmd->data->last_cmd = &cmd;
-
-                if (cmd->is_builtin)
+		if (cmd->is_builtin)
 			ft_builtin(cmd);
 		else
 			exec_cmd(cmd);
-                exit(cmd->p_status);	
-        }
-        else if (cmd->pid > 0)
-                return (0);
+		exit(cmd->p_status);
+	}
+	else if (cmd->pid > 0)
+		return (0);
 }

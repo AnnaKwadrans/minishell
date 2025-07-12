@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 17:56:45 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 static t_vars	*export_new_var(char *arg)
@@ -16,44 +28,31 @@ static t_vars	*export_new_var(char *arg)
 	value = ft_strdup(&arg[i + 1]);
 	printf("%s\n", value);
 	new = new_var(name, value, 1);
-	//printf("%d\n", new->is_exportable);
-	//new->is_exportable = 1;
-	//printf("%d\n", new->is_exportable);
 	return (new);
 }
 
 static bool	valid_name(char *arg)
 {
-	int	i;
+	int		i;
 	bool	equal;
 	char	*name;
 
 	if (!(ft_isalpha(arg[0]) || arg[0] == '_'))
 		return (0);
 	i = 0;
-	/*
-	while (arg[i])
+	name = ft_strdup_set(arg, "=");
+	if (ft_isalnum(name[strlen(name) - 1]))
 	{
-		if (arg[i] == '=')
-			equal = 1;
-		i++;
+		free(name);
+		return (1);
 	}
-	if (equal)
-	{*/
-		name = ft_strdup_set(arg, "=");
-		if (ft_isalnum(name[strlen(name) - 1]))
-		{
-			free(name);
-			return (1);
-		}
-	//}
 	return (0);
 }
 
 static bool	has_equals(char *arg)
 {
 	int	i;
-	
+
 	i = 0;
 	while (arg[i])
 	{
@@ -64,14 +63,23 @@ static bool	has_equals(char *arg)
 	return (0);
 }
 
+static void	sort_and_print(t_data *data, t_vars *vars, char **args)
+{
+
+}
+
 int	ft_export(t_data *data, t_vars *vars, char **args)
 {
-	int	i;
+	int		i;
 	t_vars	*arg;
 	t_vars	*found;
 
 	if (!vars || !args)
 		return (ft_putendl_fd("not enough arguments", 2), 0);
+	if (array_size(args) == 1)
+	{
+
+	}
 	i = 1;
 	while (args[i])
 	{
@@ -79,7 +87,6 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 			return (ft_putendl_fd("not valid identifier", 2), 1);
 		if (!has_equals(args[i]))
 		{
-			//printf("check not equals\n");
 			i++;
 			continue ;
 		}

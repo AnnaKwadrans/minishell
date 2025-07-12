@@ -164,3 +164,8 @@ ls | grep c | env
 
 # unclosed fds (hecho)
 ps | grep minishell | awk '{print $1}' | xargs lsof -p
+
+# export sin argumentos: sort envs y print
+# export: norm too many lines
+
+#join arrays norm: too long
