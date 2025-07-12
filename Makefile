@@ -1,11 +1,13 @@
 NAME = minishell
 RM = rm -f
 CC = cc
-FLAGS_BASE = -Werror -Wextra -Wall -g3
+FLAGS_BASE = -Werror -Wextra -Wall 
+# -g3
 ifeq ($(SANITIZE),0)
 	FLAGS = $(FLAGS_BASE)
 else
-	FLAGS = $(FLAGS_BASE) -fsanitize=address
+	FLAGS = $(FLAGS_BASE) 
+#-fsanitize=address
 endif
 LIBFT_DIR = libft
 LIBFT = libft/libft.a

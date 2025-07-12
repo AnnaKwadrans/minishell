@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/06 21:46:27 by akwadran         ###   ########.fr       */
+/*   Created: 2025/07/12 16:24:23 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 16:25:06 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	init_data(t_data *data)
 {
-	//data->line = NULL;
 	data->cmds = NULL;
 	data->vars = NULL;
 	data->pipes = 0;
@@ -33,20 +32,11 @@ void	parse_data(char *input, t_data *data, char **envp)
 	printf("<<<-------------- NEW CMD -------------->>>\n");
 	if (!valid_input(input, data))
 		return ;
-	// printf(">>>\t\tLINE: %s\n", data->line->line);
-	//data->pipes = get_pipes(data->part_lines, array_size(data->part_lines));
 	data->pipes = count_pipe(input);
 	data->cmds = NULL;
-	// data->cmds = malloc(sizeof(t_cmd *) * array_size(data->part_lines));
-	//if (is_var(input))
-	//	handle_var(input, data);
-	//else
-	//{
-		data->cmds = parse_line(input, data->pipes, envp, data);
-		//print_cmd(data->cmds);
-		if (!data->cmds)
-			return (free_data(data));
-	//}
+	data->cmds = parse_line(input, data->pipes, envp, data);
+	if (!data->cmds)
+		return (free_data(data));
 }
 
 int	count_pipe(char *line)
@@ -79,7 +69,6 @@ void	handle_var(char *input, t_data *data)
 	while (ft_isspace(input[i]))
 		i++;
 	name = ft_strdup_set(&input[i], "=");
-
 	while (input[i] != '=')
 		i++;
 	check = search_var(data, name);

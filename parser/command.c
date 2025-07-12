@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 16:27:05 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 16:27:35 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 t_cmd	*get_cmd(char *aux)
@@ -25,7 +37,7 @@ t_cmd	*get_cmd(char *aux)
 t_cmd	*fill_out_cmd(t_cmd *cmd, char *aux)
 {
 	int	i;
-	
+
 	i = 0;
 	while (aux[i])
 	{
@@ -53,14 +65,11 @@ char	**get_args(char *aux, int *index)
 	while (aux[len] && aux[len] != '<' && aux[len] != '>')
 	{
 		if (aux[len] == '\'' || aux[len == '\"'])
-			len +=close_quotes(&aux[len]);
+			len += close_quotes(&aux[len]);
 		len++;
 	}
 	cmd_line = ft_substr(aux, 0, len);
-	//printf("cmd_line: %s\n", cmd_line);
 	args = split_pipes(cmd_line, ' ');
-	// printf("desp del split:\n");
-	// print_array(args);
 	free(cmd_line);
 	*index += len;
 	return (args);
