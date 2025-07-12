@@ -52,7 +52,7 @@ char	**append_args(char **args, char *aux, int *i); // para añadir los argument
 // quotes.c
 int	count_no_quotes(char *arg);
 char	*rm_quotes_arg(char *arg);
-char	**rm_quotes(char **args);
+//char	**rm_quotes(char **args);
 bool	cpy_char(char arg, bool *q_simple, bool *q_double);
 
 // pipe_split.c
@@ -72,5 +72,8 @@ bool	is_set(char c, char const *set);
 size_t	ft_strlen_set(const char *s, char *set);
 char	*ft_strdup_set(const char *s, char *set);
 void	print_cmd(t_cmd **cmds);
+
+void    rm_quotes(t_data *data, t_cmd *cmd);
+bool	has_quotes_to_rm(char *str);
 
 #endif
