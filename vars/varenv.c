@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/29 13:56:37 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/12 13:30:11 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ static char *handle_expansion(t_data *data, char *line, char **vars, bool rm_quo
 	return (result);
 }
 
-char	*expand_vars(t_data *data_program, char *line, bool rm_quotes)
+char	*expand_vars(t_data *data_program, char *line, bool rm_quotes, bool free_line)
 {
 	char	**vars;
 	int		count;
@@ -149,6 +149,8 @@ char	*expand_vars(t_data *data_program, char *line, bool rm_quotes)
 	result = handle_expansion(data_program, line, vars, rm_quotes);
 	free_array(vars);
 	vars = NULL;
+	if (free_line)
+		free(line);
 	return (result);
 }
 

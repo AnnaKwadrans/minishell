@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:45 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/30 22:02:20 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/12 15:54:36 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "../data.h"
 
 bool	is_set(char c, char const *set)
 {
@@ -53,7 +52,6 @@ char	*get_var(char *line)
 	char	*var;
 
 	name = ft_strdup_set(line, " \t\n\v\r\f");
-	//printf("%s\n", name);
 	var = getenv(name);
 	free(name);
 	return (var);

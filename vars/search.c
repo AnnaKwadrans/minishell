@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:33 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/27 21:05:37 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:27:26 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ char	*fill_var_values(t_data *data_program, char *line, int start)
 	if (!var_name)
 		return (NULL);
 	if (ft_strncmp(var_name, "?", 1) == 0)
+	{
+		free(var_name);
 		return (ft_itoa(data_program->last_status));
+	}
 	var_value = get_var_value(data_program, var_name);
 	free(var_name);
 	if (!var_value)
