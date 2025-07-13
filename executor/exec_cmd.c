@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:32:18 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 17:33:09 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:00:38 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	exec_cmd(t_cmd *cmd)
 		exit(127);
 	str_vars = vars_to_char(cmd->data->vars);
 	path = get_exec_path(cmd);
-	ft_putendl_fd(path, 2); // quitar
 	if (path)
 	{
 		cmd->p_status = execve(path, cmd->args, str_vars);

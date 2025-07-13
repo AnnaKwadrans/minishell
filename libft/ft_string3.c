@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 22:29:04 by akwadran          #+#    #+#             */
-/*   Updated: 2024/10/14 21:27:13 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:58:30 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	*ft_strdup(const char *s)
 	int		len;
 	char	*ptr;
 
+	if (!s)
+		return (NULL);
 	len = ft_strlen(s) + 1;
 	ptr = malloc(sizeof(char) * len);
 	if (ptr == NULL)

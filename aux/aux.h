@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 18:06:32 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 18:07:37 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/13 11:15:09 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../data.h"
 # include "../libft/libft.h"
-# include "../parser/parser.h"
 
 // 👇 Forward declaration
 typedef struct s_cmd	t_cmd;
