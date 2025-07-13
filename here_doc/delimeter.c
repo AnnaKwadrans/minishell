@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:17:14 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/06 21:45:26 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/13 20:43:23 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,6 @@ char	*aux_get_delimiter(char *line)
 	return (temp);
 }
 
-static int	new_start(char *line)
-{
-	int	start;
-
-	start = 0;
-	while (line[start] != '<')
-		start++;
-	start += 2;
-	while (line[start] == ' ')
-		start++;
-	while (line[start] && line[start] != ' ' && line[start] != '\n')
-		start++;
-	return (start);
-}
-
 void	get_delimiter(char *line, t_heredoc *here_doc)
 {
 	int		i;
@@ -62,7 +47,7 @@ void	get_delimiter(char *line, t_heredoc *here_doc)
 	{
 		if (line[i] == '<' && line[i + 1] == '<')
 		{
-			start = new_start;
+			start = new_start(line);
 			temp = malloc(sizeof(char) * (start - i + 1));
 			if (!temp)
 				return ;

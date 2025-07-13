@@ -17,7 +17,7 @@
 # include "signals/signals.h"
 # include "aux/aux.h"
 
-extern int g_sigint_received;
+extern int g_signal; // Variable global para manejar SEÑALES
 
 typedef struct s_heredoc	t_heredoc;
 typedef struct s_data		t_data;
