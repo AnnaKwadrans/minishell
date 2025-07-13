@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 17:44:26 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 17:46:11 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 # include "../data.h"
@@ -6,23 +18,22 @@
 # include "../buildins/builtins.h"
 # include "../vars/varenv.h"
 
-
 // executor.c
-int	execute_line(t_data *data);
-int     *create_pipes(int pipes);
-int     handle_cmd(t_data *data, t_cmd *cmd, int i);
-void    close_fds(int *fds, int pipes, int wr, int rd);
-int    child(t_cmd *cmd, int pipes, int *fds, int i);
+int		execute_line(t_data *data);
+int		*create_pipes(int pipes);
+int		handle_cmd(t_data *data, t_cmd *cmd, int i);
+void	close_fds(int *fds, int pipes, int wr, int rd);
+int		child(t_cmd *cmd, int pipes, int *fds, int i);
 
 // exec_builtin.c
-bool    is_builtin(char *cmd);
-int    exec_builtin(t_cmd *cmd, int pipes, int *fds, int i);
-void    ft_builtin(t_cmd *cmd);
+bool	is_builtin(char *cmd);
+int		exec_builtin(t_cmd *cmd, int pipes, int *fds, int i);
+void	ft_builtin(t_cmd *cmd);
 
 // redirect.c
-int    redirect(t_cmd *cmd, int pipes, int *fds, int i);
-int    redirect_input(t_cmd *cmd, int pipes, int *fds, int i);
-int    redirect_output(t_cmd *cmd, int pipes, int *fds, int i);
+int		redirect(t_cmd *cmd, int pipes, int *fds, int i);
+int		redirect_input(t_cmd *cmd, int pipes, int *fds, int i);
+int		redirect_output(t_cmd *cmd, int pipes, int *fds, int i);
 
 // exec_cmd.c
 void	exec_cmd(t_cmd *cmd);
@@ -33,13 +44,13 @@ char	*get_exec_path(t_cmd *cmd);
 char	*get_path(char **cmd_tab, char **path_tab);
 
 // infile.c
-int	check_infile(char **infile, t_data *data);
-int	open_infile(t_cmd *cmd, t_data *data);
-int	handle_infile(t_cmd *cmd, t_data *data);
+int		check_infile(char **infile, t_data *data);
+int		open_infile(t_cmd *cmd, t_data *data);
+int		handle_infile(t_cmd *cmd, t_data *data);
 
 // outfile.c
-int	check_outfile(char **outfile, t_data *data);
-int	open_outfile(t_cmd *cmd, t_data *data);
-int	handle_outfile(t_cmd *cmd, t_data *data);
+int		check_outfile(char **outfile, t_data *data);
+int		open_outfile(t_cmd *cmd, t_data *data);
+int		handle_outfile(t_cmd *cmd, t_data *data);
 
 #endif

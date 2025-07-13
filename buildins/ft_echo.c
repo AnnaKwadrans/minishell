@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 17:59:53 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 18:00:18 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 static int	is_correct_flag(char *arg)
@@ -17,7 +29,7 @@ static int	is_correct_flag(char *arg)
 	return (1);
 }
 
-int	ft_echo (t_data *data, char **args)
+int	ft_echo(t_data *data, char **args)
 {
 	int	i;
 	int	size;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 17:58:53 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 17:59:43 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 static void	pre_env(t_data *data_program)
@@ -23,7 +35,7 @@ static void	pre_env(t_data *data_program)
 int	ft_env(t_vars *vars)
 {
 	if (!vars)
-		return (ft_putendl_fd("no vars", 2) , -1);
+		return (ft_putendl_fd("no vars", 2), -1);
 	pre_env(vars->data);
 	while (vars)
 	{

@@ -1,5 +1,15 @@
-#include "../parser/parser.h"
-//#include "../data.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   array_functions.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 18:03:52 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 18:06:19 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "aux.h"
 
 void	free_array(char **array)
@@ -31,9 +41,10 @@ void	print_array(char **array)
 	i = 0;
 	while (array[i])
 	{
-		if (i != 0)
-			printf("\t\t");
-		printf("\t%d >%s\n", i, array[i]);
+		//if (i != 0)
+		//	printf("\t\t");
+		//printf("\t%d >%s\n", i, array[i]);
+		printf("%s\n", array[i]);
 		i++;
 	}
 }
@@ -52,8 +63,8 @@ size_t	array_size(char **array)
 
 char	**join_arrays(char **array, char **add)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	**joined;
 
 	if (!array && !add)
@@ -62,7 +73,8 @@ char	**join_arrays(char **array, char **add)
 		return (add);
 	if (!add)
 		return (array);
-	joined = malloc(sizeof(char **) * (array_size(array) + array_size(add) + 1));
+	joined = malloc(sizeof(char **) * (array_size(array)
+				+ array_size(add) + 1));
 	if (!joined)
 		return (NULL);
 	i = 0;
