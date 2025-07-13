@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/06/30 21:50:46 by kegonza          ###   ########.fr       */
+/*   Created: 2025/07/12 16:28:19 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 16:28:33 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "parser.h"
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../vars/varenv.h"
-
-//void	free_vars(void *args);
 
 void	free_here_doc(t_heredoc *here_doc)
 {
@@ -39,16 +33,6 @@ void	clean_data_program(t_data *data)
 	if (data->cmds)
 	{
 		free_cmds(data);
-		/*i = 0;
-		while (data->cmds[i])
-		{
-			printf("freeing cdm %d\n", i);
-			free_cmd(data->cmds[i]);
-			//free(data->cmds[i]);
-			data->cmds[i] = NULL;
-			i++;
-		}*/
-		// free(data->cmds);
 		data->cmds = NULL;
 	}
 	data->pipes = 0;
@@ -58,19 +42,15 @@ void	clean_data_program(t_data *data)
 		data->fds = NULL;
 	}
 	data->is_expandable = 0;
-	// free_array(data->part_lines);
-	// data->part_lines = NULL;
 }
 
 void	free_data(t_data *data)
 {
-	//free_history(data->history_lines); // por hacer la funcion
 	if (!data)
 		return ;
 	clean_data_program(data);
 	if (data->vars)
 	{
-		//show_vars(data->vars);
 		free_vars(data->vars);
 		data->vars = NULL;
 	}
@@ -114,11 +94,6 @@ void	free_cmd(t_cmd	*cmd)
 		free_here_doc(cmd->heredoc);
 		cmd->heredoc = NULL;
 	}
-	//if (cmd->delimit)
-	//{
-	//	free(cmd->delimit);
-	//	cmd->delimit = NULL;
-	//}
 	cmd->data = NULL;
 	free(cmd);
 	cmd = NULL;

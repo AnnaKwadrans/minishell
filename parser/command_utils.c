@@ -1,8 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 16:25:18 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 16:26:50 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../here_doc/here_doc.h"
-#include "../vars/varenv.h"
 
 void	skip_delimit(char *aux, int *index)
 {
@@ -21,10 +29,10 @@ void	skip_delimit(char *aux, int *index)
 	return ;
 }
 
-void	get_infile(char *aux, int *index, char ***infile) 
+void	get_infile(char *aux, int *index, char ***infile)
 {
 	char	*new_inf;
-	int	i;
+	int		i;
 
 	i = 1;
 	if (aux[i] == '<')
@@ -53,9 +61,6 @@ char	**first_file(char *new_file)
 		return (NULL);
 	file[0] = new_file;
 	file[1] = NULL;
-	//printf("FISRT FILE\n");
-	//printf("%s\n", new_inf);
-	//print_array(infile);
 	return (file);
 }
 
@@ -63,17 +68,17 @@ char	**append_file(char **file, char *new_file)
 {
 	char	**res;
 	char	**new_file_array;
-	int	size;
+	int		size;
 
 	new_file_array = first_file(new_file);
 	res = join_arrays(file, new_file_array);
 	return (res);
 }
 
-void	get_outfile(char *aux, int *index, char ***outfile, int *append) 
+void	get_outfile(char *aux, int *index, char ***outfile, int *append)
 {
 	char	*new_outf;
-	int	i;
+	int		i;
 
 	i = 1;
 	if (aux[i] == '>')
@@ -107,6 +112,5 @@ char	*get_file_str(const char *aux, int *index)
 	}
 	len = i - start;
 	*index += i;
-	//printf("index get_file_str: %d\n", *index);
 	return (ft_substr(aux, start, len));
 }

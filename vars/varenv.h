@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/24 22:53:18 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/12 13:33:06 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**multi_search(t_data *data_program, char *line, int count);
 // VARENV.C
 void	show_vars(void *args);
 void	init_env(t_data *data_program, char **env);
-char	*expand_vars(t_data *data_program, char *line, bool rm_quotes);
+char	*expand_vars(t_data *data_program, char *line, bool rm_quotes, bool free_line);
 
 void	example_new_vars(t_data *data_program);
 

@@ -1,50 +1,37 @@
-#include "../data.h"
-#include "../parser/parser.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 17:32:18 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/13 12:00:38 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "executor.h"
-#include "../vars/varenv.h"
 
 void	exec_cmd(t_cmd *cmd)
 {
-	//char	*path_var;
-	//char	**path_tab;
 	char	*path;
 	char	**str_vars;
-	//int		i;
-	//int		j;
 
 	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
-	{
-		//cmd->p_status = 127;
 		exit(127);
-	}
 	str_vars = vars_to_char(cmd->data->vars);
-	/*
-	path_var = get_paths(cmd->data);
-	if (path_var == NULL || ft_strlen(path_var) < 5)
-	{
-		ft_putendl_fd("PATH variable not set or empty", 2);
-		cmd->p_status = 127;
-		exit(127);
-	}
-	path_tab = ft_split(path_var + 5, ':');
-	path = get_path(cmd->args, path_tab);
-	if (path_tab)
-		free_array(path_tab);
-	*/
 	path = get_exec_path(cmd);
 	if (path)
 	{
 		cmd->p_status = execve(path, cmd->args, str_vars);
 		free(path);
 		perror("Execve failed");
-		//cmd->p_status = -1;
 		clean_data_program(cmd->data);
 		exit(-1);
 	}
 	else
 	{
 		ft_putendl_fd("Command not found", 2);
-		//cmd->p_status = 127;
 		clean_data_program(cmd->data);
 		exit(127);
 	}
@@ -76,6 +63,7 @@ char	**vars_to_char(t_vars *vars)
 		i++;
 		temp = temp->next;
 	}
+	str_vars[i] = NULL;
 	return (str_vars);
 }
 
@@ -104,6 +92,7 @@ char	*get_exec_path(t_cmd *cmd)
 		exit(127);
 	}
 	path_tab = ft_split(path_var + 5, ':');
+	free(path_var);
 	path = get_path(cmd->args, path_tab);
 	if (path_tab)
 		free_array(path_tab);
@@ -123,7 +112,7 @@ char	*get_paths(t_data *data_program)
 	free(path_var);
 	all_paths = ft_strjoin(aux, pwd_var);
 	free(aux);
-	return(all_paths);
+	return (all_paths);
 }
 
 char	*get_path(char **cmd_tab, char **path_tab)

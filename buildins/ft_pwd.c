@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aux.h                                              :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 18:06:32 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/13 11:15:09 by akwadran         ###   ########.fr       */
+/*   Created: 2025/07/12 17:54:34 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 17:55:01 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AUX_H
-# define AUX_H
+#include "builtins.h"
 
-# include "../data.h"
-# include "../libft/libft.h"
+int	ft_pwd(void)
+{
+	char	path[PATH_MAX];
 
-// 👇 Forward declaration
-typedef struct s_cmd	t_cmd;
-typedef struct s_data	t_data;
-
-// ARRAY FUNCTIONS
-
-size_t	array_size(char **array);
-void	print_array(char **array);
-void	free_array(char **array);
-char	**join_arrays(char **array, char **add);
-
-#endif
+	if (getcwd(path, PATH_MAX) == NULL)
+	{
+		perror("getcwd failed");
+		return (1);
+	}
+	printf("%s\n", path);
+	return (0);
+}

@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aux.h                                              :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 18:06:32 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/13 11:15:09 by akwadran         ###   ########.fr       */
+/*   Created: 2025/07/12 18:03:21 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/13 13:56:17 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AUX_H
-# define AUX_H
+#include "builtins.h"
 
-# include "../data.h"
-# include "../libft/libft.h"
+void	ft_exit(t_data *data, char **args)
+{
+	int	status;
 
-// 👇 Forward declaration
-typedef struct s_cmd	t_cmd;
-typedef struct s_data	t_data;
-
-// ARRAY FUNCTIONS
-
-size_t	array_size(char **array);
-void	print_array(char **array);
-void	free_array(char **array);
-char	**join_arrays(char **array, char **add);
-
-#endif
+	if (array_size(args) == 1)
+		status = data->last_status;
+	else
+		status = ft_atoi(args[1]);
+	free_data(data);
+	exit(status);
+}

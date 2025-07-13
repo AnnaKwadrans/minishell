@@ -1,14 +1,15 @@
-#ifdef LINUX_OS
-# include <linux/limits.h>
-#else
-# include <limits.h>
-#endif
-#include <dirent.h>
-#include "../data.h"
-#include "../libft/libft.h"
-#include "../vars/varenv.h"
-//#include "../aux/aux.h"
-#include "../executor/executor.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/12 17:53:29 by akwadran          #+#    #+#             */
+/*   Updated: 2025/07/12 17:54:20 by akwadran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 static void	rm_first(t_data *data)
@@ -20,9 +21,6 @@ static void	rm_first(t_data *data)
 	temp->next = NULL;
 	free_vars(temp);
 	temp = NULL;
-	//printf("******VARS******\n");
-	//ft_env(data->vars);
-	//printf("****END VARS****\n");
 }
 
 static void	rm_last(t_vars *vars)
@@ -36,18 +34,6 @@ static void	rm_last(t_vars *vars)
 		{
 			free_vars(vars->next);
 			vars->next = NULL;
-			/*
-			free(vars->next->name);
-			vars->next->name = NULL;
-			free(vars->next->value);
-			vars->next->value = NULL;
-			vars->next->data = NULL;
-			vars->next = NULL;
-			free(vars->next);
-			vars->next = NULL;
-			*/
-			// printf("CHILD\n");
-			//ft_env(temp);
 			return ;
 		}
 		vars = vars->next;
@@ -66,27 +52,10 @@ static void	rm_middle(t_vars *vars, char *name)
 			vars->next->next = NULL;
 			free_vars(vars->next);
 			vars->next = temp;
-			/*
-			temp->next = NULL;
-			vars->next = vars->next->next;
-			free_vars(temp);
-			temp = NULL;
-			*//*
-			free(temp->name);
-			temp->name = NULL;
-			free(temp->value);
-			temp->value = NULL;
-			temp->data = NULL;
-			temp->next = NULL;
-			*/
-			// printf("CHILD\n");unset
-			//ft_env(vars);
 			return ;
 		}
 		vars = vars->next;
 	}
-	// printf("CHILD\n");
-	//show_vars(vars);
 }
 
 static void	single_unset(char *arg, t_data *data, t_vars *vars)
@@ -97,21 +66,21 @@ static void	single_unset(char *arg, t_data *data, t_vars *vars)
 	printf("ARG %s\n", arg);
 	printf("VAR %s\n", vars->name);
 	if (ft_strncmp(arg, vars->name, ft_strlen(arg)) == 0)
+	{
+		rm_first(data);
+		return ;
+	}
+	while (vars && vars->next && vars->next->next)
+	{
+		if (ft_strncmp(arg, vars->next->name, ft_strlen(arg)) == 0)
 		{
-			rm_first(data);
+			rm_middle(start, arg);
 			return ;
 		}
-		while (vars && vars->next && vars->next->next)
-		{
-			if (ft_strncmp(arg, vars->next->name, ft_strlen(arg)) == 0)
-			{
-				rm_middle(start, arg);
-				return ;
-			}
-			vars = vars->next;
-		}
-		if (ft_strncmp(arg, vars->next->name, ft_strlen(arg)) == 0)
-			rm_last(start);
+		vars = vars->next;
+	}
+	if (ft_strncmp(arg, vars->next->name, ft_strlen(arg)) == 0)
+		rm_last(start);
 }
 
 int	ft_unset(char **args, t_data *data)
@@ -128,4 +97,3 @@ int	ft_unset(char **args, t_data *data)
 	}
 	return (0);
 }
-

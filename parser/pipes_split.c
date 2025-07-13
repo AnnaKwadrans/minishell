@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:57 by akwadran          #+#    #+#             */
-/*   Updated: 2025/06/23 22:43:21 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:54:21 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include <stdio.h>
 
 int	close_quotes(char const *s)
 {
 	int	i;
 
 	i = 0;
-	//printf("\tCLOSE QUOTES\n");
 	if (s[i] == '\'')
 	{
 		i++;
@@ -54,7 +52,6 @@ static int	split_count(char const *s, char c)
 	int	new_string;
 	int	i;
 
-	//printf("\t SPLITTING COUNT\n");
 	new_string = 0;
 	count = 0;
 	i = 0;
@@ -71,7 +68,6 @@ static int	split_count(char const *s, char c)
 		}
 		i++;
 	}
-	//printf("\tCount: %d\n", count);
 	return (count);
 }
 
@@ -92,10 +88,7 @@ static char	**init_array(char const *s, int count, char c)
 			j++;
 		array[i] = (char *)ft_calloc(split_strlen(c, &s[j]) + 1, sizeof(char));
 		if (!array[i])
-		{
-			free_array(array);
-			return (NULL);
-		}
+			return (free_array(array), NULL);
 		while (s[j] != '\0' && s[j] != c)
 		{
 			if (s[j] == '\'' || s[j] == '\"')
@@ -104,8 +97,7 @@ static char	**init_array(char const *s, int count, char c)
 		}
 		i++;
 	}
-	array[i] = NULL;
-	return (array);
+	return (array[i] = NULL, array);
 }
 
 char	**split_pipes(char const *s, char c)
@@ -115,7 +107,6 @@ char	**split_pipes(char const *s, char c)
 	int		i;
 	int		j;
 
-	//printf("<<<-------------- SPLITTING PIPES -------------->>>\n");
 	count = split_count(s, c);
 	array = init_array(s, count, c);
 	if (array == NULL)
@@ -135,6 +126,5 @@ char	**split_pipes(char const *s, char c)
 		}
 		i++;
 	}
-	//print_array(array);
 	return (array);
 }
