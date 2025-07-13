@@ -18,7 +18,7 @@ UNAME_S := $(shell uname -s)
 WHO := $(shell whoami)
 
 ifeq ($(UNAME_S),Linux)
-    FLAGS += -DLINUX_OS
+    FLAGS += -D LINUX_OS
 endif
 ifeq ($(UNAME_S),Darwin)
 	ifeq ($(WHO),annakwadrans)

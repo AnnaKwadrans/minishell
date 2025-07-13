@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:33:29 by akwadran          #+#    #+#             */
 /*   Updated: 2025/07/13 20:55:17 by akwadran         ###   ########.fr       */
@@ -28,8 +28,9 @@ int	redirect_input(t_cmd *cmd, int pipes, int *fds, int i)
 		if (dup2(cmd->fd_in, STDIN_FILENO) < 0)
 			perror("dup2 heredoc");
 		close(cmd->fd_in);
+		return (0);
 	}
-	else if (cmd->infile)
+	if (cmd->infile)
 	{
 		if (i != 0)
 			close(fds[(i - 1) * 2]);

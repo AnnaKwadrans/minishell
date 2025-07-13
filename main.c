@@ -59,7 +59,7 @@ int	count_pipes(char *input) // <- MEJOR LA FUNCION int count_pipe(char *line) P
 
 // }
 
-int	g_sigint_received = 0; // Variable global para manejar SIGINT
+int	g_signal = 0; // Variable global para manejar SIGINT
 
 void	update_shlvl(t_data *data)
 {
@@ -88,30 +88,27 @@ int	main(int argc, char **argv, char **envp)
 	printf("we have %d vars in env\n", total_vars(data_program));
 	while (1)
 	{
-		if (g_sigint_received)
-		{
-			data_program->last_status = 130; // Resetear el estado de salida
-			g_sigint_received = 0; // Reiniciar la señal
-			continue ;
-		}
 		if (data_program->is_interactive)
 			input = readline("minishell > ");
 		else
 			input = get_next_line(STDIN_FILENO);
-		if (!input)
+		if (g_signal == SIGINT)
 		{
-			free(input);
-			if (data_program)
-				free_data(data_program);
-			break ;
+			data_program->last_status = 130; // Status for SIGINT
+			g_signal = 0; // Reset signal
+			if (!input || !*input)
+			{
+				free(input);
+				continue ; // If input is empty or SIGINT was received, continue to next iteration
+			}
 		}
-		add_history(input);
-		if (!ft_strcmp(input, "show vars"))
+		if (input && *input)
 		{
-			show_vars(data_program);
-			free(input);
-			continue ;
+			add_history(input);
+			printf("DEBUGGING: added input to history\n");
 		}
+		if (ft_strcmp(input, "") == 0)
+			data_program->last_status = 0; // Si la entrada está vacía, no hacer nada
 		parse_data(input, data_program, envp);
 		execute_line(data_program);
 		printf("last status: %d\n", data_program->last_status);
