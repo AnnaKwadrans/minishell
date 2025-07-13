@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:33:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/13 20:39:58 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/13 21:00:47 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ int	redirect_input(t_cmd *cmd, int pipes, int *fds, int i)
 		if (dup2(cmd->fd_in, STDIN_FILENO) < 0)
 			perror("dup2 heredoc");
 		close(cmd->fd_in);
-		return (0);
 	}
-	if (cmd->infile)
+	else if (cmd->infile)
 	{
 		if (i != 0)
 			close(fds[(i - 1) * 2]);
 		if (handle_infile(cmd, cmd->data) != 0)
 			return (1);
-		dup2(cmd->fd_in, STDIN_FILENO);
+		if (dup2(cmd->fd_in, STDIN_FILENO) < 0)
+			perror("dup2 pipe infile");
 		close(cmd->fd_in);
 	}
 	else if (i != 0)
@@ -51,6 +51,7 @@ int	redirect_output(t_cmd *cmd, int pipes, int *fds, int i)
 {
 	if (cmd->outfile)
 	{
+		printf("Redirecting output for command\n");
 		if (i != pipes)
 			close(fds[(i * 2) + 1]); // 0:1 1:3 2:5 3:7
 		if (handle_outfile(cmd, cmd->data) != 0)
