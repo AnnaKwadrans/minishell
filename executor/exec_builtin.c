@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:50:49 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 17:52:39 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/13 20:29:01 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_builtin(t_cmd *cmd)
 	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
 		cmd->p_status = ft_unset(cmd->args, cmd->data);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
-		ft_exit(cmd->data, cmd->args);
+		cmd->p_status = ft_exit(cmd->data, cmd->args);
 	cmd->data->last_status = cmd->p_status;
 	return ;
 }

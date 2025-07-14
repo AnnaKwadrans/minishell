@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/12 13:30:11 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/13 19:42:07 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
