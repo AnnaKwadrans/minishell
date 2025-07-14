@@ -42,7 +42,7 @@ SRC_VARS = ${wildcard vars/*.c}
 SRC_SIGNALS = ${wildcard signals/*.c}
 SRC_EXEC = ${wildcard executor/*.c}
 SRC_HERE_DOC = ${wildcard here_doc/*.c}
-SRC_B_INS = buildins/ft_cd.c buildins/ft_exit.c buildins/ft_echo.c buildins/ft_pwd.c buildins/ft_env.c buildins/ft_export.c buildins/ft_unset.c
+SRC_B_INS = buildins/ft_cd.c buildins/ft_exit.c buildins/ft_echo.c buildins/ft_pwd.c buildins/ft_env.c buildins/ft_export1.c buildins/ft_export2.c buildins/ft_unset.c
 
 SRC_ALL = $(SRC_LIBFT) $(SRC_AUX) $(SRC_PARS) $(SRC_VARS) $(SRC_SIGNALS) $(SRC_EXEC) $(SRC_HERE_DOC) $(SRC_B_INS) $(SRC)
 
