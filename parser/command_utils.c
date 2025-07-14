@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:25:18 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 16:26:50 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:48:58 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-void	skip_delimit(char *aux, int *index)
-{
-	int	i;
-
-	i = 0;
-	while (ft_isspace(aux[i]))
-		i++;
-	while (aux[i] && !ft_isspace(aux[i]))
-	{
-		if (aux[i] == '\'' || aux[i] == '\"')
-			i += close_quotes(&aux[i]);
-		i++;
-	}
-	*index += i;
-	return ;
-}
 
 void	get_infile(char *aux, int *index, char ***infile)
 {

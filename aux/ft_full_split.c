@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 20:33:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/12 18:08:11 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:44:06 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 
 static int	count_parts(char *s, char c)
 {
-	int	count = 1;
+	int	count;
 
+	count = 1;
 	while (*s)
 	{
 		if (*s == c)
@@ -29,11 +30,13 @@ static int	count_parts(char *s, char c)
 
 static char	*fill_str(char *start, size_t len)
 {
-	char	*sub = malloc(len + 1);
-	size_t	i = 0;
+	char	*sub;
+	size_t	i;
 
+	sub = malloc(len + 1);
 	if (!sub)
 		return (NULL);
+	i = 0;
 	while (i < len)
 	{
 		sub[i] = start[i];
@@ -45,10 +48,10 @@ static char	*fill_str(char *start, size_t len)
 
 char	**ft_full_split(char *s, char c)
 {
-	int		i = 0;
-	char	*start = s;
-	char		**result;
-	size_t		count;
+	int		i;
+	char	*start;
+	char	**result;
+	size_t	count;
 
 	if (!s)
 		return (NULL);
@@ -56,6 +59,8 @@ char	**ft_full_split(char *s, char c)
 	result = malloc(sizeof(char *) * (count + 1));
 	if (!result)
 		return (NULL);
+	i = 0;
+	start = s;
 	while (*s)
 	{
 		if (*s == c)
@@ -85,4 +90,3 @@ char	**ft_full_split(char *s, char c)
 // 		i++;
 // 	}
 // }
-

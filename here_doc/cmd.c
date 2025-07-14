@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/14 19:28:18 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/14 20:23:25 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,10 @@ char	**outfile_heredoc(char *line, t_cmd *cmd)
 		if (line[i] == '>')
 		{
 			if (line[i + 1] == '>')
+			{
+				cmd->append = 1;
 				i++; // si es >>, saltamos un espacio
+			}
 			while (line[i] && (line[i] == '>' || line[i] == ' '))
 				i++;
 			start = i;

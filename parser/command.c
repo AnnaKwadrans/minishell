@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:27:05 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 16:27:35 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:48:53 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,21 @@ char	**append_args(char **args, char *aux, int *i)
 	free_array(add);
 	free_array(args);
 	return (joined);
+}
+
+void	skip_delimit(char *aux, int *index)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isspace(aux[i]))
+		i++;
+	while (aux[i] && !ft_isspace(aux[i]))
+	{
+		if (aux[i] == '\'' || aux[i] == '\"')
+			i += close_quotes(&aux[i]);
+		i++;
+	}
+	*index += i;
+	return ;
 }

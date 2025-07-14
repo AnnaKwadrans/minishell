@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/13 20:37:07 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:59:54 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,14 @@ static bool	has_equals(char *arg)
 	return (0);
 }
 
-
-
-int	ft_export(t_data *data, t_vars *vars, char **args)
+static int	handle_exp_args(char **args, t_data *data)
 {
-	int		i;
 	t_vars	*arg;
 	t_vars	*found;
+	int		i;
 
-	if (!vars || !args)
-		return (ft_putendl_fd("not enough arguments", 2), 0);
-	if (array_size(args) == 1)
-	{
-		sort_and_print(data, vars, args);
-		return (0);
-	}
 	i = 1;
-	while (args[i])
+	while (args[i++])
 	{
 		if (!valid_name(args[i]))
 			return (ft_putendl_fd("not valid identifier", 2), 1);
@@ -97,7 +88,19 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 		}
 		else
 			add_var(data, arg);
-		i++;
 	}
+	return (0);
+}
+
+int	ft_export(t_data *data, t_vars *vars, char **args)
+{
+	int		i;
+
+	if (!vars || !args)
+		return (ft_putendl_fd("not enough arguments", 2), 0);
+	if (array_size(args) == 1)
+		return (sort_and_print(data, vars, args));
+	else
+		return (handle_exp_args(args, data));
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+         #
+#    By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 20:46:06 by akwadran          #+#    #+#              #
-#    Updated: 2025/05/11 19:04:40 by kegonza          ###   ########.fr        #
+#    Updated: 2025/07/14 21:52:29 by akwadran         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = libft.a
 
-SRC = ${wildcard *.c}
+SRC = ft_ctype.c ft_ctype2.c ft_printf_utils.c ft_printf.c ft_put.c ft_puthexa.c \
+ft_putnbr_uns.c ft_putnbr.c ft_stdlib.c ft_str.c ft_str2.c ft_str3.c ft_strcmp.c \
+ft_string.c ft_string2.c ft_string3.c get_next_line_utils.c get_next_line.c  
 
 OBJ = $(SRC:.c=.o)
 

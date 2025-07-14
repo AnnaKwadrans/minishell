@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:33:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/14 18:43:12 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/14 21:46:03 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,3 @@ int	redirect_output(t_cmd *cmd, int pipes, int *fds, int i)
 	}
 	return (0);
 }
-

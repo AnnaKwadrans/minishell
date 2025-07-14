@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 18:03:52 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 18:06:19 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:53:08 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,11 @@ size_t	array_size(char **array)
 	return (size);
 }
 
-char	**join_arrays(char **array, char **add)
+static void	dup_arrays(char **array, char **add, char **joined)
 {
 	int		i;
 	int		j;
-	char	**joined;
 
-	if (!array && !add)
-		return (NULL);
-	if (!array)
-		return (add);
-	if (!add)
-		return (array);
-	joined = malloc(sizeof(char **) * (array_size(array)
-				+ array_size(add) + 1));
-	if (!joined)
-		return (NULL);
 	i = 0;
 	while (array[i])
 	{
@@ -91,5 +80,22 @@ char	**join_arrays(char **array, char **add)
 		j++;
 	}
 	joined[i] = NULL;
+}
+
+char	**join_arrays(char **array, char **add)
+{
+	char	**joined;
+
+	if (!array && !add)
+		return (NULL);
+	if (!array)
+		return (add);
+	if (!add)
+		return (array);
+	joined = malloc(sizeof(char **) * (array_size(array)
+				+ array_size(add) + 1));
+	if (!joined)
+		return (NULL);
+	dup_arrays(array, add, joined);
 	return (joined);
 }
