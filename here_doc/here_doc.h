@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:04:39 by kegonza           #+#    #+#             */
-/*   Updated: 2025/05/24 18:23:13 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/13 21:27:37 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../aux/aux.h"
 # include "../vars/varenv.h"
 # include "../signals/signals.h"
+# include "../parser/parser.h"
 
 // AUX.C
 char	*remove_trailing_newline(char *str);
