@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:54:53 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 16:00:50 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:31:16 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_cmd	t_cmd;
 // data.c
 void	init_data(t_data *data);
 void	parse_data(char *input, t_data *data, char **envp);
-int		count_pipe(char *line); // ver si no tiene errores
+int		count_pipes(char *line); // ver si no tiene errores
 void	handle_var(char *input, t_data *data);
 
 //validator.c

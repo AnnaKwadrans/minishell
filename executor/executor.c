@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 17:48:54 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:13:51 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	child(t_cmd *cmd, int pipes, int *fds, int i)
 		else
 			exec_cmd(cmd);
 		exit(cmd->p_status);
+		return (2);
 	}
 	else if (cmd->pid > 0)
 		return (0);

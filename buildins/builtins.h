@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 18:01:34 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/13 20:36:02 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:59:45 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_env(t_vars *vars);
 int	ft_cd(t_data *data, char **args);
 int	ft_exit(t_data *data, char **args);
 int	ft_export(t_data *data, t_vars *vars, char **args);
-void	sort_and_print(t_data *data, t_vars *vars, char **args);
+int	sort_and_print(t_data *data, t_vars *vars, char **args);
 int	ft_unset(char **args, t_data *data);
 
 #endif

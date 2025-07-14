@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/13 20:36:38 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:14:23 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ static t_vars	*cpy_vars(t_vars *vars)
 }
 
 static void	swap_vars(t_vars *vars)
-{	
+{
 	char	*aux_name;
 	char	*aux_value;
-	int	aux_is_exportable;
+	int		aux_is_exportable;
 
 	aux_value = vars->value;
 	aux_name = vars->name;
@@ -61,7 +61,7 @@ static void	swap_vars(t_vars *vars)
 	vars->next->is_exportable = aux_is_exportable;
 }
 
-static void	sort_vars(t_vars *vars)
+static int	sort_vars(t_vars *vars)
 {
 	t_vars	*start;
 	bool	swapped;
@@ -83,9 +83,10 @@ static void	sort_vars(t_vars *vars)
 			break ;
 		vars = start;
 	}
+	return (0);
 }
 
-void	sort_and_print(t_data *data, t_vars *vars, char **args)
+int	sort_and_print(t_data *data, t_vars *vars, char **args)
 {
 	t_vars	*cpy;
 
@@ -98,4 +99,5 @@ void	sort_and_print(t_data *data, t_vars *vars, char **args)
 		vars = vars->next;
 	}
 	free_vars(cpy);
+	return (0);
 }
