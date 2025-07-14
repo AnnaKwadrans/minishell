@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:17:14 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/13 20:43:23 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/13 21:03:12 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,27 @@ char	*aux_get_delimiter(char *line)
 		return (NULL);
 	ft_strlcpy(temp, &line[start], end - start + 2);
 	return (temp);
+}
+
+static int	new_start(char *line)
+{
+	int	start;
+
+	printf("searching new start\n");
+	start = 0;
+	if (!line)
+		return (0);
+	while (line[start] != '<')
+		start++;
+	// printf("found a '%c'\t", line[start]);
+	start += 2;
+	// printf("jumping to '%c'\t", line[start]);
+	while (line[start] == ' ')
+		start++;
+	// printf("jumping spaces to '%c'\t", line[start]);
+	while (line[start] && line[start] != ' ' && line[start] != '\n')
+		start++;
+	return (start);
 }
 
 void	get_delimiter(char *line, t_heredoc *here_doc)
