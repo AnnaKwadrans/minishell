@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   delimeter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:17:14 by kegonza           #+#    #+#             */
 /*   Updated: 2025/07/13 21:03:12 by kegonza          ###   ########.fr       */
