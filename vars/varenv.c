@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/13 19:42:07 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:19:34 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,19 @@ void	show_vars(void *args)
 		var = var->next;
 		i++;
 	}
+}
+
+void	update_shlvl(t_data *data)
+{
+	t_vars	*shlvl;
+	int		lvl;
+
+	if (!data || !data->vars)
+		return ;
+	shlvl = search_var(data, "SHLVL");
+	lvl = ft_atoi(shlvl->value) + 1;
+	free(shlvl->value);
+	shlvl->value = ft_itoa(lvl);
 }
 
 void	init_env(t_data *data_program, char **env)
@@ -152,26 +165,6 @@ char	*expand_vars(t_data *data_program, char *line, bool rm_quotes, bool free_li
 	if (free_line)
 		free(line);
 	return (result);
-}
-
-void example_new_vars(t_data *data_program)
-{
-	t_vars	*new_var1;
-	t_vars	*new_var2;
-	t_vars	*new_var3;
-	t_vars	*new_var4;
-	t_vars	*new_var5;
-
-	new_var1 = new_var("MY_VAR", "Hello World", 1);
-	new_var2 = new_var("MY_VAR2", "42", 0);
-	new_var3 = new_var("MY_VAR3", "Hello", 1);
-	new_var4 = new_var("MY_VAR4", "World", 0);
-	new_var5 = new_var("MY_VAR5", "!", 1);
-	add_var(data_program, new_var1);
-	add_var(data_program, new_var2);
-	add_var(data_program, new_var3);
-	add_var(data_program, new_var4);
-	add_var(data_program, new_var5);
 }
 
 // int main(int argc, char **argv, char **env)

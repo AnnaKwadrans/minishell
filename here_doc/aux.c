@@ -6,11 +6,130 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:12:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/06 23:20:26 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:05:41 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
+
+int	count_outfiles(char *line)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (line[i] == '>')
+		{
+			count++;
+			if (line[i + 1] == '>')
+				i++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+int	new_i(char *line, int *i, char *mode)
+{
+	if (!line || !mode)
+		return (*i);
+	if (ft_strcmp(mode, "spaces") == 0)
+	{
+		while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
+			(*i)++;
+	}
+	else if (ft_strcmp(mode, "quotes") == 0)
+	{
+		while (line[*i] && line[*i] != '"' && line[*i] != '\'')
+			(*i)++;
+	}
+	else if (ft_strcmp(mode, "end") == 0)
+	{
+		while (line[*i] && line[*i] != '>' && line[*i] != '<')
+			(*i)++;
+	}
+	else if (ft_strcmp(mode, "word") == 0)
+	{
+		while (line[*i] && line[*i] != ' ' && line[*i] != '\t'
+			&& line[*i] != '>' && line[*i] != '<')
+			(*i)++;
+	}
+	return (*i);
+}
+
+static char	*copy_temp(char *line, int *i)
+{
+	char	*temp;
+	int		start;
+	int		end;
+
+	(*i)++;
+	new_i(line, i, "spaces");
+	start = *i;
+	new_i(line, i, "word");
+	end = *i;
+	if (start < 0 || end < 0 || start >= end || !line)
+		return (NULL);
+	temp = malloc(end - start + 1);
+	if (!temp)
+		return (NULL);
+	ft_strlcpy(temp, line + start, end - start + 1);
+	return (temp);
+}
+
+static int	process_outfile(char **outfiles, char *line, t_cmd *cmd)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = -1;
+	j = 0;
+	while (line[++i])
+	{
+		if (line[i] == '>')
+		{
+			if (line[i + 1] == '>')
+			{
+				cmd->append = 1;
+				i++;
+			}
+			tmp = copy_temp(line, &i);
+			printf("tmp: %s\n", tmp);
+			if (!tmp || !tmp[0])
+				return (-1);
+			outfiles[j++] = ft_strdup(tmp);
+			free(tmp);
+		}
+	}
+	outfiles[j] = NULL;
+	return (0);
+}
+
+char	**outfile_heredoc(char *line, t_cmd *cmd)
+{
+	char	**outfiles;
+	int		count;
+
+	count = count_outfiles(line);
+	if (count == 0)
+		return (NULL);
+	printf("Number of outfiles: %d\n", count);
+	outfiles = malloc(sizeof(char *) * (count + 1));
+	if (!outfiles)
+		return (NULL);
+	if (process_outfile(outfiles, line, cmd) == -1)
+	{
+		free(outfiles);
+		return (NULL);
+	}
+	for (int i = 0; outfiles[i]; i++)
+		printf("outfile[%d]: %s\n", i, outfiles[i]);
+	return (outfiles);
+}
 
 char	*remove_trailing_newline(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/15 14:49:39 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:18:59 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,6 @@
 
 int	g_signal = 0; // Variable global para manejar SIGINT
 
-void	update_shlvl(t_data *data)
-{
-	t_vars	*shlvl;
-	int		lvl;
-
-	if (!data || !data->vars)
-		return ;
-	shlvl = search_var(data, "SHLVL");
-	lvl = ft_atoi(shlvl->value) + 1;
-	free(shlvl->value);
-	shlvl->value = ft_itoa(lvl);
-}
 char	*get_input(t_data *data)
 {
 	char	*input;
@@ -43,7 +31,6 @@ char	*get_input(t_data *data)
 		input = get_next_line(STDIN_FILENO);
 	return (input);
 }
-
 
 void	initial_config(t_data *data, char **envp)
 {
@@ -64,6 +51,13 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = get_input(data_program);
+		if (!input)
+		{
+			write(1, "exit\n", 5);
+			clean_data_program(data_program);
+			free(data_program);
+			exit(data_program->last_status);
+		}
 		if (g_signal == SIGINT)
 		{
 			data_program->last_status = 130;
@@ -75,19 +69,13 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 		if (input && *input)
-		{
 			add_history(input);
-			printf("DEBUGGING: added input to history\n");
-		}
 		if (ft_strcmp(input, "") == 0)
 			data_program->last_status = 0;
 		parse_data(input, data_program, envp);
 		execute_line(data_program);
-		printf("last status: %d\n", data_program->last_status);
-		printf("is_expandable: %d\n", data_program->is_expandable);
 		if (data_program->is_expandable == 0)
 			update_env(data_program);
-		printf("the new value of _ is %s\n", get_var_value(data_program, "_"));
 		clean_data_program(data_program);
 		free(input);
 	}

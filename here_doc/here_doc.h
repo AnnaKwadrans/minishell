@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:04:39 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/13 21:27:37 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/15 16:39:44 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 char	*remove_trailing_newline(char *str);
 void	here_doc_error(t_heredoc *here_doc, char *error_msg);
 void	free_here_doc(t_heredoc *here_doc);
+char	**outfile_heredoc(char *line, t_cmd *cmd);
 
 // CHECK.C
 int			is_here_doc(char *line);
