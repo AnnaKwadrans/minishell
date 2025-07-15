@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/15 14:40:03 by kegonza           #+#    #+#             */
+/*   Updated: 2025/07/15 14:40:05 by kegonza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DATA_H
 # define DATA_H
 
@@ -17,7 +29,7 @@
 # include "signals/signals.h"
 # include "aux/aux.h"
 
-extern int g_signal; // Variable global para manejar SEÑALES
+extern int 					g_signal;
 
 typedef struct s_heredoc	t_heredoc;
 typedef struct s_data		t_data;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/14 21:05:09 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:49:39 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	g_signal = 0; // Variable global para manejar SIGINT
 void	update_shlvl(t_data *data)
 {
 	t_vars	*shlvl;
-	int	lvl;
+	int		lvl;
 
 	if (!data || !data->vars)
 		return ;
@@ -28,6 +28,28 @@ void	update_shlvl(t_data *data)
 	lvl = ft_atoi(shlvl->value) + 1;
 	free(shlvl->value);
 	shlvl->value = ft_itoa(lvl);
+}
+char	*get_input(t_data *data)
+{
+	char	*input;
+
+	if (data->is_interactive)
+	{
+		input = readline("minishell > ");
+		if (input && *input)
+			add_history(input);
+	}
+	else
+		input = get_next_line(STDIN_FILENO);
+	return (input);
+}
+
+
+void	initial_config(t_data *data, char **envp)
+{
+	init_data(data);
+	init_env(data, envp);
+	update_shlvl(data);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -38,24 +60,18 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data_program = malloc(sizeof(t_data));
-	init_data(data_program);
-	init_env(data_program, envp);
-	update_shlvl(data_program);
-	printf("we have %d vars in env\n", total_vars(data_program));
+	initial_config(data_program, envp);
 	while (1)
 	{
-		if (data_program->is_interactive)
-			input = readline("minishell > ");
-		else
-			input = get_next_line(STDIN_FILENO);
+		input = get_input(data_program);
 		if (g_signal == SIGINT)
 		{
-			data_program->last_status = 130; // Status for SIGINT
-			g_signal = 0; // Reset signal
+			data_program->last_status = 130;
+			g_signal = 0;
 			if (!input || !*input)
 			{
 				free(input);
-				continue ; // If input is empty or SIGINT was received, continue to next iteration
+				continue ;
 			}
 		}
 		if (input && *input)
@@ -64,7 +80,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("DEBUGGING: added input to history\n");
 		}
 		if (ft_strcmp(input, "") == 0)
-			data_program->last_status = 0; // Si la entrada está vacía, no hacer nada
+			data_program->last_status = 0;
 		parse_data(input, data_program, envp);
 		execute_line(data_program);
 		printf("last status: %d\n", data_program->last_status);
