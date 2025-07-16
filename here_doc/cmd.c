@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/14 20:23:25 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:52:18 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ static void	setup_heredoc_input(t_cmd *cmd)
 
 	if (pipe(pipefd) == -1)
 		return (perror("pipe"), free_cmd(cmd));
-	cmd->fd_in = pipefd[0]; // ← se usará como STDIN
+	cmd->fd_in = pipefd[0];
 	if (!cmd->heredoc || !cmd->heredoc->buffer || !cmd->heredoc->buffer[0])
 	{
-		// heredoc vacío: cerramos el write-end sin escribir nada
-		close(pipefd[1]); // importante: esto permite que el reader reciba EOF
+		close(pipefd[1]);
 		return ;
 	}
 	i = 0;
@@ -34,12 +33,12 @@ static void	setup_heredoc_input(t_cmd *cmd)
 		write(pipefd[1], "\n", 1);
 		i++;
 	}
-	close(pipefd[1]); // cerramos el write-end
+	close(pipefd[1]);
 }
 
 static void	default_assign_cmd(t_cmd *cmd)
 {
-	printf("default assign cmd\n"); // para testear
+	printf("default assign cmd\n");
 	cmd->args = malloc(sizeof(char *) * 2);
 	if (!cmd->args)
 		return (free_cmd(cmd));
@@ -85,7 +84,7 @@ int	count_outfiles(char *line)
 		{
 			count++;
 			if (line[i + 1] == '>')
-				i++; // si es >>, saltamos un espacio
+				i++;
 		}
 		i++;
 	}
@@ -101,7 +100,7 @@ char	**outfile_heredoc(char *line, t_cmd *cmd)
 	char	**outfiles;
 	int		start;
 
-	printf("searching for outfiles in: %s\n", line); // para testear
+	printf("searching for outfiles in: %s\n", line);
 	i = 0;
 	outfile_count = count_outfiles(line);
 	if (outfile_count == 0)
@@ -117,7 +116,7 @@ char	**outfile_heredoc(char *line, t_cmd *cmd)
 			if (line[i + 1] == '>')
 			{
 				cmd->append = 1;
-				i++; // si es >>, saltamos un espacio
+				i++;
 			}
 			while (line[i] && (line[i] == '>' || line[i] == ' '))
 				i++;
@@ -125,7 +124,7 @@ char	**outfile_heredoc(char *line, t_cmd *cmd)
 			while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 				i++;
 			tmp = ft_substr(line, start, i - start);
-			printf("found outfile: '%s'\n", tmp); // para testear
+			printf("found outfile: '%s'\n", tmp);
 			if (!tmp)
 				return (free(outfiles), NULL);
 			outfiles[j++] = ft_strdup(tmp);
@@ -156,11 +155,11 @@ void	get_heredoc_cmd(char *line, t_cmd *cmd)
 		free(args);
 		if (!cmd->args)
 			return (free_cmd(cmd));
-		printf("we got the cmd %s ", cmd->args[0]); // para testear
+		printf("we got the cmd %s ", cmd->args[0]);
 		if (cmd->args[1])
-			printf("with the flags %s\n", cmd->args[1]); // para testear
+			printf("with the flags %s\n", cmd->args[1]);
 		else
-			printf("without flags\n"); // para testear
+			printf("without flags\n");
 	}
 	setup_heredoc_input(cmd);
 	cmd->fd_out = STDOUT_FILENO;
@@ -169,7 +168,7 @@ void	get_heredoc_cmd(char *line, t_cmd *cmd)
 	i = 0;
 	while (cmd->outfile && cmd->outfile[i])
 	{
-		printf("outfiles heredoc[%d]: '%s'\n", i, cmd->outfile[i]); // para testear
+		printf("outfiles heredoc[%d]: '%s'\n", i, cmd->outfile[i]);
 		i++;
 	}
 	cmd->infile = NULL;

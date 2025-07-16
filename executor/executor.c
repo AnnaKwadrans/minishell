@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/14 22:13:51 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:11:04 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	*create_pipes(int pipes)
 	return (fds);
 }
 
-int	handle_cmd(t_data *data, t_cmd *cmd, int i)
+void	handle_cmd(t_data *data, t_cmd *cmd, int i)
 {
 	if (cmd->is_builtin)
 	{
@@ -69,7 +69,7 @@ int	handle_cmd(t_data *data, t_cmd *cmd, int i)
 	}
 	else
 		child(cmd, data->pipes, data->fds, i);
-	return (0); //check
+	return ;
 }
 
 void	close_fds(int *fds, int pipes, int wr, int rd)

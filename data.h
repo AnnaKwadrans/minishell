@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:40:03 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/15 14:40:05 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/16 19:06:38 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include "signals/signals.h"
 # include "aux/aux.h"
 
-extern int 					g_signal;
+extern int					g_signal;
 
 typedef struct s_heredoc	t_heredoc;
 typedef struct s_data		t_data;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/15 14:49:39 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/16 19:08:52 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	update_shlvl(t_data *data)
 	free(shlvl->value);
 	shlvl->value = ft_itoa(lvl);
 }
+
 char	*get_input(t_data *data)
 {
 	char	*input;
@@ -43,7 +44,6 @@ char	*get_input(t_data *data)
 		input = get_next_line(STDIN_FILENO);
 	return (input);
 }
-
 
 void	initial_config(t_data *data, char **envp)
 {
@@ -60,6 +60,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data_program = malloc(sizeof(t_data));
+	if (!data_program)
+		return (1);
 	initial_config(data_program, envp);
 	while (1)
 	{

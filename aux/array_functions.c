@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 18:03:52 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/14 21:53:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:09:30 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ void	print_array(char **array)
 	i = 0;
 	while (array[i])
 	{
-		//if (i != 0)
-		//	printf("\t\t");
-		//printf("\t%d >%s\n", i, array[i]);
 		printf("%s\n", array[i]);
 		i++;
 	}

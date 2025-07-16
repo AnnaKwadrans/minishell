@@ -171,3 +171,6 @@ ps | grep minishell | awk '{print $1}' | xargs lsof -p
 # join arrays norm: too long
 
 # exit: >1 args y texto (HECHO)
+
+PROBLEMS:
+here_doc.c sigint.c signals.c 
