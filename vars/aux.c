@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/28 15:22:40 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:30:53 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	free_vars(t_vars *vars)
 	while (vars)
 	{
 		next = vars->next;
-		
 		free(vars->name);
 		vars->name = NULL;
 		free(vars->value);
@@ -64,7 +63,6 @@ int	skip_quote(const char *line, int i)
 {
 	char	quote;
 
-	// printf("Skip quote: %s\n", line);
 	quote = line[i];
 	while (line[i] && line[i] == quote)
 		i++;

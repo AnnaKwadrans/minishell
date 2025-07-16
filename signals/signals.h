@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:13:52 by kegonza           #+#    #+#             */
-/*   Updated: 2025/06/30 21:23:58 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/16 19:44:11 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SIGNALS_H
 
 # include "../data.h"
+# include <signal.h>
 
 void	rl_replace_line(const char *text, int clear_undo);
 

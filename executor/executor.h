@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:44:26 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 17:46:11 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:11:19 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // executor.c
 int		execute_line(t_data *data);
 int		*create_pipes(int pipes);
-int		handle_cmd(t_data *data, t_cmd *cmd, int i);
+void	handle_cmd(t_data *data, t_cmd *cmd, int i);
 void	close_fds(int *fds, int pipes, int wr, int rd);
 int		child(t_cmd *cmd, int pipes, int *fds, int i);
 

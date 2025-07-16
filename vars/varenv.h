@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/15 16:40:43 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/16 20:00:46 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,8 @@ void	init_env(t_data *data_program, char **env);
 char	*expand_vars(t_data *data_program, char *line, bool rm_quotes, bool free_line);
 void	update_shlvl(t_data *data);
 void	example_new_vars(t_data *data_program);
+char	*handle_single_quotes(char *result, char *line, int *i);
+char	*handle_double_quotes(char *result, char *line, int *i,
+			t_expand *exp);
 
 #endif
