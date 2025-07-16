@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 20:00:36 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:25:24 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "executor/executor.h"
 #include "vars/varenv.h"
 
-int	g_signal = 0; // Variable global para manejar SIGINT
+int	g_signal = 0;
 
 char	*get_input(t_data *data)
 {

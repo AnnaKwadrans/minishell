@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:44 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 19:28:11 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:17:39 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	update_env(t_data *data_program)
 		return ;
 	if (data_program->last_status != 0)
 		return ;
-	size_cmd = array_size(data_program->cmds);
+	size_cmd = cmd_array_size(data_program->cmds);
 	if (size_cmd == 0)
 		return ;
 	last_cmd = data_program->cmds[size_cmd - 1];

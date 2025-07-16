@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:13:36 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 19:38:30 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:21:00 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,19 @@ void	show_vars(void *args)
 		var = var->next;
 		i++;
 	}
+}
+
+void	update_shlvl(t_data *data)
+{
+	t_vars	*shlvl;
+	int		lvl;
+
+	if (!data || !data->vars)
+		return ;
+	shlvl = search_var(data, "SHLVL");
+	lvl = ft_atoi(shlvl->value) + 1;
+	free(shlvl->value);
+	shlvl->value = ft_itoa(lvl);
 }
 
 void	init_env(t_data *data_program, char **env)
@@ -78,8 +91,7 @@ char	*handle_single_quotes(char *result, char *line, int *i)
 	return (result);
 }
 
-char	*handle_double_quotes(char *result, char *line, int *i,
-		t_expand *exp)
+char	*handle_double_quotes(char *result, char *line, int *i, t_expand *exp)
 {
 	(*i)++;
 	while (line[*i] && line[*i] != '\"')

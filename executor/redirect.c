@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:33:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/14 21:46:03 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:24:44 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	redirect_input(t_cmd *cmd, int pipes, int *fds, int i)
 	}
 	else if (i != 0)
 	{
-		dup2(fds[(i - 1) * 2], STDIN_FILENO); // 0:-2 1:0, 2:2, 3:4 
+		dup2(fds[(i - 1) * 2], STDIN_FILENO);
 		close(fds[(i - 1) * 2]);
 	}
 	return (0);
@@ -49,7 +49,6 @@ int	redirect_input(t_cmd *cmd, int pipes, int *fds, int i)
 
 int	redirect_output(t_cmd *cmd, int pipes, int *fds, int i)
 {
-	// 1) Redirección a fichero
 	if (cmd->outfile)
 	{
 		if (i != pipes)
@@ -60,7 +59,6 @@ int	redirect_output(t_cmd *cmd, int pipes, int *fds, int i)
 			perror("dup2 outfile");
 		close(cmd->fd_out);
 	}
-	// 2) Pipe siguiente
 	else if (i != pipes)
 	{
 		if (dup2(fds[(i * 2) + 1], STDOUT_FILENO) < 0)

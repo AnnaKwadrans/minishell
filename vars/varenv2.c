@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:13:36 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 19:23:01 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:19:36 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*handle_quotes(char *result, char *line, int *i, t_expand *exp)
 }
 
 static char	*handle_expansion(t_data *data, char *line, char **vars,
-	bool rm_quotes)
+		bool rm_quotes)
 {
 	char		*result;
 	int			i;
@@ -70,24 +70,4 @@ char	*expand_vars(t_data *data_program, char *line, bool rm_quotes,
 	if (free_line)
 		free(line);
 	return (result);
-}
-
-void	example_new_vars(t_data *data_program)
-{
-	t_vars	*new_var1;
-	t_vars	*new_var2;
-	t_vars	*new_var3;
-	t_vars	*new_var4;
-	t_vars	*new_var5;
-
-	new_var1 = new_var("MY_VAR", "Hello World", 1);
-	new_var2 = new_var("MY_VAR2", "42", 0);
-	new_var3 = new_var("MY_VAR3", "Hello", 1);
-	new_var4 = new_var("MY_VAR4", "World", 0);
-	new_var5 = new_var("MY_VAR5", "!", 1);
-	add_var(data_program, new_var1);
-	add_var(data_program, new_var2);
-	add_var(data_program, new_var3);
-	add_var(data_program, new_var4);
-	add_var(data_program, new_var5);
 }
