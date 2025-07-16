@@ -5,7 +5,7 @@ FLAGS_BASE = -Werror -Wextra -Wall -g3
 ifeq ($(SANITIZE),0)
 	FLAGS = $(FLAGS_BASE)
 else
-	FLAGS = $(FLAGS_BASE) -fsanitize=address
+	FLAGS = $(FLAGS_BASE) -g -fsanitize=address
 endif
 LIBFT_DIR = libft
 LIBFT = libft/libft.a
