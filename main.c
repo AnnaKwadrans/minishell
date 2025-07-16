@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 20:25:24 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:52:14 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 		{
 			write(1, "exit\n", 5);
-			clean_data_program(data_program);
+			free_data(data_program);
 			free(data_program);
 			exit(data_program->last_status);
 		}
