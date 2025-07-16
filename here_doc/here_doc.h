@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:04:39 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/15 16:39:44 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:43:27 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@
 # include "../parser/parser.h"
 
 // AUX.C
-char	*remove_trailing_newline(char *str);
-void	here_doc_error(t_heredoc *here_doc, char *error_msg);
-void	free_here_doc(t_heredoc *here_doc);
-char	**outfile_heredoc(char *line, t_cmd *cmd);
+char		*remove_trailing_newline(char *str);
+void		here_doc_error(t_heredoc *here_doc, char *error_msg);
+void		free_here_doc(t_heredoc *here_doc);
+char		**outfile_heredoc(char *line, t_cmd *cmd);
+int			count_outfiles(char *line);
+int			new_i(char *line, int *i, char *mode);
 
 // CHECK.C
 int			is_here_doc(char *line);
@@ -39,6 +41,11 @@ void		here_doc_init(char *line, t_heredoc *here_doc);
 t_heredoc	*here_doc_mode(t_data *data_program, char *line);
 
 // CMD.C
-void	get_heredoc_cmd(char *line, t_cmd *cmd);
+void		get_heredoc_cmd(char *line, t_cmd *cmd);
+
+// BUFFER.C
+
+void		expand_buffer(t_heredoc *here_doc);
+char		**add_buffer(char **buffer, char *line);
 
 #endif

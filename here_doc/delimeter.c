@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimeter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:17:14 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/13 21:03:12 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:26:39 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,9 @@ static int	new_start(char *line)
 		return (0);
 	while (line[start] != '<')
 		start++;
-	// printf("found a '%c'\t", line[start]);
 	start += 2;
-	// printf("jumping to '%c'\t", line[start]);
 	while (line[start] == ' ')
 		start++;
-	// printf("jumping spaces to '%c'\t", line[start]);
 	while (line[start] && line[start] != ' ' && line[start] != '\n')
 		start++;
 	return (start);
