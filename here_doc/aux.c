@@ -6,11 +6,59 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:12:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/06 23:20:26 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:25:55 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
+
+int	count_outfiles(char *line)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (line[i] == '>')
+		{
+			count++;
+			if (line[i + 1] == '>')
+				i++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+int	new_i(char *line, int *i, char *mode)
+{
+	if (!line || !mode)
+		return (*i);
+	if (ft_strcmp(mode, "spaces") == 0)
+	{
+		while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
+			(*i)++;
+	}
+	else if (ft_strcmp(mode, "quotes") == 0)
+	{
+		while (line[*i] && line[*i] != '"' && line[*i] != '\'')
+			(*i)++;
+	}
+	else if (ft_strcmp(mode, "end") == 0)
+	{
+		while (line[*i] && line[*i] != '>' && line[*i] != '<')
+			(*i)++;
+	}
+	else if (ft_strcmp(mode, "word") == 0)
+	{
+		while (line[*i] && line[*i] != ' ' && line[*i] != '\t'
+			&& line[*i] != '>' && line[*i] != '<')
+			(*i)++;
+	}
+	return (*i);
+}
 
 char	*remove_trailing_newline(char *str)
 {
