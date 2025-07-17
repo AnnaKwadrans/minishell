@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crud1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:44 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 20:17:39 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:07:34 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,27 @@ int	only_variable_expansions(char **args)
 	return (1);
 }
 
-int	is_echo_cmd(char **args)
+void	aux_update_env(t_data *data_program,
+	t_cmd *last_cmd, int size_args)
 {
-	int	i;
+	t_vars	*tmp;
 
-	if (!args || !args[0])
-		return (0);
-	if (ft_strcmp(args[0], "echo"))
-		return (1);
-	return (0);
-}
-
-size_t	cmd_array_size(t_cmd **cmd)
-{
-	size_t	size;
-
-	size = 0;
-	while (cmd[size])
-		size++;
-	return (size);
+	tmp = data_program->vars;
+	tmp = search_var(data_program, "_");
+	if (!tmp)
+	{
+		tmp = new_var("_", last_cmd->args[size_args - 1], 0);
+		if (!tmp)
+			return ;
+		add_var(data_program, tmp);
+	}
+	else
+	{
+		free(tmp->value);
+		tmp->value = ft_strdup(last_cmd->args[size_args - 1]);
+		if (!tmp->value)
+			return ;
+	}
 }
 
 void	update_env(t_data *data_program)
@@ -69,19 +71,5 @@ void	update_env(t_data *data_program)
 	size_args = array_size(last_cmd->args);
 	if (size_args == 0)
 		return ;
-	tmp = search_var(data_program, "_");
-	if (!tmp)
-	{
-		tmp = new_var("_", last_cmd->args[size_args - 1], 0);
-		if (!tmp)
-			return ;
-		add_var(data_program, tmp);
-	}
-	else
-	{
-		free(tmp->value);
-		tmp->value = ft_strdup(last_cmd->args[size_args - 1]);
-		if (!tmp->value)
-			return ;
-	}
+	aux_update_env(data_program, last_cmd, size_args);
 }
