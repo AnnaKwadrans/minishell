@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 19:30:53 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 00:58:10 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,24 @@ int	skip_quote(const char *line, int i)
 	while (line[i] && line[i] == quote)
 		i++;
 	return (i);
+}
+
+void	show_vars(void *args)
+{
+	t_vars	*var;
+	t_data	*data_program;
+	int		i;
+
+	i = 1;
+	data_program = (t_data *)args;
+	var = data_program->vars;
+	while (var)
+	{
+		printf("Variable %d:\n", i);
+		printf("\tname: %s\n", var->name);
+		printf("\tvalue: %s\n ", var->value);
+		printf("\texportable: %d\n ", var->is_exportable);
+		var = var->next;
+		i++;
+	}
 }

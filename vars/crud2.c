@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crud2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:44 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 19:28:23 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:07:19 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,25 @@ void	add_var(t_data *data_program, t_vars *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+}
+
+int	is_echo_cmd(char **args)
+{
+	int	i;
+
+	if (!args || !args[0])
+		return (0);
+	if (ft_strcmp(args[0], "echo"))
+		return (1);
+	return (0);
+}
+
+size_t	cmd_array_size(t_cmd **cmd)
+{
+	size_t	size;
+
+	size = 0;
+	while (cmd[size])
+		size++;
+	return (size);
 }

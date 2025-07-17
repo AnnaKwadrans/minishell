@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 21:28:04 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/16 21:31:01 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	closing(t_data *data_program)
 	free(data_program);
 	exit(data_program->last_status);
 }
-
 
 int	main(int argc, char **argv, char **envp)
 {
