@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 20:39:51 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/18 11:53:20 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	here_doc_init(char *line, t_heredoc *here_doc)
 	get_delimiter(line, here_doc);
 	if (!here_doc->delimiter)
 		here_doc_error(here_doc, "PARSE");
-	if (here_doc->delimiter)
-		printf("delimeter is: %s\n", here_doc->delimiter);
 	here_doc->buffer = NULL;
 }
 
@@ -43,7 +41,6 @@ static void	finishing_here_doc(t_heredoc *here_doc, t_data *data_program)
 					1, 0);
 			if (!here_doc->buffer[i])
 				return (here_doc_error(here_doc, "EXPAND_VARS"));
-			printf("buffer[%d]: %s\n", i, here_doc->buffer[i]);
 			i++;
 		}
 	}

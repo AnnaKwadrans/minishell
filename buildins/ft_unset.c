@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:53:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 17:54:20 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 11:51:41 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static void	single_unset(char *arg, t_data *data, t_vars *vars)
 	t_vars	*start;
 
 	start = vars;
-	printf("ARG %s\n", arg);
-	printf("VAR %s\n", vars->name);
 	if (ft_strncmp(arg, vars->name, ft_strlen(arg)) == 0)
 	{
 		rm_first(data);

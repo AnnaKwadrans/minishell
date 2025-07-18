@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/14 21:59:54 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 11:50:23 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@ static t_vars	*export_new_var(char *arg)
 	int		i;
 
 	i = 0;
-	printf("%s\n", arg);
 	name = ft_strdup_set(&arg[i], "=");
-	printf("%s\n", name);
 	while (arg[i] != '=')
 		i++;
 	value = ft_strdup(&arg[i + 1]);
-	printf("%s\n", value);
 	new = new_var(name, value, 1);
 	return (new);
 }

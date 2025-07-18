@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:13:52 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 21:29:06 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 11:40:28 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
 
-# define _POSIX_C_SOURCE 200809L
-
+# if defined(__linux__)
+#  include <bits/sigaction.h>
+# endif
 # include <signal.h>
-# include <bits/sigaction.h>
 # include "../data.h"
 
 void	rl_replace_line(const char *text, int clear_undo);
