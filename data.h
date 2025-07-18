@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:40:03 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 19:06:38 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:39:22 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ typedef struct s_cmd
 	bool		is_builtin;
 }	t_cmd;
 
-void	add_mhistory(t_data *data_program, char *input);
-void	show_history(void *arg);
 void	free_cmd(t_cmd *cmd);
 
 #endif

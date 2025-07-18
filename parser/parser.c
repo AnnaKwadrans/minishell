@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/12 16:23:39 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 11:54:05 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	char	**cmd_aux;
 	char	*input_exp;
 
-	printf("<<<-------------- PARSING LINE -------------->>>\n");
 	cmd_aux = split_pipes(input, '|');
 	data->cmds = malloc(sizeof(t_cmd *) * (pipes + 2));
 	if (!data->cmds)

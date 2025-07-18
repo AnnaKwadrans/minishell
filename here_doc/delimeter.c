@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:17:14 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/15 17:26:39 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/18 11:52:23 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int	new_start(char *line)
 {
 	int	start;
 
-	printf("searching new start\n");
 	start = 0;
 	if (!line)
 		return (0);
@@ -70,7 +69,6 @@ void	get_delimiter(char *line, t_heredoc *here_doc)
 			if (!temp)
 				return ;
 			ft_strlcpy(temp, &line[i + 2], start - i);
-			printf(">> temp is:%s\n", temp);
 			here_doc->delimiter = aux_get_delimiter(temp);
 			if (!here_doc->delimiter)
 				return ;
