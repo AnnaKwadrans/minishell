@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:40:03 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/18 12:39:22 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/18 12:52:40 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,46 +36,40 @@ typedef struct s_data		t_data;
 typedef struct s_vars		t_vars;
 typedef struct s_cmd		t_cmd;
 
-// Estructura para expandir variables
 typedef struct s_expand
 {
-	t_data	*data; // Datos del programa
-	char	**values; // Valores de las variables
-	int		count; // Contador de variables
+	t_data	*data;
+	char	**values;
+	int		count;
 }	t_expand;
 
-// Estructura para here_doc
 typedef struct s_heredoc
 {
-	char	*delimiter; // Delimitador
-	int		is_expandable; // Si es expandible o no
-	char	**buffer; // Buffer para almacenar las lineas
+	char	*delimiter;
+	int		is_expandable;
+	char	**buffer;
 }	t_heredoc;
 
-// Estructura para almacenar los datos del programa
 typedef struct s_data
 {
-	//struct s_lines	*line; // Lineas de entrada
-	struct s_cmd	**cmds; // Comandos para ejecutar
-	struct s_vars	*vars; // Variables de entorno
-	int				pipes; // Contador de pipes
-	int				is_interactive; // Si es interactivo o no
-	int				is_expandable; // Si es expandible o no
+	struct s_cmd	**cmds;
+	struct s_vars	*vars;
+	int				pipes;
+	int				is_interactive;
+	int				is_expandable;
 	int				*fds;
 	int				last_status;
 }	t_data;
 
-// Estructura para almacenar las variables de entorno "locales"
 typedef struct s_vars
 {
-	char			*name; // Nombre de la variable
-	char			*value; // Valor de la variable
-	struct s_vars	*next; // Siguiente variable
-	int				is_exportable; // Si es exportable o no
+	char			*name;
+	char			*value;
+	struct s_vars	*next;
+	int				is_exportable;
 	t_data			*data;
 }	t_vars;
 
-// Estructura para almacenar los comandos y ejecutarlos
 typedef struct s_cmd
 {
 	char		**args;
