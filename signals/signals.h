@@ -13,10 +13,8 @@
 #ifndef SIGNALS_H
 # define SIGNALS_H
 
-# if defined(__linux__)
-#  include <bits/sigaction.h>
-# endif
 # include <signal.h>
+# include <termios.h>
 # include "../data.h"
 
 void	rl_replace_line(const char *text, int clear_undo);

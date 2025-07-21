@@ -34,15 +34,20 @@ static bool	valid_name(char *arg)
 	bool	equal;
 	char	*name;
 
+	printf("check 0\n");
+	printf("%s\n", arg);
 	if (!(ft_isalpha(arg[0]) || arg[0] == '_'))
 		return (0);
+	printf("check 1\n");
 	i = 0;
 	name = ft_strdup_set(arg, "=");
+	printf("check 2\n");
 	if (ft_isalnum(name[strlen(name) - 1]))
 	{
 		free(name);
 		return (1);
 	}
+	printf("check 3\n");
 	return (0);
 }
 
@@ -66,7 +71,7 @@ static int	handle_exp_args(char **args, t_data *data)
 	t_vars	*found;
 	int		i;
 
-	i = 1;
+	i = 0;
 	while (args[i++])
 	{
 		if (!valid_name(args[i]))
