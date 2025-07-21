@@ -174,3 +174,10 @@ ps | grep minishell | awk '{print $1}' | xargs lsof -p
 
 PROBLEMS:
 here_doc.c sigint.c signals.c 
+
+export -> segfult
+exit con palabra -> codigo salida 2
+cd - -> va al directorio anterior
+se borra PATH en heredoc y en validator
+no debe guardar espacios en el historico
+codigo salida del validator

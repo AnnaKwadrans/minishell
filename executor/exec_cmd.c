@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:32:18 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/14 21:46:50 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:53:54 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	exec_cmd(t_cmd *cmd)
 		free(path);
 		perror("Execve failed");
 		clean_data_program(cmd->data);
-		exit(-1);
+		exit(2);
 	}
 	else
 	{
