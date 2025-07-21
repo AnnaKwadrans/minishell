@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:45 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 15:54:36 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:13:15 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 bool	is_set(char c, char const *set)
 {
+	if (!set)
+		return (0);
 	while (*set)
 	{
 		if (c == *set)
@@ -27,6 +29,8 @@ size_t	ft_strlen_set(const char *s, char *set)
 {
 	size_t	len;
 
+	if (!s || !set)
+		return (0);
 	len = 0;
 	while (s[len] && !is_set(s[len], set))
 		len++;
@@ -38,6 +42,8 @@ char	*ft_strdup_set(const char *s, char *set)
 	int		len;
 	char	*ptr;
 
+	if (!s || !set)
+		return (NULL);
 	len = ft_strlen_set(s, set) + 1;
 	ptr = malloc(sizeof(char) * len);
 	if (!ptr)
