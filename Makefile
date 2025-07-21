@@ -128,6 +128,7 @@ OBJ = $(SRC_ALL:.c=.o)
 $(NAME): $(OBJ)
 	make -C libft
 	$(CC) $(FLAGS) $(READLINE_INC) $(OBJ) -o $(NAME) -Llibft -lft $(READLINE_LIB) -lreadline
+	make clean
 
 .PHONY: all re clean fclean
 

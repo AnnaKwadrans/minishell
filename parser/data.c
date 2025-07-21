@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:24:23 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/18 11:53:55 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/21 19:20:53 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	parse_data(char *input, t_data *data, char **envp)
 	data->cmds = NULL;
 	data->cmds = parse_line(input, data->pipes, envp, data);
 	if (!data->cmds)
-		return (free_data(data));
+		return (clean_data_program(data));
 }
 
 int	count_pipes(char *line)

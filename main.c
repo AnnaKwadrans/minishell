@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 21:31:01 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:01:08 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	get_and_process_input(t_data *data_program, char **input)
 			return (2);
 		}
 	}
-	if (*input)
-		add_history(input);
-	if (input[0] == '\0')
+	if (*input && (*input)[0] == '\n')
+		add_history(*input);
+	if (!input[0])
 		data_program->last_status = 0;
 	return (1);
 }
