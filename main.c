@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 20:52:14 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/21 20:01:08 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,41 @@ void	initial_config(t_data *data, char **envp)
 	update_shlvl(data);
 }
 
+int	get_and_process_input(t_data *data_program, char **input)
+{
+	*input = get_input(data_program);
+	if (!*input)
+		return (0);
+	if (g_signal == SIGINT)
+	{
+		data_program->last_status = 130;
+		g_signal = 0;
+		if (!*input)
+		{
+			free(input);
+			return (2);
+		}
+	}
+	if (*input && (*input)[0] == '\n')
+		add_history(*input);
+	if (!input[0])
+		data_program->last_status = 0;
+	return (1);
+}
+
+void	closing(t_data *data_program)
+{
+	write(1, "exit\n", 5);
+	free_data(data_program);
+	free(data_program);
+	exit(data_program->last_status);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char			*input;
 	static t_data	*data_program;
+	int				status;
 
 	(void)argc;
 	(void)argv;
@@ -52,28 +83,11 @@ int	main(int argc, char **argv, char **envp)
 	initial_config(data_program, envp);
 	while (1)
 	{
-		input = get_input(data_program);
-		if (!input)
-		{
-			write(1, "exit\n", 5);
-			free_data(data_program);
-			free(data_program);
-			exit(data_program->last_status);
-		}
-		if (g_signal == SIGINT)
-		{
-			data_program->last_status = 130;
-			g_signal = 0;
-			if (!input || !*input)
-			{
-				free(input);
-				continue ;
-			}
-		}
-		if (input && *input)
-			add_history(input);
-		if (ft_strcmp(input, "") == 0)
-			data_program->last_status = 0;
+		status = get_and_process_input(data_program, &input);
+		if (!status)
+			closing(data_program);
+		if (status == 2)
+			continue ;
 		parse_data(input, data_program, envp);
 		execute_line(data_program);
 		if (data_program->is_expandable == 0)
@@ -82,5 +96,3 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 	}
 }
-
-// PARA COMPILAR, APLICAR "-lreadline"

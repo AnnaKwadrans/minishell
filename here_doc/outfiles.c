@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:26:11 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/15 17:26:12 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/18 11:53:34 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	process_outfile(char **outfiles, char *line, t_cmd *cmd)
 				i++;
 			}
 			tmp = copy_temp(line, &i);
-			printf("tmp: %s\n", tmp);
 			if (!tmp || !tmp[0])
 				return (-1);
 			outfiles[j++] = ft_strdup(tmp);
@@ -69,7 +68,6 @@ char	**outfile_heredoc(char *line, t_cmd *cmd)
 	count = count_outfiles(line);
 	if (count == 0)
 		return (NULL);
-	printf("Number of outfiles: %d\n", count);
 	outfiles = malloc(sizeof(char *) * (count + 1));
 	if (!outfiles)
 		return (NULL);

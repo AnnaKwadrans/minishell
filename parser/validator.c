@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:54:15 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 15:42:51 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:21:05 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	valid_input(char *input, t_data *data) // check si se libera todo bien
 	if (!even_quotes(input) || !valid_pipes(input))
 	{
 		printf("Invalid synax, returning...\n");
-		free_data(data);
+		clean_data_program(data);
 		return (0);
 	}
 	if (empty_input(input))

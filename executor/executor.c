@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 19:11:04 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:44:12 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,5 @@ int	child(t_cmd *cmd, int pipes, int *fds, int i)
 	}
 	else if (cmd->pid > 0)
 		return (0);
+	return (1);
 }

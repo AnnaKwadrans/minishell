@@ -1,0 +1,2156 @@
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mBasic Commands[0;39m
+----------------------------------------
+echo "Hello"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+ls
+[31mFAIL[0m: Outputs or exit codes differ
+
+28d27
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+pwd
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd ..
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mRedirections[0;39m
+----------------------------------------
+cat < testfile.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,3c1
+< No such file: No such file or directory
+< exit
+< exit
+---
+> bash: line 1: testfile.txt: No such file or directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+echo "Hello" > file.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2d0
+< exit
+< Hello
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" >> file.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2d0
+< exit
+< Hello
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+grep "pattern" < input.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,3c1
+< No such file: No such file or directory
+< exit
+< exit
+---
+> bash: line 1: input.txt: No such file or directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+echo "Hello" > file.txt 2>&1
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2d0
+< exit
+< Hello 2
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" >> file.txt 2>&1
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2d0
+< exit
+< Hello 2
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mPipes[0;39m
+----------------------------------------
+ls | wc -l
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | cat
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | cat | wc -l
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+ls | grep "txt" > output.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+ls | grep "txt" >> output.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+ls | grep "txt" | wc -l > count.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+ls | grep "txt" | wc -l >> count.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | grep "H"
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | grep "H" | wc -l
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | grep "H" > output.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | grep "H" >> output.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | grep "H" | wc -l > count.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | grep "H" | wc -l >> count.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | grep "H" | tee file.txt | wc -l
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | tee file.txt | cat -n
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mQuotes and Variables[0;39m
+----------------------------------------
+echo "Hello 'World'"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo 'Hello "World"'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello $USER"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo 'Hello $USER'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello\tWorld"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello\nWorld"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello\World"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mNon-existent Files and Directories[0;39m
+----------------------------------------
+ls /nonexistent
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cat /nonexistent/file.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+echo "Hello" > /nonexistent/file.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< Open failed: No such file or directory
+< exit
+---
+> bash: line 1: /nonexistent/file.txt: No such file or directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cat < /nonexistent/file.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,3c1
+< No such file: No such file or directory
+< exit
+< exit
+---
+> bash: line 1: /nonexistent/file.txt: No such file or directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mEnvironment Variables[0;39m
+----------------------------------------
+echo $HOME
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo $USER
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo $PATH
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo $?
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "$HOME"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo '$HOME'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello $USER"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo 'Hello $USER'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mRetokenization[0;39m
+----------------------------------------
+export VAR='ls    -l'
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18646==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001023688a0 bp 0x00016da9ae90 sp 0x00016da9ae60 T0)
+< ==18646==The signal is caused by a READ memory access.
+< ==18646==Hint: address points to the zero page.
+<     #0 0x0001023688a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x0001023687c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x00010236875c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x0001023695bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000102369410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000102369da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000102369c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x00010236492c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18646==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x00006030000025c0   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016d2a0000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000102ab0508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016da9b0a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016da9b210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016da9ae90     lr = 0x00000001023687c8     sp = 0x000000016da9ae60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18646==ABORTING
+---
+> ls -l
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR='ls    -l'
+"$VAR"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18659==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001007a88a0 bp 0x00016f65ae90 sp 0x00016f65ae60 T0)
+< ==18659==The signal is caused by a READ memory access.
+< ==18659==Hint: address points to the zero page.
+<     #0 0x0001007a88a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x0001007a87c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x0001007a875c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x0001007a95bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x0001007a9410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x0001007a9da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x0001007a9c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x0001007a492c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18659==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x00006030000025c0   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016ee60000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000100ed8508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016f65b0a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016f65b210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016f65ae90     lr = 0x00000001007a87c8     sp = 0x000000016f65ae60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18659==ABORTING
+---
+> bash: line 2: ls    -l: command not found
+Minishell exit code:	134
+Bash exit code:		127
+----------------------------------------
+
+----------------------------------------
+export VAR='ls    -l'
+'$VAR'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18689==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000102cbc8a0 bp 0x00016d146e90 sp 0x00016d146e60 T0)
+< ==18689==The signal is caused by a READ memory access.
+< ==18689==Hint: address points to the zero page.
+<     #0 0x000102cbc8a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x000102cbc7c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x000102cbc75c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x000102cbd5bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000102cbd410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000102cbdda8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000102cbdc00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x000102cb892c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18689==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x00006030000025c0   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016c94c000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x000000010342c508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016d1470a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016d147210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016d146e90     lr = 0x0000000102cbc7c8     sp = 0x000000016d146e60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18689==ABORTING
+---
+> bash: line 2: $VAR: command not found
+Minishell exit code:	134
+Bash exit code:		127
+----------------------------------------
+
+----------------------------------------
+export ALGO='s  -l'
+l$ALGO
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1,32
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18703==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000102d5c8a0 bp 0x00016d0a6e90 sp 0x00016d0a6e60 T0)
+< ==18703==The signal is caused by a READ memory access.
+< ==18703==Hint: address points to the zero page.
+<     #0 0x000102d5c8a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x000102d5c7c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x000102d5c75c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x000102d5d5bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000102d5d410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000102d5dda8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000102d5dc00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x000102d5892c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18703==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002590   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016c8ac000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x000000010357c508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016d0a70a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016d0a7210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016d0a6e90     lr = 0x0000000102d5c7c8     sp = 0x000000016d0a6e60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18703==ABORTING
+---
+> total 3496
+> -rw-r--r--   1 kev  staff        0 Jul 21 20:09 &1
+> drwx------   5 kev  staff      160 Jul 21 20:05 aux
+> drwxr-xr-x@ 11 kev  staff      352 Jul 21 20:05 buildins
+> -rw-r--r--   1 kev  staff       27 Jul 21 20:09 count.txt
+> -rw-r--r--   1 kev  staff     2143 Jul 21 19:17 data.h
+> -rw-r--r--   1 kev  staff        0 Jul 21 20:08 error.txt
+> drwxr-xr-x@ 10 kev  staff      320 Jul 21 20:05 executor
+> -rw-r--r--   1 kev  staff        6 Jul 21 20:09 file.txt
+> -rw-r--r--@  1 kev  staff      552 Jul 18 12:42 github.md
+> drwxr-xr-x@ 10 kev  staff      320 Jul 21 20:05 here_doc
+> drwx------  27 kev  staff      864 Jul 21 20:05 libft
+> -rw-r--r--   1 kev  staff    17438 Jul 21 20:09 logs_test.txt
+> -rw-r--r--@  1 kev  staff     2473 Jul 21 20:01 main.c
+> -rw-r--r--@  1 kev  staff     2987 Jul 21 19:45 Makefile
+> -rw-r--r--@  1 kev  staff    12178 Jul 18 12:42 manual.md
+> -rwxr-xr-x   1 kev  staff    95448 Jul 21 20:01 minishell
+> -rw-r--r--   1 kev  staff     2361 Jul 15 14:50 minishell.c
+> -rw-r--r--@  1 kev  staff     3695 Mar 31 23:55 notas
+> -rwxr-xr-x@  1 kev  staff    14315 Jul 21 19:37 oliver_test.sh
+> -rw-r--r--   1 kev  staff       18 Jul 21 20:09 output.txt
+> drwxr-xr-x@ 12 kev  staff      384 Jul 21 20:05 parser
+> -rw-r--r--@  1 kev  staff     4611 Jul 21 20:03 PENDIENTES.MD
+> -rw-r--r--@  1 kev  staff       25 Jul 18 12:42 README.md
+> drwxr-xr-x@  7 kev  staff      224 Jul 21 20:05 signals
+> -rw-r--r--@  1 kev  staff     9295 Jul 18 12:42 signals.md
+> drwxr-xr-x@  4 kev  staff      128 Jul 18 12:42 steps
+> -rw-------@  1 kev  staff  1572203 Apr  8 18:33 subject.pdf
+> drwxr-xr-x   2 kev  staff       64 Jul 21 20:08 t1
+> -rwxr-xr-x   1 kev  staff      605 Jul 21 19:23 test_mirror.sh
+> -rw-r--r--@  1 kev  staff       48 Jul 18 12:42 test.sh
+> drwxr-xr-x@ 11 kev  staff      352 Jul 21 20:05 vars
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export ALGO='s  -l'
+l"$ALGO"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18716==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000104b388a0 bp 0x00016b2cae90 sp 0x00016b2cae60 T0)
+< ==18716==The signal is caused by a READ memory access.
+< ==18716==Hint: address points to the zero page.
+<     #0 0x000104b388a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x000104b387c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x000104b3875c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x000104b395bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000104b39410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000104b39da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000104b39c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x000104b3492c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18716==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002590   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016aad0000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000105428508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016b2cb0a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016b2cb210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016b2cae90     lr = 0x0000000104b387c8     sp = 0x000000016b2cae60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18716==ABORTING
+---
+> bash: line 2: ls  -l: command not found
+Minishell exit code:	134
+Bash exit code:		127
+----------------------------------------
+
+----------------------------------------
+export VAR="ls    -l    /tmp"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18729==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001007c88a0 bp 0x00016f63ae90 sp 0x00016f63ae60 T0)
+< ==18729==The signal is caused by a READ memory access.
+< ==18729==Hint: address points to the zero page.
+<     #0 0x0001007c88a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x0001007c87c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x0001007c875c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x0001007c95bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x0001007c9410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x0001007c9da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x0001007c9c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x0001007c492c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18729==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x00006030000025c0   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016ee40000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000101014508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016f63b0a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016f63b210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016f63ae90     lr = 0x00000001007c87c8     sp = 0x000000016f63ae60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18729==ABORTING
+---
+> ls -l /tmp
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR="ls -l /tmp/special!dir@#"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18741==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000104fc08a0 bp 0x00016ae42e90 sp 0x00016ae42e60 T0)
+< ==18741==The signal is caused by a READ memory access.
+< ==18741==Hint: address points to the zero page.
+<     #0 0x000104fc08a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x000104fc07c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x000104fc075c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x000104fc15bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000104fc1410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000104fc1da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000104fc1c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x000104fbc92c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18741==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002530   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016a648000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000105920508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016ae430a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016ae43210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016ae42e90     lr = 0x0000000104fc07c8     sp = 0x000000016ae42e60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18741==ABORTING
+---
+> ls -l /tmp/special!dir@#
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR="echo $VAR"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18753==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001026808a0 bp 0x00016d782e90 sp 0x00016d782e60 T0)
+< ==18753==The signal is caused by a READ memory access.
+< ==18753==Hint: address points to the zero page.
+<     #0 0x0001026808a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x0001026807c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x00010268075c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x0001026815bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000102681410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000102681da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000102681c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x00010267c92c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18753==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x00006030000025c0   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016cf88000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000103084508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016d7830a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016d783210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016d782e90     lr = 0x00000001026807c8     sp = 0x000000016d782e60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18753==ABORTING
+---
+> echo
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR="ls -l; pwd"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18765==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001026788a0 bp 0x00016d78ae90 sp 0x00016d78ae60 T0)
+< ==18765==The signal is caused by a READ memory access.
+< ==18765==Hint: address points to the zero page.
+<     #0 0x0001026788a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x0001026787c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x00010267875c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x0001026795bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000102679410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000102679da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000102679c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x00010267492c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18765==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x00006030000025c0   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016cf90000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000102e8c508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016d78b0a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016d78b210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016d78ae90     lr = 0x00000001026787c8     sp = 0x000000016d78ae60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18765==ABORTING
+---
+> ls -l; pwd
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR="World"
+echo 'Hello $VAR'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18777==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001049848a0 bp 0x00016b47ee90 sp 0x00016b47ee60 T0)
+< ==18777==The signal is caused by a READ memory access.
+< ==18777==Hint: address points to the zero page.
+<     #0 0x0001049848a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x0001049847c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x00010498475c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x0001049855bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000104985410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000104985da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000104985c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x00010498092c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18777==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002590   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016ac84000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000105374508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016b47f0a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016b47f210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016b47ee90     lr = 0x00000001049847c8     sp = 0x000000016b47ee60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18777==ABORTING
+---
+> Hello $VAR
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mCommand Execution[0;39m
+----------------------------------------
+./minishell -c "ls -l"
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mBuiltin Commands[0;39m
+----------------------------------------
+echo -n "Hello"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export TEST_VAR=test
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27d0
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==18805==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000104d8c8a0 bp 0x00016b076e90 sp 0x00016b076e60 T0)
+< ==18805==The signal is caused by a READ memory access.
+< ==18805==Hint: address points to the zero page.
+<     #0 0x000104d8c8a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x000104d8c7c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x000104d8c75c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x000104d8d5bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000104d8d410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000104d8dda8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000104d8dc00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x000104d8892c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==18805==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002590   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016a87c000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000105714508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016b0770a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016b077210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016b076e90     lr = 0x0000000104d8c7c8     sp = 0x000000016b076e60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==18805==ABORTING
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo $TEST_VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+unset TEST_VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+unset
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+env | grep PATH
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin
+3c2
+< exit
+---
+> PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mCD builtin[0;39m
+----------------------------------------
+cd /
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd -
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: No such file or directory
+< exit
+---
+> bash: line 1: cd: OLDPWD not set
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cd /tmp | pwd
+[31mFAIL[0m: Outputs or exit codes differ
+
+2d1
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd ..
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd src/
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: No such file or directory
+< exit
+---
+> bash: line 1: cd: src/: No such file or directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cd README.md
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: Not a directory
+< exit
+---
+> bash: line 1: cd: README.md: Not a directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cd /nonexistent
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: No such file or directory
+< exit
+---
+> bash: line 1: cd: /nonexistent: No such file or directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cd /tmp/testdir_nonexistent
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd /tmp/testdir_noaccess
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: Permission denied
+< exit
+---
+> bash: line 1: cd: /tmp/testdir_noaccess: Permission denied
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cd '/tmp/My Directory with Spaces'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd '/tmp/special!dir@#'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd /tmp/testdir_relative
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd /tmp/testdir_nonreadable
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: Permission denied
+< exit
+---
+> bash: line 1: cd: /tmp/testdir_nonreadable: Permission denied
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cd /tmp/symlink_test
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd /tmp/symlink_file
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: Not a directory
+< exit
+---
+> bash: line 1: cd: /tmp/symlink_file: Not a directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cd '/tmp/dir_with\backslash'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+cd /tmp/testdir_noexec
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: Permission denied
+< exit
+---
+> bash: line 1: cd: /tmp/testdir_noexec: Permission denied
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+----------------------------------------
+cd '  '
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: No such file or directory
+< exit
+---
+> bash: line 1: cd:   : No such file or directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+[1;34mErrors detected[0;39m
+----------------------------------------
+export VAR="'hello' | ls"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==19040==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000100b148a0 bp 0x00016f2eee90 sp 0x00016f2eee60 T0)
+< ==19040==The signal is caused by a READ memory access.
+< ==19040==Hint: address points to the zero page.
+<     #0 0x000100b148a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x000100b147c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x000100b1475c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x000100b155bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000100b15410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000100b15da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000100b15c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x000100b1092c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==19040==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x00006030000025c0   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016eaf4000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000101470508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016f2ef0a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016f2ef210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016f2eee90     lr = 0x0000000100b147c8     sp = 0x000000016f2eee60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==19040==ABORTING
+---
+> 'hello' | ls
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR="echo 'Hello' > output.txt"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==19052==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x00010259c8a0 bp 0x00016d866e90 sp 0x00016d866e60 T0)
+< ==19052==The signal is caused by a READ memory access.
+< ==19052==Hint: address points to the zero page.
+<     #0 0x00010259c8a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x00010259c7c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x00010259c75c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x00010259d5bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x00010259d410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x00010259dda8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x00010259dc00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x00010259892c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==19052==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002530   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016d06c000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000102ee8508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016d8670a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016d867210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016d866e90     lr = 0x000000010259c7c8     sp = 0x000000016d866e60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==19052==ABORTING
+---
+> echo 'Hello' > output.txt
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+mkdir -p t1/t2/t3
+cd t1/t2/t3
+rm -rf ../../../t1
+pwd
+cd ..
+cd ..
+cd ..
+pwd
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,4d0
+< chdir failed: No such file or directory
+< chdir failed: No such file or directory
+< chdir failed: No such file or directory
+< exit
+6,8c2,3
+< 
+< /Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3
+< 
+---
+> cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+> /Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+mkdir -p t1/t2/t3
+cd t1/t2/t3
+rm -rf ../../../t1
+pwd
+cd ..
+cd -
+cd -
+cd ..
+cd ..
+pwd
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,6d0
+< chdir failed: No such file or directory
+< chdir failed: No such file or directory
+< chdir failed: No such file or directory
+< chdir failed: No such file or directory
+< chdir failed: No such file or directory
+< exit
+8,10c2,5
+< 
+< /Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3
+< 
+---
+> cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+> bash: line 6: cd: /Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3: No such file or directory
+> bash: line 7: cd: /Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3: No such file or directory
+> /Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+mkdir -p t1/t2/t3
+cd t1/t2/t3
+rm -rf ../../../t1
+env | grep PWD
+cd ..
+env | grep PWD
+cd ..
+env | grep PWD
+cd ..
+env | grep PWD
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,17d0
+< TERM_PROGRAM=tmux
+< _P9K_TTY=/dev/ttys004
+< TERM=tmux-256color
+< SHELL=/bin/zsh
+< TMPDIR=/var/folders/ly/1w8nsp9x4gsdqcq541gpkwm80000gn/T/
+< HOMEBREW_REPOSITORY=/opt/homebrew
+< TERM_PROGRAM_VERSION=3.5a
+< TERM_SESSION_ID=2EFF03B8-BFBC-459A-9743-B176D554D2AE
+< ZSH=/Users/kev/.oh-my-zsh
+< USER=kev
+< LS_COLORS=di
+< SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.QWGf0uWlr2/Listeners
+< PAGER=less
+< TMUX=/private/tmp/tmux-501/default,15621,0
+< LSCOLORS=Gxfxcxdxbxegedabagacad
+< PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin
+< __CFBundleIdentifier=com.apple.Terminal
+19,110c2,9
+< 
+< P9K_SSH=0
+< P9K_TTY=old
+< LANG=en_US.UTF-8
+< XPC_FLAGS=0x0
+< TMUX_PANE=%1
+< XPC_SERVICE_NAME=0
+< SHLVL=5
+< HOME=/tmp/test_home
+< HOMEBREW_PREFIX=/opt/homebrew
+< LOGNAME=kev
+< LESS=-R
+< INFOPATH=/opt/homebrew/share/info:/opt/homebrew/share/info:
+< HOMEBREW_CELLAR=/opt/homebrew/Cellar
+< _P9K_SSH_TTY=/dev/ttys004
+< DISPLAY=/private/tmp/com.apple.launchd.ykziN5FGrv/org.xquartz:0
+< _=/usr/bin/env
+< chdir failed: No such file or directory
+< TERM_PROGRAM=tmux
+< _P9K_TTY=/dev/ttys004
+< TERM=tmux-256color
+< SHELL=/bin/zsh
+< TMPDIR=/var/folders/ly/1w8nsp9x4gsdqcq541gpkwm80000gn/T/
+< HOMEBREW_REPOSITORY=/opt/homebrew
+< TERM_PROGRAM_VERSION=3.5a
+< TERM_SESSION_ID=2EFF03B8-BFBC-459A-9743-B176D554D2AE
+< ZSH=/Users/kev/.oh-my-zsh
+< USER=kev
+< LS_COLORS=di
+< SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.QWGf0uWlr2/Listeners
+< PAGER=less
+< TMUX=/private/tmp/tmux-501/default,15621,0
+< LSCOLORS=Gxfxcxdxbxegedabagacad
+< PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin
+< __CFBundleIdentifier=com.apple.Terminal
+< PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3
+< 
+< P9K_SSH=0
+< P9K_TTY=old
+< LANG=en_US.UTF-8
+< XPC_FLAGS=0x0
+< TMUX_PANE=%1
+< XPC_SERVICE_NAME=0
+< SHLVL=5
+< HOME=/tmp/test_home
+< HOMEBREW_PREFIX=/opt/homebrew
+< LOGNAME=kev
+< LESS=-R
+< INFOPATH=/opt/homebrew/share/info:/opt/homebrew/share/info:
+< HOMEBREW_CELLAR=/opt/homebrew/Cellar
+< _P9K_SSH_TTY=/dev/ttys004
+< DISPLAY=/private/tmp/com.apple.launchd.ykziN5FGrv/org.xquartz:0
+< _=/usr/bin/env
+< chdir failed: No such file or directory
+< TERM_PROGRAM=tmux
+< _P9K_TTY=/dev/ttys004
+< TERM=tmux-256color
+< SHELL=/bin/zsh
+< TMPDIR=/var/folders/ly/1w8nsp9x4gsdqcq541gpkwm80000gn/T/
+< HOMEBREW_REPOSITORY=/opt/homebrew
+< TERM_PROGRAM_VERSION=3.5a
+< TERM_SESSION_ID=2EFF03B8-BFBC-459A-9743-B176D554D2AE
+< ZSH=/Users/kev/.oh-my-zsh
+< USER=kev
+< LS_COLORS=di
+< SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.QWGf0uWlr2/Listeners
+< PAGER=less
+< TMUX=/private/tmp/tmux-501/default,15621,0
+< LSCOLORS=Gxfxcxdxbxegedabagacad
+< PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin
+< __CFBundleIdentifier=com.apple.Terminal
+< PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3
+< 
+< P9K_SSH=0
+< P9K_TTY=old
+< LANG=en_US.UTF-8
+< XPC_FLAGS=0x0
+< TMUX_PANE=%1
+< XPC_SERVICE_NAME=0
+< SHLVL=5
+< HOME=/tmp/test_home
+< HOMEBREW_PREFIX=/opt/homebrew
+< LOGNAME=kev
+< LESS=-R
+< INFOPATH=/opt/homebrew/share/info:/opt/homebrew/share/info:
+< HOMEBREW_CELLAR=/opt/homebrew/Cellar
+< _P9K_SSH_TTY=/dev/ttys004
+< DISPLAY=/private/tmp/com.apple.launchd.ykziN5FGrv/org.xquartz:0
+< _=/usr/bin/env
+< chdir failed: No such file or directory
+< PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3
+< exit
+---
+> OLDPWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell
+> cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+> PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3/..
+> OLDPWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3
+> PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1
+> OLDPWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1/t2/t3/..
+> PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell
+> OLDPWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell/t1
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+----------------------------------------
+cd ~
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< chdir failed: No such file or directory
+< exit
+---
+> bash: line 1: cd: /tmp/test_home: No such file or directory
+Minishell exit code:	1
+Bash exit code:		1
+----------------------------------------
+
+[32mPASS[0m	exit
+[32mPASS[0m	exit 42
+----------------------------------------
+env
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,4d0
+< exit
+< TERM_PROGRAM=tmux
+< _P9K_TTY=/dev/ttys004
+< TERM=tmux-256color
+6,7c2,4
+< TMPDIR=/var/folders/ly/1w8nsp9x4gsdqcq541gpkwm80000gn/T/
+< HOMEBREW_REPOSITORY=/opt/homebrew
+---
+> LSCOLORS=Gxfxcxdxbxegedabagacad
+> LESS=-R
+> XPC_FLAGS=0x0
+9,14d5
+< TERM_SESSION_ID=2EFF03B8-BFBC-459A-9743-B176D554D2AE
+< ZSH=/Users/kev/.oh-my-zsh
+< USER=kev
+< LS_COLORS=di
+< SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.QWGf0uWlr2/Listeners
+< PAGER=less
+16,17c7
+< LSCOLORS=Gxfxcxdxbxegedabagacad
+< PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin
+---
+> _P9K_TTY=/dev/ttys004
+19,20c9
+< PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell
+< P9K_SSH=0
+---
+> SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.QWGf0uWlr2/Listeners
+22,27c11
+< LANG=en_US.UTF-8
+< XPC_FLAGS=0x0
+< TMUX_PANE=%1
+< XPC_SERVICE_NAME=0
+< SHLVL=5
+< HOME=/tmp/test_home
+---
+> TERM_SESSION_ID=2EFF03B8-BFBC-459A-9743-B176D554D2AE
+28a13
+> PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell
+30c15,19
+< LESS=-R
+---
+> _=/usr/bin/env
+> HOME=/tmp/test_home
+> LANG=en_US.UTF-8
+> LS_COLORS=di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43
+> TMPDIR=/var/folders/ly/1w8nsp9x4gsdqcq541gpkwm80000gn/T/
+31a21,24
+> TERM=tmux-256color
+> ZSH=/Users/kev/.oh-my-zsh
+> USER=kev
+> TMUX_PANE=%1
+33d25
+< _P9K_SSH_TTY=/dev/ttys004
+35c27,34
+< _=/usr/bin/env
+---
+> SHLVL=5
+> PAGER=less
+> HOMEBREW_REPOSITORY=/opt/homebrew
+> _P9K_SSH_TTY=/dev/ttys004
+> XPC_SERVICE_NAME=0
+> P9K_SSH=0
+> PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin
+> TERM_PROGRAM=tmux
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+----------------------------------------
+exec ls
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1,31
+< Command not found
+< exit
+---
+> &1
+> aux
+> buildins
+> count.txt
+> data.h
+> error.txt
+> executor
+> file.txt
+> github.md
+> here_doc
+> libft
+> logs_test.txt
+> main.c
+> Makefile
+> manual.md
+> minishell
+> minishell.c
+> notas
+> oliver_test.sh
+> output.txt
+> parser
+> PENDIENTES.MD
+> README.md
+> signals
+> signals.md
+> steps
+> subject.pdf
+> t1
+> test_mirror.sh
+> test.sh
+> vars
+Minishell exit code:	127
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+ps | grep minishell
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,3c1
+< 19162 ttys004    0:00.06 ./minishell
+< 19164 ttys004    0:00.01 grep minishell
+< exit
+---
+> 19168 ttys004    0:00.00 grep minishell
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+kill -9 $(pidof minishell)
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1,2
+< kill: illegal process id: (pidof
+< exit
+---
+> bash: line 1: pidof: command not found
+> kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
+Minishell exit code:	2
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+cd '/tmp/path_with_newline
+'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,3d0
+< exit
+< Invalid synax, returning...
+< Invalid synax, returning...
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+----------------------------------------
+export VAR="echo 'Hello' | grep 'Hello'"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==19197==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000100c748a0 bp 0x00016f18ee90 sp 0x00016f18ee60 T0)
+< ==19197==The signal is caused by a READ memory access.
+< ==19197==Hint: address points to the zero page.
+<     #0 0x000100c748a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x000100c747c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x000100c7475c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x000100c755bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000100c75410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000100c75da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000100c75c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x000100c7092c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==19197==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002530   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016e994000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000101474508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016f18f0a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016f18f210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016f18ee90     lr = 0x0000000100c747c8     sp = 0x000000016f18ee60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==19197==ABORTING
+---
+> echo 'Hello' | grep 'Hello'
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR="ls -l $(which bash)"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==19210==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000102cd08a0 bp 0x00016d132e90 sp 0x00016d132e60 T0)
+< ==19210==The signal is caused by a READ memory access.
+< ==19210==Hint: address points to the zero page.
+<     #0 0x000102cd08a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x000102cd07c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x000102cd075c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x000102cd15bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x000102cd1410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x000102cd1da8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x000102cd1c00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x000102ccc92c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==19210==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002530   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016c938000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000103444508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016d1330a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016d133210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016d132e90     lr = 0x0000000102cd07c8     sp = 0x000000016d132e60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==19210==ABORTING
+---
+> ls -l /opt/homebrew/bin/bash
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR="echo 'Hello' \n echo 'World'"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,27c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==19223==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001046bc8a0 bp 0x00016b746e90 sp 0x00016b746e60 T0)
+< ==19223==The signal is caused by a READ memory access.
+< ==19223==Hint: address points to the zero page.
+<     #0 0x0001046bc8a0 in valid_name+0x14 (minishell:arm64+0x1000048a0)
+<     #1 0x0001046bc7c4 in handle_exp_args+0x4c (minishell:arm64+0x1000047c4)
+<     #2 0x0001046bc75c in ft_export+0x7c (minishell:arm64+0x10000475c)
+<     #3 0x0001046bd5bc in ft_builtin+0x14c (minishell:arm64+0x1000055bc)
+<     #4 0x0001046bd410 in exec_builtin+0x98 (minishell:arm64+0x100005410)
+<     #5 0x0001046bdda8 in handle_cmd+0x40 (minishell:arm64+0x100005da8)
+<     #6 0x0001046bdc00 in execute_line+0xc4 (minishell:arm64+0x100005c00)
+<     #7 0x0001046b892c in main+0xc0 (minishell:arm64+0x10000092c)
+<     #8 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==19223==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000604000000390   x[2] = 0x0000603000002530   x[3] = 0x0000000000000000  
+<  x[4] = 0x0000000000000010   x[5] = 0x0000000000000010   x[6] = 0x000000016af4c000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000002  x[10] = 0x0000000000000002  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000000000029  x[17] = 0x0000000104fd8508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016b7470a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016b747210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016b746e90     lr = 0x00000001046bc7c8     sp = 0x000000016b746e60  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x1000048a0) in valid_name+0x14
+< ==19223==ABORTING
+---
+> echo 'Hello' \n echo 'World'
+Minishell exit code:	134
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+export VAR="It's \"working\" now"
+echo $VAR
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,3c1
+< exit
+< Invalid synax, returning...
+< 
+---
+> It's "working" now
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+----------------------------------------
+export
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,31c1,35
+< exit
+< TERM_PROGRAM=tmux
+< TERM=tmux-256color
+< SHELL=/bin/zsh
+< TMPDIR=/var/folders/ly/1w8nsp9x4gsdqcq541gpkwm80000gn/T/
+< HOMEBREW_REPOSITORY=/opt/homebrew
+< TERM_PROGRAM_VERSION=3.5a
+< TERM_SESSION_ID=2EFF03B8-BFBC-459A-9743-B176D554D2AE
+< ZSH=/Users/kev/.oh-my-zsh
+< USER=kev
+< LS_COLORS=di
+< SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.QWGf0uWlr2/Listeners
+< PAGER=less
+< TMUX=/private/tmp/tmux-501/default,15621,0
+< LSCOLORS=Gxfxcxdxbxegedabagacad
+< PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin
+< PWD=/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell
+< P9K_SSH=0
+< P9K_TTY=old
+< LANG=en_US.UTF-8
+< XPC_FLAGS=0x0
+< TMUX_PANE=%1
+< XPC_SERVICE_NAME=0
+< SHLVL=5
+< HOME=/tmp/test_home
+< HOMEBREW_PREFIX=/opt/homebrew
+< LOGNAME=kev
+< LESS=-R
+< INFOPATH=/opt/homebrew/share/info:/opt/homebrew/share/info:
+< HOMEBREW_CELLAR=/opt/homebrew/Cellar
+< DISPLAY=/private/tmp/com.apple.launchd.ykziN5FGrv/org.xquartz:0
+---
+> declare -x DISPLAY="/private/tmp/com.apple.launchd.ykziN5FGrv/org.xquartz:0"
+> declare -x HOME="/tmp/test_home"
+> declare -x HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+> declare -x HOMEBREW_PREFIX="/opt/homebrew"
+> declare -x HOMEBREW_REPOSITORY="/opt/homebrew"
+> declare -x INFOPATH="/opt/homebrew/share/info:/opt/homebrew/share/info:"
+> declare -x LANG="en_US.UTF-8"
+> declare -x LESS="-R"
+> declare -x LOGNAME="kev"
+> declare -x LSCOLORS="Gxfxcxdxbxegedabagacad"
+> declare -x LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+> declare -x OLDPWD
+> declare -x P9K_SSH="0"
+> declare -x P9K_TTY="old"
+> declare -x PAGER="less"
+> declare -x PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/kev/.cargo/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin:/Users/kev/Library/Python/3.9/bin:/Users/kev/.lmstudio/bin"
+> declare -x PWD="/Users/kev/Library/Mobile Documents/com~apple~CloudDocs/Cursos/42 Madrid/Cursus/minishell"
+> declare -x SHELL="/bin/zsh"
+> declare -x SHLVL="5"
+> declare -x SSH_AUTH_SOCK="/private/tmp/com.apple.launchd.QWGf0uWlr2/Listeners"
+> declare -x TERM="tmux-256color"
+> declare -x TERM_PROGRAM="tmux"
+> declare -x TERM_PROGRAM_VERSION="3.5a"
+> declare -x TERM_SESSION_ID="2EFF03B8-BFBC-459A-9743-B176D554D2AE"
+> declare -x TMPDIR="/var/folders/ly/1w8nsp9x4gsdqcq541gpkwm80000gn/T/"
+> declare -x TMUX="/private/tmp/tmux-501/default,15621,0"
+> declare -x TMUX_PANE="%1"
+> declare -x USER="kev"
+> declare -x XPC_FLAGS="0x0"
+> declare -x XPC_SERVICE_NAME="0"
+> declare -x ZSH="/Users/kev/.oh-my-zsh"
+> declare -x _="/opt/homebrew/bin/bash"
+> declare -x _P9K_SSH_TTY="/dev/ttys004"
+> declare -x _P9K_TTY="/dev/ttys004"
+> declare -x __CFBundleIdentifier="com.apple.Terminal"
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo |
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,23c1
+< AddressSanitizer:DEADLYSIGNAL
+< =================================================================
+< ==19252==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x00010257eff0 bp 0x00016d886f50 sp 0x00016d886f10 T0)
+< ==19252==The signal is caused by a READ memory access.
+< ==19252==Hint: address points to the zero page.
+<     #0 0x00010257eff0 in is_here_doc+0x18 (minishell:arm64+0x100006ff0)
+<     #1 0x000102581148 in parse_line+0x9c (minishell:arm64+0x100009148)
+<     #2 0x000102580bc8 in parse_data+0x5c (minishell:arm64+0x100008bc8)
+<     #3 0x000102578920 in main+0xb4 (minishell:arm64+0x100000920)
+<     #4 0x0001976beb94 in start+0x17b8 (dyld:arm64e+0xfffffffffff3ab94)
+< 
+< ==19252==Register values:
+<  x[0] = 0x0000000000000000   x[1] = 0x0000602000000ff0   x[2] = 0x0000000000000001   x[3] = 0x0000602000001020  
+<  x[4] = 0x0000000000000006   x[5] = 0x0000000000000006   x[6] = 0x000000016d08c000   x[7] = 0x0000000000000001  
+<  x[8] = 0x0000000000000000   x[9] = 0x0000000000000000  x[10] = 0x0000000000000000  x[11] = 0x0000000000000000  
+< x[12] = 0xffffffffffffffff  x[13] = 0x0000000000000000  x[14] = 0x00007fffffffffff  x[15] = 0x000010700001ffff  
+< x[16] = 0x0000000197a97f80  x[17] = 0x0000000102d3c508  x[18] = 0x0000000000000000  x[19] = 0x00000002058f00b0  
+< x[20] = 0x00000002058f0018  x[21] = 0x000000016d8870a8  x[22] = 0x0fffffff0009d5d6  x[23] = 0x00000002058f0018  
+< x[24] = 0x00000002058f0150  x[25] = 0x000000016d887210  x[26] = 0x0000000000000000  x[27] = 0x0000000000000000  
+< x[28] = 0x0000000000000000     fp = 0x000000016d886f50     lr = 0x00000001025811e8     sp = 0x000000016d886f10  
+< AddressSanitizer can not provide additional info.
+< SUMMARY: AddressSanitizer: SEGV (minishell:arm64+0x100006ff0) in is_here_doc+0x18
+< ==19252==ABORTING
+---
+> bash: line 2: syntax error: unexpected end of file
+Minishell exit code:	134
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo &&
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< exit
+< &&
+---
+> bash: line 2: syntax error: unexpected end of file
+Minishell exit code:	0
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo ||
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< exit
+< Invalid synax, returning...
+---
+> bash: line 2: syntax error: unexpected end of file
+Minishell exit code:	0
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo >
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1,2
+< Open failed: No such file or directory
+< exit
+---
+> bash: line 1: syntax error near unexpected token `newline'
+> bash: line 1: `echo >'
+Minishell exit code:	1
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo <
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1,2
+< No such file: No such file or directory
+< exit
+---
+> bash: line 1: syntax error near unexpected token `newline'
+> bash: line 1: `echo <'
+Minishell exit code:	1
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo "Hello" >
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1,2
+< Open failed: No such file or directory
+< exit
+---
+> bash: line 1: syntax error near unexpected token `newline'
+> bash: line 1: `echo "Hello" >'
+Minishell exit code:	1
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo "Hello" <
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1,2
+< No such file: No such file or directory
+< exit
+---
+> bash: line 1: syntax error near unexpected token `newline'
+> bash: line 1: `echo "Hello" <'
+Minishell exit code:	1
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo "Hello" >>
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1,2
+< Open failed: No such file or directory
+< exit
+---
+> bash: line 1: syntax error near unexpected token `newline'
+> bash: line 1: `echo "Hello" >>'
+Minishell exit code:	1
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo "Hello" | |
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1,2
+< exit
+< Invalid synax, returning...
+---
+> bash: line 1: syntax error near unexpected token `|'
+> bash: line 1: `echo "Hello" | |'
+Minishell exit code:	0
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo "Hello" &&
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< exit
+< Hello &&
+---
+> bash: line 2: syntax error: unexpected end of file
+Minishell exit code:	0
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo "Hello" ||
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< exit
+< Invalid synax, returning...
+---
+> bash: line 2: syntax error: unexpected end of file
+Minishell exit code:	0
+Bash exit code:		2
+----------------------------------------
+
+----------------------------------------
+echo "Hello" 2> error.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< exit
+< Hello 2
+---
+> Hello
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" 2>> error.txt
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< exit
+< Hello 2
+---
+> Hello
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" > file.txt 2>&1
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2d0
+< exit
+< Hello 2
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello" >> file.txt 2>&1
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2d0
+< exit
+< Hello 2
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+----------------------------------------
+sleep 3 &
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,4d0
+< sleep: invalid time interval: &
+< usage: sleep number[unit] [...]
+< Unit can be 's' (seconds, the default), m (minutes), h (hours), or d (days).
+< exit
+Minishell exit code:	1
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo "Hello $(whoami)"
+[31mFAIL[0m: Outputs or exit codes differ
+
+1,2c1
+< exit
+< Hello (whoami)
+---
+> Hello kev
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+----------------------------------------
+echo 'Hello $(whoami)'
+[31mFAIL[0m: Outputs or exit codes differ
+
+1d0
+< exit
+Minishell exit code:	0
+Bash exit code:		0
+----------------------------------------
+
+
+[1;34m--------------------------------------------------------------------------------[0;39m
+
+[1;34m-----------------------------------------------------------------------------------[0;39m
+[1;34m|                            All tests completed                                  |[0;39m
+[1;34m-----------------------------------------------------------------------------------[0;39m

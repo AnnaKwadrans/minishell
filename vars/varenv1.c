@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:13:36 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 20:21:00 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:01:04 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,6 @@
 #include "../libft/libft.h"
 #include "../parser/parser.h"
 #include "varenv.h"
-
-void	show_vars(void *args)
-{
-	t_vars	*var;
-	t_data	*data_program;
-	int		i;
-
-	i = 1;
-	data_program = (t_data *)args;
-	var = data_program->vars;
-	while (var)
-	{
-		printf("Variable %d:\n", i);
-		printf("\tname: %s\n", var->name);
-		printf("\tvalue: %s\n ", var->value);
-		printf("\texportable: %d\n ", var->is_exportable);
-		var = var->next;
-		i++;
-	}
-}
 
 void	update_shlvl(t_data *data)
 {
@@ -47,6 +27,16 @@ void	update_shlvl(t_data *data)
 	lvl = ft_atoi(shlvl->value) + 1;
 	free(shlvl->value);
 	shlvl->value = ft_itoa(lvl);
+}
+
+static void	aux_init_env(t_data *data, t_vars *new_var)
+{
+	if (!data || !new_var)
+		return ;
+	new_var->is_exportable = 1;
+	new_var->next = NULL;
+	new_var->data = data;
+	add_var(data, new_var);
 }
 
 void	init_env(t_data *data_program, char **env)
@@ -72,10 +62,7 @@ void	init_env(t_data *data_program, char **env)
 			new->value = ft_strdup(split[1]);
 		else
 			new->value = NULL;
-		new->is_exportable = 1;
-		new->next = NULL;
-		new->data = data_program;
-		add_var(data_program, new);
+		aux_init_env(data_program, new);
 		free_array(split);
 		i++;
 	}

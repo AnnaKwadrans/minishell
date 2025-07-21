@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:13:52 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/21 19:06:25 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 11:40:28 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
-
-//# define _POSIX_C_SOURCE 200809L
 
 # include <signal.h>
 # include <termios.h>

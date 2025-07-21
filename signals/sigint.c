@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sigint.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:10:53 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 19:46:21 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 13:01:39 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
 
+// Function to enable the ECHOCTL flag in the terminal settings
 void	disable_echoctl(void)
 {
 	struct termios	term;

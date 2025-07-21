@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 20:23:28 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/18 11:53:20 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,35 @@ void	here_doc_init(char *line, t_heredoc *here_doc)
 	get_delimiter(line, here_doc);
 	if (!here_doc->delimiter)
 		here_doc_error(here_doc, "PARSE");
-	if (here_doc->delimiter)
-		printf("delimeter is: %s\n", here_doc->delimiter);
 	here_doc->buffer = NULL;
+}
+
+static void	finishing_here_doc(t_heredoc *here_doc, t_data *data_program)
+{
+	int	i;
+
+	if (here_doc->buffer && here_doc->is_expandable)
+	{
+		i = 0;
+		while (here_doc->buffer[i])
+		{
+			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i],
+					1, 0);
+			if (!here_doc->buffer[i])
+				return (here_doc_error(here_doc, "EXPAND_VARS"));
+			i++;
+		}
+	}
+	if (data_program->is_interactive)
+		setup_interactive_signals();
+	else
+		restore_signals();
 }
 
 t_heredoc	*here_doc_mode(t_data *data_program, char *line)
 {
 	t_heredoc	*here_doc;
 	char		*new_line;
-	int			i;
 
 	new_line = NULL;
 	here_doc = malloc(sizeof(t_heredoc));
@@ -56,22 +75,6 @@ t_heredoc	*here_doc_mode(t_data *data_program, char *line)
 	}
 	if (g_signal)
 		return (here_doc_error(here_doc, "SIGINT"), NULL);
-	if (here_doc->buffer && here_doc->is_expandable)
-	{
-		i = 0;
-		while (here_doc->buffer[i])
-		{
-			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i],
-					1, 0);
-			if (!here_doc->buffer[i])
-				return (here_doc_error(here_doc, "EXPAND_VARS"), NULL);
-			printf("buffer[%d]: %s\n", i, here_doc->buffer[i]);
-			i++;
-		}
-	}
-	if (data_program->is_interactive)
-		setup_interactive_signals();
-	else
-		restore_signals();
+	finishing_here_doc(here_doc, data_program);
 	return (here_doc);
 }

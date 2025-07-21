@@ -163,21 +163,30 @@ ls | grep c | env
 (exits minishell)
 
 # unclosed fds (hecho)
+
 ps | grep minishell | awk '{print $1}' | xargs lsof -p
 
-# export sin argumentos: sort envs y print  (hecho) 
+# export sin argumentos: sort envs y print (hecho)
+
 # export: norm too many lines
 
 # join arrays norm: too long
 
 # exit: >1 args y texto (HECHO)
 
-PROBLEMS:
-here_doc.c sigint.c signals.c 
 
-export -> segfult
-exit con palabra -> codigo salida 2
-cd - -> va al directorio anterior
-se borra PATH en heredoc y en validator
-no debe guardar espacios en el historico
-codigo salida del validator
+
+
+Corrección #1
+
+# export -> segfult
+
+# exit con palabra -> codigo salida 2
+
+# cd - -> va al directorio anterior
+
+se borra PATH en heredoc y en validator #HECHO
+no debe guardar espacios en el historico #HECHO
+
+# codigo salida del validator
+
