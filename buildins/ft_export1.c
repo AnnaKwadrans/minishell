@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/18 11:50:23 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/22 00:28:31 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ static t_vars	*export_new_var(char *arg)
 	char	*value;
 	int		i;
 
+	if (!arg)
+		return (NULL);
 	i = 0;
-	name = ft_strdup_set(&arg[i], "=");
+	name = ft_strdup_set(arg, "=");
 	while (arg[i] != '=')
 		i++;
 	value = ft_strdup(&arg[i + 1]);
@@ -34,6 +36,8 @@ static bool	valid_name(char *arg)
 	bool	equal;
 	char	*name;
 
+	if (!arg)
+		return (0);
 	printf("check 0\n");
 	printf("%s\n", arg);
 	if (!(ft_isalpha(arg[0]) || arg[0] == '_'))
@@ -41,7 +45,7 @@ static bool	valid_name(char *arg)
 	printf("check 1\n");
 	i = 0;
 	name = ft_strdup_set(arg, "=");
-	printf("check 2\n");
+	printf("check 2 %s\n", name);
 	if (ft_isalnum(name[strlen(name) - 1]))
 	{
 		free(name);
@@ -65,44 +69,50 @@ static bool	has_equals(char *arg)
 	return (0);
 }
 
-static int	handle_exp_args(char **args, t_data *data)
+static int	handle_exp_args(char *arg, t_data *data)
 {
-	t_vars	*arg;
+	t_vars	*exported;
 	t_vars	*found;
 	int		i;
 
-	i = 0;
-	while (args[i++])
-	{
-		if (!valid_name(args[i]))
+	//i = 1;
+	//while (args && args[i])
+	//{
+		if (!valid_name(arg))
 			return (ft_putendl_fd("not valid identifier", 2), 1);
-		if (!has_equals(args[i]))
-		{
-			i++;
-			continue ;
-		}
-		arg = export_new_var(args[i]);
-		found = search_var(data, arg->name);
+		if (!has_equals(arg))
+			return (ft_putendl_fd("not valid argument", 2), 1);
+		exported = export_new_var(arg);
+		found = search_var(data, exported->name);
 		if (found)
 		{
 			found->is_exportable = 1;
-			free_vars(arg);
+			free_vars(exported);
 		}
 		else
-			add_var(data, arg);
-	}
+			add_var(data, exported);
+		//i++;
+	//}
 	return (0);
 }
 
 int	ft_export(t_data *data, t_vars *vars, char **args)
 {
-	int		i;
+	int	i;
+	int	ret;
 
 	if (!vars || !args)
 		return (ft_putendl_fd("not enough arguments", 2), 0);
 	if (array_size(args) == 1)
 		return (sort_and_print(data, vars, args));
 	else
-		return (handle_exp_args(args, data));
-	return (0);
+	{
+		i = 1;
+		while (args && args[i])
+		{
+			ret = handle_exp_args(args[i], data);
+			i++;
+		}
+	}
+	return (ret);
 }
