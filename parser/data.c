@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:24:23 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/21 19:20:53 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/22 02:01:26 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	init_data(t_data *data)
 void	parse_data(char *input, t_data *data, char **envp)
 {
 	if (!valid_input(input, data))
+	{
+		data->last_status = 2;
 		return ;
+	}
 	data->pipes = count_pipes(input);
 	data->cmds = NULL;
 	data->cmds = parse_line(input, data->pipes, envp, data);
