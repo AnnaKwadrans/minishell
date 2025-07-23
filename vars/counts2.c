@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   counts2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:04:02 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 19:30:03 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/23 01:13:11 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	count_vars(char *line)
 		{
 			count++;
 			i = skip_var(line, i);
+		}
+		else if (line[i] == '$' && line[i + 1] == '$')
+		{
+			count++;
+			i += 2;
 		}
 		else if (line[i] == '\"' || line[i] == '\'')
 			i = skip_quote(line, i);

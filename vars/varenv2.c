@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:13:36 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 20:19:36 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/23 01:19:33 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ static char	*handle_expansion(t_data *data, char *line, char **vars,
 			result = ft_strjoin_free(result, vars[exp.count++]);
 			i = skip_var(line, i - 1);
 		}
+		else if (line[i] == '$' && line[i + 1] == '$')
+		{
+			result = ft_strjoin_free(result, vars[exp.count++]);
+			i += 2;
+		}
 		else if (rm_quotes && (line[i] == '\'' || line[i] == '\"'))
 			result = handle_quotes(result, line, &i, &exp);
 		else if (line[i] == '\\' && line[i + 1])
@@ -62,7 +67,10 @@ char	*expand_vars(t_data *data_program, char *line, bool rm_quotes,
 	int		count;
 	char	*result;
 
+	// if (!ft_strcmp(line, "$$"))
+	// 	return (ft_itoa(getpid()));
 	count = count_vars(line);
+	printf("count: %d\n", count);
 	vars = multi_search(data_program, line, count);
 	result = handle_expansion(data_program, line, vars, rm_quotes);
 	free_array(vars);

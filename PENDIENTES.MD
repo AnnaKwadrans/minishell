@@ -174,9 +174,6 @@ ps | grep minishell | awk '{print $1}' | xargs lsof -p
 
 # exit: >1 args y texto (HECHO)
 
-
-
-
 Corrección #1
 
 # export -> segfult
@@ -185,8 +182,67 @@ Corrección #1
 
 # cd - -> va al directorio anterior
 
-se borra PATH en heredoc y en validator #HECHO
-no debe guardar espacios en el historico #HECHO
+se borra PATH en heredoc y en validator ✅
+no debe guardar espacios en el historico ✅
 
 # codigo salida del validator
 
+# ECHO $$ ✅
+
+Debería imprimir el PID de la shell actual.
+
+minishell main > echo $$
+36257
+
+# echo $$$ ✅
+
+Imprime PID y el $ final.
+
+minishell main > echo $$$
+36257$
+
+# echo $$$$ ✅
+
+Imprime doblemente el PID
+
+minishell main > echo $$$$
+3625736257
+
+# echo "'$USER'"
+
+retorna
+
+kev
+
+debería retornar
+
+'kev'
+
+# Parseo: Manejo de comillas
+
+ec'h''o' debería simplificar a echo y ejecutarse como tal.
+
+# Pruebas espejo
+
+cat < input.txt | grep "pattern" | wc -l
+
+echo "Hello" >> file.txt | cat < file.txt
+
+cat <<L1 <<L2 <<L3 | tee out
+First
+L1
+Second
+L2
+Third
+L3
+
+export VAR="Hello World"
+echo $VAR
+
+export CMD="grep pattern"
+echo "Hello pattern" | $CM
+
+export CMD="cat << EOF"
+$CMD
+
+export
