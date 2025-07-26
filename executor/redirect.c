@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:33:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 20:24:44 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 11:49:10 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	redirect_output(t_cmd *cmd, int pipes, int *fds, int i)
 	}
 	else if (i != pipes)
 	{
+		printf("FD %d\n", cmd->fd_out);
 		if (dup2(fds[(i * 2) + 1], STDOUT_FILENO) < 0)
 			perror("dup2 pipe output");
 		close(fds[(i * 2) + 1]);
