@@ -27,6 +27,10 @@ static t_vars	*export_new_var(char *arg)
 		i++;
 	value = ft_strdup(&arg[i + 1]);
 	new = new_var(name, value, 1);
+	free(name);
+	name = NULL;
+	free(value);
+	value = NULL;
 	return (new);
 }
 
