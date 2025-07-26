@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 20:12:24 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 21:31:01 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	execute_line(t_data *data)
 	i = 0;
 	while (waitpid(-1, &status, 0) > 0)
 		data->last_status = WEXITSTATUS(status);
+	//printf("check after waitpid\n");
 	return (0);
 }
 
@@ -68,16 +69,17 @@ int	*create_pipes(int pipes)
 
 void	handle_cmd(t_data *data, t_cmd *cmd, int i)
 {
-	if (cmd->is_builtin)
+	//printf("b-in: %d, pipes: %d", cmd->is_builtin, data->pipes);
+	if ((cmd->is_builtin) && (data->pipes == 0))
 	{
+		//printf("check builtin\n");
 		exec_builtin(cmd, data->pipes, data->fds, i);
 	}
-	else
-		if (child(cmd, data->pipes, data->fds, i) > 0)
-		{
-			data->last_status = 1;
-			exit (1);
-		}
+	else if (child(cmd, data->pipes, data->fds, i) > 0)
+	{
+		data->last_status = 1;
+		exit (1);
+	}
 	return ;
 }
 

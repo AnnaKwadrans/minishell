@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:40:21 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 17:42:19 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 20:57:04 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int	check_outfile(char **outfile, t_data *data)
 	int	i;
 
 	i = 0;
-	while (outfile[i])
+	while (outfile && outfile[i])
 	{
+		printf("of: %s\n", outfile[i]);
 		if (access(outfile[i], F_OK) == 0 && access(outfile[i], W_OK) == -1)
 		{
 			perror("Permission denied");
@@ -60,7 +61,7 @@ int	open_outfile(t_cmd *cmd, t_data *data)
 		{
 			perror("Open failed");
 			data->last_status = 1;
-			return (-2);
+			return (2);
 		}
 		i++;
 	}
