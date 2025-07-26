@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:45 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/22 00:13:15 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 10:37:37 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,18 @@ void	print_cmd(t_cmd **cmds)
 	int	i;
 
 	i = 0;
-	while (cmds[i])
+	while (cmds && cmds[i])
 	{
 		printf("\tCMD \t\t%d\n", i);
 		printf("\tARGS\t");
-		print_array(cmds[i]->args);
+		if (cmds[i]->args)
+			print_array(cmds[i]->args);
 		printf("\tINFILES\t");
-		print_array(cmds[i]->infile);
+		if (cmds[i]->infile)
+			print_array(cmds[i]->infile);
 		printf("\tOUTFILES\t");
-		print_array(cmds[i]->outfile);
+		if (cmds[i]->outfile)
+			print_array(cmds[i]->outfile);
 		printf("\tAPPEND \t%d\n", cmds[i]->append);
 		i++;
 	}

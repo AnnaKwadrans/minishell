@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/18 11:54:05 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/26 10:42:50 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ void	pipeline(t_data *data, char **cmd_aux, int i)
 			return ;
 	}
 	data->cmds[i]->data = data;
+	data->cmds[i + 1] = NULL;
+	print_cmd(data->cmds);
 	vars_expansion(data, data->cmds[i]);
+	print_cmd(data->cmds);
 	rm_quotes(data, data->cmds[i]);
 }
 
@@ -87,7 +90,7 @@ void	vars_expansion(t_data *data, t_cmd *cmd)
 	{
 		if (is_expandable(cmd->args[i]))
 		{
-			cmd->args[i] = expand_vars(data, cmd->args[i], 1, 1);
+			cmd->args[i] = expand_vars(data, cmd->args[i], 0, 1);
 		}
 		i++;
 	}
