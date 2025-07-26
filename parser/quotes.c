@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:43:11 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 15:53:46 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/25 23:46:49 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,18 @@ void	rm_quotes(t_data *data, t_cmd *cmd)
 
 bool	has_quotes_to_rm(char *str)
 {
+	int	i;
+	
 	if (!str)
 		return (0);
-	if ((str[0] == '\'' && str[ft_strlen(str) - 1] == '\'')
-		|| (str[0] == '\"' && str[ft_strlen(str) - 1] == '\"'))
-		return (1);
-	else
-		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	*rm_quotes_arg(char *arg)
