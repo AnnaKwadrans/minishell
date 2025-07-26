@@ -208,7 +208,7 @@ Imprime doblemente el PID
 minishell main > echo $$$$
 3625736257
 
-# echo "'$USER'"
+# echo "'$USER'" ✅
 
 retorna
 
@@ -218,7 +218,7 @@ debería retornar
 
 'kev'
 
-# Parseo: Manejo de comillas
+# Parseo: Manejo de comillas ✅
 
 ec'h''o' debería simplificar a echo y ejecutarse como tal.
 
@@ -226,7 +226,7 @@ ec'h''o' debería simplificar a echo y ejecutarse como tal.
 
 cat < input.txt | grep "pattern" | wc -l
 
-echo "Hello" >> file.txt | cat < file.txt
+echo "Hello" >> file.txt | cat < file.txt (esta ok, no funciona en el test de espejo porque )
 
 cat <<L1 <<L2 <<L3 | tee out
 First
@@ -246,3 +246,7 @@ export CMD="cat << EOF"
 $CMD
 
 export
+
+pruebas: https://github.com/oliverkingz/minishell
+https://github.com/LucasKuhn/minishell_tester.git
+
