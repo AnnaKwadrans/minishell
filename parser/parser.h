@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:54:53 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/18 12:58:06 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/26 13:37:41 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ bool	is_set(char c, char const *set);
 size_t	ft_strlen_set(const char *s, char *set);
 char	*ft_strdup_set(const char *s, char *set);
 void	print_cmd(t_cmd **cmds);
+void	print_fds(int *fds);
 
 void	rm_quotes(t_data *data, t_cmd *cmd);
 bool	has_quotes_to_rm(char *str);

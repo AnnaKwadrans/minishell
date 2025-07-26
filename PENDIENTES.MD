@@ -224,9 +224,9 @@ ec'h''o' debería simplificar a echo y ejecutarse como tal.
 
 # Pruebas espejo
 
-cat < input.txt | grep "pattern" | wc -l
+cat < input.txt | grep "pattern" | wc -l ✅
 
-echo "Hello" >> file.txt | cat < file.txt (esta ok, no funciona en el test de espejo porque )
+echo "Hello" >> file.txt | cat < file.txt (esta ok, no funciona en el test de espejo porque se utiliza el mismo fichero)
 
 cat <<L1 <<L2 <<L3 | tee out
 First
@@ -250,3 +250,10 @@ export
 pruebas: https://github.com/oliverkingz/minishell
 https://github.com/LucasKuhn/minishell_tester.git
 
+Test 128: ❌ echo hi | echo bye >>./test_files/invalid_permission 
+mini exit code =
+bash exit code = 1
+mini error = ( Permission denied Command not found)
+bash error = ( Permission denied)
+
+echo ''$PWD''
