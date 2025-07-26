@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 18:03:21 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/22 01:51:46 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:52:56 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ int	ft_exit(t_data *data, char **args)
 
 	if (array_size(args) == 1)
 		status = data->last_status;
+	else if (array_size(args) > 2)
+		return (ft_putendl_fd("too many arguments", 2), 1);
 	else
 	{
 		if (!is_number(args[1]))
-			return (ft_putendl_fd("not a number", 2), 2);
+			return (ft_putendl_fd("numeric argument required", 2), 2);
 		status = ft_atoi(args[1]);
 	}
 	free_data(data);

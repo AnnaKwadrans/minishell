@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:32:18 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/21 19:53:54 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 20:07:32 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**vars_to_char(t_vars *vars)
 		size++;
 		temp = temp->next;
 	}
-	str_vars = malloc(sizeof(char *) * size);
+	str_vars = malloc(sizeof(char *) * (size + 1));
 	if (!str_vars)
 		return (NULL);
 	temp = vars;
