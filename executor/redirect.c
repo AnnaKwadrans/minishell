@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:33:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 15:05:03 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 21:31:37 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ int	redirect(t_cmd *cmd, int pipes, int *fds, int i)
 	//printf("cmd %d, pipes %d\n", i, pipes);
 	//if (fds)
 	//	printf("in pipe: %d - out pipe: %d\n", fds[(i - 1) * 2], fds[(i * 2) + 1]);
+	//if (handle_infile(cmd, cmd->data) != 0)
+	//	return (1);
+	//if (handle_outfile(cmd, cmd->data) != 0)
+	//	return (1);
 	if (redirect_input(cmd, pipes, fds, i) == 1)
 		return (1);
 	if (redirect_output(cmd, pipes, fds, i) == 1)

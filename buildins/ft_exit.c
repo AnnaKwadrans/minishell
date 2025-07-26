@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 18:03:21 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 18:52:56 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 21:23:10 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ft_exit(t_data *data, char **args)
 			return (ft_putendl_fd("numeric argument required", 2), 2);
 		status = ft_atoi(args[1]);
 	}
+	printf("EXIT STATUS %d\n", status);
 	free_data(data);
 	exit(status);
 }

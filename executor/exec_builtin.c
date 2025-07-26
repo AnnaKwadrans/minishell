@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:50:49 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/13 20:29:01 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/26 21:21:08 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int	exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 		saved_stdout = dup(STDOUT_FILENO);
 		close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
 		if (redirect(cmd, pipes, fds, i) != 0)
+		{
+			ft_putendl_fd("redir err", 2);
 			return (1);
+		}
 		ft_builtin(cmd);
 		dup2(saved_stdin, STDIN_FILENO);
 		close(saved_stdin);
@@ -63,7 +66,10 @@ void	ft_builtin(t_cmd *cmd)
 	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
 		cmd->p_status = ft_unset(cmd->args, cmd->data);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
+	{
+		printf("CHECK EXIT\n");
 		cmd->p_status = ft_exit(cmd->data, cmd->args);
+	}
 	cmd->data->last_status = cmd->p_status;
 	return ;
 }
