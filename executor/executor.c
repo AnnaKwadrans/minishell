@@ -73,7 +73,7 @@ void	handle_cmd(t_data *data, t_cmd *cmd, int i)
 	if ((cmd->is_builtin) && (data->pipes == 0))
 	{
 		//printf("check builtin\n");
-		exec_builtin(cmd, data->pipes, data->fds, i);
+		data->last_status = exec_builtin(cmd, data->pipes, data->fds, i);
 	}
 	else if (child(cmd, data->pipes, data->fds, i) > 0)
 	{

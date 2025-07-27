@@ -29,31 +29,106 @@ int	exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 {
 	int	saved_stdin;
 	int	saved_stdout;
-
+	
+	if (cmd->infile || cmd->heredoc)
+	{
+		saved_stdin = dup(STDIN_FILENO);
+		if (saved_stdin == -1)
+			return (ft_putendl_fd("saved_stdin redir err", 2), 1);
+	}
+	if (cmd->outfile)
+	{
+		saved_stdout = dup(STDOUT_FILENO);
+		if (saved_stdout == -1)
+		{
+			if (cmd->infile || cmd->heredoc)
+			{
+				dup2(saved_stdin, STDIN_FILENO);
+				close(saved_stdin);
+			}
+			return(ft_putendl_fd("saved_stdout redir err", 2), 1);
+		}
+	}
+	close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
+	if (redirect(cmd, pipes, fds, i) != 0)
+	{
+		ft_putendl_fd("redir err", 2);
+		if (cmd->infile || cmd->heredoc)
+		{
+			dup2(saved_stdin, STDIN_FILENO);
+			close(saved_stdin);
+		}
+		if (cmd->outfile)
+		{
+			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdout);
+		}
+		return (1);
+	}
+	ft_builtin(cmd);	
+	if (cmd->infile || cmd->heredoc)
+	{
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdin);
+	}
+	if (cmd->outfile)
+	{
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdout);
+	}
+	/*
 	if (cmd->data->pipes == 0)
 	{
 		saved_stdin = dup(STDIN_FILENO);
+		if (saved_stdin == -1)
+		{
+			ft_putendl_fd("redir err", 2);
+			return (1);
+		}
 		close(saved_stdin);
 		saved_stdout = dup(STDOUT_FILENO);
+		if (saved_stdout == -1)
+		{
+			ft_putendl_fd("redir err", 2);
+			close(saved_stdin);
+			return (1);
+		}
 		close(saved_stdout);
 		close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
 		if (redirect(cmd, pipes, fds, i) != 0)
 		{
 			ft_putendl_fd("redir err", 2);
+			dup2(saved_stdin, STDIN_FILENO);
+			close(saved_stdin);
+			dup2(saved_stdout, STDOUT_FILENO);
+			close(saved_stdout);
 			return (1);
 		}
 		ft_builtin(cmd);
-		dup2(saved_stdin, STDIN_FILENO);
+		if (dup2(saved_stdin, STDIN_FILENO) == -1)
+		{
+			ft_putendl_fd("redir err", 2);
+			close(saved_stdin);
+			close(saved_stdout);
+			return (1);			
+		}
 		close(saved_stdin);
-		dup2(saved_stdout, STDOUT_FILENO);
+		if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+		{
+			ft_putendl_fd("redir err", 2);
+			//close(saved_stdin);
+			close(saved_stdout);
+			return (1);
+		}
 		close(saved_stdout);
 	}
-	else
-		child(cmd, pipes, fds, i);
+	*/
+	//else
+	//	child(cmd, pipes, fds, i);
 	return (0);
 }
 
-void	ft_builtin(t_cmd *cmd)
+int	ft_builtin(t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
 		cmd->p_status = ft_echo(cmd->data, cmd->args);
@@ -73,5 +148,5 @@ void	ft_builtin(t_cmd *cmd)
 		cmd->p_status = ft_exit(cmd->data, cmd->args);
 	}
 	cmd->data->last_status = cmd->p_status;
-	return ;
+	return (cmd->data->last_status);
 }
