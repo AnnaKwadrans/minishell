@@ -42,21 +42,25 @@ static bool	valid_name(char *arg)
 
 	if (!arg)
 		return (0);
-	printf("check 0\n");
-	printf("%s\n", arg);
+	//printf("check 0\n");
+	//printf("%s\n", arg);
 	if (!(ft_isalpha(arg[0]) || arg[0] == '_'))
 		return (0);
-	printf("check 1\n");
+	//printf("check 1\n");
 	i = 0;
 	name = ft_strdup_set(arg, "=");
-	printf("check 2 %s\n", name);
-	if (ft_isalnum(name[strlen(name) - 1]))
+	//printf("check 2 %s\n", name);
+	while (name && name[i])
 	{
-		free(name);
-		return (1);
+		if (!(isalnum(name[i]) || name[i] == '_'))
+		{
+			free(name);
+			return (0);
+		}
+		i++;
 	}
-	printf("check 3\n");
-	return (0);
+	free(name);
+	return (1);
 }
 
 static bool	has_equals(char *arg)
@@ -83,10 +87,12 @@ static int	handle_exp_args(char *arg, t_data *data)
 	//while (args && args[i])
 	//{
 		if (!valid_name(arg))
-			return (ft_putendl_fd("not valid identifier", 2), 1);
+			return (1);
 		if (!has_equals(arg))
-			return (ft_putendl_fd("not valid argument", 2), 1);
+			return (1);
+		//printf("check before exported\n");
 		exported = export_new_var(arg);
+		//printf("check exported\n");
 		found = search_var(data, exported->name);
 		if (found)
 		{
@@ -114,6 +120,7 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 		i = 1;
 		while (args && args[i])
 		{
+			//printf("check args loop\n");
 			ret = handle_exp_args(args[i], data);
 			i++;
 		}

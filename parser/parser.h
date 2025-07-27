@@ -66,6 +66,11 @@ int		count_no_quotes(char *arg);
 char	*rm_quotes_arg(char *arg);
 bool	cpy_char(char arg, bool *q_simple, bool *q_double);
 
+// split_args.c
+void	check_cmd_for_spaces(t_data *data, t_cmd *cmd);
+void	split_cmd(t_data *data, t_cmd *cmd, char *cmd_arg);
+char    **rm_first_arg(char **args);
+
 // pipe_split.c
 int		close_quotes(char const *s);
 char	**split_pipes(char const *s, char c);
