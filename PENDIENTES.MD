@@ -236,10 +236,10 @@ L2
 Third
 L3
 
-export VAR="Hello World"
+export VAR="Hello World" ✅
 echo $VAR
 
-export CMD="grep pattern"
+export CMD="grep pattern" ✅
 echo "Hello pattern" | $CM
 
 export CMD="cat << EOF"

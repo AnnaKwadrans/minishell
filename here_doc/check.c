@@ -15,16 +15,28 @@
 int	is_here_doc(char *line)
 {
 	int	i;
+	bool	s_quote;
+	bool	d_quote;
 
 	i = 0;
+	s_quote = 0;
+	d_quote = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '<')
+		if (line[i] == '\'' && !s_quote)
+			s_quote = 1;
+		else if (line[i] == '\"' && !d_quote)
+			d_quote = 1;
+		else if (line[i] == '\'' && s_quote)
+			s_quote = 0;
+		else if (line[i] == '\"' && d_quote)
+			d_quote = 1;
+		else if (line[i] == '<' && !s_quote && !d_quote)
 		{
 			if (line[i + 1] == '<' && line[i + 2] != '<')
 				return (1);
-			else
-				return (0);
+			//else
+			//	return (0);
 		}
 		i++;
 	}
