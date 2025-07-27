@@ -28,7 +28,7 @@ int		child(t_cmd *cmd, int pipes, int *fds, int i);
 // exec_builtin.c
 bool	is_builtin(char *cmd);
 int		exec_builtin(t_cmd *cmd, int pipes, int *fds, int i);
-void	ft_builtin(t_cmd *cmd);
+int 	ft_builtin(t_cmd *cmd);
 
 // redirect.c
 int		redirect(t_cmd *cmd, int pipes, int *fds, int i);
