@@ -37,6 +37,7 @@ void	rm_quotes(t_data *data, t_cmd *cmd)
 			cmd->outfile[i] = rm_quotes_arg(cmd->outfile[i]);
 		i++;
 	}
+	check_cmd_for_spaces(data, cmd);
 }
 
 bool	has_quotes_to_rm(char *str)

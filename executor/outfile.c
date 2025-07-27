@@ -30,7 +30,7 @@ int	check_outfile(char **outfile, t_data *data)
 	i = 0;
 	while (outfile && outfile[i])
 	{
-		printf("of: %s\n", outfile[i]);
+		//printf("of: %s\n", outfile[i]);
 		if (access(outfile[i], F_OK) == 0 && access(outfile[i], W_OK) == -1)
 		{
 			perror("Permission denied");

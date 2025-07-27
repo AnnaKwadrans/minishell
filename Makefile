@@ -96,7 +96,8 @@ SRC_PARS = parser/cleanup.c\
 	parser/parser.c\
 	parser/pipes_split.c\
 	parser/quotes.c\
-	parser/validator.c
+	parser/validator.c\
+	parser/split_args.c
 
 SRC_SIGNALS = signals/here_doc.c\
 	signals/sigint.c\
