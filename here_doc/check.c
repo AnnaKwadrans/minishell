@@ -35,8 +35,6 @@ int	is_here_doc(char *line)
 		{
 			if (line[i + 1] == '<' && line[i + 2] != '<')
 				return (1);
-			//else
-			//	return (0);
 		}
 		i++;
 	}

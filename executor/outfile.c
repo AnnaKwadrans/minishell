@@ -31,7 +31,7 @@ int	check_outfile(char **outfile, t_data *data)
 	while (outfile && outfile[i])
 	{
 		//printf("of: %s\n", outfile[i]);
-		if (access(outfile[i], F_OK) == 0 && access(outfile[i], W_OK) == -1)
+		if ((access(outfile[i], F_OK) == 0 && access(outfile[i], W_OK) == -1))
 		{
 			perror("Permission denied");
 			data->last_status = 1;
@@ -61,7 +61,7 @@ int	open_outfile(t_cmd *cmd, t_data *data)
 		{
 			perror("Open failed");
 			data->last_status = 1;
-			return (2);
+			return (-1);
 		}
 		i++;
 	}

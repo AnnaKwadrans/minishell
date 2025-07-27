@@ -99,6 +99,32 @@ void	vars_expansion(t_data *data, t_cmd *cmd)
 int	is_expandable(char *input)
 {
 	int	i;
+	bool	s_quote;
+	bool	d_quote;
+
+	i = 0;
+	s_quote = 0;
+	d_quote = 0;
+	while (input[i])
+	{
+		if (input[i] == '\'' && !s_quote)
+			s_quote = 1;
+		else if (input[i] == '\"' && !d_quote)
+			d_quote = 1;
+		else if (input[i] == '\'' && s_quote)
+			s_quote = 0;
+		else if (input[i] == '\"' && d_quote)
+			d_quote = 0;
+		else if (input[i] == '$' && !d_quote && !s_quote)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+/*
+int	is_expandable(char *input)
+{
+	int	i;
 
 	if (input[0] == '\'' && input[ft_strlen(input) - 1] == '\'')
 		return (0);
@@ -111,3 +137,4 @@ int	is_expandable(char *input)
 	}
 	return (0);
 }
+*/
