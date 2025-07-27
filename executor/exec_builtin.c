@@ -33,7 +33,9 @@ int	exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 	if (cmd->data->pipes == 0)
 	{
 		saved_stdin = dup(STDIN_FILENO);
+		close(saved_stdin);
 		saved_stdout = dup(STDOUT_FILENO);
+		close(saved_stdout);
 		close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
 		if (redirect(cmd, pipes, fds, i) != 0)
 		{
@@ -67,7 +69,7 @@ void	ft_builtin(t_cmd *cmd)
 		cmd->p_status = ft_unset(cmd->args, cmd->data);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
 	{
-		printf("CHECK EXIT\n");
+		//printf("CHECK EXIT\n");
 		cmd->p_status = ft_exit(cmd->data, cmd->args);
 	}
 	cmd->data->last_status = cmd->p_status;

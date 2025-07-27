@@ -43,7 +43,7 @@ int	ft_exit(t_data *data, char **args)
 		status = ft_atoi(args[1]);
 	}
 	//printf("EXIT STATUS %d\n", status);
-	print_vars(data->vars);
+	//print_vars(data->vars);
 	free_data(data);
 	exit(status);
 }
