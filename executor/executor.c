@@ -53,7 +53,7 @@ int	*create_pipes(int pipes)
 
 	if (pipes == 0)
 		return (NULL);
-	fds = malloc(sizeof(int) * (pipes * 2) + 1);
+	fds = malloc(sizeof(int) * (pipes * 2));
 	if (!fds)
 		return (NULL);
 	i = 0;
@@ -63,7 +63,7 @@ int	*create_pipes(int pipes)
 			return (NULL);
 		i++;
 	}
-	fds[pipes * 2] = -100;
+	//fds[pipes * 2] = -100;
 	return (fds);
 }
 
