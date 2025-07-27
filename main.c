@@ -63,10 +63,13 @@ int	get_and_process_input(t_data *data_program, char **input)
 
 void	closing(t_data *data_program)
 {
+	int	status;
+	
 	write(1, "exit\n", 5);
+	status = data_program->last_status;
 	free_data(data_program);
 	free(data_program);
-	exit(data_program->last_status);
+	exit(status);
 }
 
 int	main(int argc, char **argv, char **envp)
