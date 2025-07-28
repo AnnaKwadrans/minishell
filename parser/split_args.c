@@ -21,7 +21,7 @@ void	check_cmd_for_spaces(t_data *data, t_cmd *cmd)
 	i = 0;
 	while (cmd_arg[i])
 	{
-		if (isspace(cmd_arg[i]))
+		if (ft_isspace(cmd_arg[i]))
 		{
 			split_cmd(data, cmd, cmd_arg);
 			break ;
@@ -60,22 +60,22 @@ char	**rm_first_arg(char **args)
 	int		i;
 	int		j;
 
-	new_args = (char **)malloc(sizeof(char *) * array_size(args));
-	if (!new_args)
-		return (NULL);
-	i = 0;
-	j = 1;
-	while (args && args[j])
-	{
-		new_args[i] = ft_strdup(args[j]);
-		if (!new_args[i])
-		{
-			free_array(new_args);
-			return (NULL);
-		}
-		i++;
-		j++;
-	}
-	new_args[i] = NULL;
-	return (new_args);
+    new_args = (char **)malloc(sizeof(char *) * array_size(args));
+    if (!new_args)
+        return (NULL);
+    i = 0;
+    j = 1;
+    while (args && args[j])
+    {
+        new_args[i] = ft_strdup(args[j]);
+        if (!new_args[i])
+        {
+            free_array(new_args);
+            return (NULL);
+        }
+        i++;
+        j++;
+    }
+    new_args[i] = NULL;
+    return (new_args);
 }

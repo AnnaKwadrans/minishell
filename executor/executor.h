@@ -6,12 +6,17 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:44:26 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 15:03:50 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:37:22 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
+
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
+
 # include "../data.h"
 # include "../parser/parser.h"
 # include "../here_doc/here_doc.h"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 02:18:29 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/28 18:45:14 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ t_heredoc	*here_doc_mode(t_data *data_program, char *line)
 		if (!check_delimeters(new_line, here_doc))
 			here_doc->buffer = add_buffer(here_doc->buffer, new_line);
 		if (!here_doc->buffer)
+		{
+			printf("check buffer NULL\n");
 			return (free(new_line), here_doc_error(here_doc, "MALLOC"), NULL);
+		}
 		free(new_line);
 		new_line = NULL;
 	}

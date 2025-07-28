@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
+/*   exec_cmd_paths.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 21:47:06 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/14 21:47:09 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:29:45 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_path(char **cmd_tab, char **path_tab)
 			path = ft_strjoin(aux, cmd_tab[0]);
 			free(aux);
 		}
-		if (access(path, X_OK) == 0)
+		if (access(path, F_OK | X_OK) == 0)
 			return (path);
 		free(path);
 		i++;

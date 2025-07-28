@@ -6,11 +6,13 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:43:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/12 17:44:15 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:53:13 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+
+int	check_file_type(char *infile, t_data *data);
 
 int	handle_infile(t_cmd *cmd, t_data *data)
 {
