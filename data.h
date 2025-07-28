@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:40:03 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/18 12:52:40 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/28 01:45:10 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ typedef struct s_expand
 
 typedef struct s_heredoc
 {
-	char	*delimiter;
+	char	**delimiters;
+	char	*last_delimiter;
 	int		is_expandable;
 	char	**buffer;
+	t_data	*data;
 }	t_heredoc;
 
 typedef struct s_data
