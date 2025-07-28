@@ -55,6 +55,8 @@ char	**append_file(char **file, char *new_file)
 
 	new_file_array = first_file(new_file);
 	res = join_arrays(file, new_file_array);
+	free_array(new_file_array);
+	free_array(file);
 	return (res);
 }
 

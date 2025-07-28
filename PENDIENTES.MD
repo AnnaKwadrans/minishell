@@ -261,10 +261,10 @@ echo ''$PWD'' ✅
 ls || sort <-bash lo trata como un pipe válido, mini no
 echo "$" <- bash imprime $, mini no
 echo $?HELLO <- bash imprime 0HELLO, mini 0
-cat <"./test_files/file name with spaces" <- !!!LEAKS!!!
-echo <"./test_files/infile_big" | cat <"./test_files/infile"  <- !!!LEAKS!!!
+cat <"./test_files/file name with spaces" <- !!!LEAKS!!! ✅
+echo <"./test_files/infile_big" | cat <"./test_files/infile"  <- !!!LEAKS!!! ✅
 cat <missing | echo oi <- muestra output al revés
-echo <123 <456 hi | echo 42 <- !!!LEAKS!!!
+echo <123 <456 hi | echo 42 <- !!!LEAKS!!! ✅
 
 **PARA COMPROBAR DESP DE ARREGLAR EXPORT**
 export GHOST=123 | env | grep GHOST

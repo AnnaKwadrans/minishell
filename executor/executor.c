@@ -107,7 +107,10 @@ int	child(t_cmd *cmd, int pipes, int *fds, int i)
 	{
 		close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
 		if (redirect(cmd, pipes, fds, i) != 0)
+		{
+			redir_err_handler(fds, i, pipes);
 			return (1);
+		}
 		if (cmd->is_builtin)
 			ft_builtin(cmd);
 		else
@@ -118,4 +121,12 @@ int	child(t_cmd *cmd, int pipes, int *fds, int i)
 	else if (cmd->pid > 0)
 		return (0);
 	return (1);
+}
+
+void	redir_err_handler(int *fds, int i, int pipes)
+{
+	if (i != 0)
+		close(fds[(i - 1) * 2]);
+	if (i != pipes)
+		close(fds[(i * 2) + 1]);
 }
