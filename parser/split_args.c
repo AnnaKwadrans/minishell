@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:43:11 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 12:35:02 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 13:10:17 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_cmd_for_spaces(t_data *data, t_cmd *cmd)
 	i = 0;
 	while (cmd_arg[i])
 	{
-		if (isspace(cmd_arg[i]))
+		if (ft_isspace(cmd_arg[i]))
 		{
             split_cmd(data, cmd, cmd_arg);
 			break ;
@@ -77,4 +77,5 @@ char    **rm_first_arg(char **args)
         j++;
     }
     new_args[i] = NULL;
+    return (new_args);
 }

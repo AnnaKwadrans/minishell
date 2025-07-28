@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/22 00:28:31 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 13:09:15 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static bool	valid_name(char *arg)
 	//printf("check 2 %s\n", name);
 	while (name && name[i])
 	{
-		if (!(isalnum(name[i]) || name[i] == '_'))
+		if (!(ft_isalnum(name[i]) || name[i] == '_'))
 		{
 			free(name);
 			return (0);
