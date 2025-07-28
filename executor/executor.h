@@ -24,6 +24,7 @@ int		*create_pipes(int pipes);
 void	handle_cmd(t_data *data, t_cmd *cmd, int i);
 void	close_fds(int *fds, int pipes, int wr, int rd);
 int		child(t_cmd *cmd, int pipes, int *fds, int i);
+void	redir_err_handler(int *fds, int i, int pipes);
 
 // exec_builtin.c
 bool	is_builtin(char *cmd);
