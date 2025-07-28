@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
 /*   Updated: 2025/07/28 16:16:13 by akwadran         ###   ########.fr       */
@@ -48,7 +48,7 @@ static bool	valid_name(char *arg)
 	name = ft_strdup_set(arg, "=");
 	while (name && name[i])
 	{
-		if (!(isalnum(name[i]) || name[i] == '_'))
+		if (!(ft_isalnum(name[i]) || name[i] == '_'))
 		{
 			free(name);
 			return (0);
