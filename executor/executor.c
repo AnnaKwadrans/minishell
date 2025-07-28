@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/21 19:44:12 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/26 21:31:01 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@ int	execute_line(t_data *data)
 		return (0);
 	if (data->pipes > 0)
 		data->fds = create_pipes(data->pipes);
+	//print_fds(data->fds);
 	i = 0;
+	//print_cmd(data->cmds);
 	while (data->cmds[i])
 	{
+		//printf("***HANDLING CMD %d***\n", i);
 		handle_cmd(data, data->cmds[i], i);
 		i++;
 	}
 	close_fds(data->fds, data->pipes, -1, -1);
+	//printf("check after close\n");
 	if (data->fds)
 	{
 		free(data->fds);
@@ -38,6 +42,7 @@ int	execute_line(t_data *data)
 	i = 0;
 	while (waitpid(-1, &status, 0) > 0)
 		data->last_status = WEXITSTATUS(status);
+	//printf("check after waitpid\n");
 	return (0);
 }
 
@@ -48,7 +53,7 @@ int	*create_pipes(int pipes)
 
 	if (pipes == 0)
 		return (NULL);
-	fds = malloc(sizeof(int) * pipes * 2);
+	fds = malloc(sizeof(int) * (pipes * 2));
 	if (!fds)
 		return (NULL);
 	i = 0;
@@ -58,17 +63,23 @@ int	*create_pipes(int pipes)
 			return (NULL);
 		i++;
 	}
+	//fds[pipes * 2] = -100;
 	return (fds);
 }
 
 void	handle_cmd(t_data *data, t_cmd *cmd, int i)
 {
-	if (cmd->is_builtin)
+	//printf("b-in: %d, pipes: %d", cmd->is_builtin, data->pipes);
+	if ((cmd->is_builtin) && (data->pipes == 0))
 	{
-		exec_builtin(cmd, data->pipes, data->fds, i);
+		//printf("check builtin\n");
+		data->last_status = exec_builtin(cmd, data->pipes, data->fds, i);
 	}
-	else
-		child(cmd, data->pipes, data->fds, i);
+	else if (child(cmd, data->pipes, data->fds, i) > 0)
+	{
+		data->last_status = 1;
+		exit (1);
+	}
 	return ;
 }
 

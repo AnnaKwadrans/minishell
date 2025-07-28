@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:54:15 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/21 19:21:05 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/26 18:17:36 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,28 @@ bool	even_quotes(char *line)
 bool	valid_pipes(char *line)
 {
 	int		i;
-	bool	pipe;
+	//bool	pipe;
+	//bool	s_quote;
+	//bool	d_quote;
 
-	pipe = 0;
+	//s_quote = 0;
+	//d_quote = 0;
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '|')
+		if (line[i] == '\'' || line[i] == '\"')
+			i += close_quotes(&line[i]);
+		else if (line[i] == '|')
 		{
 			i++;
 			while (ft_isspace(line[i]))
 				i++;
 			if (line[i] == '|')
 				return (0);
+			i++;
 		}
-		i++;
+		else
+			i++;
 	}
 	return (1);
 }

@@ -176,16 +176,16 @@ ps | grep minishell | awk '{print $1}' | xargs lsof -p
 
 Corrección #1
 
-# export -> segfult
+# export -> segfult ✅
 
 # exit con palabra -> codigo salida 2
 
-# cd - -> va al directorio anterior
+# cd - -> va al directorio anterior ✅
 
 se borra PATH en heredoc y en validator ✅
 no debe guardar espacios en el historico ✅
 
-# codigo salida del validator
+# codigo salida del validator ✅
 
 # ECHO $$ ✅
 
@@ -224,9 +224,9 @@ ec'h''o' debería simplificar a echo y ejecutarse como tal.
 
 # Pruebas espejo
 
-cat < input.txt | grep "pattern" | wc -l
+cat < input.txt | grep "pattern" | wc -l ✅
 
-echo "Hello" >> file.txt | cat < file.txt (esta ok, no funciona en el test de espejo porque )
+echo "Hello" >> file.txt | cat < file.txt (esta ok, no funciona en el test de espejo porque se utiliza el mismo fichero) ✅
 
 cat <<L1 <<L2 <<L3 | tee out
 First
@@ -236,13 +236,13 @@ L2
 Third
 L3
 
-export VAR="Hello World"
+export VAR="Hello World" ✅
 echo $VAR
 
-export CMD="grep pattern"
+export CMD="grep pattern" ✅
 echo "Hello pattern" | $CM
 
-export CMD="cat << EOF"
+export CMD="cat << EOF" ✅
 $CMD
 
 export
@@ -250,3 +250,23 @@ export
 pruebas: https://github.com/oliverkingz/minishell
 https://github.com/LucasKuhn/minishell_tester.git
 
+Test 128: ❌ echo hi | echo bye >>./test_files/invalid_permission  ✅
+mini exit code =
+bash exit code = 1
+mini error = ( Permission denied Command not found)
+bash error = ( Permission denied)
+
+echo ''$PWD'' ✅
+
+ls || sort <-bash lo trata como un pipe válido, mini no
+echo "$" <- bash imprime $, mini no
+echo $?HELLO <- bash imprime 0HELLO, mini 0
+cat <"./test_files/file name with spaces" <- !!!LEAKS!!!
+echo <"./test_files/infile_big" | cat <"./test_files/infile"  <- !!!LEAKS!!!
+cat <missing | echo oi <- muestra output al revés
+echo <123 <456 hi | echo 42 <- !!!LEAKS!!!
+
+**PARA COMPROBAR DESP DE ARREGLAR EXPORT**
+export GHOST=123 | env | grep GHOST
+
+**REVISADO HASTA EL TEST 80**

@@ -1,12 +1,14 @@
 NAME = minishell
 RM = rm -f
 CC = cc
-FLAGS_BASE = -Werror -Wextra -Wall -g3
+FLAGS_BASE = -Werror -Wextra -Wall 
+# -g3
 
 ifeq ($(SANITIZE),0)
 FLAGS = $(FLAGS_BASE)
 else
-FLAGS = $(FLAGS_BASE) -g -fsanitize=address
+FLAGS = $(FLAGS_BASE) -g 
+#-fsanitize=address
 endif
 
 # Feature test macros
@@ -94,7 +96,8 @@ SRC_PARS = parser/cleanup.c\
 	parser/parser.c\
 	parser/pipes_split.c\
 	parser/quotes.c\
-	parser/validator.c
+	parser/validator.c\
+	parser/split_args.c
 
 SRC_SIGNALS = signals/here_doc.c\
 	signals/sigint.c\
