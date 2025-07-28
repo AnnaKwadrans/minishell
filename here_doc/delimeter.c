@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimeter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:17:14 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 13:51:47 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/28 20:02:56 by kegonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	get_delimiters(char *line, t_heredoc *here_doc)
 	int		count;
 
 	count = count_delimiters(line);
+	printf("count delimiters are %d\n", count);
 	temp = malloc(sizeof(char *) * (count + 1));
 	if (!temp)
 		return (here_doc_error(here_doc, "MALLOC"));
@@ -84,7 +85,19 @@ void	get_delimiters(char *line, t_heredoc *here_doc)
 			new_i(line, &i, "word");
 			printf("Delimiter end with line[%d]: '%c'\n", i, line[i]);
 			if (i > start)
-				temp[j++] = aux_get_delimiter(ft_substr(line, start, i - start));
+			{
+				temp[j] = ft_substr(line, start, i - start);
+				printf("temp[%d] = %s\n", j, temp[j]);
+				if (j == count - 1)
+				{
+					printf("checking is expandable of %s\n", temp[j]);
+					here_doc->is_expandable = check_is_expandable(temp[j]);
+				}
+				printf("here_doc expandable value: %d\n", here_doc->is_expandable);
+				temp[j] = aux_get_delimiter(temp[j]);
+				j++;
+			}
+			printf("temp[%d] = '%s'\n", j - 1, temp[j - 1]);
 			if (i > start && !temp[j - 1])
 				return (free_array(temp));
 			continue;

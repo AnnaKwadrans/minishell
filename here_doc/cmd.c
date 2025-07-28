@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 19:58:08 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:59:42 by kegonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 static void	setup_heredoc_input(t_cmd *cmd)
 {
-	int	pipefd[2];
-	int	i;
+	int			i;
+	t_heredoc	*here_doc;
 
-	if (pipe(pipefd) == -1)
+	here_doc = cmd->heredoc;
+	if (pipe(here_doc->pipesfd) == -1)
 		return (perror("pipe"), free_cmd(cmd));
-	cmd->fd_in = pipefd[0];
+	cmd->fd_in = here_doc->pipesfd[0];
 	if (!cmd->heredoc || !cmd->heredoc->buffer || !cmd->heredoc->buffer[0])
 	{
-		close(pipefd[1]);
+		close(here_doc->pipesfd[1]);
 		return ;
 	}
 	i = 0;
 	while (cmd->heredoc->buffer[i])
 	{
-		write(pipefd[1], cmd->heredoc->buffer[i],
+		write(here_doc->pipesfd[1], cmd->heredoc->buffer[i],
 			ft_strlen(cmd->heredoc->buffer[i]));
-		write(pipefd[1], "\n", 1);
+		write(here_doc->pipesfd[1], "\n", 1);
 		i++;
 	}
-	close(pipefd[1]);
+	close(here_doc->pipesfd[1]);
 }
 
 static void	default_assign_cmd(t_cmd *cmd)

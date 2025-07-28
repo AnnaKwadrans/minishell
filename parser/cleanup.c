@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:28:19 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 14:50:46 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:54:31 by kegonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	free_here_doc(t_heredoc *here_doc)
 	}
 	here_doc->last_delimiter = NULL;
 	here_doc->is_expandable = 0;
+	free(here_doc);
+	here_doc = NULL;
 }
 
 void	clean_data_program(t_data *data)
