@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 18:03:21 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 21:23:10 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:20:10 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,13 @@ int	ft_exit(t_data *data, char **args)
 		status = data->last_status;
 	else if (array_size(args) > 2)
 		return (ft_putendl_fd("too many arguments", 2), 1);
-	else
+	else if (!is_number(args[1]))
 	{
-		if (!is_number(args[1]))
-			return (ft_putendl_fd("numeric argument required", 2), 2);
-		status = ft_atoi(args[1]);
+		ft_putendl_fd("numeric argument required", 2);
+		status = 2;
 	}
-	//printf("EXIT STATUS %d\n", status);
-	//print_vars(data->vars);
+	else
+		status = ft_atoi(args[1]);
 	free_data(data);
 	exit(status);
-}
-
-void	print_vars(t_vars *vars)
-{
-	while (vars)
-	{
-		printf("%s=%s\n", vars->name, vars->value);
-		vars = vars->next;
-	}
 }

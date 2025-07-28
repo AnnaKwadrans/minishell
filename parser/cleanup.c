@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:28:19 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 02:15:07 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/28 14:50:46 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_here_doc(t_heredoc *here_doc)
 {
 	if (!here_doc)
-		return;
+		return ;
 	if (here_doc->delimiters)
 	{
 		free_array(here_doc->delimiters);

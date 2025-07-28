@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/26 12:23:38 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/28 15:25:49 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ void	pipeline(t_data *data, char **cmd_aux, int i)
 	}
 	data->cmds[i]->data = data;
 	data->cmds[i + 1] = NULL;
-	// print_cmd(data->cmds);
 	vars_expansion(data, data->cmds[i]);
-	// print_cmd(data->cmds);
 	rm_quotes(data, data->cmds[i]);
 }
 
@@ -98,7 +96,7 @@ void	vars_expansion(t_data *data, t_cmd *cmd)
 
 int	is_expandable(char *input)
 {
-	int	i;
+	int		i;
 	bool	s_quote;
 	bool	d_quote;
 
@@ -107,34 +105,17 @@ int	is_expandable(char *input)
 	d_quote = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'' && !s_quote)
+		if (input[i] == '\'' && !s_quote && !d_quote)
 			s_quote = 1;
-		else if (input[i] == '\"' && !d_quote)
+		else if (input[i] == '\"' && !d_quote && !s_quote)
 			d_quote = 1;
-		else if (input[i] == '\'' && s_quote)
+		else if (input[i] == '\'' && s_quote && !d_quote)
 			s_quote = 0;
-		else if (input[i] == '\"' && d_quote)
+		else if (input[i] == '\"' && d_quote && !s_quote)
 			d_quote = 0;
-		else if (input[i] == '$' && !d_quote && !s_quote)
+		else if (input[i] == '$' && !s_quote)
 			return (1);
 		i++;
 	}
 	return (0);
 }
-/*
-int	is_expandable(char *input)
-{
-	int	i;
-
-	if (input[0] == '\'' && input[ft_strlen(input) - 1] == '\'')
-		return (0);
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '$')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-*/

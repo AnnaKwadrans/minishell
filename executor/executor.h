@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:44:26 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/16 19:11:19 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:03:50 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ int		*create_pipes(int pipes);
 void	handle_cmd(t_data *data, t_cmd *cmd, int i);
 void	close_fds(int *fds, int pipes, int wr, int rd);
 int		child(t_cmd *cmd, int pipes, int *fds, int i);
-void	redir_err_handler(int *fds, int i, int pipes);
 
 // exec_builtin.c
 bool	is_builtin(char *cmd);
 int		exec_builtin(t_cmd *cmd, int pipes, int *fds, int i);
-int 	ft_builtin(t_cmd *cmd);
+int		ft_builtin(t_cmd *cmd);
+int		save_stdfds(t_cmd *cmd, int *saved_stdin, int *saved_stdout);
+void	restore_stdfds(t_cmd *cmd, int *saved_stdin, int *saved_stdout);
 
 // redirect.c
 int		redirect(t_cmd *cmd, int pipes, int *fds, int i);
 int		redirect_input(t_cmd *cmd, int pipes, int *fds, int i);
 int		redirect_output(t_cmd *cmd, int pipes, int *fds, int i);
+void	redir_err_handler(int *fds, int i, int pipes);
 
 // exec_cmd.c
 void	exec_cmd(t_cmd *cmd);

@@ -6,13 +6,13 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:54:15 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 18:17:36 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:51:30 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-bool	valid_input(char *input, t_data *data) // check si se libera todo bien
+bool	valid_input(char *input, t_data *data)
 {
 	if (!input || input[0] == '\0')
 		return (printf("Empty input, returning...\n"), 0);
@@ -63,12 +63,7 @@ bool	even_quotes(char *line)
 bool	valid_pipes(char *line)
 {
 	int		i;
-	//bool	pipe;
-	//bool	s_quote;
-	//bool	d_quote;
 
-	//s_quote = 0;
-	//d_quote = 0;
 	i = 0;
 	while (line[i])
 	{

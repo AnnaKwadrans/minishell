@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:40:21 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 20:57:04 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:59:35 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	check_outfile(char **outfile, t_data *data)
 	i = 0;
 	while (outfile && outfile[i])
 	{
-		//printf("of: %s\n", outfile[i]);
 		if ((access(outfile[i], F_OK) == 0 && access(outfile[i], W_OK) == -1))
 		{
 			perror("Permission denied");

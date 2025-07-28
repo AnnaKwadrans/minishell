@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/22 00:28:31 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:06:46 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,10 @@ static bool	valid_name(char *arg)
 
 	if (!arg)
 		return (0);
-	//printf("check 0\n");
-	//printf("%s\n", arg);
 	if (!(ft_isalpha(arg[0]) || arg[0] == '_'))
 		return (0);
-	//printf("check 1\n");
 	i = 0;
 	name = ft_strdup_set(arg, "=");
-	//printf("check 2 %s\n", name);
 	while (name && name[i])
 	{
 		if (!(isalnum(name[i]) || name[i] == '_'))
@@ -83,26 +79,19 @@ static int	handle_exp_args(char *arg, t_data *data)
 	t_vars	*found;
 	int		i;
 
-	//i = 1;
-	//while (args && args[i])
-	//{
-		if (!valid_name(arg))
-			return (1);
-		if (!has_equals(arg))
-			return (1);
-		//printf("check before exported\n");
-		exported = export_new_var(arg);
-		//printf("check exported\n");
-		found = search_var(data, exported->name);
-		if (found)
-		{
-			found->is_exportable = 1;
-			free_vars(exported);
-		}
-		else
-			add_var(data, exported);
-		//i++;
-	//}
+	if (!valid_name(arg))
+		return (1);
+	if (!has_equals(arg))
+		return (1);
+	exported = export_new_var(arg);
+	found = search_var(data, exported->name);
+	if (found)
+	{
+		found->is_exportable = 1;
+		free_vars(exported);
+	}
+	else
+		add_var(data, exported);
 	return (0);
 }
 
@@ -120,7 +109,6 @@ int	ft_export(t_data *data, t_vars *vars, char **args)
 		i = 1;
 		while (args && args[i])
 		{
-			//printf("check args loop\n");
 			ret = handle_exp_args(args[i], data);
 			i++;
 		}
