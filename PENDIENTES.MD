@@ -270,3 +270,5 @@ echo <123 <456 hi | echo 42 <- !!!LEAKS!!! ✅
 export GHOST=123 | env | grep GHOST
 
 **REVISADO HASTA EL TEST 80**
+
+./test_files/invalid_permission

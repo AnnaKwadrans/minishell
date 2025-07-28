@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:29:42 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/21 20:01:08 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/28 15:47:44 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,23 @@ int	get_and_process_input(t_data *data_program, char **input)
 void	closing(t_data *data_program)
 {
 	int	status;
-	
+
 	write(1, "exit\n", 5);
 	status = data_program->last_status;
 	free_data(data_program);
 	free(data_program);
 	exit(status);
 }
-
+/*
+void	print_vars(t_vars *vars)
+{
+	while (vars)
+	{
+		printf("%s=%s\n", vars->name, vars->value);
+		vars = vars->next;
+	}
+}
+*/
 int	main(int argc, char **argv, char **envp)
 {
 	char			*input;
@@ -84,6 +93,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!data_program)
 		return (1);
 	initial_config(data_program, envp);
+	//print_vars(data_program->vars);
 	while (1)
 	{
 		status = get_and_process_input(data_program, &input);
