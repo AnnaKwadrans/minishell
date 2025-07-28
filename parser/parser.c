@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 15:25:49 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:40:52 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 	{
 		pipeline(data, cmd_aux, i);
 		if (!data->cmds[i])
+		{
+			printf("check cmds[i] NULL %d\n", data->last_status);
 			return (free_array(cmd_aux), NULL);
+		}
 		i++;
 	}
 	data->cmds[i] = NULL;
@@ -46,6 +49,7 @@ void	pipeline(t_data *data, char **cmd_aux, int i)
 		(data->cmds[i])->heredoc = here_doc_mode(data, cmd_aux[i]);
 		if (!(data->cmds[i])->heredoc)
 		{
+			printf("check heredoc NULL %d\n", data->last_status);
 			free_cmd(data->cmds[i]);
 			data->cmds[i] = NULL;
 			return ;

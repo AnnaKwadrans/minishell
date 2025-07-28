@@ -110,6 +110,7 @@ void	get_delimiters(char *line, t_heredoc *here_doc)
 		here_doc->last_delimiter = temp[j - 1];
 	else
 		here_doc->last_delimiter = NULL;
+	// FALTA VALIDAR SI ES EXPANDIBLE O NO.
 	for (i = 0; temp[i]; i++)
 		printf("Delimiter %d: '%s'\n", i, temp[i]);
 	printf("last delimiter: '%s'\n", here_doc->last_delimiter);
