@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:40:03 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 01:45:10 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/28 20:57:00 by kegonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_heredoc
 	char	*last_delimiter;
 	int		is_expandable;
 	char	**buffer;
+	int		pipesfd[2];
 	t_data	*data;
 }	t_heredoc;
 

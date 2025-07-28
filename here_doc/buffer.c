@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buffer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:33:13 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/15 17:40:57 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/28 20:51:09 by kegonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ char	**add_buffer(char **buffer, char *line)
 	}
 	temp[count] = ft_strdup(line);
 	temp[count + 1] = NULL;
-	if (buffer)
-		free_array(buffer);
+	free_array(buffer);
+	buffer = NULL;
+	free(line);
 	return (temp);
 }
