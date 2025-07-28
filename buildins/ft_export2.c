@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 14:17:23 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:22:51 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	sort_and_print(t_data *data, t_vars *vars, char **args)
 	sort_vars(cpy);
 	while (cpy)
 	{
-		if (cpy->is_exportable && ft_strncmp(cpy->name, "_", 1) != 0)
+		if (cpy->is_exportable && (ft_strncmp(cpy->name, "_\0", 2) != 0))
 			printf("declare -x %s=\"%s\"\n", cpy->name, cpy->value);
 		cpy = cpy->next;
 	}

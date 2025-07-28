@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 15:06:46 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:16:13 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ static int	handle_exp_args(char *arg, t_data *data)
 	int		i;
 
 	if (!valid_name(arg))
-		return (1);
+		return (ft_putendl_fd("not a valid identifier", 2), 1);
 	if (!has_equals(arg))
-		return (1);
+		return (ft_putendl_fd("not a valid var", 2), 1);
 	exported = export_new_var(arg);
 	found = search_var(data, exported->name);
 	if (found)
