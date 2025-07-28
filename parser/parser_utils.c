@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 18:53:45 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 13:37:26 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:56:57 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,4 @@ void	print_cmd(t_cmd **cmds)
 		printf("\tAPPEND \t%d\n", cmds[i]->append);
 		i++;
 	}
-}
-
-void	print_fds(int *fds)
-{
-	int	i;
-
-	if (!fds)
-		return ;
-	i = 0;
-	while (fds[i] != -100)
-	{
-		printf("%d-", fds[i]);
-		i++;
-	}
-	printf("\n");
 }

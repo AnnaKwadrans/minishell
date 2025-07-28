@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:43:11 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 12:35:02 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:55:14 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	rm_quotes(t_data *data, t_cmd *cmd)
 bool	has_quotes_to_rm(char *str)
 {
 	int	i;
-	
+
 	if (!str)
 		return (0);
 	i = 0;
@@ -73,11 +73,8 @@ char	*rm_quotes_arg(char *arg)
 	q_double = 0;
 	while (arg[i])
 	{
-		// printf("CHAR %c\n", arg[i]);
-		// printf("%i, s %i, d%i\n", i, q_simple, q_double);
 		if (cpy_char(arg[i], &q_simple, &q_double))
 		{
-			// printf("CPY\n");
 			res[j] = arg[i];
 			j++;
 		}

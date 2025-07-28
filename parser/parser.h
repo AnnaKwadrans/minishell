@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:54:53 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 13:37:41 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:57:46 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	cpy_char(char arg, bool *q_simple, bool *q_double);
 // split_args.c
 void	check_cmd_for_spaces(t_data *data, t_cmd *cmd);
 void	split_cmd(t_data *data, t_cmd *cmd, char *cmd_arg);
-char    **rm_first_arg(char **args);
+char	**rm_first_arg(char **args);
 
 // pipe_split.c
 int		close_quotes(char const *s);
