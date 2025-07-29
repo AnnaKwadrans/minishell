@@ -49,7 +49,7 @@ static void	finishing_here_doc(t_heredoc *here_doc, t_data *data_program)
 		while (here_doc->buffer[i])
 		{
 			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i],
-					1, 0);
+					1, 1);
 			if (!here_doc->buffer[i])
 				return (here_doc_error(here_doc, "EXPAND_VARS"));
 			i++;

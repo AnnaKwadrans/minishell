@@ -12,8 +12,6 @@
 
 #include "executor.h"
 
-int	check_file_type(char *infile, t_data *data);
-
 int	handle_infile(t_cmd *cmd, t_data *data)
 {
 	if (cmd->heredoc)
