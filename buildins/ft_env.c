@@ -39,7 +39,7 @@ int	ft_env(t_vars *vars)
 	pre_env(vars->data);
 	while (vars)
 	{
-		if (vars->is_exportable)
+		if (vars->is_exportable && vars->value)
 			printf("%s=%s\n", vars->name, vars->value);
 		vars = vars->next;
 	}

@@ -51,12 +51,12 @@ t_vars	*new_var(char *name, char *value, int is_exportable)
 		return (NULL);
 	}
 	new->value = ft_strdup(value);
-	if (!new->value)
+	/*if (!new->value)
 	{
 		free(new->name);
 		free(new);
 		return (NULL);
-	}
+	}*/
 	new->is_exportable = is_exportable;
 	new->next = NULL;
 	return (new);
