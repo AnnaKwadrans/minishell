@@ -26,7 +26,7 @@ int	redirect_input(t_cmd *cmd, int pipes, int *fds, int i)
 	if (cmd->heredoc)
 	{
 		if (dup2(cmd->fd_in, STDIN_FILENO) < 0)
-			perror("dup2 heredoc");
+			return (perror("dup2 heredoc"), 1);
 		close(cmd->fd_in);
 	}
 	else if (cmd->infile)
@@ -36,13 +36,13 @@ int	redirect_input(t_cmd *cmd, int pipes, int *fds, int i)
 		if (handle_infile(cmd, cmd->data) != 0)
 			return (1);
 		if (dup2(cmd->fd_in, STDIN_FILENO) < 0)
-			perror("dup2 pipe infile");
+			return (perror("dup2 pipe infile"), 1);
 		close(cmd->fd_in);
 	}
 	else if (i != 0)
 	{
 		if (dup2(fds[(i - 1) * 2], STDIN_FILENO) < 0)
-			perror("dup2 pipe input");
+			return (perror("dup2 pipe input"), 1);
 		close(fds[(i - 1) * 2]);
 	}
 	return (0);
@@ -57,13 +57,13 @@ int	redirect_output(t_cmd *cmd, int pipes, int *fds, int i)
 		if (handle_outfile(cmd, cmd->data) != 0)
 			return (1);
 		if (dup2(cmd->fd_out, STDOUT_FILENO) < 0)
-			perror("dup2 outfile");
+			return (perror("dup2 outfile"), 1);
 		close(cmd->fd_out);
 	}
 	else if (i != pipes)
 	{
 		if (dup2(fds[(i * 2) + 1], STDOUT_FILENO) < 0)
-			perror("dup2 pipe output");
+			return (perror("dup2 pipe output"), 1);
 		close(fds[(i * 2) + 1]);
 	}
 	return (0);
