@@ -89,15 +89,37 @@ static int	sort_vars(t_vars *vars)
 int	sort_and_print(t_data *data, t_vars *vars, char **args)
 {
 	t_vars	*cpy;
+	t_vars	*cpy_start;
 
 	cpy = cpy_vars(vars);
 	sort_vars(cpy);
+	cpy_start = cpy;
 	while (cpy)
 	{
 		if (cpy->is_exportable && (ft_strncmp(cpy->name, "_\0", 2) != 0))
-			printf("declare -x %s=\"%s\"\n", cpy->name, cpy->value);
+		{
+			printf("declare -x %s", cpy->name);
+			if (cpy->value[0] == '\0')
+				printf("\n");
+			else
+				printf("=\"%s\"\n", cpy->value);
+		}
 		cpy = cpy->next;
 	}
-	free_vars(cpy);
+	free_vars(cpy_start);
+	cpy = NULL;
 	return (0);
+}
+
+void	update_value(t_vars *found, t_vars *exported)
+{
+	char	*new_value;
+
+	if (!found || !exported || !found->value)
+		return ;
+	if (ft_strcmp(found->value, exported->value) == 0)
+		return ;
+	new_value = ft_strdup(exported->value);
+	free(found->value);
+	found->value = new_value;
 }

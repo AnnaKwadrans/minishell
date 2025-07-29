@@ -23,9 +23,12 @@ static t_vars	*export_new_var(char *arg)
 		return (NULL);
 	i = 0;
 	name = ft_strdup_set(arg, "=");
-	while (arg[i] != '=')
+	while (arg[i] && arg[i] != '=')
 		i++;
-	value = ft_strdup(&arg[i + 1]);
+	if (arg[i] == '=')
+		value = ft_strdup(&arg[i + 1]);
+	else
+		value = ft_strdup("");
 	new = new_var(name, value, 1);
 	free(name);
 	name = NULL;
@@ -73,6 +76,19 @@ static bool	has_equals(char *arg)
 	return (0);
 }
 
+void	print_vars(t_vars *vars)
+{
+	while (vars)
+	{
+		write(2, vars->name, ft_strlen(vars->name));
+		write(2, " ", 2);
+		write(2, vars->value, ft_strlen(vars->value));
+		write(2, "\n", 2);
+		vars = vars->next;
+	}
+}
+
+
 static int	handle_exp_args(char *arg, t_data *data)
 {
 	t_vars	*exported;
@@ -81,13 +97,14 @@ static int	handle_exp_args(char *arg, t_data *data)
 
 	if (!valid_name(arg))
 		return (ft_putendl_fd("not a valid identifier", 2), 1);
-	if (!has_equals(arg))
-		return (ft_putendl_fd("not a valid var", 2), 1);
+	//if (!has_equals(arg))
+	//	return (ft_putendl_fd("not a valid var", 2), 1);
 	exported = export_new_var(arg);
 	found = search_var(data, exported->name);
 	if (found)
 	{
 		found->is_exportable = 1;
+		update_value(found, exported);
 		free_vars(exported);
 	}
 	else

@@ -31,6 +31,7 @@ int	ft_cd(t_data *data, char **args);
 int	ft_exit(t_data *data, char **args);
 int	ft_export(t_data *data, t_vars *vars, char **args);
 int	sort_and_print(t_data *data, t_vars *vars, char **args);
+void	update_value(t_vars *found, t_vars *exported);
 int	ft_unset(char **args, t_data *data);
 
 #endif
