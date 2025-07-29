@@ -28,12 +28,11 @@ static t_vars	*export_new_var(char *arg)
 	if (arg[i] == '=')
 		value = ft_strdup(&arg[i + 1]);
 	else
-		value = NULL;
+		value = ft_strdup("");
 	new = new_var(name, value, 1);
 	free(name);
 	name = NULL;
-	if (value)
-		free(value);
+	free(value);
 	value = NULL;
 	return (new);
 }
@@ -105,6 +104,7 @@ static int	handle_exp_args(char *arg, t_data *data)
 	if (found)
 	{
 		found->is_exportable = 1;
+		update_value(found, exported);
 		free_vars(exported);
 	}
 	else

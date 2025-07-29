@@ -94,7 +94,7 @@ int	exec_builtin(t_cmd *cmd, int pipes, int *fds, int i)
 	close_fds(fds, pipes, (i - 1) * 2, (i * 2) + 1);
 	if (redirect(cmd, pipes, fds, i) != 0)
 	{
-		ft_putendl_fd("redir err", 2);
+		//ft_putendl_fd("redir err", 2);
 		if (cmd->infile || cmd->heredoc)
 		{
 			dup2(saved_stdin, STDIN_FILENO);
