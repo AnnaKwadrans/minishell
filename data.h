@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:40:03 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 20:57:00 by kegonzal         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:37:35 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_heredoc	t_heredoc;
 typedef struct s_data		t_data;
 typedef struct s_vars		t_vars;
 typedef struct s_cmd		t_cmd;
+typedef struct s_ctx		t_ctx;
 
 typedef struct s_expand
 {
@@ -52,6 +53,7 @@ typedef struct s_heredoc
 	char	**buffer;
 	int		pipesfd[2];
 	t_data	*data;
+	t_ctx	*ctx;
 }	t_heredoc;
 
 typedef struct s_data
