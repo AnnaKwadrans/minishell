@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:04:39 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 02:08:42 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/29 12:33:12 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@
 # include "../vars/varenv.h"
 # include "../signals/signals.h"
 # include "../parser/parser.h"
+
+typedef struct s_ctx
+{
+	int			*i;
+	int			*j;
+	char		*line;
+	char		**temp;
+	t_heredoc	*here_doc;
+}	t_ctx;
 
 // AUX.C
 char		*remove_trailing_newline(char *str);
@@ -38,7 +47,8 @@ void		get_delimiters(char *line, t_heredoc *here_doc);
 
 // HERE_DOC.C
 char		**add_buffer(char **buffer, char *line);
-void		here_doc_init(char *line, t_heredoc *here_doc, t_data *data_program);
+int			here_doc_init(char *line,
+				t_heredoc *here_doc, t_data *data_program);
 t_heredoc	*here_doc_mode(t_data *data_program, char *line);
 
 // CMD.C

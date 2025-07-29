@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delimeter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:17:14 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 20:02:56 by kegonzal         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:37:15 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,59 +59,62 @@ char	*aux_get_delimiter(char *line)
 	return (temp);
 }
 
+static void	process_delimiter(t_ctx *ctx)
+{
+	int	start;
+
+	*(ctx->i) += 2;
+	new_i(ctx->line, ctx->i, "spaces");
+	start = *(ctx->i);
+	new_i(ctx->line, ctx->i, "word");
+	if (*(ctx->i) > start)
+	{
+		ctx->temp[*(ctx->j)] = ft_substr(ctx->line, start, *(ctx->i) - start);
+		if (!ctx->temp[*(ctx->j)])
+			return (here_doc_error(ctx->here_doc, "MALLOC"));
+		if (*(ctx->j) == count_delimiters(ctx->line) - 1)
+			ctx->here_doc->is_expandable = check_is_expandable
+				(ctx->temp[*(ctx->j)]);
+		ctx->temp[*(ctx->j)] = aux_get_delimiter(ctx->temp[*(ctx->j)]);
+		if (!ctx->temp[*(ctx->j)])
+			return (here_doc_error(ctx->here_doc, "PARSE"));
+		(*(ctx->j))++;
+	}
+	if (*(ctx->i) > start && !ctx->temp[*(ctx->j) - 1])
+		return (free_array(ctx->temp));
+	ctx->temp[*(ctx->j)] = NULL;
+}
+
+static void	init_ctx(t_ctx *ctx, int *i, int *j, char **temp)
+{
+	ctx->i = i;
+	ctx->j = j;
+	ctx->temp = temp;
+}
+
 void	get_delimiters(char *line, t_heredoc *here_doc)
 {
 	int		i;
 	int		j;
-	int		start;
 	char	**temp;
-	int		count;
+	t_ctx	*ctx;
 
-	count = count_delimiters(line);
-	printf("count delimiters are %d\n", count);
-	temp = malloc(sizeof(char *) * (count + 1));
+	temp = malloc(sizeof(char *) * (count_delimiters(line) + 1));
 	if (!temp)
 		return (here_doc_error(here_doc, "MALLOC"));
-	i = 0;
+	i = -1;
 	j = 0;
-	while (line[i])
+	ctx = here_doc->ctx;
+	init_ctx(ctx, &i, &j, temp);
+	ctx->line = line;
+	ctx->here_doc = here_doc;
+	while (line[++i])
 	{
 		if (line[i] == '<' && line[i + 1] && line[i + 1] == '<')
 		{
-			i += 2;
-			new_i(line, &i, "spaces");
-			printf("Delimiter start with line[%d]: '%c'\n", i, line[i]);
-			start = i;
-			new_i(line, &i, "word");
-			printf("Delimiter end with line[%d]: '%c'\n", i, line[i]);
-			if (i > start)
-			{
-				temp[j] = ft_substr(line, start, i - start);
-				printf("temp[%d] = %s\n", j, temp[j]);
-				if (j == count - 1)
-				{
-					printf("checking is expandable of %s\n", temp[j]);
-					here_doc->is_expandable = check_is_expandable(temp[j]);
-				}
-				printf("here_doc expandable value: %d\n", here_doc->is_expandable);
-				temp[j] = aux_get_delimiter(temp[j]);
-				j++;
-			}
-			printf("temp[%d] = '%s'\n", j - 1, temp[j - 1]);
-			if (i > start && !temp[j - 1])
-				return (free_array(temp));
-			continue;
+			process_delimiter(ctx);
+			continue ;
 		}
-		i++;
 	}
-	temp[j] = NULL;
 	here_doc->delimiters = temp;
-	if (j > 0)
-		here_doc->last_delimiter = temp[j - 1];
-	else
-		here_doc->last_delimiter = NULL;
-	// FALTA VALIDAR SI ES EXPANDIBLE O NO.
-	for (i = 0; temp[i]; i++)
-		printf("Delimiter %d: '%s'\n", i, temp[i]);
-	printf("last delimiter: '%s'\n", here_doc->last_delimiter);
 }

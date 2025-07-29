@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:18:04 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 02:07:20 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/29 11:51:29 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_here_doc(char *line)
 {
-	int	i;
+	int		i;
 	bool	s_quote;
 	bool	d_quote;
 
