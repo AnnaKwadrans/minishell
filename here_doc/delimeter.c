@@ -102,19 +102,20 @@ void	get_delimiters(char *line, t_heredoc *here_doc)
 	temp = malloc(sizeof(char *) * (count_delimiters(line) + 1));
 	if (!temp)
 		return (here_doc_error(here_doc, "MALLOC"));
-	i = -1;
+	i = 0;
 	j = 0;
 	ctx = here_doc->ctx;
 	init_ctx(ctx, &i, &j, temp);
 	ctx->line = line;
 	ctx->here_doc = here_doc;
-	while (line[++i])
+	while (line[i] && line [i + 1])
 	{
 		if (line[i] == '<' && line[i + 1] && line[i + 1] == '<')
 		{
 			process_delimiter(ctx);
 			continue ;
 		}
+		i++;
 	}
 	here_doc->delimiters = temp;
 }
