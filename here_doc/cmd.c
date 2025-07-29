@@ -21,10 +21,10 @@ static void	setup_heredoc_input(t_cmd *cmd)
 	if (pipe(here_doc->pipesfd) == -1)
 		return (perror("pipe"), free_cmd(cmd));
 	cmd->fd_in = here_doc->pipesfd[0];
-	if (!cmd->heredoc || !cmd->heredoc->buffer || !cmd->heredoc->buffer[0])
+	if (!cmd->heredoc || !cmd->heredoc->buffer /*|| !cmd->heredoc->buffer[0]*/)
 	{
 		close(here_doc->pipesfd[1]);
-		close(here_doc->pipesfd[0]); // <- no comprobado !!!
+		close(here_doc->pipesfd[0]); // no comprobado !!!
 		return ;
 	}
 	i = 0;

@@ -25,6 +25,8 @@ int	redirect_input(t_cmd *cmd, int pipes, int *fds, int i)
 {
 	if (cmd->heredoc)
 	{
+		if (i != 0)
+			close(fds[(i - 1) * 2]);
 		if (dup2(cmd->fd_in, STDIN_FILENO) < 0)
 			return (perror("dup2 heredoc"), 1);
 		close(cmd->fd_in);

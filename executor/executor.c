@@ -27,6 +27,8 @@ int	execute_line(t_data *data)
 	while (data->cmds[i])
 	{
 		handle_cmd(data, data->cmds[i], i);
+		if (data->cmds[i]->heredoc)
+			close(data->cmds[i]->heredoc->pipesfd[0]);
 		i++;
 	}
 	close_fds(data->fds, data->pipes, -1, -1);
