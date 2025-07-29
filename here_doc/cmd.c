@@ -24,6 +24,7 @@ static void	setup_heredoc_input(t_cmd *cmd)
 	if (!cmd->heredoc || !cmd->heredoc->buffer || !cmd->heredoc->buffer[0])
 	{
 		close(here_doc->pipesfd[1]);
+		close(here_doc->pipesfd[0]); // <- no comprobado !!!
 		return ;
 	}
 	i = 0;
