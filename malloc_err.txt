@@ -1,0 +1,107 @@
+valgrind --leak-check=full --track-fds=yes ./minishell
+==15029== Memcheck, a memory error detector
+==15029== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==15029== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==15029== Command: ./minishell
+==15029== 
+minishell > cat <<OK<<END<<BYE
+==15029== Invalid read of size 1
+==15029==    at 0x1101B3: get_delimiters (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x1102D8: here_doc_init (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x110637: here_doc_mode (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x111CED: pipeline (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x111B78: parse_line (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x111565: parse_data (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x109828: main (in /home/ania/Documents/minishell/minishell)
+==15029==  Address 0x4b58253 is 0 bytes after a block of size 19 alloc'd
+==15029==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15029==    by 0x10ABF0: ft_calloc (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x1123BF: init_array (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x1124D5: split_pipes (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x111B12: parse_line (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x111565: parse_data (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x109828: main (in /home/ania/Documents/minishell/minishell)
+==15029== 
+heredoc > OK
+MALLOC ERROR
+last_status: 1
+check heredoc NULL 1
+check cmds[i] NULL 1
+check cmds NULL 1
+minishell > BYE
+Command not found
+==15049== 
+==15049== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==15049== 
+==15049== HEAP SUMMARY:
+==15049==     in use at exit: 239,272 bytes in 456 blocks
+==15049==   total heap usage: 1,108 allocs, 652 frees, 268,170 bytes allocated
+==15049== 
+==15049== 16 bytes in 1 blocks are definitely lost in loss record 16 of 87
+==15049==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15049==    by 0x111B2A: parse_line (in /home/ania/Documents/minishell/minishell)
+==15049==    by 0x111565: parse_data (in /home/ania/Documents/minishell/minishell)
+==15049==    by 0x109828: main (in /home/ania/Documents/minishell/minishell)
+==15049== 
+==15049== LEAK SUMMARY:
+==15049==    definitely lost: 16 bytes in 1 blocks
+==15049==    indirectly lost: 0 bytes in 0 blocks
+==15049==      possibly lost: 0 bytes in 0 blocks
+==15049==    still reachable: 239,256 bytes in 455 blocks
+==15049==         suppressed: 0 bytes in 0 blocks
+==15049== Reachable blocks (those to which a pointer was found) are not shown.
+==15049== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==15049== 
+==15049== For lists of detected and suppressed errors, rerun with: -s
+==15049== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+minishell > esit
+Command not found
+==15055== 
+==15055== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==15055== 
+==15055== HEAP SUMMARY:
+==15055==     in use at exit: 239,314 bytes in 459 blocks
+==15055==   total heap usage: 1,125 allocs, 666 frees, 268,445 bytes allocated
+==15055== 
+==15055== 16 bytes in 1 blocks are definitely lost in loss record 16 of 87
+==15055==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15055==    by 0x111B2A: parse_line (in /home/ania/Documents/minishell/minishell)
+==15055==    by 0x111565: parse_data (in /home/ania/Documents/minishell/minishell)
+==15055==    by 0x109828: main (in /home/ania/Documents/minishell/minishell)
+==15055== 
+==15055== LEAK SUMMARY:
+==15055==    definitely lost: 16 bytes in 1 blocks
+==15055==    indirectly lost: 0 bytes in 0 blocks
+==15055==      possibly lost: 0 bytes in 0 blocks
+==15055==    still reachable: 239,298 bytes in 458 blocks
+==15055==         suppressed: 0 bytes in 0 blocks
+==15055== Reachable blocks (those to which a pointer was found) are not shown.
+==15055== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==15055== 
+==15055== For lists of detected and suppressed errors, rerun with: -s
+==15055== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+minishell > exit
+==15029== 
+==15029== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==15029== 
+==15029== HEAP SUMMARY:
+==15029==     in use at exit: 233,056 bytes in 250 blocks
+==15029==   total heap usage: 999 allocs, 749 frees, 264,731 bytes allocated
+==15029== 
+==15029== 16 bytes in 1 blocks are definitely lost in loss record 15 of 81
+==15029==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15029==    by 0x111B2A: parse_line (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x111565: parse_data (in /home/ania/Documents/minishell/minishell)
+==15029==    by 0x109828: main (in /home/ania/Documents/minishell/minishell)
+==15029== 
+==15029== LEAK SUMMARY:
+==15029==    definitely lost: 16 bytes in 1 blocks
+==15029==    indirectly lost: 0 bytes in 0 blocks
+==15029==      possibly lost: 0 bytes in 0 blocks
+==15029==    still reachable: 233,040 bytes in 249 blocks
+==15029==         suppressed: 0 bytes in 0 blocks
+==15029== Reachable blocks (those to which a pointer was found) are not shown.
+==15029== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==15029== 
+==15029== For lists of detected and suppressed errors, rerun with: -s
+==15029== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
