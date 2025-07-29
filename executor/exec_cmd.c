@@ -12,6 +12,8 @@
 
 #include "executor.h"
 
+void	check_path(char *path);
+
 void	exec_cmd(t_cmd *cmd)
 {
 	char	*path;
@@ -23,6 +25,7 @@ void	exec_cmd(t_cmd *cmd)
 	path = get_exec_path(cmd);
 	if (path)
 	{
+		check_path(path);
 		cmd->p_status = execve(path, cmd->args, str_vars);
 		free(path);
 		perror("Execve failed");
@@ -97,4 +100,25 @@ char	*get_exec_path(t_cmd *cmd)
 	if (path_tab)
 		free_array(path_tab);
 	return (path);
+}
+
+void	check_path(char *path)
+{
+	struct stat statbuf;
+
+	if (lstat(path, &statbuf) == 0)
+	{
+		if (S_ISDIR(statbuf.st_mode))
+		{
+			ft_putendl_fd("path is a directory", 2);
+			exit(126);
+		}
+		else
+			return ;
+	}
+	else
+	{
+		ft_putendl_fd("no such file or directory", 2);
+		exit(127);
+	}
 }

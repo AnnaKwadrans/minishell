@@ -13,10 +13,6 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <unistd.h>
-
 # include "../data.h"
 # include "../parser/parser.h"
 # include "../here_doc/here_doc.h"
