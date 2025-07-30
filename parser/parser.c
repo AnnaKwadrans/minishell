@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 18:40:52 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:03:47 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ t_cmd	**parse_line(char *input, int pipes, char **envp, t_data *data)
 		if (!data->cmds[i])
 		{
 			printf("check cmds[i] NULL %d\n", data->last_status);
-			return (free_array(cmd_aux), NULL);
+			free_array(cmd_aux);
+			clean_data_program(data);
+			return (NULL);
 		}
 		i++;
 	}
