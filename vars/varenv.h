@@ -6,7 +6,7 @@
 /*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 18:38:04 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/30 18:56:02 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int		skip_quote(const char *line, int i);
 
 int		skip_meta(const char *line, int i);
 void	handle_pid(char **temp, int *j, int *i);
+char	*append_char(char *result, char c);
+char	*handle_dollar(char *result, char *line, int *i, t_expand *exp);
 
 // COUNTS.C
 int		get_var_size(char *line, int start);

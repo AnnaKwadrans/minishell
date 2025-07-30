@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:13:36 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/30 16:27:42 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:58:32 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static char	*handle_quotes(char *result, char *line, int *i, t_expand *exp)
 	return (result);
 }
 
-static char	*handle_expansion(t_data *data, char *line, char **vars,
-		bool rm_quotes)
+static char	*handle_expansion(t_data *data,
+	char *line, char **vars, bool rm_quotes)
 {
 	char		*result;
 	int			i;
@@ -39,23 +39,12 @@ static char	*handle_expansion(t_data *data, char *line, char **vars,
 	exp.count = 0;
 	while (line[i])
 	{
-		if (line[i] == '$' && line[i + 1] && line[i + 1] != '$')
-		{
-			i++;
-			result = ft_strjoin_free(result, vars[exp.count++]);
-			i = skip_var(line, i - 1);
-		}
-		else if (line[i] == '$' && line[i + 1] == '$')
-		{
-			result = ft_strjoin_free(result, vars[exp.count++]);
-			i += 2;
-		}
+		if (line[i] == '$' && line[i + 1])
+			result = handle_dollar(result, line, &i, &exp);
 		else if (rm_quotes && (line[i] == '\'' || line[i] == '\"'))
 			result = handle_quotes(result, line, &i, &exp);
-		else if (line[i] == '\\' && line[i + 1])
-			result = ft_strjoin_free(result, (char []){line[i++], '\0'});
 		else
-			result = ft_strjoin_free(result, (char []){line[i++], '\0'});
+			result = append_char(result, line[i++]);
 	}
 	return (result);
 }
