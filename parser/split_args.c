@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:43:11 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 14:54:37 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:03:17 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,22 @@ char	**rm_first_arg(char **args)
 	int		i;
 	int		j;
 
-    new_args = (char **)malloc(sizeof(char *) * array_size(args));
-    if (!new_args)
-        return (NULL);
-    i = 0;
-    j = 1;
-    while (args && args[j])
-    {
-        new_args[i] = ft_strdup(args[j]);
-        if (!new_args[i])
-        {
-            free_array(new_args);
-            return (NULL);
-        }
-        i++;
-        j++;
-    }
-    new_args[i] = NULL;
-    return (new_args);
+	new_args = (char **)malloc(sizeof(char *) * array_size(args));
+	if (!new_args)
+		return (NULL);
+	i = 0;
+	j = 1;
+	while (args && args[j])
+	{
+		new_args[i] = ft_strdup(args[j]);
+		if (!new_args[i])
+		{
+			free_array(new_args);
+			return (NULL);
+		}
+		i++;
+		j++;
+	}
+	new_args[i] = NULL;
+	return (new_args);
 }

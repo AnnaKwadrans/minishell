@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:49:35 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 12:03:47 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:00:47 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	pipeline(t_data *data, char **cmd_aux, int i)
 		(data->cmds[i])->heredoc = here_doc_mode(data, cmd_aux[i]);
 		if (!(data->cmds[i])->heredoc)
 		{
-			printf("check heredoc NULL %d\n", data->last_status);
+			//printf("check heredoc NULL %d\n", data->last_status);
 			free_cmd(data->cmds[i]);
 			data->cmds[i] = NULL;
 			return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 16:16:13 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:39:22 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,32 +62,18 @@ static bool	valid_name(char *arg)
 	return (1);
 }
 
-static bool	has_equals(char *arg)
+void	update_value(t_vars *found, t_vars *exported)
 {
-	int	i;
+	char	*new_value;
 
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
+	if (!found || !exported || !found->value)
+		return ;
+	if (ft_strcmp(found->value, exported->value) == 0)
+		return ;
+	new_value = ft_strdup(exported->value);
+	free(found->value);
+	found->value = new_value;
 }
-
-void	print_vars(t_vars *vars)
-{
-	while (vars)
-	{
-		write(2, vars->name, ft_strlen(vars->name));
-		write(2, " ", 2);
-		write(2, vars->value, ft_strlen(vars->value));
-		write(2, "\n", 2);
-		vars = vars->next;
-	}
-}
-
 
 static int	handle_exp_args(char *arg, t_data *data)
 {
@@ -97,8 +83,6 @@ static int	handle_exp_args(char *arg, t_data *data)
 
 	if (!valid_name(arg))
 		return (ft_putendl_fd("not a valid identifier", 2), 1);
-	//if (!has_equals(arg))
-	//	return (ft_putendl_fd("not a valid var", 2), 1);
 	exported = export_new_var(arg);
 	found = search_var(data, exported->name);
 	if (found)

@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:33:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 15:03:33 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:57:55 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,11 @@ void	redir_err_handler(int *fds, int i, int pipes)
 		close(fds[(i - 1) * 2]);
 	if (i != pipes)
 		close(fds[(i * 2) + 1]);
+}
+
+void	close_heredoc_pipe(t_cmd *cmd)
+{
+	if (!cmd || !cmd->heredoc)
+		return ;
+	close(cmd->heredoc->pipesfd[0]);
 }

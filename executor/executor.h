@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:44:26 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 19:37:22 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:56:45 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		redirect(t_cmd *cmd, int pipes, int *fds, int i);
 int		redirect_input(t_cmd *cmd, int pipes, int *fds, int i);
 int		redirect_output(t_cmd *cmd, int pipes, int *fds, int i);
 void	redir_err_handler(int *fds, int i, int pipes);
+void	close_heredoc_pipe(t_cmd *cmd);
 
 // exec_cmd.c
 void	exec_cmd(t_cmd *cmd);

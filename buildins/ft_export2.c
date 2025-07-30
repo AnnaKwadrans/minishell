@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:55:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 16:22:51 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:40:50 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,17 +109,4 @@ int	sort_and_print(t_data *data, t_vars *vars, char **args)
 	free_vars(cpy_start);
 	cpy = NULL;
 	return (0);
-}
-
-void	update_value(t_vars *found, t_vars *exported)
-{
-	char	*new_value;
-
-	if (!found || !exported || !found->value)
-		return ;
-	if (ft_strcmp(found->value, exported->value) == 0)
-		return ;
-	new_value = ft_strdup(exported->value);
-	free(found->value);
-	found->value = new_value;
 }
