@@ -78,3 +78,10 @@ void	redir_err_handler(int *fds, int i, int pipes)
 	if (i != pipes)
 		close(fds[(i * 2) + 1]);
 }
+
+void	close_heredoc_pipe(t_cmd *cmd)
+{
+	if (!cmd || !cmd->heredoc)
+		return ;
+	close(cmd->heredoc->pipesfd[0]);
+}

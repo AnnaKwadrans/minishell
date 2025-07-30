@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/28 20:59:42 by kegonzal         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:54:04 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static void	setup_heredoc_input(t_cmd *cmd)
 	{
 		write(here_doc->pipesfd[1], cmd->heredoc->buffer[i],
 			ft_strlen(cmd->heredoc->buffer[i]));
-		write(here_doc->pipesfd[1], "\n", 1);
+		if (cmd->heredoc->buffer[i + 1]) // no comprobado
+			write(here_doc->pipesfd[1], "\n", 1);
 		i++;
 	}
 	close(here_doc->pipesfd[1]);

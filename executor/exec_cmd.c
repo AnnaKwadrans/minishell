@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:32:18 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 20:29:53 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:42:55 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*get_exec_path(t_cmd *cmd)
 
 void	check_path(char *path)
 {
-	struct stat statbuf;
+	struct stat	statbuf;
 
 	if (lstat(path, &statbuf) == 0)
 	{

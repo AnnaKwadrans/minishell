@@ -95,19 +95,25 @@ static int	read_heredoc_loop(t_heredoc *here_doc)
 	{
 		write(1, "heredoc > ", 10);
 		new_line = remove_trailing_newline(get_next_line(STDIN_FILENO));
-		printf("new_line: %s.\n", new_line);
+		//printf("new_line: %s.\n", new_line);
 		if (!new_line || g_signal
-			|| ft_strcmp(new_line, here_doc->last_delimiter) == 0)
+			/*|| ft_strcmp(new_line, here_doc->last_delimiter) == 0*/)
 		{
 			if (new_line)
 				free(new_line);
 			new_line = NULL;
 			break ;
 		}
-		//if (ft_strcmp(here_doc->delimiters[0], new_line) == 0)		// comprobar
-		//	here_doc->buffer = add_buffer(here_doc->buffer, "");    // comprobar
-		if (!check_delimeters(new_line, here_doc))
+		if (ft_strcmp(here_doc->delimiters[0], new_line) == 0)		// comprobar
+		{	
+			here_doc->buffer = add_buffer(here_doc->buffer, ft_strdup(""));   // comprobar
+			free(new_line);
+			return (0);
+		}
+		else if (!check_delimeters(new_line, here_doc))
 			here_doc->buffer = add_buffer(here_doc->buffer, new_line);
+		//ft_putendl_fd("BUFFER CHECK\n", 2);
+		//print_array(here_doc->buffer);
 		if (!here_doc || !here_doc->buffer)
 			return (free(new_line), here_doc_error(here_doc, "MALLOC"), 1);
 	}

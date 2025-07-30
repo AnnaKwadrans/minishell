@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 19:02:46 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 15:03:38 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:57:14 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int	execute_line(t_data *data)
 	while (data->cmds[i])
 	{
 		handle_cmd(data, data->cmds[i], i);
-		if (data->cmds[i]->heredoc)
-			close(data->cmds[i]->heredoc->pipesfd[0]);
+		close_heredoc_pipe(data->cmds[i]);
 		i++;
 	}
 	close_fds(data->fds, data->pipes, -1, -1);
@@ -37,7 +36,6 @@ int	execute_line(t_data *data)
 		free(data->fds);
 		data->fds = NULL;
 	}
-	i = 0;
 	while (waitpid(-1, &status, 0) > 0)
 		data->last_status = WEXITSTATUS(status);
 	return (0);

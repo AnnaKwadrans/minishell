@@ -105,3 +105,26 @@ minishell > exit
 ==15029== 
 ==15029== For lists of detected and suppressed errors, rerun with: -s
 ==15029== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+
+
+
+==2436740== 48 bytes in 1 blocks are still reachable in loss record 19 of 69
+==2436740==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2436740==    by 0x401533: main (in /home/akwadran/Desktop/minishell/minishell)
+
+
+
+==2436740== 1 bytes in 1 blocks are still reachable in loss record 1 of 69
+==2436740==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2436740==    by 0x4045B6: ft_substr_gnl (in /home/akwadran/Desktop/minishell/minishell)
+==2436740==    by 0x404AB6: move_storage (in /home/akwadran/Desktop/minishell/minishell)
+==2436740==    by 0x4046BD: get_next_line (in /home/akwadran/Desktop/minishell/minishell)
+==2436740==    by 0x409101: read_heredoc_loop (in /home/akwadran/Desktop/minishell/minishell)
+==2436740==    by 0x409038: here_doc_mode (in /home/akwadran/Desktop/minishell/minishell)
+==2436740==    by 0x40A98B: pipeline (in /home/akwadran/Desktop/minishell/minishell)
+==2436740==    by 0x40A861: parse_line (in /home/akwadran/Desktop/minishell/minishell)
+==2436740==    by 0x40A21D: parse_data (in /home/akwadran/Desktop/minishell/minishell)
+==2436740==    by 0x4015B5: main (in /home/akwadran/Desktop/minishell/minishell)
+
+
+

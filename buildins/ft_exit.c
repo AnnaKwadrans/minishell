@@ -6,13 +6,11 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 18:03:21 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 14:20:10 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:37:51 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-void	print_vars(t_vars *vars);
 
 static bool	is_number(char *str)
 {
