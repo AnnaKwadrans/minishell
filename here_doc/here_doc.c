@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 17:06:25 by kegonzal         ###   ########.fr       */
+/*   Updated: 2025/07/30 16:16:57 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	here_doc_init(char *line, t_heredoc *here_doc, t_data *data_program)
 		here_doc_error(here_doc, "PARSE");
 	here_doc->last_delimiter = here_doc->delimiters
 	[array_size(here_doc->delimiters) - 1];
-	printf("last delimiter: %s\n", here_doc->last_delimiter);
 	return (0);
 }
 
@@ -103,7 +102,7 @@ static int	read_heredoc_loop(t_heredoc *here_doc)
 			new_line = NULL;
 			break ;
 		}
-		if (ft_strcmp(here_doc->last_delimiter, new_line) == 0)
+		if (ft_strcmp(here_doc->delimiters[0], new_line) == 0)
 		{
 			here_doc->buffer = add_buffer(here_doc->buffer, ft_strdup(""));
 			return (free(new_line), 0);

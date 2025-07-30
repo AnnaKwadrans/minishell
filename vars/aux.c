@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:36 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 17:22:42 by kegonzal         ###   ########.fr       */
+/*   Updated: 2025/07/18 00:58:10 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ int	skip_quote(const char *line, int i)
 	char	quote;
 
 	quote = line[i];
-	if (line[i] == '\\')
-		return (i + 2);
 	while (line[i] && line[i] == quote)
 		i++;
 	return (i);
