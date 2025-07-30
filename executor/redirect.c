@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 17:33:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/28 15:03:33 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:48:30 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	redirect(t_cmd *cmd, int pipes, int *fds, int i)
 
 int	redirect_input(t_cmd *cmd, int pipes, int *fds, int i)
 {
-	if (cmd->heredoc)
+	if (cmd->heredoc && cmd->heredoc->buffer)
 	{
 		if (i != 0)
 			close(fds[(i - 1) * 2]);
