@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:33:55 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 13:54:04 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 16:16:11 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	setup_heredoc_input(t_cmd *cmd)
 	if (!cmd->heredoc || !cmd->heredoc->buffer || !cmd->heredoc->buffer[0])
 	{
 		close(here_doc->pipesfd[1]);
-		close(here_doc->pipesfd[0]); // no comprobado !!!
+		close(here_doc->pipesfd[0]);
 		return ;
 	}
 	i = 0;
@@ -32,7 +32,7 @@ static void	setup_heredoc_input(t_cmd *cmd)
 	{
 		write(here_doc->pipesfd[1], cmd->heredoc->buffer[i],
 			ft_strlen(cmd->heredoc->buffer[i]));
-		if (cmd->heredoc->buffer[i + 1]) // no comprobado
+		if (cmd->heredoc->buffer[i + 1])
 			write(here_doc->pipesfd[1], "\n", 1);
 		i++;
 	}

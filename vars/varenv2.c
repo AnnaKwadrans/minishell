@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:13:36 by akwadran          #+#    #+#             */
-/*   Updated: 2025/07/26 12:36:44 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/30 16:27:42 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ char	*expand_vars(t_data *data_program, char *line, bool rm_quotes,
 	int		count;
 	char	*result;
 
-	// if (!ft_strcmp(line, "$$"))
-	// 	return (ft_itoa(getpid()));
 	count = count_vars(line);
-	// printf("count: %d\n", count);
 	vars = multi_search(data_program, line, count);
 	result = handle_expansion(data_program, line, vars, rm_quotes);
 	free_array(vars);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:33 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/23 01:17:11 by kegonza          ###   ########.fr       */
+/*   Updated: 2025/07/30 16:17:40 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	**multi_search(t_data *data_program, char *line, int count)
 			temp[j++] = fill_var_values(data_program, line, i + 1);
 			i = skip_var(line, i);
 		}
-		else if(line[i] == '$' && line[i + 1] == '$')
+		else if (line[i] == '$' && line[i + 1] == '$')
 		{
 			temp[j++] = ft_itoa(getpid());
 			i += 2;
