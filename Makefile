@@ -105,6 +105,7 @@ SRC_SIGNALS = signals/here_doc.c\
 	signals/sigquit.c
 
 SRC_VARS = vars/aux.c\
+	vars/aux2.c\
 	vars/counts1.c\
 	vars/counts2.c\
 	vars/crud1.c\

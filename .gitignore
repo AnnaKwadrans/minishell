@@ -4,3 +4,14 @@ a.out
 minishell
 */*.a
 minishell_tester
+
+# Archivos de prueba
+*.txt
+notexistng*
+logs_test*
+out*.txt
+tester_output*
+
+# Archivos temporales o generados
+*.out
+*.log
