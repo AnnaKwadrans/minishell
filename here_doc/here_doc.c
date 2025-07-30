@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 14:15:41 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:43:45 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ static int	read_heredoc_loop(t_heredoc *here_doc)
 		if (!new_line || g_signal
 			/*|| ft_strcmp(new_line, here_doc->last_delimiter) == 0*/)
 		{
-			free(new_line);
+			if (new_line)
+				free(new_line);
 			new_line = NULL;
 			break ;
 		}
