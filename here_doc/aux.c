@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonzal <kegonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:12:26 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 14:23:00 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:05:36 by kegonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ char	*remove_trailing_newline(char *str)
 {
 	int		len;
 	char	*new_str;
+	int		i;
 
+	i = 0;
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
@@ -72,11 +74,13 @@ char	*remove_trailing_newline(char *str)
 		len--;
 	new_str = malloc(len + 1);
 	if (!new_str)
+		return (free(str), NULL);
+	while (str[i] && str[i] != '\n')
 	{
-		free(str);
-		return (NULL);
+		new_str[i] = str[i];
+		i++;
 	}
-	ft_strlcpy(new_str, str, len + 1);
+	new_str[i] = '\0';
 	free(str);
 	return (new_str);
 }
