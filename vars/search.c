@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:33 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 16:17:40 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:36:27 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,31 +87,19 @@ char	**multi_search(t_data *data_program, char *line, int count)
 	int		i;
 	int		j;
 
-	i = 0;
 	j = 0;
+	i = 0;
 	temp = malloc(sizeof(char *) * (count + 1));
 	if (!temp)
 		return (NULL);
 	while (line[i])
 	{
 		if (line[i] == '$' && line[i + 1] && line[i + 1] != '$')
-		{
-			temp[j++] = fill_var_values(data_program, line, i + 1);
-			i = skip_var(line, i);
-		}
+			temp[j++] = fill_var_values(data_program, line, ++i);
 		else if (line[i] == '$' && line[i + 1] == '$')
-		{
-			temp[j++] = ft_itoa(getpid());
-			i += 2;
-		}
-		else if (line[i] == '\'')
-			i = skip_quote(line, i);
-		else if (line[i] == '\"' || line[i] == '\'')
-			i = skip_quote(line, i);
-		else if (line[i] == '\\')
-			i += 2;
+			handle_pid(temp, &j, &i);
 		else
-			i++;
+			i = skip_meta(line, i);
 	}
 	temp[j] = NULL;
 	return (temp);

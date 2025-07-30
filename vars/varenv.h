@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:17:48 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/16 20:19:15 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:38:04 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	free_vars(t_vars *vars);
 int		skip_var(const char *line, int i);
 int		skip_quote(const char *line, int i);
+
+// AUX2.C
+
+int		skip_meta(const char *line, int i);
+void	handle_pid(char **temp, int *j, int *i);
 
 // COUNTS.C
 int		get_var_size(char *line, int start);

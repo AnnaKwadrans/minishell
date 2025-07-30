@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: kegonza <kegonzal@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:40:38 by kegonza           #+#    #+#             */
-/*   Updated: 2025/07/30 16:16:57 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:39:48 by kegonza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	finishing_here_doc(t_heredoc *here_doc, t_data *data_program)
 		while (here_doc->buffer[i])
 		{
 			here_doc->buffer[i] = expand_vars(data_program, here_doc->buffer[i],
-					1, 1);
+					0, 1);
 			if (!here_doc->buffer[i])
 				return (here_doc_error(here_doc, "EXPAND_VARS"));
 			i++;
@@ -102,7 +102,7 @@ static int	read_heredoc_loop(t_heredoc *here_doc)
 			new_line = NULL;
 			break ;
 		}
-		if (ft_strcmp(here_doc->delimiters[0], new_line) == 0)
+		if (ft_strcmp(here_doc->last_delimiter, new_line) == 0)
 		{
 			here_doc->buffer = add_buffer(here_doc->buffer, ft_strdup(""));
 			return (free(new_line), 0);
